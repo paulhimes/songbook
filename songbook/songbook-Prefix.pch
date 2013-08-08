@@ -14,4 +14,8 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import <CoreData/CoreData.h>
+    #import "UIView+Debug.h"
+
+    #define M_PHI 1.61803399
+
 #endif
