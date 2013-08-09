@@ -108,9 +108,21 @@
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed
 {
-//    if (finished && completed && self.destinationPageController) {
-//        pageViewController
-//    }
+    if (finished && completed && self.destinationPageController) {
+        NSString *pageTitle;
+        
+        if ([self.destinationPageController isKindOfClass:[SongPageController class]]) {
+            Song *song = (Song *)self.destinationPageController.modelObject;
+            if (song.number) {
+                pageTitle = [NSString stringWithFormat:@"%d %@", [song.number unsignedIntegerValue], song.title];
+            } else {
+                pageTitle = song.title;
+            }
+        }
+        
+        [self.delegate pageServer:self contentTitleChangedTo:pageTitle];
+    }
+    self.destinationPageController = nil;
 }
 
 - (PageController *)pageControllerForModelObject:(NSManagedObject *)modelObject

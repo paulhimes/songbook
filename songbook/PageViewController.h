@@ -8,18 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "Song.h"
-
-@protocol PageViewControllerDelegate;
+#import "PageServer.h"
 
 @interface PageViewController : UIPageViewController
 
-@property (nonatomic, weak) id<PageViewControllerDelegate> pageViewControllerDelegate;
 @property (nonatomic, readonly) Song *closestSong;
-
-@end
-
-@protocol PageViewControllerDelegate <NSObject>
-
-- (void)pageViewController:(PageViewController *)pageViewController contentTitleChangedTo:(NSString *)contentTitle;
+@property (nonatomic, strong) PageServer *pageServer;
 
 @end

@@ -7,12 +7,9 @@
 //
 
 #import "PageViewController.h"
-#import "PageServer.h"
 #import "SongbookModel.h"
 
 @interface PageViewController ()
-
-@property (nonatomic, strong) PageServer *pageServer;
 
 @end
 
@@ -31,7 +28,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    [self.view setDebugColor:[UIColor redColor]];
+    [self.view setDebugColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:0.2]];
     self.delegate = self.pageServer;
     self.dataSource = self.pageServer;
     [self setViewControllers:@[[self.pageServer pageAtIndex:0]]

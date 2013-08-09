@@ -36,7 +36,7 @@
                             <searchBar contentMode="redraw" placeholder="Search" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L49-Ez-nOb">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="namePhonePad"/>
                                 <connections>
                                     <outlet property="delegate" destination="f4X-As-1jE" id="WmT-Wo-5Fn"/>
                                 </connections>
@@ -84,34 +84,38 @@
                                     <segue destination="POr-aa-yjp" kind="embed" identifier="EmbedPageViewController" id="kRq-qM-9Ji"/>
                                 </connections>
                             </containerView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.20000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QZ1-hp-Jml">
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RZW-FM-6I1">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <items>
-                                    <barButtonItem enabled="NO" title="72 Lord Dismiss Us With Thy Blessing" style="plain" id="WEJ-Wn-TTb"/>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="1p7-p4-Xey"/>
-                                    <barButtonItem systemItem="search" id="1wv-bm-vjK">
-                                        <connections>
-                                            <segue destination="f4X-As-1jE" kind="modal" identifier="Search" id="VIp-wG-iMw"/>
-                                        </connections>
-                                    </barButtonItem>
+                                    <navigationItem id="T5J-cL-JWm">
+                                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="dGu-vR-qHQ">
+                                            <connections>
+                                                <segue destination="f4X-As-1jE" kind="modal" identifier="Search" id="A2f-Af-Prd"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
                                 </items>
-                            </toolbar>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="QZ1-hp-Jml" firstAttribute="top" secondItem="BUE-Pw-uzN" secondAttribute="top" id="32l-qJ-bkr"/>
-                            <constraint firstItem="QZ1-hp-Jml" firstAttribute="leading" secondItem="BUE-Pw-uzN" secondAttribute="leading" id="4tn-6Q-T6c"/>
-                            <constraint firstItem="QZ1-hp-Jml" firstAttribute="trailing" secondItem="4U7-94-IYE" secondAttribute="trailing" id="5LZ-qJ-U0S"/>
-                            <constraint firstAttribute="trailing" secondItem="QZ1-hp-Jml" secondAttribute="trailing" id="C6U-Ce-1wy"/>
+                            <constraint firstItem="RZW-FM-6I1" firstAttribute="leading" secondItem="4U7-94-IYE" secondAttribute="leading" id="1hr-mv-vcv"/>
                             <constraint firstAttribute="bottom" secondItem="4U7-94-IYE" secondAttribute="bottom" id="NO1-Eq-etm"/>
-                            <constraint firstItem="QZ1-hp-Jml" firstAttribute="top" secondItem="4U7-94-IYE" secondAttribute="top" id="gcP-C6-xhW"/>
-                            <constraint firstItem="QZ1-hp-Jml" firstAttribute="leading" secondItem="4U7-94-IYE" secondAttribute="leading" id="tsg-pX-NPe"/>
+                            <constraint firstAttribute="trailing" secondItem="RZW-FM-6I1" secondAttribute="trailing" id="NSc-mk-WJX"/>
+                            <constraint firstItem="RZW-FM-6I1" firstAttribute="leading" secondItem="BUE-Pw-uzN" secondAttribute="leading" id="VmO-Ho-c0l"/>
+                            <constraint firstItem="RZW-FM-6I1" firstAttribute="top" secondItem="4U7-94-IYE" secondAttribute="top" id="hco-8N-gfX"/>
+                            <constraint firstItem="RZW-FM-6I1" firstAttribute="top" secondItem="BUE-Pw-uzN" secondAttribute="top" id="kAh-SG-yba"/>
+                            <constraint firstItem="RZW-FM-6I1" firstAttribute="trailing" secondItem="4U7-94-IYE" secondAttribute="trailing" id="q9e-lU-6ZP"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="singleNavigationItem" destination="T5J-cL-JWm" id="6Ch-ud-28O"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u8C-04-q7q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

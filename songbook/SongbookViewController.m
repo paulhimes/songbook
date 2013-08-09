@@ -9,9 +9,10 @@
 #import "SongbookViewController.h"
 #import "PageViewController.h"
 
-@interface SongbookViewController () <PageViewControllerDelegate>
+@interface SongbookViewController () <PageServerDelegate>
 
 @property (nonatomic, weak) PageViewController *pageViewController;
+@property (weak, nonatomic) IBOutlet UINavigationItem *singleNavigationItem;
 
 @end
 
@@ -27,7 +28,7 @@
     if ([segue.identifier isEqualToString:@"EmbedPageViewController"]) {
         if ([segue.destinationViewController isKindOfClass:[PageViewController class]]) {
             self.pageViewController = segue.destinationViewController;
-            self.pageViewController.pageViewControllerDelegate = self;
+            self.pageViewController.pageServer.delegate = self;
         }
     } else if ([segue.identifier isEqualToString:@"Search"]) {
         if ([segue.destinationViewController isKindOfClass:[SearchViewController class]]) {
@@ -42,11 +43,11 @@
 {
 }
 
-#pragma mark - PageViewControllerDelegate
+#pragma mark - PageServerDelegate
 
-- (void)pageViewController:(PageViewController *)pageViewController contentTitleChangedTo:(NSString *)contentTitle
+- (void)pageServer:(PageServer *)pageServer contentTitleChangedTo:(NSString *)contentTitle
 {
-    NSLog(@"Page title changed to %@", contentTitle);
+    self.singleNavigationItem.title = contentTitle;
 }
 
 @end

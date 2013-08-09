@@ -10,7 +10,7 @@
 #import "Verse.h"
 
 const CGFloat kSongComponentPadding = 10;
-const CGFloat kTopPadding = 44 + kSongComponentPadding;
+const CGFloat kTopPadding = 44;
 
 @interface SongPageView()
 
@@ -76,7 +76,7 @@ const CGFloat kTopPadding = 44 + kSongComponentPadding;
                                                                            options:NSStringDrawingUsesLineFragmentOrigin
                                                                         attributes:@{NSFontAttributeName: self.songNumberFont}
                                                                            context:nil];
-        _songNumberRect = CGRectMake(0, kTopPadding, boundingRect.size.width, boundingRect.size.height);
+        _songNumberRect = CGRectMake(0, kTopPadding + kSongComponentPadding, boundingRect.size.width, boundingRect.size.height);
     }
     return _songNumberRect;
 }
@@ -160,7 +160,7 @@ const CGFloat kTopPadding = 44 + kSongComponentPadding;
 - (CGSize)intrinsicContentSize
 {
     CGRect totalContentRect = CGRectUnion(CGRectUnion(CGRectUnion(self.songNumberRect, self.songTitleRect), self.songSubtitleRect), self.bodyRect);
-    return CGSizeMake(self.containerSize.width, totalContentRect.size.height + kTopPadding);
+    return CGSizeMake(self.containerSize.width, totalContentRect.size.height + kTopPadding + kSongComponentPadding);
 }
 
 - (void)drawRect:(CGRect)rect

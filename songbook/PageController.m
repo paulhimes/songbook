@@ -8,7 +8,7 @@
 
 #import "PageController.h"
 
-const NSUInteger kGutterWidth = 10;
+const NSInteger kGutterWidth = 10;
 
 @interface PageController ()
 
@@ -23,7 +23,8 @@ const NSUInteger kGutterWidth = 10;
     [super viewDidLoad];
     
     UIScrollView *scrollView = [[UIScrollView alloc] init];
-    scrollView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(44, 0, 0, -kGutterWidth);
+    scrollView.clipsToBounds = NO;
     [self.view addSubview:scrollView];
     
     PageView *pageView = [self buildPageView];
@@ -51,7 +52,7 @@ const NSUInteger kGutterWidth = 10;
                                                                        metrics:nil
                                                                          views:viewsDictionary]];
     
-    [scrollView setDebugColor:[UIColor colorWithWhite:0 alpha:0.1]];
+    [scrollView setDebugColor:[UIColor colorWithWhite:0 alpha:0.05]];
 }
 
 - (PageView *)buildPageView
