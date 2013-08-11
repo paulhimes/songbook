@@ -8,11 +8,14 @@
 
 #import "PageController.h"
 
-const NSInteger kGutterWidth = 10;
+const NSInteger kGutterWidth = 8;
 
-@interface PageController ()
+@interface PageController () <UIScrollViewDelegate>
 
 @property (nonatomic, strong) PageView *pageView;
+@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic) BOOL viewDidDisappear;
+@property (nonatomic) BOOL headerVisible;
 
 @end
 
@@ -21,19 +24,22 @@ const NSInteger kGutterWidth = 10;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.clipsToBounds = YES;
     
-    UIScrollView *scrollView = [[UIScrollView alloc] init];
-    scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(44, 0, 0, -kGutterWidth);
-    scrollView.clipsToBounds = NO;
-    [self.view addSubview:scrollView];
+    self.scrollView = [[UIScrollView alloc] init];
+    self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(44, 0, 0, -kGutterWidth);
+    self.scrollView.clipsToBounds = NO;
+    self.scrollView.delegate = self;
+    [self.view addSubview:self.scrollView];
     
-    PageView *pageView = [self buildPageView];
-    pageView.containerSize = CGSizeMake(self.view.bounds.size.width - 2 * kGutterWidth, self.view.bounds.size.height);
-    [scrollView addSubview:pageView];
-    self.pageView = pageView;
-        
-    scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.pageView = [self buildPageView];
+    self.pageView.containerSize = CGSizeMake(self.view.bounds.size.width - 2 * kGutterWidth, self.view.bounds.size.height);
+    [self.scrollView addSubview:self.pageView];
     
+    self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    UIScrollView *scrollView = self.scrollView;
+    PageView *pageView = self.pageView;
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(scrollView, pageView);
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[scrollView]|"
                                                                       options:0
@@ -43,16 +49,33 @@ const NSInteger kGutterWidth = 10;
                                                                       options:0
                                                                       metrics:nil
                                                                         views:viewsDictionary]];
-    [scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[pageView]|"
+    [self.scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[pageView]|"
                                                                        options:0
                                                                        metrics:nil
                                                                          views:viewsDictionary]];
-    [scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[pageView]|"
+    [self.scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[pageView]|"
                                                                        options:0
                                                                        metrics:nil
                                                                          views:viewsDictionary]];
     
-    [scrollView setDebugColor:[UIColor colorWithWhite:0 alpha:0.05]];
+    [self.scrollView setDebugColor:[UIColor colorWithWhite:0 alpha:0.05]];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self updateViewConstraints];
+    if (self.viewDidDisappear) {
+        self.viewDidDisappear = NO;
+        self.scrollView.contentOffset = CGPointZero;
+    }
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    self.viewDidDisappear = YES;
 }
 
 - (PageView *)buildPageView
@@ -60,11 +83,43 @@ const NSInteger kGutterWidth = 10;
     return [[PageView alloc] init];
 }
 
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self updateViewConstraints];
+}
+
 - (void)updateViewConstraints
 {
     [super updateViewConstraints];
+    
     self.pageView.containerSize = CGSizeMake(self.view.bounds.size.width - 2 * kGutterWidth, self.view.bounds.size.height);
     
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView.contentOffset.y > self.pageView.headerHeight) {
+        if (self.headerVisible) {
+            self.headerVisible = NO;
+            NSLog(@"%@", @"Show title");
+            [self setTitleVisible:YES];
+        }
+    } else {
+        if (!self.headerVisible) {
+            self.headerVisible = YES;
+            NSLog(@"%@", @"Hide title");
+            [self setTitleVisible:NO];
+        }
+    }
+}
+
+- (void)setTitleVisible:(BOOL)visible
+{
+    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:@""];
+    
+    [self.delegate pageController:self contentTitleChangedTo:[attributedTitle copy]];
 }
 
 @end

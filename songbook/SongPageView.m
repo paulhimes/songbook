@@ -26,7 +26,7 @@ const CGFloat kTopPadding = 44;
 @property (nonatomic) CGRect songTitleRect;
 @property (nonatomic) CGRect songSubtitleRect;
 
-@property (nonatomic) CGRect bodyRect; // TODO: Replace with individual verse placement.
+@property (nonatomic, strong) UITextView *bodyTextView;
 
 @end
 
@@ -71,7 +71,7 @@ const CGFloat kTopPadding = 44;
 
 - (CGRect)songNumberRect
 {
-    if (_songNumberRect.size.width == 0) {
+    if (CGRectIsEmpty(_songNumberRect)) {
         CGRect boundingRect = [[self.song.number stringValue] boundingRectWithSize:CGSizeMake(self.containerSize.width, CGFLOAT_MAX)
                                                                            options:NSStringDrawingUsesLineFragmentOrigin
                                                                         attributes:@{NSFontAttributeName: self.songNumberFont}
@@ -83,7 +83,7 @@ const CGFloat kTopPadding = 44;
 
 - (CGRect)songTitleRect
 {
-    if (_songTitleRect.size.width == 0) {
+    if (CGRectIsEmpty(_songTitleRect)) {
         CGFloat availableWidth;
         CGPoint origin;
         BOOL attemptToCenterVertically = NO;
@@ -106,19 +106,21 @@ const CGFloat kTopPadding = 44;
         if (attemptToCenterVertically) {
             // Attempt to center the title vertically with the number.
             if (boundingRect.size.height < self.songNumberRect.size.height) {
-                origin.y = (self.songNumberRect.size.height - boundingRect.size.height) / 2.0;
+                origin.y = self.songNumberRect.origin.y + (self.songNumberRect.size.height - boundingRect.size.height) / 2.0;
             }
         }
         
         _songTitleRect = CGRectMake(origin.x, origin.y, boundingRect.size.width, boundingRect.size.height);
+        
+        NSLog(@"songTitleRect = %@ for %@", NSStringFromCGRect(_songTitleRect), self.song.title);
     }
     return _songTitleRect;
 }
 
 - (CGRect)songSubtitleRect
 {
-    if (_songSubtitleRect.size.width == 0) {
-        CGRect boundingRect = [self.song.subtitle boundingRectWithSize:CGSizeMake(self.songTitleRect.size.width, CGFLOAT_MAX)
+    if (CGRectIsEmpty(_songSubtitleRect)) {
+        CGRect boundingRect = [self.song.subtitle boundingRectWithSize:CGSizeMake(self.containerSize.width - self.songTitleRect.origin.x, CGFLOAT_MAX)
                                                                            options:NSStringDrawingUsesLineFragmentOrigin
                                                                         attributes:@{NSFontAttributeName: self.songSubtitleFont}
                                                                            context:nil];
@@ -133,19 +135,38 @@ const CGFloat kTopPadding = 44;
     return _songSubtitleRect;
 }
 
-- (CGRect)bodyRect
+- (UITextView *)bodyTextView
 {
-    if (_bodyRect.size.width == 0) {
-        CGRect boundingRect = [[self bodyStringFromSong:self.song] boundingRectWithSize:CGSizeMake(self.containerSize.width, CGFLOAT_MAX)
-                                                               options:NSStringDrawingUsesLineFragmentOrigin
-                                                            attributes:@{NSFontAttributeName: self.verseFont}
-                                                               context:nil];
-
+    if (!_bodyTextView) {
+        _bodyTextView = [[UITextView alloc] init];
+        _bodyTextView.scrollEnabled = NO;
+        _bodyTextView.editable = NO;
+        _bodyTextView.attributedText = [self bodyStringFromSong:self.song];
+        _bodyTextView.textContainer.lineFragmentPadding = 0;
+        _bodyTextView.textContainerInset = UIEdgeInsetsZero;
+        CGSize size = [_bodyTextView sizeThatFits:CGSizeMake(self.containerSize.width, CGFLOAT_MAX)];
         CGRect headerRect = CGRectUnion(CGRectUnion(self.songNumberRect, self.songTitleRect), self.songSubtitleRect);
-
-        _bodyRect = CGRectMake(0, CGRectGetMaxY(headerRect) + kSongComponentPadding, boundingRect.size.width, boundingRect.size.height);
+        
+        _bodyTextView.frame = CGRectMake(0, CGRectGetMaxY(headerRect) + kSongComponentPadding, size.width, size.height);
+        [_bodyTextView setDebugColor:[UIColor purpleColor]];
+        
+        [self addSubview:_bodyTextView];
+        
+        UITextView *bodyTextView = _bodyTextView;
+        NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(bodyTextView);
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[bodyTextView]|" options:0 metrics:nil views:viewsDictionary]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|-%f-[bodyTextView(%f)]|", CGRectGetMaxY(headerRect) + kSongComponentPadding, size.height] options:0 metrics:nil views:viewsDictionary]];
     }
-    return _bodyRect;
+    return _bodyTextView;
+}
+
+- (void)resetRectangleCalculations
+{
+    self.songNumberRect = CGRectZero;
+    self.songTitleRect = CGRectZero;
+    self.songSubtitleRect = CGRectZero;
+    [self.bodyTextView removeFromSuperview];
+    self.bodyTextView = nil;
 }
 
 - (instancetype)initWithSong:(Song *)song
@@ -157,9 +178,21 @@ const CGFloat kTopPadding = 44;
     return self;
 }
 
+- (CGFloat)headerHeight
+{
+    CGRect headerRect = CGRectUnion(CGRectUnion(self.songNumberRect, self.songTitleRect), self.songSubtitleRect);
+    return headerRect.origin.y + headerRect.size.height;
+}
+
+- (void)setContainerSize:(CGSize)containerSize
+{
+    [self resetRectangleCalculations];
+    [super setContainerSize:containerSize];
+}
+
 - (CGSize)intrinsicContentSize
 {
-    CGRect totalContentRect = CGRectUnion(CGRectUnion(CGRectUnion(self.songNumberRect, self.songTitleRect), self.songSubtitleRect), self.bodyRect);
+    CGRect totalContentRect = CGRectUnion(CGRectUnion(CGRectUnion(self.songNumberRect, self.songTitleRect), self.songSubtitleRect), self.bodyTextView.frame);
     return CGSizeMake(self.containerSize.width, totalContentRect.size.height + kTopPadding + kSongComponentPadding);
 }
 
@@ -172,10 +205,9 @@ const CGFloat kTopPadding = 44;
     [[self.song.number stringValue] drawWithRect:self.songNumberRect options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.songNumberFont} context:nil];
     [self.song.title drawWithRect:self.songTitleRect options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.songTitleFont} context:nil];
     [self.song.subtitle drawWithRect:self.songSubtitleRect options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.songSubtitleFont} context:nil];
-    [[self bodyStringFromSong:self.song] drawWithRect:self.bodyRect options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.verseFont} context:nil];
 }
 
-- (NSString *)bodyStringFromSong:(Song *)song
+- (NSAttributedString *)bodyStringFromSong:(Song *)song
 {
     NSMutableString *string = [@"" mutableCopy];
 
@@ -203,7 +235,11 @@ const CGFloat kTopPadding = 44;
         }
     }];
     
-    return [string copy];
+    NSDictionary *attributes = @{
+                                 NSFontAttributeName: self.verseFont,
+                                 };
+    
+    return [[NSAttributedString alloc] initWithString:string attributes:attributes];
 }
 
 @end

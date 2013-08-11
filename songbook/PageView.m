@@ -20,6 +20,11 @@
     return [UIFont fontWithName:@"Marion" size:20];
 }
 
+- (CGFloat)headerHeight
+{
+    return self.intrinsicContentSize.height;
+}
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];

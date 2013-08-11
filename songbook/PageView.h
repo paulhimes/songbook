@@ -10,6 +10,7 @@
 
 @interface PageView : UIView
 
+@property (nonatomic, readonly) CGFloat headerHeight;
 @property (nonatomic) CGSize containerSize;
 @property (nonatomic, strong) NSString *text;
 @property (nonatomic, readonly) UIFont *font;

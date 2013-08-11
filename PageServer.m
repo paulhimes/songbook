@@ -16,7 +16,7 @@
 #import "Section+Helpers.h"
 #import "Song+Helpers.h"
 
-@interface PageServer()
+@interface PageServer() <PageControllerDelegate>
 
 @property (nonatomic, strong) BookPageController *bookController;
 @property (nonatomic, strong) SectionPageController *sectionController;
@@ -109,18 +109,11 @@
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed
 {
     if (finished && completed && self.destinationPageController) {
-        NSString *pageTitle;
-        
-        if ([self.destinationPageController isKindOfClass:[SongPageController class]]) {
-            Song *song = (Song *)self.destinationPageController.modelObject;
-            if (song.number) {
-                pageTitle = [NSString stringWithFormat:@"%d %@", [song.number unsignedIntegerValue], song.title];
-            } else {
-                pageTitle = song.title;
-            }
+        for (PageController *previousViewController in previousViewControllers) {
+            previousViewController.delegate = nil;
         }
-        
-        [self.delegate pageServer:self contentTitleChangedTo:pageTitle];
+        self.destinationPageController.delegate = self;
+        [self.delegate pageServer:self contentTitleChangedTo:[[NSAttributedString alloc] initWithString:@""]];
     }
     self.destinationPageController = nil;
 }
@@ -136,6 +129,13 @@
         pageController = [[SongPageController alloc] initWithSong:(Song *)modelObject];
     }
     return pageController;
+}
+
+#pragma mark - PageControllerDelegate
+
+- (void)pageController:(PageController *)pageController contentTitleChangedTo:(NSAttributedString *)contentTitle
+{
+    [self.delegate pageServer:self contentTitleChangedTo:contentTitle];
 }
 
 @end

@@ -101,19 +101,20 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="RZW-FM-6I1" firstAttribute="leading" secondItem="4U7-94-IYE" secondAttribute="leading" id="1hr-mv-vcv"/>
-                            <constraint firstAttribute="bottom" secondItem="4U7-94-IYE" secondAttribute="bottom" id="NO1-Eq-etm"/>
+                            <constraint firstItem="4U7-94-IYE" firstAttribute="trailing" secondItem="RZW-FM-6I1" secondAttribute="trailing" id="9Ad-IQ-Hat"/>
                             <constraint firstAttribute="trailing" secondItem="RZW-FM-6I1" secondAttribute="trailing" id="NSc-mk-WJX"/>
                             <constraint firstItem="RZW-FM-6I1" firstAttribute="leading" secondItem="BUE-Pw-uzN" secondAttribute="leading" id="VmO-Ho-c0l"/>
-                            <constraint firstItem="RZW-FM-6I1" firstAttribute="top" secondItem="4U7-94-IYE" secondAttribute="top" id="hco-8N-gfX"/>
+                            <constraint firstAttribute="bottom" secondItem="4U7-94-IYE" secondAttribute="bottom" id="gSJ-ec-hBG"/>
+                            <constraint firstItem="4U7-94-IYE" firstAttribute="leading" secondItem="RZW-FM-6I1" secondAttribute="leading" id="iDg-5S-w1M"/>
                             <constraint firstItem="RZW-FM-6I1" firstAttribute="top" secondItem="BUE-Pw-uzN" secondAttribute="top" id="kAh-SG-yba"/>
-                            <constraint firstItem="RZW-FM-6I1" firstAttribute="trailing" secondItem="4U7-94-IYE" secondAttribute="trailing" id="q9e-lU-6ZP"/>
+                            <constraint firstItem="4U7-94-IYE" firstAttribute="top" secondItem="RZW-FM-6I1" secondAttribute="top" id="kkI-o5-aRv"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="navigationBar" destination="RZW-FM-6I1" id="hNG-gB-gzx"/>
                         <outlet property="singleNavigationItem" destination="T5J-cL-JWm" id="6Ch-ud-28O"/>
                     </connections>
                 </viewController>

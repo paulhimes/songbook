@@ -12,8 +12,8 @@
 
 - (void)setDebugColor:(UIColor *)color
 {
-    self.layer.borderColor = color.CGColor;
-    self.layer.borderWidth = 1;
+//    self.layer.borderColor = color.CGColor;
+//    self.layer.borderWidth = 1;
 }
 
 @end

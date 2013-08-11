@@ -21,6 +21,6 @@
 
 @protocol PageServerDelegate <NSObject>
 
-- (void)pageServer:(PageServer *)pageServer contentTitleChangedTo:(NSString *)contentTitle;
+- (void)pageServer:(PageServer *)pageServer contentTitleChangedTo:(NSAttributedString *)contentTitle;
 
 @end
