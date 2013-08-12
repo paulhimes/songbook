@@ -180,8 +180,7 @@ const CGFloat kTopPadding = 44;
 
 - (CGFloat)headerHeight
 {
-    CGRect headerRect = CGRectUnion(CGRectUnion(self.songNumberRect, self.songTitleRect), self.songSubtitleRect);
-    return headerRect.origin.y + headerRect.size.height;
+    return self.songNumberRect.size.height / 2.0;
 }
 
 - (void)setContainerSize:(CGSize)containerSize

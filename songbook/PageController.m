@@ -25,6 +25,7 @@ const NSInteger kGutterWidth = 8;
 {
     [super viewDidLoad];
     self.view.clipsToBounds = YES;
+    self.headerVisible = YES;
     
     self.scrollView = [[UIScrollView alloc] init];
     self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(44, 0, 0, -kGutterWidth);
@@ -68,6 +69,7 @@ const NSInteger kGutterWidth = 8;
     if (self.viewDidDisappear) {
         self.viewDidDisappear = NO;
         self.scrollView.contentOffset = CGPointZero;
+        self.headerVisible = YES;
     }
 }
 
