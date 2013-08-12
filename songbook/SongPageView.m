@@ -76,7 +76,7 @@ const CGFloat kTopPadding = 44;
                                                                            options:NSStringDrawingUsesLineFragmentOrigin
                                                                         attributes:@{NSFontAttributeName: self.songNumberFont}
                                                                            context:nil];
-        _songNumberRect = CGRectMake(0, kTopPadding + kSongComponentPadding, boundingRect.size.width, boundingRect.size.height);
+        _songNumberRect = CGRectMake(0, kTopPadding + kSongComponentPadding, 0, boundingRect.size.height);
     }
     return _songNumberRect;
 }
@@ -201,7 +201,6 @@ const CGFloat kTopPadding = 44;
     [[UIColor blackColor] setFill];
     [[UIColor blackColor] setStroke];
 
-    [[self.song.number stringValue] drawWithRect:self.songNumberRect options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.songNumberFont} context:nil];
     [self.song.title drawWithRect:self.songTitleRect options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.songTitleFont} context:nil];
     [self.song.subtitle drawWithRect:self.songSubtitleRect options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.songSubtitleFont} context:nil];
 }

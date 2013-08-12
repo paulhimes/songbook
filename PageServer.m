@@ -16,7 +16,7 @@
 #import "Section+Helpers.h"
 #import "Song+Helpers.h"
 
-@interface PageServer() <PageControllerDelegate>
+@interface PageServer()
 
 @property (nonatomic, strong) BookPageController *bookController;
 @property (nonatomic, strong) SectionPageController *sectionController;
@@ -109,11 +109,7 @@
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed
 {
     if (finished && completed && self.destinationPageController) {
-        for (PageController *previousViewController in previousViewControllers) {
-            previousViewController.delegate = nil;
-        }
-        self.destinationPageController.delegate = self;
-        [self.delegate pageServer:self contentTitleChangedTo:[[NSAttributedString alloc] initWithString:@""]];
+        [self.delegate pageServer:self contentTitleChangedTo:self.destinationPageController.titleString];
     }
     self.destinationPageController = nil;
 }
@@ -129,13 +125,6 @@
         pageController = [[SongPageController alloc] initWithSong:(Song *)modelObject];
     }
     return pageController;
-}
-
-#pragma mark - PageControllerDelegate
-
-- (void)pageController:(PageController *)pageController contentTitleChangedTo:(NSAttributedString *)contentTitle
-{
-    [self.delegate pageServer:self contentTitleChangedTo:contentTitle];
 }
 
 @end

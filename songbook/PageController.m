@@ -15,7 +15,6 @@ const NSInteger kGutterWidth = 8;
 @property (nonatomic, strong) PageView *pageView;
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic) BOOL viewDidDisappear;
-@property (nonatomic) BOOL headerVisible;
 
 @end
 
@@ -25,7 +24,6 @@ const NSInteger kGutterWidth = 8;
 {
     [super viewDidLoad];
     self.view.clipsToBounds = YES;
-    self.headerVisible = YES;
     
     self.scrollView = [[UIScrollView alloc] init];
     self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(44, 0, 0, -kGutterWidth);
@@ -69,7 +67,6 @@ const NSInteger kGutterWidth = 8;
     if (self.viewDidDisappear) {
         self.viewDidDisappear = NO;
         self.scrollView.contentOffset = CGPointZero;
-        self.headerVisible = YES;
     }
 }
 
@@ -98,30 +95,10 @@ const NSInteger kGutterWidth = 8;
     
 }
 
-#pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if (scrollView.contentOffset.y > self.pageView.headerHeight) {
-        if (self.headerVisible) {
-            self.headerVisible = NO;
-            NSLog(@"%@", @"Show title");
-            [self setTitleVisible:YES];
-        }
-    } else {
-        if (!self.headerVisible) {
-            self.headerVisible = YES;
-            NSLog(@"%@", @"Hide title");
-            [self setTitleVisible:NO];
-        }
-    }
-}
-
-- (void)setTitleVisible:(BOOL)visible
+- (NSAttributedString *)titleString
 {
     NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:@""];
-    
-    [self.delegate pageController:self contentTitleChangedTo:[attributedTitle copy]];
+    return [attributedTitle copy];
 }
 
 @end

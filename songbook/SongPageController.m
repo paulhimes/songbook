@@ -36,40 +36,30 @@
     return [[SongPageView alloc] initWithSong:self.song];
 }
 
-- (void)setTitleVisible:(BOOL)visible
+- (NSAttributedString *)titleString
 {
     NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:@""];
     
-    if (visible) {
-        CGFloat fontSize = 20;
-        NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-        paragraphStyle.lineHeightMultiple = 1.3;
-        paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
-        
-        NSMutableDictionary *attributes = [@{
-                                             NSFontAttributeName: [UIFont fontWithName:@"Marion" size:fontSize],
-                                             NSParagraphStyleAttributeName: paragraphStyle
-                                             } mutableCopy];
-        
-        NSMutableDictionary *numberAttributes = [attributes mutableCopy];
-        numberAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion-Bold" size:fontSize];
-        
-        if (self.song.number) {
-            NSString *numberString = [NSString stringWithFormat:@"%d", [self.song.number unsignedIntegerValue]];
-            NSString *string = [NSString stringWithFormat:@"%@ %@", numberString, self.song.title];
-            
-            attributedTitle = [[NSMutableAttributedString alloc] initWithString:string
-                                                                     attributes:attributes];
-            
-            [attributedTitle setAttributes:numberAttributes
-                                     range:[string rangeOfString:numberString]];
-        } else {
-            attributedTitle = [[NSMutableAttributedString alloc] initWithString:self.song.title
-                                                                     attributes:attributes];
-        }
+    CGFloat fontSize = 30;
+    NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    paragraphStyle.lineHeightMultiple = 1.3;
+    paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
+    
+    NSMutableDictionary *attributes = [@{
+                                         NSFontAttributeName: [UIFont fontWithName:@"Marion" size:fontSize],
+                                         NSParagraphStyleAttributeName: paragraphStyle
+                                         } mutableCopy];
+    
+    NSMutableDictionary *numberAttributes = [attributes mutableCopy];
+    numberAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion-Bold" size:fontSize];
+    
+    if (self.song.number) {
+        NSString *numberString = [NSString stringWithFormat:@"%d", [self.song.number unsignedIntegerValue]];
+        attributedTitle = [[NSMutableAttributedString alloc] initWithString:numberString
+                                                                 attributes:numberAttributes];
     }
     
-    [self.delegate pageController:self contentTitleChangedTo:[attributedTitle copy]];
+    return [attributedTitle copy];
 }
 
 @end
