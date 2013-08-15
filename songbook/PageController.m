@@ -8,56 +8,69 @@
 
 #import "PageController.h"
 
-const NSInteger kGutterWidth = 8;
+static const NSInteger kGutterWidth = 8;
 
-@interface PageController () <UIScrollViewDelegate>
+@interface PageController () <UITextViewDelegate>
 
-@property (nonatomic, strong) PageView *pageView;
-@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) UITextView *textView;
 @property (nonatomic) BOOL viewDidDisappear;
 
 @end
 
 @implementation PageController
+@synthesize titleView = _titleView;
+
+- (TitleView *)titleView
+{
+    if (!_titleView) {
+        _titleView = [self buildTitleView];
+    }
+    return _titleView;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.view.clipsToBounds = YES;
     
-    self.scrollView = [[UIScrollView alloc] init];
-    self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(44, 0, 0, -kGutterWidth);
-    self.scrollView.clipsToBounds = NO;
-    self.scrollView.delegate = self;
-    [self.view addSubview:self.scrollView];
+    self.titleView.containerWidth = self.view.bounds.size.width - 2 * kGutterWidth;
     
-    self.pageView = [self buildPageView];
-    self.pageView.containerSize = CGSizeMake(self.view.bounds.size.width - 2 * kGutterWidth, self.view.bounds.size.height);
-    [self.scrollView addSubview:self.pageView];
+    self.textView = [[UITextView alloc] init];
+    self.textView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.textView.scrollIndicatorInsets = UIEdgeInsetsMake(self.titleView.intrinsicContentSize.height, 0, 0, -kGutterWidth);
+    self.textView.clipsToBounds = NO;
+    self.textView.delegate = self;
+    self.textView.editable = NO;
+    self.textView.textContainer.lineFragmentPadding = 0;
+    self.textView.textContainerInset = UIEdgeInsetsMake(self.titleView.intrinsicContentSize.height, 0, 0, 0);
+    self.textView.attributedText = self.text;
     
-    self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:self.textView];
+    [self.view addSubview:self.titleView];
     
-    UIScrollView *scrollView = self.scrollView;
-    PageView *pageView = self.pageView;
-    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(scrollView, pageView);
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[scrollView]|"
+    
+    UITextView *textView = self.textView;
+    TitleView *titleView = self.titleView;
+    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(textView, titleView);
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[textView]|"
                                                                       options:0
                                                                       metrics:nil
                                                                         views:viewsDictionary]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:|-%d-[scrollView]-%d-|", kGutterWidth, kGutterWidth]
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:|-%d-[textView]-%d-|", kGutterWidth, kGutterWidth]
                                                                       options:0
                                                                       metrics:nil
                                                                         views:viewsDictionary]];
-    [self.scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[pageView]|"
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[titleView]"
                                                                        options:0
                                                                        metrics:nil
                                                                          views:viewsDictionary]];
-    [self.scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[pageView]|"
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[titleView]|"
                                                                        options:0
                                                                        metrics:nil
                                                                          views:viewsDictionary]];
     
-    [self.scrollView setDebugColor:[UIColor colorWithWhite:0 alpha:0.05]];
+    [self.textView setDebugColor:[UIColor colorWithWhite:0 alpha:0.5]];
+    [self.titleView setDebugColor:[UIColor orangeColor]];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -66,20 +79,26 @@ const NSInteger kGutterWidth = 8;
     [self updateViewConstraints];
     if (self.viewDidDisappear) {
         self.viewDidDisappear = NO;
-        self.scrollView.contentOffset = CGPointZero;
+        self.textView.contentOffset = CGPointZero;
     }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    
     self.viewDidDisappear = YES;
 }
 
-- (PageView *)buildPageView
+- (NSAttributedString *)text
 {
-    return [[PageView alloc] init];
+    return [[NSAttributedString alloc] initWithString:@""];
+}
+
+- (TitleView *)buildTitleView
+{
+    TitleView *titleView = [[TitleView alloc] init];
+    titleView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.9];
+    return titleView;
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -90,15 +109,7 @@ const NSInteger kGutterWidth = 8;
 - (void)updateViewConstraints
 {
     [super updateViewConstraints];
-    
-    self.pageView.containerSize = CGSizeMake(self.view.bounds.size.width - 2 * kGutterWidth, self.view.bounds.size.height);
-    
-}
-
-- (NSAttributedString *)titleString
-{
-    NSMutableAttributedString *attributedTitle = [[NSMutableAttributedString alloc] initWithString:@""];
-    return [attributedTitle copy];
+    self.titleView.containerWidth = self.view.bounds.size.width - 2 * kGutterWidth;
 }
 
 @end

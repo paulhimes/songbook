@@ -32,7 +32,7 @@
         // Initialization code
         self.translatesAutoresizingMaskIntoConstraints = NO;
         self.opaque = NO;
-        [self setDebugColor:[UIColor colorWithRed:0 green:1 blue:0 alpha:0.1]];
+        [self setDebugColor:[UIColor colorWithRed:0 green:1 blue:0 alpha:0.5]];
     }
     return self;
 }

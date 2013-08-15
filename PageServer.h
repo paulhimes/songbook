@@ -10,17 +10,8 @@
 #import "PageController.h"
 #import "Song.h"
 
-@protocol PageServerDelegate;
-
 @interface PageServer : NSObject <UIPageViewControllerDelegate, UIPageViewControllerDataSource>
 
-@property (nonatomic, weak) id<PageServerDelegate> delegate;
 - (PageController *)pageAtIndex:(NSUInteger)index;
-
-@end
-
-@protocol PageServerDelegate <NSObject>
-
-- (void)pageServer:(PageServer *)pageServer contentTitleChangedTo:(NSAttributedString *)contentTitle;
 
 @end

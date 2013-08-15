@@ -7,7 +7,6 @@
 //
 
 #import "BookPageController.h"
-#import "BookPageView.h"
 
 @interface BookPageController ()
 
@@ -31,9 +30,10 @@
     return self.book;
 }
 
-- (PageView *)buildPageView
+- (NSAttributedString *)text
 {
-    return [[BookPageView alloc] initWithBook:self.book];
+    return [[NSAttributedString alloc] initWithString:self.book.title
+                                           attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:40]}];
 }
 
 @end

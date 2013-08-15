@@ -109,7 +109,6 @@
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed
 {
     if (finished && completed && self.destinationPageController) {
-        [self.delegate pageServer:self contentTitleChangedTo:self.destinationPageController.titleString];
     }
     self.destinationPageController = nil;
 }

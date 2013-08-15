@@ -7,7 +7,6 @@
 //
 
 #import "SectionPageController.h"
-#import "SectionPageView.h"
 
 @interface SectionPageController ()
 
@@ -31,9 +30,10 @@
     return self.section;
 }
 
-- (PageView *)buildPageView
+- (NSAttributedString *)text
 {
-    return [[SectionPageView alloc] initWithSection:self.section];
+    return [[NSAttributedString alloc] initWithString:self.section.title
+                                           attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:35]}];
 }
 
 @end
