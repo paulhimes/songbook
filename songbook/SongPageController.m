@@ -37,7 +37,7 @@ static const NSInteger kGutterWidth = 8;
 - (TitleView *)buildTitleView
 {
     SongTitleView *titleView = [[SongTitleView alloc] init];
-    titleView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.98];
+    titleView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.9];
     titleView.number = self.song.number;
     titleView.title = self.song.title;
     
@@ -53,11 +53,17 @@ static const NSInteger kGutterWidth = 8;
     ghostAttributes[NSForegroundColorAttributeName] = [UIColor grayColor];
     
     NSMutableDictionary *subtitleAttributes = [normalAttributes mutableCopy];
-    NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    NSMutableParagraphStyle *subtitleParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     SongTitleView *titleView = (SongTitleView *)self.titleView;
-    paragraphStyle.firstLineHeadIndent = titleView.titleOriginX;
-    paragraphStyle.headIndent = paragraphStyle.firstLineHeadIndent;
-    subtitleAttributes[NSParagraphStyleAttributeName] = paragraphStyle;
+    subtitleParagraphStyle.firstLineHeadIndent = titleView.titleOriginX;
+    subtitleParagraphStyle.headIndent = subtitleParagraphStyle.firstLineHeadIndent;
+    subtitleAttributes[NSParagraphStyleAttributeName] = subtitleParagraphStyle;
+    subtitleAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion" size:15];
+    
+    NSMutableDictionary *verseTitleAttributes = [normalAttributes mutableCopy];
+    NSMutableParagraphStyle *verseTitleParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    verseTitleParagraphStyle.alignment = NSTextAlignmentCenter;
+    verseTitleAttributes[NSParagraphStyleAttributeName] = verseTitleParagraphStyle;
     
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@""];
     
@@ -76,7 +82,7 @@ static const NSInteger kGutterWidth = 8;
         }
         
         if (verse.title) {
-            [attributedString appendString:[NSString stringWithFormat:@"\t\t\t%@\n", verse.title] attributes:normalAttributes];
+            [attributedString appendString:[NSString stringWithFormat:@"%@\n", verse.title] attributes:verseTitleAttributes];
         }
         if ([verse.isChorus boolValue]) {
             [attributedString appendString:[NSString stringWithFormat:@"Chorus: %@", verse.text] attributes:normalAttributes];

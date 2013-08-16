@@ -48,9 +48,9 @@ static const CGFloat kSongComponentPadding = 8;
 {
     if (CGRectIsEmpty(_numberRect)) {
         CGRect boundingRect = [[self.number stringValue] boundingRectWithSize:CGSizeMake(self.containerWidth, CGFLOAT_MAX)
-                                                                           options:NSStringDrawingUsesLineFragmentOrigin
-                                                                        attributes:@{NSFontAttributeName: self.numberFont}
-                                                                           context:nil];
+                                                                      options:NSStringDrawingUsesLineFragmentOrigin
+                                                                   attributes:@{NSFontAttributeName: self.numberFont}
+                                                                      context:nil];
         _numberRect = CGRectMake(0, kTopMargin, boundingRect.size.width, boundingRect.size.height);
     }
     return _numberRect;
@@ -61,16 +61,18 @@ static const CGFloat kSongComponentPadding = 8;
     if (CGRectIsEmpty(_titleRect)) {
         CGFloat availableWidth;
         CGPoint origin;
-        BOOL attemptToCenterVertically = NO;
+        BOOL attemptToAlignVertically = NO;
         if (self.numberRect.size.width + kSongComponentPadding > (self.containerWidth - self.containerWidth / M_PHI)) {
             availableWidth = self.containerWidth;
-            origin = CGPointMake(0, self.numberRect.size.height + kSongComponentPadding);
+            CGFloat numberBaseLine = CGRectGetMaxY(self.numberRect) + self.numberFont.descender;
+
+            origin = CGPointMake(0, numberBaseLine + kSongComponentPadding);
         } else {
             CGFloat leftMargin = self.numberRect.size.width > 0 ? CGRectGetMaxX(self.numberRect) + kSongComponentPadding : 0;
             
             availableWidth = self.containerWidth - leftMargin;
             origin = CGPointMake(leftMargin, self.numberRect.origin.y);
-            attemptToCenterVertically = YES;
+            attemptToAlignVertically = YES;
         }
         
         CGRect boundingRect = [self.title boundingRectWithSize:CGSizeMake(availableWidth, CGFLOAT_MAX)
@@ -78,14 +80,14 @@ static const CGFloat kSongComponentPadding = 8;
                                                          attributes:@{NSFontAttributeName: self.titleFont}
                                                             context:nil];
         
-        if (attemptToCenterVertically) {
-            // Attempt to center the title vertically with the number.
-            if (boundingRect.size.height < self.numberRect.size.height) {
-                
-                CGFloat numberBaseLine = self.numberRect.origin.y + self.numberFont.ascender;
-                
-                
-                origin.y = self.numberRect.origin.y + (numberBaseLine - boundingRect.size.height) / 2.0;
+        if (attemptToAlignVertically) {
+            CGFloat numberBaseLine = CGRectGetMaxY(self.numberRect) + self.numberFont.descender;
+            CGFloat titleHeightMinusDescender = boundingRect.size.height + self.titleFont.descender;
+            
+            origin.y = numberBaseLine - titleHeightMinusDescender;
+            
+            if (origin.y < self.numberRect.origin.y) {
+                origin.y = self.numberRect.origin.y;
             }
         }
         
@@ -127,16 +129,15 @@ static const CGFloat kSongComponentPadding = 8;
     // Drawing code
     [[UIColor blackColor] setFill];
     [[UIColor blackColor] setStroke];
-    
-    [[self.number stringValue] drawWithRect:self.numberRect options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.numberFont} context:nil];
-    
 
+    [[self.number stringValue] drawWithRect:self.numberRect options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.numberFont} context:nil];
     [self.title drawWithRect:self.titleRect options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.titleFont} context:nil];
     
 //    [[UIColor colorWithWhite:0 alpha:0.5] setStroke];
-    
-//    [[UIBezierPath bezierPathWithRect:self.numberRect] stroke];
-//    [[UIBezierPath bezierPathWithRect:self.titleRect] stroke];
+//    CGFloat numberBaseLine = CGRectGetMaxY(self.numberRect) + self.numberFont.descender;
+//    [[UIBezierPath bezierPathWithRect:CGRectMake(self.numberRect.origin.x, self.numberRect.origin.y, self.numberRect.size.width, numberBaseLine - self.numberRect.origin.y)] stroke];
+//    CGFloat titleBaseLine = CGRectGetMaxY(self.titleRect) + self.titleFont.descender;
+//    [[UIBezierPath bezierPathWithRect:CGRectMake(self.titleRect.origin.x, self.titleRect.origin.y, self.titleRect.size.width, titleBaseLine - self.titleRect.origin.y)] stroke];
 }
 
 @end
