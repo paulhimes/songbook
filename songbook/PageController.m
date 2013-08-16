@@ -37,7 +37,7 @@ static const NSInteger kGutterWidth = 8;
     
     self.textView = [[UITextView alloc] init];
     self.textView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.textView.scrollIndicatorInsets = UIEdgeInsetsMake(self.titleView.intrinsicContentSize.height, 0, 0, -kGutterWidth);
+    self.textView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, -kGutterWidth);
     self.textView.clipsToBounds = NO;
     self.textView.delegate = self;
     self.textView.editable = NO;
@@ -64,7 +64,7 @@ static const NSInteger kGutterWidth = 8;
                                                                        options:0
                                                                        metrics:nil
                                                                          views:viewsDictionary]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[titleView]|"
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:|-%d-[titleView]-%d-|", kGutterWidth, kGutterWidth]
                                                                        options:0
                                                                        metrics:nil
                                                                          views:viewsDictionary]];

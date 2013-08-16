@@ -55,7 +55,7 @@ static const NSInteger kGutterWidth = 8;
     NSMutableDictionary *subtitleAttributes = [normalAttributes mutableCopy];
     NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     SongTitleView *titleView = (SongTitleView *)self.titleView;
-    paragraphStyle.firstLineHeadIndent = titleView.titleOriginX - kGutterWidth;
+    paragraphStyle.firstLineHeadIndent = titleView.titleOriginX;
     paragraphStyle.headIndent = paragraphStyle.firstLineHeadIndent;
     subtitleAttributes[NSParagraphStyleAttributeName] = paragraphStyle;
     
@@ -64,6 +64,8 @@ static const NSInteger kGutterWidth = 8;
     if ([self.song.subtitle length] > 0) {
         [attributedString appendString:self.song.subtitle attributes:subtitleAttributes];
         [attributedString appendString:@"\n\n" attributes:normalAttributes];
+    } else {
+        [attributedString appendString:@"\n" attributes:normalAttributes];
     }
     
     [self.song.verses enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {

@@ -8,8 +8,7 @@
 
 #import "SongTitleView.h"
 
-static const NSInteger kGutterWidth = 8;
-static const NSInteger kTopMargin = 8;
+static const NSInteger kTopMargin = 16;
 static const CGFloat kSongComponentPadding = 8;
 
 @interface SongTitleView()
@@ -48,11 +47,11 @@ static const CGFloat kSongComponentPadding = 8;
 - (CGRect)numberRect
 {
     if (CGRectIsEmpty(_numberRect)) {
-        CGRect boundingRect = [[self.number stringValue] boundingRectWithSize:CGSizeMake(self.containerWidth - 2 * kGutterWidth, CGFLOAT_MAX)
+        CGRect boundingRect = [[self.number stringValue] boundingRectWithSize:CGSizeMake(self.containerWidth, CGFLOAT_MAX)
                                                                            options:NSStringDrawingUsesLineFragmentOrigin
                                                                         attributes:@{NSFontAttributeName: self.numberFont}
                                                                            context:nil];
-        _numberRect = CGRectMake(kGutterWidth, kTopMargin, boundingRect.size.width, boundingRect.size.height);
+        _numberRect = CGRectMake(0, kTopMargin, boundingRect.size.width, boundingRect.size.height);
     }
     return _numberRect;
 }
@@ -67,7 +66,7 @@ static const CGFloat kSongComponentPadding = 8;
             availableWidth = self.containerWidth;
             origin = CGPointMake(0, self.numberRect.size.height + kSongComponentPadding);
         } else {
-            CGFloat leftMargin = self.numberRect.size.width > 0 ? CGRectGetMaxX(self.numberRect) + kSongComponentPadding : kGutterWidth;
+            CGFloat leftMargin = self.numberRect.size.width > 0 ? CGRectGetMaxX(self.numberRect) + kSongComponentPadding : 0;
             
             availableWidth = self.containerWidth - leftMargin;
             origin = CGPointMake(leftMargin, self.numberRect.origin.y);
@@ -118,10 +117,9 @@ static const CGFloat kSongComponentPadding = 8;
 
 - (CGSize)intrinsicContentSize
 {    
-    CGFloat numberHeight = self.numberRect.origin.y + self.numberFont.ascender + kSongComponentPadding;
-    CGFloat titleHeight = self.titleRect.origin.y + self.titleRect.size.height + kSongComponentPadding;
+    CGFloat titleLowestBaseline = CGRectGetMaxY(self.titleRect) + self.titleFont.descender;
     
-    return CGSizeMake(self.containerWidth, MAX(numberHeight, titleHeight));
+    return CGSizeMake(self.containerWidth, titleLowestBaseline + kSongComponentPadding);
 }
 
 - (void)drawRect:(CGRect)rect
