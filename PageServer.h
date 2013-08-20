@@ -12,6 +12,6 @@
 
 @interface PageServer : NSObject <UIPageViewControllerDelegate, UIPageViewControllerDataSource>
 
-- (PageController *)pageAtIndex:(NSUInteger)index;
+- (PageController *)pageControllerForModelObject:(NSManagedObject *)modelObject;
 
 @end

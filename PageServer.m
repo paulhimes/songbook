@@ -18,51 +18,9 @@
 
 @interface PageServer()
 
-@property (nonatomic, strong) BookPageController *bookController;
-@property (nonatomic, strong) SectionPageController *sectionController;
-
-@property (nonatomic, strong) NSManagedObjectContext *context;
-@property (nonatomic, strong) Book *book;
-
-@property (nonatomic, strong) PageController *destinationPageController;
-
 @end
 
 @implementation PageServer
-
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        self.context = ((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext;
-        [DataModelTests populateSampleDataInContext:self.context];
-        
-        NSArray *books = [Book allBooksInContext:self.context];
-        self.book = [books firstObject];
-    }
-    return self;
-}
-
-- (BookPageController *)bookController
-{
-    if (!_bookController) {
-        _bookController = [[BookPageController alloc] initWithBook:self.book];
-    }
-    return _bookController;
-}
-
-- (SectionPageController *)sectionController
-{
-    if (!_sectionController) {
-        _sectionController = [[SectionPageController alloc] initWithSection:[self.book.sections firstObject]];
-    }
-    return _sectionController;
-}
-
-- (PageController *)pageAtIndex:(NSUInteger)index
-{
-    return self.bookController;
-}
 
 #pragma mark - UIPageViewControllerDataSource
 
@@ -97,20 +55,6 @@
     }
     
     return after;
-}
-
-#pragma mark - UIPageViewControllerDelegate
-
-- (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers
-{
-    self.destinationPageController = [pendingViewControllers firstObject];
-}
-
-- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed
-{
-    if (finished && completed && self.destinationPageController) {
-    }
-    self.destinationPageController = nil;
 }
 
 - (PageController *)pageControllerForModelObject:(NSManagedObject *)modelObject

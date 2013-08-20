@@ -8,6 +8,8 @@
 
 #import "TitleView.h"
 
+const CGFloat kMinimumTitleViewHeight = 44;
+
 @implementation TitleView
 
 - (id)initWithFrame:(CGRect)frame
@@ -15,27 +17,25 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        self.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return self;
 }
 
-- (void)setContainerWidth:(CGFloat)containerWidth
+//- (void)layoutSubviews
+//{
+//    self.containerWidth = self.frame.size.width;
+//    [super layoutSubviews];
+//    [self invalidateIntrinsicContentSize];
+//}
+
+- (CGSize)sizeForWidth:(CGFloat)width
 {
-    _containerWidth = containerWidth;
-    [self resetRectangleCalculations];
-    [self invalidateIntrinsicContentSize];
-    [self setNeedsDisplay];
+    return CGSizeMake(width, kMinimumTitleViewHeight);
 }
 
-- (void)resetRectangleCalculations
-{
-    
-}
-
-- (CGSize)intrinsicContentSize
-{
-    return CGSizeMake(self.containerWidth, 50);
-}
+//- (CGSize)intrinsicContentSize
+//{
+//    return CGSizeMake(self.containerWidth, kMinimumTitleViewHeight);
+//}
 
 @end

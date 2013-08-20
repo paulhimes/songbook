@@ -8,6 +8,9 @@
 
 #import "PageViewController.h"
 #import "SongbookModel.h"
+#import "AppDelegate.h"
+#import "DataModelTests.h"
+#import "Book+Helpers.h"
 
 @interface PageViewController ()
 
@@ -31,7 +34,14 @@
     [self.view setDebugColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:0.5]];
     self.delegate = self.pageServer;
     self.dataSource = self.pageServer;
-    [self setViewControllers:@[[self.pageServer pageAtIndex:0]]
+    
+    NSManagedObjectContext *context = ((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext;
+    [DataModelTests populateSampleDataInContext:context];
+    
+    NSArray *books = [Book allBooksInContext:context];
+    Book *book = [books firstObject];
+    
+    [self setViewControllers:@[[self.pageServer pageControllerForModelObject:book]]
                                  direction:UIPageViewControllerNavigationDirectionForward
                                   animated:NO
                                 completion:NULL];

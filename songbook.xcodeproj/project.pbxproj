@@ -14,7 +14,6 @@
 		8B94532217A5F3E500327479 /* Verse+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94532117A5F3E500327479 /* Verse+Helpers.m */; };
 		8B94532517A5F44000327479 /* Section+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94532417A5F43800327479 /* Section+Helpers.m */; };
 		8B94532817A5F4C900327479 /* Book+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94532717A5F4C900327479 /* Book+Helpers.m */; };
-		8BA2326317B1A4140013FFBB /* SongbookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA2326217B1A4140013FFBB /* SongbookViewController.m */; };
 		8BA305E617A0BCF200A2ABDE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305E517A0BCF200A2ABDE /* Foundation.framework */; };
 		8BA305E817A0BCF200A2ABDE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305E717A0BCF200A2ABDE /* CoreGraphics.framework */; };
 		8BA305EA17A0BCF200A2ABDE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305E917A0BCF200A2ABDE /* UIKit.framework */; };
@@ -33,7 +32,6 @@
 		8BA3061B17A0BDAD00A2ABDE /* Songbook.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BA3061A17A0BDAD00A2ABDE /* Songbook.storyboard */; };
 		8BA3062117A1656B00A2ABDE /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA3062017A1640B00A2ABDE /* PageViewController.m */; };
 		8BA5142917ADA275009E960D /* UIView+Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5142817ADA275009E960D /* UIView+Debug.m */; };
-		8BA6E95D17AFE6FB005878BD /* TitlePageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA6E95C17AFE6FB005878BD /* TitlePageView.m */; };
 		8BAE5B4D17B1F7C5004631CA /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAE5B4C17B1F7C5004631CA /* SearchViewController.m */; };
 		8BB18AD917A5DB76006E257C /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB18AD817A5DB76006E257C /* Section.m */; };
 		8BB18ADC17A5DB77006E257C /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB18ADB17A5DB77006E257C /* Song.m */; };
@@ -45,7 +43,7 @@
 		8BC674C417B9D2CB001E71B1 /* TitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C317B9D2CB001E71B1 /* TitleView.m */; };
 		8BC674C717B9E1D8001E71B1 /* SongTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C617B9E1D8001E71B1 /* SongTitleView.m */; };
 		8BC674CA17BC912C001E71B1 /* NSMutableAttributedString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */; };
-		8BE4DABD17AA1B6400591F8A /* PageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE4DABC17AA1B6400591F8A /* PageView.m */; };
+		8BD3EEAF17C30CA10049052A /* SongbookTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD3EEAE17C30CA10049052A /* SongbookTextView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,8 +71,6 @@
 		8B94532417A5F43800327479 /* Section+Helpers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Section+Helpers.m"; sourceTree = "<group>"; };
 		8B94532617A5F4C900327479 /* Book+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Book+Helpers.h"; sourceTree = "<group>"; };
 		8B94532717A5F4C900327479 /* Book+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Book+Helpers.m"; sourceTree = "<group>"; };
-		8BA2326117B1A4140013FFBB /* SongbookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongbookViewController.h; sourceTree = "<group>"; };
-		8BA2326217B1A4140013FFBB /* SongbookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongbookViewController.m; sourceTree = "<group>"; };
 		8BA305E217A0BCF200A2ABDE /* songbook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = songbook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BA305E517A0BCF200A2ABDE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8BA305E717A0BCF200A2ABDE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -99,8 +95,6 @@
 		8BA3062017A1640B00A2ABDE /* PageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PageViewController.m; sourceTree = "<group>"; };
 		8BA5142717ADA275009E960D /* UIView+Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Debug.h"; sourceTree = "<group>"; };
 		8BA5142817ADA275009E960D /* UIView+Debug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Debug.m"; sourceTree = "<group>"; };
-		8BA6E95B17AFE6FB005878BD /* TitlePageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitlePageView.h; sourceTree = "<group>"; };
-		8BA6E95C17AFE6FB005878BD /* TitlePageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitlePageView.m; sourceTree = "<group>"; };
 		8BA85DFD17B2F12200F6B3B7 /* SongbookModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongbookModel.h; sourceTree = "<group>"; };
 		8BAE5B4B17B1F7C5004631CA /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		8BAE5B4C17B1F7C5004631CA /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
@@ -124,8 +118,8 @@
 		8BC674C617B9E1D8001E71B1 /* SongTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongTitleView.m; sourceTree = "<group>"; };
 		8BC674C817BC912C001E71B1 /* NSMutableAttributedString+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+Helpers.h"; sourceTree = "<group>"; };
 		8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableAttributedString+Helpers.m"; sourceTree = "<group>"; };
-		8BE4DABB17AA1B6400591F8A /* PageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageView.h; sourceTree = "<group>"; };
-		8BE4DABC17AA1B6400591F8A /* PageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageView.m; sourceTree = "<group>"; };
+		8BD3EEAD17C30CA10049052A /* SongbookTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongbookTextView.h; sourceTree = "<group>"; };
+		8BD3EEAE17C30CA10049052A /* SongbookTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongbookTextView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,12 +180,8 @@
 		8B6F1BFE17AD519300F72C3D /* Pages */ = {
 			isa = PBXGroup;
 			children = (
-				8BE4DABB17AA1B6400591F8A /* PageView.h */,
-				8BE4DABC17AA1B6400591F8A /* PageView.m */,
 				8B6F1BED17ACB67D00F72C3D /* PageController.h */,
 				8B6F1BEE17ACB67D00F72C3D /* PageController.m */,
-				8BA6E95B17AFE6FB005878BD /* TitlePageView.h */,
-				8BA6E95C17AFE6FB005878BD /* TitlePageView.m */,
 				8BC674C217B9D2CB001E71B1 /* TitleView.h */,
 				8BC674C317B9D2CB001E71B1 /* TitleView.m */,
 			);
@@ -240,8 +230,8 @@
 				8BA305FC17A0BCF200A2ABDE /* Images.xcassets */,
 				8BA3061A17A0BDAD00A2ABDE /* Songbook.storyboard */,
 				8BA3061E17A0BE2B00A2ABDE /* Songbook~iPad.storyboard */,
-				8BA2326117B1A4140013FFBB /* SongbookViewController.h */,
-				8BA2326217B1A4140013FFBB /* SongbookViewController.m */,
+				8BD3EEAD17C30CA10049052A /* SongbookTextView.h */,
+				8BD3EEAE17C30CA10049052A /* SongbookTextView.m */,
 				8BA3061F17A1640B00A2ABDE /* PageViewController.h */,
 				8BA3062017A1640B00A2ABDE /* PageViewController.m */,
 				8BB54D5A17A4C60700FD2914 /* PageServer.h */,
@@ -423,12 +413,11 @@
 				8BC674C717B9E1D8001E71B1 /* SongTitleView.m in Sources */,
 				8BB18AE517A5EA57006E257C /* DataModelTests.m in Sources */,
 				8BB18AE217A5DB77006E257C /* Book.m in Sources */,
-				8BA6E95D17AFE6FB005878BD /* TitlePageView.m in Sources */,
 				8BAE5B4D17B1F7C5004631CA /* SearchViewController.m in Sources */,
 				8B6F1BEF17ACB67D00F72C3D /* PageController.m in Sources */,
 				8BA5142917ADA275009E960D /* UIView+Debug.m in Sources */,
 				8BB18ADC17A5DB77006E257C /* Song.m in Sources */,
-				8BA2326317B1A4140013FFBB /* SongbookViewController.m in Sources */,
+				8BD3EEAF17C30CA10049052A /* SongbookTextView.m in Sources */,
 				8BA305F817A0BCF200A2ABDE /* AppDelegate.m in Sources */,
 				8BA305FB17A0BCF200A2ABDE /* songbook.xcdatamodeld in Sources */,
 				8B94532517A5F44000327479 /* Section+Helpers.m in Sources */,
@@ -441,7 +430,6 @@
 				8B94532217A5F3E500327479 /* Verse+Helpers.m in Sources */,
 				8B6F1BFD17ACBC4C00F72C3D /* SectionPageController.m in Sources */,
 				8B94532817A5F4C900327479 /* Book+Helpers.m in Sources */,
-				8BE4DABD17AA1B6400591F8A /* PageView.m in Sources */,
 				8B94531F17A5F15D00327479 /* Song+Helpers.m in Sources */,
 				8BA3062117A1656B00A2ABDE /* PageViewController.m in Sources */,
 				8B6F1BF417ACBBFB00F72C3D /* BookPageController.m in Sources */,

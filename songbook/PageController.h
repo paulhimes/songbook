@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PageView.h"
 #import "TitleView.h"
 
 @interface PageController : UIViewController

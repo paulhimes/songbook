@@ -47,11 +47,7 @@ static const CGFloat kSongComponentPadding = 8;
 - (CGRect)numberRect
 {
     if (CGRectIsEmpty(_numberRect)) {
-        CGRect boundingRect = [[self.number stringValue] boundingRectWithSize:CGSizeMake(self.containerWidth, CGFLOAT_MAX)
-                                                                      options:NSStringDrawingUsesLineFragmentOrigin
-                                                                   attributes:@{NSFontAttributeName: self.numberFont}
-                                                                      context:nil];
-        _numberRect = CGRectMake(0, kTopMargin, boundingRect.size.width, boundingRect.size.height);
+        _numberRect = CGRectZero;
     }
     return _numberRect;
 }
@@ -59,39 +55,7 @@ static const CGFloat kSongComponentPadding = 8;
 - (CGRect)titleRect
 {
     if (CGRectIsEmpty(_titleRect)) {
-        CGFloat availableWidth;
-        CGPoint origin;
-        BOOL attemptToAlignVertically = NO;
-        if (self.numberRect.size.width + kSongComponentPadding > (self.containerWidth - self.containerWidth / M_PHI)) {
-            availableWidth = self.containerWidth;
-            CGFloat numberBaseLine = CGRectGetMaxY(self.numberRect) + self.numberFont.descender;
-
-            origin = CGPointMake(0, numberBaseLine + kSongComponentPadding);
-        } else {
-            CGFloat leftMargin = self.numberRect.size.width > 0 ? CGRectGetMaxX(self.numberRect) + kSongComponentPadding : 0;
-            
-            availableWidth = self.containerWidth - leftMargin;
-            origin = CGPointMake(leftMargin, self.numberRect.origin.y);
-            attemptToAlignVertically = YES;
-        }
-        
-        CGRect boundingRect = [self.title boundingRectWithSize:CGSizeMake(availableWidth, CGFLOAT_MAX)
-                                                            options:NSStringDrawingUsesLineFragmentOrigin
-                                                         attributes:@{NSFontAttributeName: self.titleFont}
-                                                            context:nil];
-        
-        if (attemptToAlignVertically) {
-            CGFloat numberBaseLine = CGRectGetMaxY(self.numberRect) + self.numberFont.descender;
-            CGFloat titleHeightMinusDescender = boundingRect.size.height + self.titleFont.descender;
-            
-            origin.y = numberBaseLine - titleHeightMinusDescender;
-            
-            if (origin.y < self.numberRect.origin.y) {
-                origin.y = self.numberRect.origin.y;
-            }
-        }
-        
-        _titleRect = CGRectMake(origin.x, origin.y, boundingRect.size.width, boundingRect.size.height);
+        _titleRect = CGRectZero;
     }
     return _titleRect;
 }
@@ -102,30 +66,71 @@ static const CGFloat kSongComponentPadding = 8;
     return titleRect.origin.x;
 }
 
-- (void)resetRectangleCalculations
+- (CGSize)sizeForWidth:(CGFloat)width
 {
-    self.numberRect = CGRectZero;
-    self.titleRect = CGRectZero;
-}
-
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-    }
-    return self;
-}
-
-- (CGSize)intrinsicContentSize
-{    
+    [self calculateRectsForWidth:width];
     CGFloat titleLowestBaseline = CGRectGetMaxY(self.titleRect) + self.titleFont.descender;
+//    NSLog(@"%f", titleLowestBaseline);
     
-    return CGSizeMake(self.containerWidth, titleLowestBaseline + kSongComponentPadding);
+    return CGSizeMake(width, titleLowestBaseline + kSongComponentPadding);
+}
+
+- (void)calculateRectsForWidth:(CGFloat)width
+{
+    self.numberRect = [self numberRectForWidth:width];
+    self.titleRect = [self titleRectForWidth:width andNumberRect:self.numberRect];
+    
+    // Validate that the total header height will be at least kMinimumTitleViewHeight
+    CGFloat titleLowestBaseline = CGRectGetMaxY(self.titleRect) + self.titleFont.descender;
+    CGFloat titleBaselineWithPadding = titleLowestBaseline + kSongComponentPadding;
+    if (titleBaselineWithPadding < kMinimumTitleViewHeight) {
+        CGFloat verticalAdjustment = kMinimumTitleViewHeight - titleBaselineWithPadding;
+        
+        self.titleRect = CGRectMake(self.titleRect.origin.x,
+                                    self.titleRect.origin.y + verticalAdjustment,
+                                    self.titleRect.size.width,
+                                    self.titleRect.size.height);
+        
+        self.numberRect = CGRectMake(self.numberRect.origin.x,
+                                     self.numberRect.origin.y + verticalAdjustment,
+                                     self.numberRect.size.width,
+                                     self.numberRect.size.height);
+    }
+}
+
+- (CGRect)numberRectForWidth:(CGFloat)width
+{
+    CGRect boundingRect = [[self.number stringValue] boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)
+                                                                  options:NSStringDrawingUsesLineFragmentOrigin
+                                                               attributes:@{NSFontAttributeName: self.numberFont}
+                                                                  context:nil];
+    return CGRectMake(0, kTopMargin, boundingRect.size.width, boundingRect.size.height);
+}
+
+- (CGRect)titleRectForWidth:(CGFloat)width andNumberRect:(CGRect)numberRect
+{
+    CGFloat leftMargin = numberRect.size.width > 0 ? CGRectGetMaxX(numberRect) + kSongComponentPadding : 0;
+    
+    CGRect boundingRect = [self.title boundingRectWithSize:CGSizeMake(width - leftMargin, CGFLOAT_MAX)
+                                                   options:NSStringDrawingUsesLineFragmentOrigin
+                                                attributes:@{NSFontAttributeName: self.titleFont}
+                                                   context:nil];
+    
+    CGFloat numberBaseLine = CGRectGetMaxY(numberRect) + self.numberFont.descender;
+    CGFloat titleHeightMinusDescender = boundingRect.size.height + self.titleFont.descender;
+    
+    CGPoint origin = CGPointMake(leftMargin, numberBaseLine - titleHeightMinusDescender);
+    if (origin.y < numberRect.origin.y) {
+        origin.y = numberRect.origin.y;
+    }
+    
+    return CGRectMake(origin.x, origin.y, boundingRect.size.width, boundingRect.size.height);
 }
 
 - (void)drawRect:(CGRect)rect
 {
+    [self calculateRectsForWidth:self.bounds.size.width];
+    
     // Drawing code
     [[UIColor blackColor] setFill];
     [[UIColor blackColor] setStroke];

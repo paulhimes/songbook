@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+extern const CGFloat kMinimumTitleViewHeight;
+
 @interface TitleView : UIView
 
-@property (nonatomic) CGFloat containerWidth;
-- (void)resetRectangleCalculations;
+- (CGSize)sizeForWidth:(CGFloat)width;
 
 @end
