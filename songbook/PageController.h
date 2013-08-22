@@ -9,11 +9,22 @@
 #import <UIKit/UIKit.h>
 #import "TitleView.h"
 
+@protocol PageControllerDelegate;
+
 @interface PageController : UIViewController
 
 @property (nonatomic, readonly) NSManagedObject *modelObject;
 @property (nonatomic, readonly) NSAttributedString *text;
 @property (nonatomic, readonly) TitleView *titleView;
+
+@property (nonatomic, weak) id<PageControllerDelegate> delegate;
+
 - (TitleView *)buildTitleView;
+
+@end
+
+@protocol PageControllerDelegate <NSObject>
+
+- (void)search;
 
 @end

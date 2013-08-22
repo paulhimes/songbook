@@ -65,4 +65,16 @@
     }
 }
 
+- (IBAction)searchCancelled:(UIStoryboardSegue *)segue
+{
+    
+}
+
+#pragma mark - PageControllerDelegate
+
+- (void)search
+{
+    [self performSegueWithIdentifier:@"search" sender:self];
+}
+
 @end

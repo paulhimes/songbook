@@ -37,7 +37,6 @@ static const NSInteger kGutterWidth = 8;
 - (TitleView *)buildTitleView
 {
     SongTitleView *titleView = [[SongTitleView alloc] init];
-    titleView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.9];
     titleView.number = self.song.number;
     titleView.title = self.song.title;
     

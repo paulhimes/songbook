@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "Song.h"
 #import "PageServer.h"
+#import "PageController.h"
 
-@interface PageViewController : UIPageViewController
+@interface PageViewController : UIPageViewController <PageControllerDelegate>
 
 @property (nonatomic, readonly) Song *closestSong;
 @property (nonatomic, strong) PageServer *pageServer;
