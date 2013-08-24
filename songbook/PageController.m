@@ -145,7 +145,7 @@ const CGFloat kToolbarHeight = 44;
     CGSize textSize = [self.textView sizeThatFits:CGSizeMake(self.textView.frame.size.width, CGFLOAT_MAX)];
     [self.textView setHeight:textSize.height];
     
-    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, MAX(self.scrollView.frame.size.height - (self.scrollView.contentInset.top + self.scrollView.contentInset.bottom), textSize.height));
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, MAX(self.scrollView.frame.size.height - (self.scrollView.contentInset.top + self.scrollView.contentInset.bottom), CGRectGetMaxY(self.textView.frame)));
     
     CGFloat titleContentOriginY = self.titleView.contentOriginY;
     NSLog(@"titleContentOriginY %f", titleContentOriginY);
@@ -184,7 +184,16 @@ const CGFloat kToolbarHeight = 44;
         self.scrollView.showsVerticalScrollIndicator = YES;
     }
 
-    NSLog(@"scrollview offset y = %f [%@]", offsetY, [self textFragment]);
+//    NSLog(@"scrollview offset y = %f [%@]", offsetY, [self textFragment]);
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView
+                     withVelocity:(CGPoint)velocity
+              targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    if (ABS(targetContentOffset->y) <= 1) {
+        targetContentOffset->y = 0;
+    }
 }
 
 #pragma mark - UIBarPositioningDelegate
