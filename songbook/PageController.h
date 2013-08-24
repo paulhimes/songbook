@@ -14,6 +14,8 @@
 @property (nonatomic, readonly) NSManagedObject *modelObject;
 @property (nonatomic, readonly) NSAttributedString *text;
 @property (nonatomic, readonly) TitleView *titleView;
+@property (nonatomic, readonly) UIScrollView *scrollView;
+@property (nonatomic, readonly) UITextView *textView;
 
 - (TitleView *)buildTitleView;
 

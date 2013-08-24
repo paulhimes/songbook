@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 Paul Himes. All rights reserved.
 //
 
-#import "PageController.h"
+#import "TitlePageController.h"
 #import "Book.h"
 
-@interface BookPageController : PageController
+@interface BookPageController : TitlePageController
 
 - (instancetype)initWithBook:(Book *)book;
 - (Book *)book;

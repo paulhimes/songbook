@@ -15,14 +15,14 @@ const CGFloat kToolbarHeight = 44;
 
 @interface PageController () <UIScrollViewDelegate, UIToolbarDelegate>
 
-@property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) UITextView *textView;
 @property (nonatomic, strong) UIToolbar *foregroundToolbar;
 
 @end
 
 @implementation PageController
 @synthesize titleView = _titleView;
+@synthesize scrollView = _scrollView;
+@synthesize textView = _textView;
 
 - (UIScrollView *)scrollView
 {

@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 Paul Himes. All rights reserved.
 //
 
-#import "PageController.h"
+#import "TitlePageController.h"
 #import "Section.h"
 
-@interface SectionPageController : PageController
+@interface SectionPageController : TitlePageController
 
 - (instancetype)initWithSection:(Section *)section;
 - (Section *)section;
