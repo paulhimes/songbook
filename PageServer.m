@@ -15,7 +15,6 @@
 #import "Book+Helpers.h"
 #import "Section+Helpers.h"
 #import "Song+Helpers.h"
-#import "PageViewController.h"
 
 @interface PageServer()
 
@@ -36,10 +35,7 @@
         Song *song = [(SongPageController *)viewController song];
         before = [self pageControllerForModelObject:[song previousObject]];
     }
-    
-    if ([pageViewController isKindOfClass:[PageViewController class]]) {
-        before.delegate = (PageViewController *)pageViewController;
-    }
+
     return before;
 }
 
@@ -57,10 +53,7 @@
         Song *song = [(SongPageController *)viewController song];
         after = [self pageControllerForModelObject:[song nextObject]];
     }
-    
-    if ([pageViewController isKindOfClass:[PageViewController class]]) {
-        after.delegate = (PageViewController *)pageViewController;
-    }
+
     return after;
 }
 

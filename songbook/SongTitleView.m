@@ -15,23 +15,16 @@ static const CGFloat kSongComponentPadding = 8;
 
 @property (nonatomic, strong) UIFont *numberFont;
 @property (nonatomic, strong) UIFont *titleFont;
-@property (nonatomic, strong) NSString *fontName;
-@property (nonatomic) CGRect numberRect;
-@property (nonatomic) CGRect titleRect;
+@property (nonatomic, strong) NSDictionary *titleAttributes;
 
 @end
 
 @implementation SongTitleView
 
-- (NSString *)fontName
-{
-    return @"Marion";
-}
-
 - (UIFont *)numberFont
 {
     if (!_numberFont) {
-        _numberFont = [UIFont fontWithName:[NSString stringWithFormat:@"%@-Bold", self.fontName] size:30];
+        _numberFont = [UIFont fontWithName:@"Marion-Bold" size:30];
     }
     return _numberFont;
 }
@@ -39,110 +32,126 @@ static const CGFloat kSongComponentPadding = 8;
 - (UIFont *)titleFont
 {
     if (!_titleFont) {
-        _titleFont = [UIFont fontWithName:self.fontName size:22];
+        _titleFont = [UIFont fontWithName:@"Marion" size:22];
     }
     return _titleFont;
 }
 
-- (CGRect)numberRect
+- (NSDictionary *)titleAttributes
 {
-    if (CGRectIsEmpty(_numberRect)) {
-        _numberRect = CGRectZero;
+    if (!_titleAttributes) {
+        _titleAttributes = @{NSFontAttributeName: self.titleFont};
     }
-    return _numberRect;
-}
-
-- (CGRect)titleRect
-{
-    if (CGRectIsEmpty(_titleRect)) {
-        _titleRect = CGRectZero;
-    }
-    return _titleRect;
+    return _titleAttributes;
 }
 
 - (CGFloat)titleOriginX
 {
-    CGRect titleRect = self.titleRect;
-    return titleRect.origin.x;
+    NSAttributedString *numberText = [self numberText];
+    CGRect numberRect = [numberText boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)
+                                                 options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                                 context:nil];
+    return numberRect.size.width;
+}
+
+- (CGFloat)contentOriginY
+{
+    CGRect textRect = [self placedTextRectForWidth:self.bounds.size.width];
+    return textRect.origin.y;
 }
 
 - (CGSize)sizeForWidth:(CGFloat)width
 {
-    [self calculateRectsForWidth:width];
-    CGFloat titleLowestBaseline = CGRectGetMaxY(self.titleRect) + self.titleFont.descender;
-//    NSLog(@"%f", titleLowestBaseline);
+    NSLog(@"sizeForWidth for %@ %f", self.title, width);
     
-    return CGSizeMake(width, titleLowestBaseline + kSongComponentPadding);
+    CGRect textRect = [self placedTextRectForWidth:width];
+    CGFloat titleLowestBaseline = CGRectGetMaxY(textRect) + self.titleFont.descender;
+    CGSize size = CGSizeMake(width, titleLowestBaseline + kSongComponentPadding);
+    
+    NSLog(@"final %@ size %@", self.title, NSStringFromCGSize(size));
+    
+    return size;
 }
 
-- (void)calculateRectsForWidth:(CGFloat)width
+- (CGRect)textRectForWidth:(CGFloat)width
 {
-    self.numberRect = [self numberRectForWidth:width];
-    self.titleRect = [self titleRectForWidth:width andNumberRect:self.numberRect];
-    
-    // Validate that the total header height will be at least kMinimumTitleViewHeight
-    CGFloat titleLowestBaseline = CGRectGetMaxY(self.titleRect) + self.titleFont.descender;
-    CGFloat titleBaselineWithPadding = titleLowestBaseline + kSongComponentPadding;
-    if (titleBaselineWithPadding < kMinimumTitleViewHeight) {
-        CGFloat verticalAdjustment = kMinimumTitleViewHeight - titleBaselineWithPadding;
-        
-        self.titleRect = CGRectMake(self.titleRect.origin.x,
-                                    self.titleRect.origin.y + verticalAdjustment,
-                                    self.titleRect.size.width,
-                                    self.titleRect.size.height);
-        
-        self.numberRect = CGRectMake(self.numberRect.origin.x,
-                                     self.numberRect.origin.y + verticalAdjustment,
-                                     self.numberRect.size.width,
-                                     self.numberRect.size.height);
-    }
+    CGRect boundingRect = [[self text] boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)
+                                                    options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                                    context:nil];
+    return boundingRect;
 }
 
-- (CGRect)numberRectForWidth:(CGFloat)width
+- (CGRect)placedTextRectForWidth:(CGFloat)width
 {
-    CGRect boundingRect = [[self.number stringValue] boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)
-                                                                  options:NSStringDrawingUsesLineFragmentOrigin
-                                                               attributes:@{NSFontAttributeName: self.numberFont}
-                                                                  context:nil];
-    return CGRectMake(0, kTopMargin, boundingRect.size.width, boundingRect.size.height);
-}
+    NSLog(@"content width for %@ %f", self.title, width);
+    
+    CGRect textRect = [self textRectForWidth:width];
+    CGFloat titleLowestBaseline = CGRectGetMaxY(textRect) + self.titleFont.descender;
+    CGFloat proposedBottom = kTopMargin + titleLowestBaseline + kSongComponentPadding;
+    CGFloat additionalTopMargin = MAX(kMinimumTitleViewHeight - proposedBottom, 0);
+    
+    NSLog(@"original rect for %@ %@", self.title, NSStringFromCGRect(textRect));
+    
+    NSLog(@"additional top margin for %@ %f", self.title, additionalTopMargin);
 
-- (CGRect)titleRectForWidth:(CGFloat)width andNumberRect:(CGRect)numberRect
-{
-    CGFloat leftMargin = numberRect.size.width > 0 ? CGRectGetMaxX(numberRect) + kSongComponentPadding : 0;
     
-    CGRect boundingRect = [self.title boundingRectWithSize:CGSizeMake(width - leftMargin, CGFLOAT_MAX)
-                                                   options:NSStringDrawingUsesLineFragmentOrigin
-                                                attributes:@{NSFontAttributeName: self.titleFont}
-                                                   context:nil];
-    
-    CGFloat numberBaseLine = CGRectGetMaxY(numberRect) + self.numberFont.descender;
-    CGFloat titleHeightMinusDescender = boundingRect.size.height + self.titleFont.descender;
-    
-    CGPoint origin = CGPointMake(leftMargin, numberBaseLine - titleHeightMinusDescender);
-    if (origin.y < numberRect.origin.y) {
-        origin.y = numberRect.origin.y;
-    }
-    
-    return CGRectMake(origin.x, origin.y, boundingRect.size.width, boundingRect.size.height);
+    CGRect placedRect = CGRectMake(0, additionalTopMargin + kTopMargin, textRect.size.width, textRect.size.height);
+    return placedRect;
 }
 
 - (void)drawRect:(CGRect)rect
 {
-    [self calculateRectsForWidth:self.bounds.size.width];
-    
     // Drawing code
     [[UIColor blackColor] setFill];
     [[UIColor blackColor] setStroke];
+    
+    NSLog(@"bounds width for %@ %f", self.title, self.bounds.size.width);
 
-    [[self.number stringValue] drawWithRect:self.numberRect options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.numberFont} context:nil];
-    [self.title drawWithRect:self.titleRect options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.titleFont} context:nil];
+    
+    CGRect drawingRect = [self placedTextRectForWidth:self.bounds.size.width];
+    NSLog(@"drawing rect for %@ %@", self.title, NSStringFromCGRect(drawingRect));
+    [[self text] drawWithRect:drawingRect options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
     
 //    [[UIColor colorWithWhite:0 alpha:0.5] setStroke];
-//    CGFloat numberBaseLine = CGRectGetMaxY(self.numberRect) + self.numberFont.descender;
-//    [[UIBezierPath bezierPathWithRect:CGRectMake(self.numberRect.origin.x, self.numberRect.origin.y, self.numberRect.size.width, numberBaseLine - self.numberRect.origin.y)] stroke];
-//    CGFloat titleBaseLine = CGRectGetMaxY(self.titleRect) + self.titleFont.descender;
-//    [[UIBezierPath bezierPathWithRect:CGRectMake(self.titleRect.origin.x, self.titleRect.origin.y, self.titleRect.size.width, titleBaseLine - self.titleRect.origin.y)] stroke];
+//    [[UIBezierPath bezierPathWithRect:drawingRect] stroke];
+}
+
+- (NSAttributedString *)numberText
+{
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@""];
+    
+    if (self.number) {
+        [attributedString appendString:[self.number stringValue] attributes:@{NSFontAttributeName: self.numberFont}];
+        [attributedString appendString:@" " attributes:@{NSFontAttributeName: self.titleFont}];
+    }
+    
+    return [attributedString copy];
+}
+
+- (NSAttributedString *)text
+{
+    NSMutableAttributedString *attributedString = [[self numberText] mutableCopy];
+    
+    if ([self.title length] > 0) {
+        [attributedString appendString:self.title attributes:self.titleAttributes];
+    }
+    
+    [attributedString addAttributes:@{NSParagraphStyleAttributeName: [self paragraphStyleFirstLineIndent:0 andNormalIndent:self.titleOriginX]}
+                              range:NSMakeRange(0, attributedString.length)];
+    
+    
+//    NSLog(@"%@", attributedString);
+    
+    return [attributedString copy];
+}
+
+- (NSParagraphStyle *)paragraphStyleFirstLineIndent:(CGFloat)firstLineIndent
+                                    andNormalIndent:(CGFloat)normalIndent
+{
+    NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    paragraphStyle.firstLineHeadIndent = firstLineIndent;
+    paragraphStyle.headIndent = normalIndent;
+    return paragraphStyle;
 }
 
 @end

@@ -31,7 +31,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    [self.view setDebugColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:0.5]];
+//    [self.view setDebugColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:0.5]];
     self.delegate = self.pageServer;
     self.dataSource = self.pageServer;
     
@@ -47,11 +47,6 @@
                                 completion:NULL];
 }
 
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
-}
-
 - (Song *)closestSong
 {
     PageController *currentController = self.viewControllers[0];
@@ -63,18 +58,6 @@
     } else {
         return nil;
     }
-}
-
-- (IBAction)searchCancelled:(UIStoryboardSegue *)segue
-{
-    
-}
-
-#pragma mark - PageControllerDelegate
-
-- (void)search
-{
-    [self performSegueWithIdentifier:@"search" sender:self];
 }
 
 @end

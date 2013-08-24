@@ -13,5 +13,7 @@ extern const CGFloat kMinimumTitleViewHeight;
 @interface TitleView : UIView
 
 - (CGSize)sizeForWidth:(CGFloat)width;
+@property (nonatomic, readonly) CGFloat contentOriginY;
+
 
 @end
