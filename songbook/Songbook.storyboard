@@ -37,6 +37,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="toolbar" destination="ogB-du-yUR" id="sZ9-YE-6zq"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Fr-lo-w1F" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

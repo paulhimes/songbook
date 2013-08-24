@@ -9,7 +9,7 @@
 #import "PageController.h"
 #import "AppDelegate.h"
 
-static const NSInteger kGutterWidth = 8;
+static const NSInteger kGutterWidth = 16;
 
 const CGFloat kToolbarHeight = 44;
 
@@ -17,6 +17,7 @@ const CGFloat kToolbarHeight = 44;
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UITextView *textView;
+@property (nonatomic, strong) UIToolbar *foregroundToolbar;
 @property (nonatomic, strong) UIToolbar *backgroundToolbar;
 
 @end
@@ -44,10 +45,24 @@ const CGFloat kToolbarHeight = 44;
         _backgroundToolbar = [[UIToolbar alloc] init];
         _backgroundToolbar.delegate = self;
         _backgroundToolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        _backgroundToolbar.barTintColor = [UIColor whiteColor];
-        _backgroundToolbar.alpha = 0;
+        _backgroundToolbar.userInteractionEnabled = NO;
+//        _backgroundToolbar.barTintColor = [UIColor whiteColor];
+//        _backgroundToolbar.alpha = 0;
+//        _backgroundToolbar.hidden = YES;
     }
     return _backgroundToolbar;
+}
+
+- (UIToolbar *)foregroundToolbar
+{
+    if (!_foregroundToolbar) {
+        _foregroundToolbar = [[UIToolbar alloc] init];
+        _foregroundToolbar.delegate = self;
+        _foregroundToolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        _foregroundToolbar.hidden = YES;
+        _foregroundToolbar.userInteractionEnabled = NO;
+    }
+    return _foregroundToolbar;
 }
 
 - (TitleView *)titleView
@@ -72,6 +87,9 @@ const CGFloat kToolbarHeight = 44;
         _textView.textContainer.lineFragmentPadding = 0;
         _textView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [_textView setDebugColor:[UIColor greenColor]];
+        _textView.opaque = NO;
+        _textView.backgroundColor = [UIColor clearColor];
+//        _textView.backgroundColor = [UIColor blueColor];
     }
     return _textView;
 }
@@ -83,7 +101,7 @@ const CGFloat kToolbarHeight = 44;
 
 - (TitleView *)buildTitleView
 {
-    return [[TitleView alloc] init];
+    return nil;
 }
 
 - (void)loadView
@@ -111,13 +129,23 @@ const CGFloat kToolbarHeight = 44;
                                               self.view.bounds.size.width,
                                               self.titleView.frame.size.height);
     
+    self.foregroundToolbar.frame = CGRectMake(0,
+                                              0,
+                                              self.view.bounds.size.width,
+                                              self.titleView.frame.size.height);
+    
     self.textView.attributedText = self.text;
     self.textView.frame = CGRectMake(0, 0, contentWidth, 0);
     
+    [self.view addSubview:self.backgroundToolbar];
+    
     [self.view addSubview:self.scrollView];
     [self.scrollView addSubview:self.textView];
-    [self.view addSubview:self.backgroundToolbar];
-    [self.backgroundToolbar addSubview:self.titleView];
+    
+    if (self.titleView) {
+        [self.view addSubview:self.foregroundToolbar];
+        [self.foregroundToolbar addSubview:self.titleView];
+    }
 }
 
 - (void)viewDidLayoutSubviews
@@ -133,6 +161,7 @@ const CGFloat kToolbarHeight = 44;
     
     [self.titleView setHeight:[self.titleView sizeForWidth:self.titleView.frame.size.width].height];
     [self.backgroundToolbar setHeight:self.titleView.frame.size.height];
+    [self.foregroundToolbar setHeight:self.titleView.frame.size.height];
     
     self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(self.backgroundToolbar.frame.size.height, 0, kToolbarHeight, -kGutterWidth);
     
@@ -171,21 +200,23 @@ const CGFloat kToolbarHeight = 44;
 {
     CGFloat offsetY = scrollView.contentOffset.y;
     if (offsetY <= 0) {
-        self.backgroundToolbar.alpha = 0;
-        self.scrollView.showsVerticalScrollIndicator = NO;
+        self.foregroundToolbar.hidden = YES;
+        self.backgroundToolbar.hidden = NO;
+//        self.scrollView.showsVerticalScrollIndicator = NO;
     } else {
-        self.backgroundToolbar.alpha = 1;
-        self.scrollView.showsVerticalScrollIndicator = YES;
+        self.foregroundToolbar.hidden = NO;
+        self.backgroundToolbar.hidden = YES;
+//        self.scrollView.showsVerticalScrollIndicator = YES;
     }
 
-//    NSLog(@"scrollview offset y = %f [%@]", offsetY, [self textFragment]);
+    NSLog(@"scrollview offset y = %f [%@]", offsetY, [self textFragment]);
 }
 
 #pragma mark - UIBarPositioningDelegate
 
 - (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
 {
-    return UIBarPositionTop;
+    return UIBarPositionAny;
 }
 
 @end

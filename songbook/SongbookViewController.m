@@ -8,11 +8,18 @@
 
 #import "SongbookViewController.h"
 
-@interface SongbookViewController ()
+@interface SongbookViewController () <UIToolbarDelegate>
+
+@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 
 @end
 
 @implementation SongbookViewController
+
+- (void)viewDidLoad
+{
+    self.toolbar.delegate = self;
+}
 
 - (BOOL)prefersStatusBarHidden
 {
@@ -22,6 +29,13 @@
 - (IBAction)searchCancelled:(UIStoryboardSegue *)segue
 {
     
+}
+
+#pragma mark - UIToolbarDelegate
+
+- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
+{
+    return UIBarPositionTop;
 }
 
 @end
