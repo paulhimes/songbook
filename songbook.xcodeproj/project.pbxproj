@@ -46,6 +46,7 @@
 		8BC674C717B9E1D8001E71B1 /* SongTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C617B9E1D8001E71B1 /* SongTitleView.m */; };
 		8BC674CA17BC912C001E71B1 /* NSMutableAttributedString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */; };
 		8BED9F0D17C91E9A00D834BE /* TitlePageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BED9F0C17C91E9A00D834BE /* TitlePageController.m */; };
+		8BED9F1017C9418400D834BE /* GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BED9F0F17C9418400D834BE /* GradientView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,6 +127,8 @@
 		8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableAttributedString+Helpers.m"; sourceTree = "<group>"; };
 		8BED9F0B17C91E9A00D834BE /* TitlePageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitlePageController.h; sourceTree = "<group>"; };
 		8BED9F0C17C91E9A00D834BE /* TitlePageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitlePageController.m; sourceTree = "<group>"; };
+		8BED9F0E17C9418400D834BE /* GradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientView.h; sourceTree = "<group>"; };
+		8BED9F0F17C9418400D834BE /* GradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +173,8 @@
 			children = (
 				8B6F1BF217ACBBFB00F72C3D /* BookPageController.h */,
 				8B6F1BF317ACBBFB00F72C3D /* BookPageController.m */,
+				8BED9F0E17C9418400D834BE /* GradientView.h */,
+				8BED9F0F17C9418400D834BE /* GradientView.m */,
 			);
 			name = "Book Pages";
 			sourceTree = "<group>";
@@ -429,6 +434,7 @@
 				8BA5142917ADA275009E960D /* UIView+Debug.m in Sources */,
 				8BB18ADC17A5DB77006E257C /* Song.m in Sources */,
 				8BA305F817A0BCF200A2ABDE /* AppDelegate.m in Sources */,
+				8BED9F1017C9418400D834BE /* GradientView.m in Sources */,
 				8BA305FB17A0BCF200A2ABDE /* songbook.xcdatamodeld in Sources */,
 				8B94532517A5F44000327479 /* Section+Helpers.m in Sources */,
 				8BB18ADF17A5DB77006E257C /* Verse.m in Sources */,
