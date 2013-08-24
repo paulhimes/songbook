@@ -7,6 +7,7 @@
 //
 
 #import "SongbookViewController.h"
+#import "SearchViewController.h"
 
 @interface SongbookViewController () <UIToolbarDelegate>
 
@@ -29,6 +30,16 @@
 - (IBAction)searchCancelled:(UIStoryboardSegue *)segue
 {
     
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"Search"] &&
+        [segue.destinationViewController isKindOfClass:[SearchViewController class]]) {
+        SearchViewController *searchViewController = ((SearchViewController *)segue.destinationViewController);
+        
+        searchViewController.currentSong = 
+    }
 }
 
 #pragma mark - UIToolbarDelegate
