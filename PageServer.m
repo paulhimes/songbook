@@ -57,6 +57,8 @@
     return after;
 }
 
+#pragma mark - Helper methods
+
 - (PageController *)pageControllerForModelObject:(NSManagedObject *)modelObject
 {
     PageController *pageController;

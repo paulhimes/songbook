@@ -123,6 +123,8 @@ static const NSInteger kGutterWidth = 8;
         }
     }];
     
+    [attributedString appendString:@"\n" attributes:normalAttributes];
+    
     return [attributedString copy];
 }
 

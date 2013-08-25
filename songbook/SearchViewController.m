@@ -19,6 +19,13 @@
 
 @implementation SearchViewController
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.tableView.contentInset = UIEdgeInsetsMake(self.searchBar.frame.size.height, 0, 0, 0);
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -53,6 +60,8 @@
         self.selectedSong = selectedSong;
     }
 }
+
+#pragma mark - UISearchBarDelegate
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
@@ -137,7 +146,7 @@
     endFrame = [self.tableView convertRect:endFrame fromView:nil];
         
     [UIView animateWithDuration:duration delay:0 options:options animations:^{
-        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, endFrame.size.height, 0);
+        self.tableView.contentInset = UIEdgeInsetsMake(self.searchBar.frame.size.height, 0, endFrame.size.height, 0);
     } completion:^(BOOL finished) {}];
 }
 
@@ -147,7 +156,7 @@
     UIViewAnimationOptions options = [aNotification.userInfo[UIKeyboardAnimationCurveUserInfoKey] unsignedIntegerValue];
 
     [UIView animateWithDuration:duration delay:0 options:options animations:^{
-        self.tableView.contentInset = UIEdgeInsetsZero;
+        self.tableView.contentInset = UIEdgeInsetsMake(self.searchBar.frame.size.height, 0, 0, 0);
     } completion:^(BOOL finished) {}];
 }
 

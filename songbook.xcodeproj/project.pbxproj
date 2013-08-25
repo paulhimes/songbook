@@ -173,8 +173,6 @@
 			children = (
 				8B6F1BF217ACBBFB00F72C3D /* BookPageController.h */,
 				8B6F1BF317ACBBFB00F72C3D /* BookPageController.m */,
-				8BED9F0E17C9418400D834BE /* GradientView.h */,
-				8BED9F0F17C9418400D834BE /* GradientView.m */,
 			);
 			name = "Book Pages";
 			sourceTree = "<group>";
@@ -249,6 +247,8 @@
 				8BA3062017A1640B00A2ABDE /* PageViewController.m */,
 				8BB54D5A17A4C60700FD2914 /* PageServer.h */,
 				8BB54D5B17A4C60700FD2914 /* PageServer.m */,
+				8BED9F0E17C9418400D834BE /* GradientView.h */,
+				8BED9F0F17C9418400D834BE /* GradientView.m */,
 				8BB18AD617A5DAD2006E257C /* Data Model */,
 				8BA305EE17A0BCF200A2ABDE /* Supporting Files */,
 			);

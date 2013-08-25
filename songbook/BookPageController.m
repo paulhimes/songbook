@@ -30,9 +30,11 @@
 {
     [super loadView];
     
-    GradientView *gradientView = [[GradientView alloc] initWithFrame:self.view.bounds];
+    GradientView *gradientView = [[GradientView alloc] initWithFrame:CGRectMake(-self.view.bounds.size.width, 0, 2 * self.view.bounds.size.width, self.view.bounds.size.height)];
     gradientView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view insertSubview:gradientView atIndex:0];
+    
+    self.view.clipsToBounds = NO;
 }
 
 - (NSManagedObject *)modelObject
