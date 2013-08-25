@@ -33,7 +33,7 @@ const CGFloat kToolbarHeight = 44;
         _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _scrollView.contentInset = UIEdgeInsetsMake(0, 0, kToolbarHeight, 0);
         _scrollView.alwaysBounceVertical = YES;
-//        [_scrollView setDebugColor:[UIColor magentaColor]];
+        [_scrollView setDebugColor:[UIColor magentaColor]];
     }
     return _scrollView;
 }

@@ -31,6 +31,8 @@ static const NSInteger kTopMargin = 16;
         // Frame centered at the golden ratio.
         [self.textView setOriginY:desiredVerticalCenter - halfTextViewHeight];
     }
+    
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, MAX(self.scrollView.frame.size.height - (self.scrollView.contentInset.top + self.scrollView.contentInset.bottom), CGRectGetMaxY(self.textView.frame)));
 }
 
 @end
