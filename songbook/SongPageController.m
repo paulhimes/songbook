@@ -114,7 +114,13 @@ static const NSInteger kGutterWidth = 8;
             if (verse.number) {
                 [attributedString appendString:[NSString stringWithFormat:@"%@. ", verse.number] attributes:normalAttributes];
             }
+            
             [attributedString appendString:verse.text attributes:normalAttributes];
+            
+            if (verse.repeatText) {
+                [attributedString appendString:@" " attributes:ghostAttributes];
+                [attributedString appendString:verse.repeatText attributes:ghostAttributes];
+            }
 
             if (verse.chorus) {
                 [attributedString appendString:@"\n\n" attributes:normalAttributes];
