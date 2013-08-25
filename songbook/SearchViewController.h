@@ -14,6 +14,7 @@
 @interface SearchViewController : UIViewController
 
 @property (nonatomic, strong) Song *currentSong;
+@property (nonatomic, strong) Song *selectedSong;
 
 @end
 

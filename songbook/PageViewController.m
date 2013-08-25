@@ -60,4 +60,14 @@
     }
 }
 
+- (void)showSong:(Song *)song
+{
+    PageController *pageController = [self.pageServer pageControllerForModelObject:song];
+    
+    [self setViewControllers:@[pageController]
+                   direction:UIPageViewControllerNavigationDirectionForward
+                    animated:NO
+                  completion:NULL];
+}
+
 @end

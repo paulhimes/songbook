@@ -12,7 +12,9 @@
 
 @interface PageViewController : UIPageViewController
 
-@property (nonatomic, readonly) Song *closestSong;
 @property (nonatomic, strong) PageServer *pageServer;
+
+- (Song *)closestSong;
+- (void)showSong:(Song *)song;
 
 @end
