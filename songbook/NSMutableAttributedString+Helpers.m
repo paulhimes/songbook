@@ -15,4 +15,14 @@
     [self appendAttributedString:[[NSAttributedString alloc] initWithString:str attributes:attrs]];
 }
 
+- (void)addAttributes:(NSDictionary *)attributes toFirstOccurrenceOfString:(NSString *)searchString
+{
+    NSRange range = [self.string rangeOfString:searchString
+                                       options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch | NSWidthInsensitiveSearch];
+    
+    if (range.location != NSNotFound) {
+        [self addAttributes:attributes range:range];
+    }
+}
+
 @end

@@ -17,6 +17,7 @@
     #import "UIView+Debug.h"
     #import "UIView+Additions.h"
     #import "NSMutableAttributedString+Helpers.h"
+    #import "NSString+Helpers.h"
 
     #define M_PHI 1.61803399
 

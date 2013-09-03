@@ -34,7 +34,9 @@
 		8BA3061B17A0BDAD00A2ABDE /* Songbook.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BA3061A17A0BDAD00A2ABDE /* Songbook.storyboard */; };
 		8BA3062117A1656B00A2ABDE /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA3062017A1640B00A2ABDE /* PageViewController.m */; };
 		8BA5142917ADA275009E960D /* UIView+Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5142817ADA275009E960D /* UIView+Debug.m */; };
+		8BA785B317D5864D00BEF4D9 /* NSString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA785B217D5864D00BEF4D9 /* NSString+Helpers.m */; };
 		8BAE5B4D17B1F7C5004631CA /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAE5B4C17B1F7C5004631CA /* SearchViewController.m */; };
+		8BB02AE217CB97BE001CCB6C /* SimpleSearchDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB02AE117CB97BE001CCB6C /* SimpleSearchDataSource.m */; };
 		8BB18AD917A5DB76006E257C /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB18AD817A5DB76006E257C /* Section.m */; };
 		8BB18ADC17A5DB77006E257C /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB18ADB17A5DB77006E257C /* Song.m */; };
 		8BB18ADF17A5DB77006E257C /* Verse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB18ADE17A5DB77006E257C /* Verse.m */; };
@@ -45,6 +47,9 @@
 		8BC674C417B9D2CB001E71B1 /* TitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C317B9D2CB001E71B1 /* TitleView.m */; };
 		8BC674C717B9E1D8001E71B1 /* SongTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C617B9E1D8001E71B1 /* SongTitleView.m */; };
 		8BC674CA17BC912C001E71B1 /* NSMutableAttributedString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */; };
+		8BE5A65217CD2356002028E5 /* FilteredSearchDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE5A65117CD2356002028E5 /* FilteredSearchDataSource.m */; };
+		8BE5A65517CD8FA2002028E5 /* SmartSearchDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE5A65417CD8FA2002028E5 /* SmartSearchDataSource.m */; };
+		8BE5A65817CEAC7C002028E5 /* ContextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE5A65717CEAC7C002028E5 /* ContextCell.m */; };
 		8BED9F0D17C91E9A00D834BE /* TitlePageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BED9F0C17C91E9A00D834BE /* TitlePageController.m */; };
 		8BED9F1017C9418400D834BE /* GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BED9F0F17C9418400D834BE /* GradientView.m */; };
 /* End PBXBuildFile section */
@@ -102,9 +107,14 @@
 		8BA3062017A1640B00A2ABDE /* PageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PageViewController.m; sourceTree = "<group>"; };
 		8BA5142717ADA275009E960D /* UIView+Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Debug.h"; sourceTree = "<group>"; };
 		8BA5142817ADA275009E960D /* UIView+Debug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Debug.m"; sourceTree = "<group>"; };
+		8BA785B117D5864D00BEF4D9 /* NSString+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Helpers.h"; sourceTree = "<group>"; };
+		8BA785B217D5864D00BEF4D9 /* NSString+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Helpers.m"; sourceTree = "<group>"; };
 		8BA85DFD17B2F12200F6B3B7 /* SongbookModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongbookModel.h; sourceTree = "<group>"; };
 		8BAE5B4B17B1F7C5004631CA /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		8BAE5B4C17B1F7C5004631CA /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		8BB02AE017CB97BE001CCB6C /* SimpleSearchDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleSearchDataSource.h; sourceTree = "<group>"; };
+		8BB02AE117CB97BE001CCB6C /* SimpleSearchDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleSearchDataSource.m; sourceTree = "<group>"; };
+		8BB02AE317CC3935001CCB6C /* SearchDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchDataSource.h; sourceTree = "<group>"; };
 		8BB18AD717A5DB76006E257C /* Section.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Section.h; path = ../Section.h; sourceTree = "<group>"; };
 		8BB18AD817A5DB76006E257C /* Section.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Section.m; path = ../Section.m; sourceTree = "<group>"; };
 		8BB18ADA17A5DB77006E257C /* Song.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Song.h; path = ../Song.h; sourceTree = "<group>"; };
@@ -125,6 +135,12 @@
 		8BC674C617B9E1D8001E71B1 /* SongTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongTitleView.m; sourceTree = "<group>"; };
 		8BC674C817BC912C001E71B1 /* NSMutableAttributedString+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+Helpers.h"; sourceTree = "<group>"; };
 		8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableAttributedString+Helpers.m"; sourceTree = "<group>"; };
+		8BE5A65017CD2356002028E5 /* FilteredSearchDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilteredSearchDataSource.h; sourceTree = "<group>"; };
+		8BE5A65117CD2356002028E5 /* FilteredSearchDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilteredSearchDataSource.m; sourceTree = "<group>"; };
+		8BE5A65317CD8FA2002028E5 /* SmartSearchDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartSearchDataSource.h; sourceTree = "<group>"; };
+		8BE5A65417CD8FA2002028E5 /* SmartSearchDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartSearchDataSource.m; sourceTree = "<group>"; };
+		8BE5A65617CEAC7C002028E5 /* ContextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContextCell.h; sourceTree = "<group>"; };
+		8BE5A65717CEAC7C002028E5 /* ContextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContextCell.m; sourceTree = "<group>"; };
 		8BED9F0B17C91E9A00D834BE /* TitlePageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitlePageController.h; sourceTree = "<group>"; };
 		8BED9F0C17C91E9A00D834BE /* TitlePageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitlePageController.m; sourceTree = "<group>"; };
 		8BED9F0E17C9418400D834BE /* GradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientView.h; sourceTree = "<group>"; };
@@ -266,6 +282,8 @@
 				8BA305F517A0BCF200A2ABDE /* songbook-Prefix.pch */,
 				8BA5142717ADA275009E960D /* UIView+Debug.h */,
 				8BA5142817ADA275009E960D /* UIView+Debug.m */,
+				8BA785B117D5864D00BEF4D9 /* NSString+Helpers.h */,
+				8BA785B217D5864D00BEF4D9 /* NSString+Helpers.m */,
 				8BC674C817BC912C001E71B1 /* NSMutableAttributedString+Helpers.h */,
 				8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */,
 				8B088FC017C867440043341D /* UIView+Additions.h */,
@@ -295,8 +313,14 @@
 		8BAE5B4E17B1F7DC004631CA /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				8BE5A65B17CEF6FE002028E5 /* FilteredDataSource */,
+				8BE5A65A17CEF6D4002028E5 /* SimpleDataSource */,
+				8BE5A65917CEF6BA002028E5 /* Cells */,
 				8BAE5B4B17B1F7C5004631CA /* SearchViewController.h */,
 				8BAE5B4C17B1F7C5004631CA /* SearchViewController.m */,
+				8BB02AE317CC3935001CCB6C /* SearchDataSource.h */,
+				8BE5A65317CD8FA2002028E5 /* SmartSearchDataSource.h */,
+				8BE5A65417CD8FA2002028E5 /* SmartSearchDataSource.m */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -326,6 +350,33 @@
 				8BA85DFD17B2F12200F6B3B7 /* SongbookModel.h */,
 			);
 			name = "Data Model";
+			sourceTree = "<group>";
+		};
+		8BE5A65917CEF6BA002028E5 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				8BE5A65617CEAC7C002028E5 /* ContextCell.h */,
+				8BE5A65717CEAC7C002028E5 /* ContextCell.m */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		8BE5A65A17CEF6D4002028E5 /* SimpleDataSource */ = {
+			isa = PBXGroup;
+			children = (
+				8BB02AE017CB97BE001CCB6C /* SimpleSearchDataSource.h */,
+				8BB02AE117CB97BE001CCB6C /* SimpleSearchDataSource.m */,
+			);
+			name = SimpleDataSource;
+			sourceTree = "<group>";
+		};
+		8BE5A65B17CEF6FE002028E5 /* FilteredDataSource */ = {
+			isa = PBXGroup;
+			children = (
+				8BE5A65017CD2356002028E5 /* FilteredSearchDataSource.h */,
+				8BE5A65117CD2356002028E5 /* FilteredSearchDataSource.m */,
+			);
+			name = FilteredDataSource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -427,6 +478,7 @@
 				8BC674CA17BC912C001E71B1 /* NSMutableAttributedString+Helpers.m in Sources */,
 				8BC674C717B9E1D8001E71B1 /* SongTitleView.m in Sources */,
 				8BB18AE517A5EA57006E257C /* DataModelTests.m in Sources */,
+				8BA785B317D5864D00BEF4D9 /* NSString+Helpers.m in Sources */,
 				8BED9F0D17C91E9A00D834BE /* TitlePageController.m in Sources */,
 				8BB18AE217A5DB77006E257C /* Book.m in Sources */,
 				8BAE5B4D17B1F7C5004631CA /* SearchViewController.m in Sources */,
@@ -438,11 +490,14 @@
 				8BA305FB17A0BCF200A2ABDE /* songbook.xcdatamodeld in Sources */,
 				8B94532517A5F44000327479 /* Section+Helpers.m in Sources */,
 				8BB18ADF17A5DB77006E257C /* Verse.m in Sources */,
+				8BE5A65517CD8FA2002028E5 /* SmartSearchDataSource.m in Sources */,
+				8BB02AE217CB97BE001CCB6C /* SimpleSearchDataSource.m in Sources */,
 				8BA305F417A0BCF200A2ABDE /* main.m in Sources */,
 				8B088FC217C867440043341D /* UIView+Additions.m in Sources */,
 				8BB54D5F17A4C79300FD2914 /* SongPageController.m in Sources */,
 				8BC674C417B9D2CB001E71B1 /* TitleView.m in Sources */,
 				8BB18AD917A5DB76006E257C /* Section.m in Sources */,
+				8BE5A65217CD2356002028E5 /* FilteredSearchDataSource.m in Sources */,
 				8BB54D5C17A4C60700FD2914 /* PageServer.m in Sources */,
 				8B380E2A17C6874100D8F905 /* SongbookViewController.m in Sources */,
 				8B94532217A5F3E500327479 /* Verse+Helpers.m in Sources */,
@@ -450,6 +505,7 @@
 				8B94532817A5F4C900327479 /* Book+Helpers.m in Sources */,
 				8B94531F17A5F15D00327479 /* Song+Helpers.m in Sources */,
 				8BA3062117A1656B00A2ABDE /* PageViewController.m in Sources */,
+				8BE5A65817CEAC7C002028E5 /* ContextCell.m in Sources */,
 				8B6F1BF417ACBBFB00F72C3D /* BookPageController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

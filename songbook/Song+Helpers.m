@@ -90,4 +90,63 @@
     return self;
 }
 
+- (NSString *)stringForSearching
+{
+    NSMutableString *string = [@"" mutableCopy];
+    
+//    if (self.number) {
+//        [string appendString:[self.number stringValue]];
+//        [string appendString:@" "];
+//    }
+    
+//    if ([self.title length] > 0) {
+//        [string appendString:self.title];
+//        [string appendString:@"\n"];
+//    }
+    
+    if ([self.subtitle length] > 0) {
+        [string appendString:self.subtitle];
+        [string appendString:@"\n"];
+    }
+    
+    [self.verses enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        Verse *verse = (Verse *)obj;
+        
+        if (idx != 0) {
+            [string appendString:@"\n"];
+        }
+        
+        if (verse.title) {
+            [string appendString:[NSString stringWithFormat:@"%@", verse.title]];
+            [string appendString:@"\n"];
+        }
+        
+//        if ([verse.isChorus boolValue]) {
+//            [string appendString:@"Chorus: "];
+//        } else {
+//            if (verse.number) {
+//                [string appendString:[NSString stringWithFormat:@"%@. ", verse.number]];
+//            }
+//        }
+        
+        [string appendString:verse.text];
+    }];
+    
+    return [string copy];
+}
+
+- (NSString *)headerString
+{
+    NSMutableString *headerString = [[NSMutableString alloc] init];
+    if (self.number) {
+        [headerString appendString:[self.number stringValue]];
+        [headerString appendString:@" "];
+    }
+    if ([self.title length] > 0) {
+        [headerString appendString:self.title];
+    }
+    
+    return [headerString copy];
+}
+
 @end

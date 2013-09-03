@@ -11,5 +11,6 @@
 @interface NSMutableAttributedString (Helpers)
 
 - (void)appendString:(NSString *)str attributes:(NSDictionary *)attrs;
+- (void)addAttributes:(NSDictionary *)attributes toFirstOccurrenceOfString:(NSString *)searchString;
 
 @end

@@ -9,26 +9,40 @@
 #import "SearchViewController.h"
 #import "Section.h"
 #import "Book.h"
+#import "Song+Helpers.h"
+#import "SmartSearchDataSource.h"
 
-@interface SearchViewController () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface SearchViewController () <UISearchBarDelegate, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) id<SearchDataSource> searchDataSource;
 
 @end
 
 @implementation SearchViewController
+
+- (id<SearchDataSource>)searchDataSource
+{
+    if (!_searchDataSource) {
+        _searchDataSource = [[SmartSearchDataSource alloc] initWithBook:self.currentSong.section.book];
+    }
+    return _searchDataSource;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     self.tableView.contentInset = UIEdgeInsetsMake(self.searchBar.frame.size.height, 0, 0, 0);
+    self.tableView.dataSource = self.searchDataSource;
+    self.tableView.delegate = self.searchDataSource;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self scrollToCurrentSong];
     [self registerForKeyboardNotifications];
     [self.searchBar becomeFirstResponder];
 }
@@ -53,8 +67,7 @@
         NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
         
         // Get the selected song.
-        Section *sectionOfSelectedSong = self.currentSong.section.book.sections[selectedIndexPath.section];
-        Song *selectedSong = sectionOfSelectedSong.songs[selectedIndexPath.row];
+        Song *selectedSong = [self.searchDataSource songAtIndexPath:selectedIndexPath];
 
         // Maintain a reference to the selected song.
         self.selectedSong = selectedSong;
@@ -68,48 +81,10 @@
     [self performSegueWithIdentifier:@"CancelSearch" sender:self];
 }
 
-#pragma mark - UITableViewDataSource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    return [self.currentSong.section.book.sections count];
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    Section *sectionAtIndex = self.currentSong.section.book.sections[section];
-    return sectionAtIndex.title;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    Section *sectionForTableSection = self.currentSong.section.book.sections[section];
-    return [sectionForTableSection.songs count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    Section *sectionForTableSection = self.currentSong.section.book.sections[indexPath.section];
-    Song *songForRow = sectionForTableSection.songs[indexPath.row];
-
-    NSMutableDictionary *numberAttributes = [@{} mutableCopy];
-    numberAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion-Bold" size:30];
-    NSMutableDictionary *titleAttributes = [@{} mutableCopy];
-    titleAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion" size:22];
-    
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@""
-                                                                                         attributes:nil];
-    if (songForRow.number) {
-        [attributedString appendString:[NSString stringWithFormat:@"%d", [songForRow.number integerValue]]attributes:numberAttributes];
-        [attributedString appendString:@" " attributes:titleAttributes];
-    }
-    
-    [attributedString appendString:songForRow.title attributes:titleAttributes];
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BasicCell" forIndexPath:indexPath];
-    cell.textLabel.attributedText = attributedString;
-    
-    return cell;
+    [self.searchDataSource setSearchString:searchText];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Keyboard adjustment methods
@@ -147,6 +122,7 @@
         
     [UIView animateWithDuration:duration delay:0 options:options animations:^{
         self.tableView.contentInset = UIEdgeInsetsMake(self.searchBar.frame.size.height, 0, endFrame.size.height, 0);
+        [self scrollToCurrentSong];
     } completion:^(BOOL finished) {}];
 }
 
@@ -158,6 +134,19 @@
     [UIView animateWithDuration:duration delay:0 options:options animations:^{
         self.tableView.contentInset = UIEdgeInsetsMake(self.searchBar.frame.size.height, 0, 0, 0);
     } completion:^(BOOL finished) {}];
+}
+
+#pragma mark - Helper Methods
+
+- (void)scrollToCurrentSong
+{
+    NSIndexPath *currentSongIndexPath = [self.searchDataSource indexPathForSong:self.currentSong];
+    
+    if (currentSongIndexPath) {
+        [self.tableView scrollToRowAtIndexPath:currentSongIndexPath
+                              atScrollPosition:UITableViewScrollPositionTop
+                                      animated:NO];
+    }
 }
 
 @end

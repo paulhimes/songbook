@@ -46,6 +46,7 @@ const CGFloat kToolbarHeight = 44;
         _foregroundToolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         _foregroundToolbar.hidden = YES;
         _foregroundToolbar.userInteractionEnabled = NO;
+        _foregroundToolbar.barTintColor = [UIColor clearColor];
     }
     return _foregroundToolbar;
 }

@@ -87,6 +87,8 @@
         finnSong40.number = @40;
         [finnSong40 addVerse:@"Jo mahtaisin jota ja päivääkin kiitää, Jumalan suurta hyvyyttä; Että saisimme taivassa häitämme viettää, Karitsan suuressa hovissa; Että saisimme taivassa häitämme viettää, Karitsan suuressa hovissa."];
         [finnSong40 addVerse:@"O rakkaus surri, O ääreton armo, että olla morsian Jeesukesen, Ja siinä on jo kyllä, Että Jeesus on mulla, O ääreton armo ja rakkaus; Ja siinä on jo kyllä, Että Jeesus on mulla, O ääreton armo ja rakkaus."];
+        [finnSong40 addRelatedSongsObject:song41];
+        [song41 addRelatedSongsObject:finnSong40];
     }
     
     // Create the Hymns

@@ -16,4 +16,7 @@
 + (Song *)songInContext:(NSManagedObjectContext *)context;
 - (Verse *)addVerse:(NSString *)verseText;
 
+- (NSString *)stringForSearching;
+- (NSString *)headerString;
+
 @end
