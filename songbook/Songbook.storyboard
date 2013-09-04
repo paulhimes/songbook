@@ -64,7 +64,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="u1p-hu-jw2">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="u1p-hu-jw2">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -114,21 +114,45 @@
                                     <outlet property="delegate" destination="f4X-As-1jE" id="FEM-pk-Is9"/>
                                 </connections>
                             </tableView>
-                            <searchBar contentMode="redraw" placeholder="Search" showsCancelButton="YES" id="L49-Ez-nOb">
+                            <view contentMode="scaleToFill" id="zpH-HV-y2I">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
-                                <connections>
-                                    <outlet property="delegate" destination="f4X-As-1jE" id="WmT-Wo-5Fn"/>
-                                </connections>
-                            </searchBar>
+                                <subviews>
+                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="bNw-CF-E5Q">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                        <items/>
+                                        <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </toolbar>
+                                    <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search" id="Ket-eb-swy">
+                                        <rect key="frame" x="0.0" y="0.0" width="261" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                                    </searchBar>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="xcf-7d-OfK">
+                                        <rect key="frame" x="255" y="0.0" width="65" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
+                                        <state key="normal" title="Cancel">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="Jgd-il-Zoj" kind="unwind" unwindAction="searchCancelled:" id="Nbm-Sb-Q1L"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <outlet property="searchBar" destination="L49-Ez-nOb" id="jhA-Gk-1fa"/>
+                        <outlet property="cancelButton" destination="xcf-7d-OfK" id="HUd-yn-yaE"/>
+                        <outlet property="searchField" destination="Ket-eb-swy" id="iqU-3c-e9s"/>
                         <outlet property="tableView" destination="u1p-hu-jw2" id="6pz-qS-Rdl"/>
+                        <outlet property="toolbar" destination="bNw-CF-E5Q" id="yyR-lu-faf"/>
                         <segue destination="Jgd-il-Zoj" kind="unwind" identifier="CancelSearch" unwindAction="searchCancelled:" id="mA3-Y2-tE9"/>
                     </connections>
                 </viewController>

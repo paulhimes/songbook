@@ -12,11 +12,13 @@
 #import "Song+Helpers.h"
 #import "SmartSearchDataSource.h"
 
-@interface SearchViewController () <UISearchBarDelegate, UITableViewDelegate>
+@interface SearchViewController () <UISearchBarDelegate, UITableViewDelegate, UIToolbarDelegate>
 
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) id<SearchDataSource> searchDataSource;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchField;
+@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 
 @end
 
@@ -34,9 +36,29 @@
 {
     [super viewDidLoad];
     
-    self.tableView.contentInset = UIEdgeInsetsMake(self.searchBar.frame.size.height, 0, 0, 0);
+    self.tableView.contentInset = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
+    self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
     self.tableView.dataSource = self.searchDataSource;
     self.tableView.delegate = self.searchDataSource;
+    
+    self.toolbar.delegate = self;
+    self.searchField.delegate = self;
+    
+//    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 258, 44)];
+//    ;
+    
+//    UITextField *searchField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 258, 30)];
+//    searchField.backgroundColor = [UIColor whiteColor];
+//    
+//    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithCustomView:searchField];
+//
+//    
+//    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:nil];
+//    
+//    self.toolbar.items = @[
+//                           searchItem,
+//                           cancelItem
+//                           ];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -44,7 +66,7 @@
     [super viewWillAppear:animated];
     [self scrollToCurrentSong];
     [self registerForKeyboardNotifications];
-    [self.searchBar becomeFirstResponder];
+    [self.searchField becomeFirstResponder];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -87,6 +109,11 @@
     [self.tableView reloadData];
 }
 
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+}
+
 #pragma mark - Keyboard adjustment methods
 
 - (void)registerForKeyboardNotifications
@@ -121,7 +148,8 @@
     endFrame = [self.tableView convertRect:endFrame fromView:nil];
         
     [UIView animateWithDuration:duration delay:0 options:options animations:^{
-        self.tableView.contentInset = UIEdgeInsetsMake(self.searchBar.frame.size.height, 0, endFrame.size.height, 0);
+        self.tableView.contentInset = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, endFrame.size.height, 0);
+        self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, endFrame.size.height, 0);
         [self scrollToCurrentSong];
     } completion:^(BOOL finished) {}];
 }
@@ -132,8 +160,16 @@
     UIViewAnimationOptions options = [aNotification.userInfo[UIKeyboardAnimationCurveUserInfoKey] unsignedIntegerValue];
 
     [UIView animateWithDuration:duration delay:0 options:options animations:^{
-        self.tableView.contentInset = UIEdgeInsetsMake(self.searchBar.frame.size.height, 0, 0, 0);
+        self.tableView.contentInset = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
+        self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
     } completion:^(BOOL finished) {}];
+}
+
+#pragma mark - UIToolbarDelegate
+
+- (UIBarPosition)positionForBar:(id <UIBarPositioning>)bar
+{
+    return UIBarPositionAny;
 }
 
 #pragma mark - Helper Methods

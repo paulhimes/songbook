@@ -93,41 +93,31 @@
 - (NSString *)stringForSearching
 {
     NSMutableString *string = [@"" mutableCopy];
-    
-//    if (self.number) {
-//        [string appendString:[self.number stringValue]];
-//        [string appendString:@" "];
-//    }
-    
-//    if ([self.title length] > 0) {
-//        [string appendString:self.title];
-//        [string appendString:@"\n"];
-//    }
-    
+
     if ([self.subtitle length] > 0) {
         [string appendString:self.subtitle];
-        [string appendString:@"\n"];
+        [string appendString:@" "];
     }
     
     [self.verses enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         Verse *verse = (Verse *)obj;
         
         if (idx != 0) {
-            [string appendString:@"\n"];
+            [string appendString:@" "];
         }
         
         if (verse.title) {
-            [string appendString:[NSString stringWithFormat:@"%@", verse.title]];
-            [string appendString:@"\n"];
+            [string appendString:[NSString stringWithFormat:@" %@", verse.title]];
+            [string appendString:@" "];
         }
         
-//        if ([verse.isChorus boolValue]) {
-//            [string appendString:@"Chorus: "];
-//        } else {
-//            if (verse.number) {
-//                [string appendString:[NSString stringWithFormat:@"%@. ", verse.number]];
-//            }
-//        }
+        if ([verse.isChorus boolValue]) {
+            [string appendString:@" Chorus: "];
+        } else {
+            if (verse.number) {
+                [string appendString:[NSString stringWithFormat:@" %@. ", verse.number]];
+            }
+        }
         
         [string appendString:verse.text];
     }];
