@@ -14,6 +14,7 @@
 - (NSArray *)rangesOfSubstring:(NSString *)substring;
 - (NSArray *)wordRangesOfSubstring:(NSString *)substring;
 - (NSArray *)tokens;
+- (NSString *)stringLimitedToCharacterSet:(NSCharacterSet *)characterSet;
 + (NSString *)stringFromTokenArray:(NSArray *)tokens;
 
 @end

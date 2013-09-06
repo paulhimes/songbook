@@ -98,6 +98,11 @@
     return [tokens copy];
 }
 
+- (NSString *)stringLimitedToCharacterSet:(NSCharacterSet *)characterSet
+{
+    return [[self componentsSeparatedByCharactersInSet:[characterSet invertedSet]] componentsJoinedByString:@""];
+}
+
 + (NSString *)stringFromTokenArray:(NSArray *)tokens
 {
     NSMutableArray *stringComponents = [@[] mutableCopy];

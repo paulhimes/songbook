@@ -240,8 +240,8 @@ static const NSString * const kFragmentKey = @"FragmentKey";
 
 - (NSArray *)songsMatchingSearchString:(NSString *)searchString
 {
-    NSString *letterOnlyString = [[searchString componentsSeparatedByCharactersInSet:[[NSCharacterSet letterCharacterSet] invertedSet]] componentsJoinedByString:@""];
-    NSString *decimalDigitOnlyString = [[searchString componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]] componentsJoinedByString:@""];
+    NSString *letterOnlyString = [searchString stringLimitedToCharacterSet:[NSCharacterSet letterCharacterSet]];
+    NSString *decimalDigitOnlyString = [searchString stringLimitedToCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
     
     if ([letterOnlyString length] > 0) {
         return [self tokenSearchForString:searchString];

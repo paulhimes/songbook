@@ -12,6 +12,13 @@
 #import "Song+Helpers.h"
 #import "SmartSearchDataSource.h"
 
+NSString * const kPreferredSearchMethodKey = @"PreferredSearchMethodKey";
+
+typedef enum PreferredSearchMethod : NSUInteger {
+    PreferredSearchMethodNumbers,
+    PreferredSearchMethodLetters
+} PreferredSearchMethod;
+
 @interface SearchViewController () <UISearchBarDelegate, UITableViewDelegate, UIToolbarDelegate>
 
 @property (nonatomic, strong) id<SearchDataSource> searchDataSource;
@@ -49,6 +56,17 @@
 {
     [super viewWillAppear:animated];
     [self scrollToCurrentSong];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *preferredSearchMethodNumber = [userDefaults objectForKey:kPreferredSearchMethodKey];
+    if (preferredSearchMethodNumber) {
+        PreferredSearchMethod preferredSearchMethod = [preferredSearchMethodNumber unsignedIntegerValue];
+        if (preferredSearchMethod == PreferredSearchMethodLetters) {
+            self.searchField.keyboardType = UIKeyboardTypeDefault;
+        } else if (preferredSearchMethod == PreferredSearchMethodNumbers) {
+            self.searchField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+        }
+    }
     [self.searchField becomeFirstResponder];
 }
 
@@ -82,6 +100,21 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
+    NSString *letterOnlyString = [searchText stringLimitedToCharacterSet:[NSCharacterSet letterCharacterSet]];
+    NSString *decimalDigitOnlyString = [searchText stringLimitedToCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if ([letterOnlyString length] > 0) {
+        // Letter Search
+        [userDefaults setObject:[NSNumber numberWithUnsignedInteger:PreferredSearchMethodLetters]
+                         forKey:kPreferredSearchMethodKey];
+    } else if ([decimalDigitOnlyString length] > 0) {
+        // Number Search
+        [userDefaults setObject:[NSNumber numberWithUnsignedInteger:PreferredSearchMethodNumbers]
+                         forKey:kPreferredSearchMethodKey];
+    }
+    [userDefaults synchronize];
+    
     [self.searchDataSource setSearchString:searchText];
     [self.tableView reloadData];
 }
