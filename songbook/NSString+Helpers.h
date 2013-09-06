@@ -7,10 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Token.h"
 
 @interface NSString (Helpers)
 
 - (NSArray *)rangesOfSubstring:(NSString *)substring;
 - (NSArray *)wordRangesOfSubstring:(NSString *)substring;
+- (NSArray *)tokens;
++ (NSString *)stringFromTokenArray:(NSArray *)tokens;
 
 @end

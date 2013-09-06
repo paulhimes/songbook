@@ -55,4 +55,57 @@
     return [wordRanges copy];
 }
 
+/**
+ Returns an array of each alphabetic substring (separated by whitespace and newline characters with all other none letter characters removed) and it's NSRange within the receiver.
+ **/
+- (NSArray *)tokens
+{
+    NSMutableArray *tokens = [@[] mutableCopy];
+
+    NSCharacterSet *letterCharacterSet = [NSCharacterSet letterCharacterSet];
+    NSCharacterSet *whitespaceAndNewlineCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    
+    NSMutableString *currentToken = [@"" mutableCopy];
+    NSInteger indexOfFirstTokenCharacter = -1;
+    NSInteger indexOfLastTokenCharacter = -1;
+    for (NSUInteger i = 0; i < [self length]; i++) {
+        unichar character = [self characterAtIndex:i];
+        
+        if ([letterCharacterSet characterIsMember:character]) {
+            // Letter
+            [currentToken appendString:[NSString stringWithCharacters:&character length:1]];
+            if (indexOfFirstTokenCharacter < 0) {
+                indexOfFirstTokenCharacter = i;
+            }
+            indexOfLastTokenCharacter = i;
+        } else if ([whitespaceAndNewlineCharacterSet characterIsMember:character] ||
+                   i == [self length] - 1) {
+            if ([currentToken length] > 0) {
+                NSRange tokenRange = NSMakeRange(indexOfFirstTokenCharacter, indexOfLastTokenCharacter + 1 - indexOfFirstTokenCharacter);
+                [tokens addObject:[[Token alloc] initWithString:[currentToken copy] range:tokenRange]];
+            }
+            currentToken = [@"" mutableCopy];
+            indexOfFirstTokenCharacter = -1;
+            indexOfLastTokenCharacter = -1;
+        }
+    }
+    
+    if ([currentToken length] > 0) {
+        NSRange tokenRange = NSMakeRange(indexOfFirstTokenCharacter, indexOfLastTokenCharacter + 1 - indexOfFirstTokenCharacter);
+        [tokens addObject:[[Token alloc] initWithString:[currentToken copy] range:tokenRange]];
+    }
+    
+    return [tokens copy];
+}
+
++ (NSString *)stringFromTokenArray:(NSArray *)tokens
+{
+    NSMutableArray *stringComponents = [@[] mutableCopy];
+    for (Token *token in tokens) {
+        [stringComponents addObject:token.string];
+    }
+    
+    return [stringComponents componentsJoinedByString:@" "];
+}
+
 @end

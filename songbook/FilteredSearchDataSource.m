@@ -202,13 +202,16 @@ static const NSString * const kFragmentKey = @"FragmentKey";
     
     NSMutableArray *matchingSongs = [@[] mutableCopy];
     
+    NSArray *searchStringTokens = [searchString tokens];
+    
     for (Section *section in self.book.sections) {
         for (Song *song in section.songs) {
             NSString *stringForSearching = [song stringForSearching];
+            NSArray *songTokens = [stringForSearching tokens];
             
-            NSArray *matchingRanges = [stringForSearching wordRangesOfSubstring:searchString];
-                        
-            if ([matchingRanges count] > 0) {
+            NSArray *rangeLists = [Token rangeListsMatchingTokens:searchStringTokens inTokens:songTokens];
+            
+            if ([rangeLists count] > 0) {
                 // Add the song's title as a matching fragment.
                 NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] init];
                 if (song.number) {
@@ -227,20 +230,30 @@ static const NSString * const kFragmentKey = @"FragmentKey";
                                            kFragmentKey: titleString}];
             }
             
-            for (NSValue *matchingRangeValue in matchingRanges) {
-                NSRange matchingRange = [matchingRangeValue rangeValue];
-                
-                // Create an attributed string fragment around the matching range.
-                NSRange fragmentRange = NSMakeRange(matchingRange.location, [stringForSearching length] - matchingRange.location);
-                NSString *fragmentString = [NSString stringWithFormat:@"...%@", [stringForSearching substringWithRange:fragmentRange]];
-                NSMutableAttributedString *fragment = [[NSMutableAttributedString alloc] initWithString:fragmentString attributes:normalFragment];
-
-                // Make matching text black and bold.
-                [fragment addAttributes:boldFragment toFirstOccurrenceOfString:searchString];
-                
-                // Add this fragment entry to the matching songs array.
-                [matchingSongs addObject:@{kSongKey: song,
-                                           kFragmentKey: fragment}];
+            for (NSArray *rangeList in rangeLists) {
+                if ([rangeList count] > 0) {
+                    NSRange firstRange = [rangeList[0] rangeValue];
+                    
+                    // Create an attributed string fragment around the matching ranges.
+                    NSRange fragmentRange = NSMakeRange(firstRange.location, [stringForSearching length] - firstRange.location);
+                    NSString *fragmentString = [stringForSearching substringWithRange:fragmentRange];
+                    NSMutableAttributedString *fragment = [[NSMutableAttributedString alloc] initWithString:fragmentString attributes:normalFragment];
+                    
+                    for (NSValue *rangeValue in rangeList) {
+                        NSRange range = [rangeValue rangeValue];
+                        
+                        // Make matching text black and bold.
+                        [fragment setAttributes:boldFragment range:NSMakeRange(range.location - firstRange.location, range.length)];
+                    }
+                    
+                    // Prepend the "..."
+                    NSAttributedString *ellipsis = [[NSAttributedString alloc] initWithString:@"…" attributes:normalFragment];
+                    [fragment insertAttributedString:ellipsis atIndex:0];
+                    
+                    // Add this fragment entry to the matching songs array.
+                    [matchingSongs addObject:@{kSongKey: song,
+                                               kFragmentKey: fragment}];
+                }
             }
         }
     }

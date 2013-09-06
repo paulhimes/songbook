@@ -12,6 +12,7 @@
 		8B6F1BEF17ACB67D00F72C3D /* PageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B6F1BEE17ACB67D00F72C3D /* PageController.m */; };
 		8B6F1BF417ACBBFB00F72C3D /* BookPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B6F1BF317ACBBFB00F72C3D /* BookPageController.m */; };
 		8B6F1BFD17ACBC4C00F72C3D /* SectionPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B6F1BFC17ACBC4C00F72C3D /* SectionPageController.m */; };
+		8B810A5517D9519A00F339CE /* Token.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B810A5417D9519A00F339CE /* Token.m */; };
 		8B94531F17A5F15D00327479 /* Song+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94531E17A5F15D00327479 /* Song+Helpers.m */; };
 		8B94532217A5F3E500327479 /* Verse+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94532117A5F3E500327479 /* Verse+Helpers.m */; };
 		8B94532517A5F44000327479 /* Section+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94532417A5F43800327479 /* Section+Helpers.m */; };
@@ -75,6 +76,8 @@
 		8B6F1BF317ACBBFB00F72C3D /* BookPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookPageController.m; sourceTree = "<group>"; };
 		8B6F1BFB17ACBC4C00F72C3D /* SectionPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionPageController.h; sourceTree = "<group>"; };
 		8B6F1BFC17ACBC4C00F72C3D /* SectionPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionPageController.m; sourceTree = "<group>"; };
+		8B810A5317D9519A00F339CE /* Token.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Token.h; sourceTree = "<group>"; };
+		8B810A5417D9519A00F339CE /* Token.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Token.m; sourceTree = "<group>"; };
 		8B94531D17A5F15D00327479 /* Song+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Song+Helpers.h"; sourceTree = "<group>"; };
 		8B94531E17A5F15D00327479 /* Song+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Song+Helpers.m"; sourceTree = "<group>"; };
 		8B94532017A5F3E500327479 /* Verse+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Verse+Helpers.h"; sourceTree = "<group>"; };
@@ -215,6 +218,15 @@
 			name = Pages;
 			sourceTree = "<group>";
 		};
+		8BA0DB5317D7607E00CF7CBB /* SmartDataSource */ = {
+			isa = PBXGroup;
+			children = (
+				8BE5A65317CD8FA2002028E5 /* SmartSearchDataSource.h */,
+				8BE5A65417CD8FA2002028E5 /* SmartSearchDataSource.m */,
+			);
+			name = SmartDataSource;
+			sourceTree = "<group>";
+		};
 		8BA305D917A0BCF200A2ABDE = {
 			isa = PBXGroup;
 			children = (
@@ -313,14 +325,13 @@
 		8BAE5B4E17B1F7DC004631CA /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				8BA0DB5317D7607E00CF7CBB /* SmartDataSource */,
 				8BE5A65B17CEF6FE002028E5 /* FilteredDataSource */,
 				8BE5A65A17CEF6D4002028E5 /* SimpleDataSource */,
 				8BE5A65917CEF6BA002028E5 /* Cells */,
 				8BAE5B4B17B1F7C5004631CA /* SearchViewController.h */,
 				8BAE5B4C17B1F7C5004631CA /* SearchViewController.m */,
 				8BB02AE317CC3935001CCB6C /* SearchDataSource.h */,
-				8BE5A65317CD8FA2002028E5 /* SmartSearchDataSource.h */,
-				8BE5A65417CD8FA2002028E5 /* SmartSearchDataSource.m */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -348,6 +359,8 @@
 				8B94532617A5F4C900327479 /* Book+Helpers.h */,
 				8B94532717A5F4C900327479 /* Book+Helpers.m */,
 				8BA85DFD17B2F12200F6B3B7 /* SongbookModel.h */,
+				8B810A5317D9519A00F339CE /* Token.h */,
+				8B810A5417D9519A00F339CE /* Token.m */,
 			);
 			name = "Data Model";
 			sourceTree = "<group>";
@@ -496,6 +509,7 @@
 				8B088FC217C867440043341D /* UIView+Additions.m in Sources */,
 				8BB54D5F17A4C79300FD2914 /* SongPageController.m in Sources */,
 				8BC674C417B9D2CB001E71B1 /* TitleView.m in Sources */,
+				8B810A5517D9519A00F339CE /* Token.m in Sources */,
 				8BB18AD917A5DB76006E257C /* Section.m in Sources */,
 				8BE5A65217CD2356002028E5 /* FilteredSearchDataSource.m in Sources */,
 				8BB54D5C17A4C60700FD2914 /* PageServer.m in Sources */,

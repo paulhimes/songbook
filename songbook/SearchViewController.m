@@ -14,8 +14,8 @@
 
 @interface SearchViewController () <UISearchBarDelegate, UITableViewDelegate, UIToolbarDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) id<SearchDataSource> searchDataSource;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchField;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
@@ -43,36 +43,13 @@
     
     self.toolbar.delegate = self;
     self.searchField.delegate = self;
-    
-//    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 258, 44)];
-//    ;
-    
-//    UITextField *searchField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 258, 30)];
-//    searchField.backgroundColor = [UIColor whiteColor];
-//    
-//    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithCustomView:searchField];
-//
-//    
-//    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:nil];
-//    
-//    self.toolbar.items = @[
-//                           searchItem,
-//                           cancelItem
-//                           ];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [self scrollToCurrentSong];
-    [self registerForKeyboardNotifications];
     [self.searchField becomeFirstResponder];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    [self unregisterForKeyboardNotifications];
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -112,57 +89,6 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
-}
-
-#pragma mark - Keyboard adjustment methods
-
-- (void)registerForKeyboardNotifications
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWasShown:)
-                                                 name:UIKeyboardDidShowNotification
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWasHidden:)
-                                                 name:UIKeyboardDidHideNotification
-                                               object:nil];
-}
-
-- (void)unregisterForKeyboardNotifications
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIKeyboardDidShowNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIKeyboardDidHideNotification
-                                                  object:nil];
-}
-
-- (void)keyboardWasShown:(NSNotification *)aNotification
-{
-    double duration = [aNotification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    UIViewAnimationOptions options = [aNotification.userInfo[UIKeyboardAnimationCurveUserInfoKey] unsignedIntegerValue];
-    CGRect endFrame;
-    [aNotification.userInfo[UIKeyboardFrameEndUserInfoKey] getValue:&endFrame];
-    endFrame = [self.tableView convertRect:endFrame fromView:nil];
-        
-    [UIView animateWithDuration:duration delay:0 options:options animations:^{
-        self.tableView.contentInset = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, endFrame.size.height, 0);
-        self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, endFrame.size.height, 0);
-        [self scrollToCurrentSong];
-    } completion:^(BOOL finished) {}];
-}
-
-- (void)keyboardWasHidden:(NSNotification *)aNotification
-{
-    double duration = [aNotification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    UIViewAnimationOptions options = [aNotification.userInfo[UIKeyboardAnimationCurveUserInfoKey] unsignedIntegerValue];
-
-    [UIView animateWithDuration:duration delay:0 options:options animations:^{
-        self.tableView.contentInset = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
-        self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
-    } completion:^(BOOL finished) {}];
 }
 
 #pragma mark - UIToolbarDelegate
