@@ -24,9 +24,67 @@ static const NSString * const kFragmentKey = @"FragmentKey";
 @property (nonatomic) CGFloat basicHeight;
 @property (nonatomic) CGFloat contextHeight;
 
+@property (nonatomic, strong) NSDictionary *defaultAttributes;
+@property (nonatomic, strong) NSDictionary *normalTitleAttributes;
+@property (nonatomic, strong) NSDictionary *matchingTitleAttributes;
+@property (nonatomic, strong) NSDictionary *normalFragmentAttributes;
+@property (nonatomic, strong) NSDictionary *matchingFragmentAttributes;
+
 @end
 
 @implementation FilteredSearchDataSource
+
+- (NSDictionary *)defaultAttributes
+{
+    if (!_defaultAttributes) {
+        UITableViewCell *cellSpecimen = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
+        cellSpecimen.textLabel.text = @" ";
+        _defaultAttributes = [cellSpecimen.textLabel.attributedText attributesAtIndex:0 effectiveRange:NULL];
+    }
+    return _defaultAttributes;
+}
+
+- (NSDictionary *)normalTitleAttributes
+{
+    if (!_normalTitleAttributes) {
+        NSMutableDictionary *normalTitleAttributes = [self.defaultAttributes mutableCopy];
+        normalTitleAttributes[NSFontAttributeName] = [UIFont systemFontOfSize:18];
+        _normalTitleAttributes = [normalTitleAttributes copy];
+    }
+    return _normalTitleAttributes;
+}
+
+- (NSDictionary *)matchingTitleAttributes
+{
+    if (!_matchingTitleAttributes) {
+        NSMutableDictionary *boldTitleAttributes = [self.normalTitleAttributes mutableCopy];
+        boldTitleAttributes[NSFontAttributeName] = [UIFont boldSystemFontOfSize:18];
+        _matchingTitleAttributes = [boldTitleAttributes copy];
+    }
+    return _matchingTitleAttributes;
+}
+
+- (NSDictionary *)normalFragmentAttributes
+{
+    if (!_normalFragmentAttributes) {
+        NSMutableDictionary *normalFragmentAttributes = [self.defaultAttributes mutableCopy];
+        normalFragmentAttributes[NSFontAttributeName] = [UIFont systemFontOfSize:16];
+        normalFragmentAttributes[NSForegroundColorAttributeName] = [UIColor darkGrayColor];
+        _normalFragmentAttributes = [normalFragmentAttributes copy];
+    }
+    return _normalFragmentAttributes;
+}
+
+- (NSDictionary *)matchingFragmentAttributes
+{
+    if (!_matchingFragmentAttributes) {
+        NSMutableDictionary *matchingFragmentAttributes = [self.defaultAttributes mutableCopy];
+        matchingFragmentAttributes[NSFontAttributeName] = [UIFont boldSystemFontOfSize:16];
+        matchingFragmentAttributes[NSForegroundColorAttributeName] = [UIColor blackColor];
+        _matchingFragmentAttributes = [matchingFragmentAttributes copy];
+    }
+    return _matchingFragmentAttributes;
+}
 
 - (NSArray *)matchingSongs
 {
@@ -182,54 +240,63 @@ static const NSString * const kFragmentKey = @"FragmentKey";
 
 - (NSArray *)songsMatchingSearchString:(NSString *)searchString
 {
-    UITableViewCell *cellSpecimen = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
-    cellSpecimen.textLabel.text = @" ";
-    NSMutableDictionary *defaultAttributes = [[cellSpecimen.textLabel.attributedText attributesAtIndex:0 effectiveRange:NULL] mutableCopy];
+    NSString *letterOnlyString = [[searchString componentsSeparatedByCharactersInSet:[[NSCharacterSet letterCharacterSet] invertedSet]] componentsJoinedByString:@""];
+    NSString *decimalDigitOnlyString = [[searchString componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]] componentsJoinedByString:@""];
     
-    NSMutableDictionary *normalTitle = [defaultAttributes mutableCopy];
-    normalTitle[NSFontAttributeName] = [UIFont systemFontOfSize:18];
+    if ([letterOnlyString length] > 0) {
+        return [self tokenSearchForString:searchString];
+    } else if ([decimalDigitOnlyString length] > 0) {
+        return [self numberSearchForString:decimalDigitOnlyString];
+    }
     
-    NSMutableDictionary *boldTitle = [normalTitle mutableCopy];
-    boldTitle[NSFontAttributeName] = [UIFont boldSystemFontOfSize:18];
+    return @[];
+}
 
-    NSMutableDictionary *normalFragment = [defaultAttributes mutableCopy];
-    normalFragment[NSFontAttributeName] = [UIFont systemFontOfSize:16];
-    normalFragment[NSForegroundColorAttributeName] = [UIColor darkGrayColor];
-    
-    NSMutableDictionary *boldFragment = [defaultAttributes mutableCopy];
-    boldFragment[NSFontAttributeName] = [UIFont boldSystemFontOfSize:16];
-    boldFragment[NSForegroundColorAttributeName] = [UIColor blackColor];
-    
+- (NSArray *)tokenSearchForString:(NSString *)searchString
+{
     NSMutableArray *matchingSongs = [@[] mutableCopy];
     
     NSArray *searchStringTokens = [searchString tokens];
     
     for (Section *section in self.book.sections) {
         for (Song *song in section.songs) {
+            
             NSString *stringForSearching = [song stringForSearching];
             NSArray *songTokens = [stringForSearching tokens];
             
             NSArray *rangeLists = [Token rangeListsMatchingTokens:searchStringTokens inTokens:songTokens];
             
+            // Song title.
             if ([rangeLists count] > 0) {
                 // Add the song's title as a matching fragment.
                 NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] init];
                 if (song.number) {
-                    [titleString appendString:[song.number stringValue] attributes:boldTitle];
-                    [titleString appendString:@" " attributes:boldTitle];
+                    [titleString appendString:[song.number stringValue] attributes:self.matchingTitleAttributes];
+                    [titleString appendString:@" " attributes:self.matchingTitleAttributes];
                 }
                 if ([song.title length] > 0) {
-                    [titleString appendString:song.title attributes:normalTitle];
+                    [titleString appendString:song.title attributes:self.normalTitleAttributes];
                 }
                 
+                NSArray *titleTokens = [titleString.string tokens];
+                
                 // Make the matching text bold.
-                [titleString addAttributes:boldTitle toFirstOccurrenceOfString:searchString];
-
+                NSArray *titleRangeLists = [Token rangeListsMatchingTokens:searchStringTokens inTokens:titleTokens];
+                for (NSArray *rangeList in titleRangeLists) {
+                    for (NSValue *rangeValue in rangeList) {
+                        NSRange range = [rangeValue rangeValue];
+                        
+                        // Make matching text black and bold.
+                        [titleString setAttributes:self.matchingTitleAttributes range:NSMakeRange(range.location, range.length)];
+                    }
+                }
+                
                 // Add the title to the matching songs array.
                 [matchingSongs addObject:@{kSongKey: song,
                                            kFragmentKey: titleString}];
             }
             
+            // Song body.
             for (NSArray *rangeList in rangeLists) {
                 if ([rangeList count] > 0) {
                     NSRange firstRange = [rangeList[0] rangeValue];
@@ -237,23 +304,61 @@ static const NSString * const kFragmentKey = @"FragmentKey";
                     // Create an attributed string fragment around the matching ranges.
                     NSRange fragmentRange = NSMakeRange(firstRange.location, [stringForSearching length] - firstRange.location);
                     NSString *fragmentString = [stringForSearching substringWithRange:fragmentRange];
-                    NSMutableAttributedString *fragment = [[NSMutableAttributedString alloc] initWithString:fragmentString attributes:normalFragment];
+                    NSMutableAttributedString *fragment = [[NSMutableAttributedString alloc] initWithString:fragmentString attributes:self.normalFragmentAttributes];
                     
                     for (NSValue *rangeValue in rangeList) {
                         NSRange range = [rangeValue rangeValue];
                         
                         // Make matching text black and bold.
-                        [fragment setAttributes:boldFragment range:NSMakeRange(range.location - firstRange.location, range.length)];
+                        [fragment setAttributes:self.matchingFragmentAttributes range:NSMakeRange(range.location - firstRange.location, range.length)];
                     }
                     
                     // Prepend the "..."
-                    NSAttributedString *ellipsis = [[NSAttributedString alloc] initWithString:@"…" attributes:normalFragment];
+                    NSAttributedString *ellipsis = [[NSAttributedString alloc] initWithString:@"…" attributes:self.normalFragmentAttributes];
                     [fragment insertAttributedString:ellipsis atIndex:0];
                     
                     // Add this fragment entry to the matching songs array.
                     [matchingSongs addObject:@{kSongKey: song,
                                                kFragmentKey: fragment}];
                 }
+            }
+        }
+    }
+    
+    return [matchingSongs copy];
+}
+
+- (NSArray *)numberSearchForString:(NSString *)searchString
+{
+    NSMutableArray *matchingSongs = [@[] mutableCopy];
+    
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    
+    NSNumber *searchNumber = [formatter numberFromString:searchString];
+    
+    if (searchNumber) {
+        for (Section *section in self.book.sections) {
+            for (Song *song in section.songs) {
+                
+                if (song.number && [song.number isEqualToNumber:searchNumber]) {
+                    
+                    // Add the song's title as a matching fragment.
+                    NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] init];
+                    if (song.number) {
+                        [titleString appendString:[song.number stringValue] attributes:self.matchingTitleAttributes];
+                        [titleString appendString:@" " attributes:self.matchingTitleAttributes];
+                    }
+                    if ([song.title length] > 0) {
+                        [titleString appendString:song.title attributes:self.normalTitleAttributes];
+                    }
+                    
+                    // Add the title to the matching songs array.
+                    [matchingSongs addObject:@{kSongKey: song,
+                                               kFragmentKey: titleString}];
+                    
+                }
+                
             }
         }
     }
