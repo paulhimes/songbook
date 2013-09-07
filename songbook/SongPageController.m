@@ -79,6 +79,11 @@ static const NSInteger kGutterWidth = 8;
     NSMutableDictionary *ghostChorusAttributes = [chorusAttributes mutableCopy];
     [ghostChorusAttributes addEntriesFromDictionary:ghostAttributes];
     
+    NSMutableDictionary *footerAttributes = [normalAttributes mutableCopy];
+    NSMutableParagraphStyle *footerParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    footerParagraphStyle.alignment = NSTextAlignmentRight;
+    footerAttributes[NSParagraphStyleAttributeName] = footerParagraphStyle;
+    
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@""];
     
     if (self.song.number) {
@@ -129,7 +134,21 @@ static const NSInteger kGutterWidth = 8;
         }
     }];
     
-    [attributedString appendString:@"\n" attributes:normalAttributes];
+    if ([self.song.author length] > 0 ||
+        [self.song.year length] > 0) {
+        [attributedString appendString:@"\n\n" attributes:normalAttributes];
+    }
+    
+    if ([self.song.author length] > 0) {
+        [attributedString appendString:self.song.author attributes:footerAttributes];
+    }
+    
+    if ([self.song.year length] > 0) {
+        if ([self.song.author length] > 0) {
+            [attributedString appendString:@" " attributes:footerAttributes];
+        }
+        [attributedString appendString:self.song.year attributes:footerAttributes];
+    }
     
     return [attributedString copy];
 }

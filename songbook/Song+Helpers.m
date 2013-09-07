@@ -122,6 +122,21 @@
         [string appendString:verse.text];
     }];
     
+    if ([self.author length] > 0 ||
+        [self.year length] > 0) {
+        [string appendString:@" "];
+    }
+    
+    if ([self.author length] > 0) {
+        [string appendString:@" "];
+        [string appendString:self.author];
+    }
+    
+    if ([self.year length] > 0) {
+        [string appendString:@" "];
+        [string appendString:self.year];
+    }
+    
     return [string copy];
 }
 

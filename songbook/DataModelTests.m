@@ -99,6 +99,8 @@
         [hymn72 addVerse:@"Thanks we give and adoration, For Thy Gospel’s joyful sound; May the fruits of Thy salvation, In our hearts and lives abound; Ever faithful, Ever faithful; To the truth may we be found."];
         [hymn72 addVerse:@"So whene’er the signal’s given, Us from earth to call away; Borne on Angel’s wings to Heaven, Glad Thy summons to obey; May we ever, May we ever; Reign with Christ in endless day."];
     }
+    hymn72.author = @"John Fawcett";
+    hymn72.year = @"1773";
     
     Song *hymn79 = [Song newOrExistingSongTitled:@"Trans: Hymn 56 UV, vs. 12 and 13" inSection:hymnSection];
     if ([hymn79.verses count] == 0) {
