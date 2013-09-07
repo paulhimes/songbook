@@ -38,7 +38,7 @@
     if ([segue.sourceViewController isKindOfClass:[SearchViewController class]]) {
         SearchViewController *searchViewController = (SearchViewController *)segue.sourceViewController;
         
-        [self.pageViewController showSong:searchViewController.selectedSong];
+        [self.pageViewController showPageForModelObject:searchViewController.selectedSong animated:NO];
     }
 }
 

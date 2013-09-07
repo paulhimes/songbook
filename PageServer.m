@@ -30,10 +30,12 @@
     
     if ([viewController isKindOfClass:[SectionPageController class]]) {
         Section *section = [(SectionPageController *)viewController section];
-        before = [self pageControllerForModelObject:[section previousObject]];
+        before = [self pageControllerForModelObject:[section previousObject]
+                                 pageViewController:(UIPageViewController<PageControllerDelegate> *)pageViewController];
     } else if ([viewController isKindOfClass:[SongPageController class]]) {
         Song *song = [(SongPageController *)viewController song];
-        before = [self pageControllerForModelObject:[song previousObject]];
+        before = [self pageControllerForModelObject:[song previousObject]
+                                 pageViewController:(UIPageViewController<PageControllerDelegate> *)pageViewController];
     }
 
     return before;
@@ -45,13 +47,16 @@
     
     if ([viewController isKindOfClass:[BookPageController class]]) {
         Book *book = [(BookPageController *)viewController book];
-        after = [self pageControllerForModelObject:[book nextObject]];
+        after = [self pageControllerForModelObject:[book nextObject]
+                                pageViewController:(UIPageViewController<PageControllerDelegate> *)pageViewController];
     } else if ([viewController isKindOfClass:[SectionPageController class]]) {
         Section *section = [(SectionPageController *)viewController section];
-        after = [self pageControllerForModelObject:[section nextObject]];
+        after = [self pageControllerForModelObject:[section nextObject]
+                                pageViewController:(UIPageViewController<PageControllerDelegate> *)pageViewController];
     } else if ([viewController isKindOfClass:[SongPageController class]]) {
         Song *song = [(SongPageController *)viewController song];
-        after = [self pageControllerForModelObject:[song nextObject]];
+        after = [self pageControllerForModelObject:[song nextObject]
+                                pageViewController:(UIPageViewController<PageControllerDelegate> *)pageViewController];
     }
 
     return after;
@@ -60,6 +65,7 @@
 #pragma mark - Helper methods
 
 - (PageController *)pageControllerForModelObject:(NSManagedObject *)modelObject
+                              pageViewController:(UIPageViewController<PageControllerDelegate> *)pageViewController
 {
     PageController *pageController;
     if ([modelObject isKindOfClass:[Book class]]) {
@@ -69,6 +75,11 @@
     } else if ([modelObject isKindOfClass:[Song class]]) {
         pageController = [[SongPageController alloc] initWithSong:(Song *)modelObject];
     }
+    
+    if ([pageViewController conformsToProtocol:@protocol(PageControllerDelegate)]) {
+        pageController.delegate = pageViewController;
+    }
+    
     return pageController;
 }
 

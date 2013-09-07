@@ -12,6 +12,7 @@
 
 @interface PageServer : NSObject <UIPageViewControllerDelegate, UIPageViewControllerDataSource>
 
-- (PageController *)pageControllerForModelObject:(NSManagedObject *)modelObject;
+- (PageController *)pageControllerForModelObject:(NSManagedObject *)modelObject
+                              pageViewController:(UIPageViewController<PageControllerDelegate> *)pageViewController;
 
 @end

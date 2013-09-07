@@ -12,7 +12,7 @@
 #import "DataModelTests.h"
 #import "Book+Helpers.h"
 
-@interface PageViewController ()
+@interface PageViewController () <PageControllerDelegate>
 
 @end
 
@@ -40,7 +40,8 @@
     NSArray *books = [Book allBooksInContext:context];
     Book *book = [books firstObject];
     
-    [self setViewControllers:@[[self.pageServer pageControllerForModelObject:book]]
+    [self setViewControllers:@[[self.pageServer pageControllerForModelObject:book
+                                                          pageViewController:self]]
                                  direction:UIPageViewControllerNavigationDirectionForward
                                   animated:NO
                                 completion:NULL];
@@ -59,14 +60,24 @@
     }
 }
 
-- (void)showSong:(Song *)song
+- (void)showPageForModelObject:(NSManagedObject *)modelObject
+                      animated:(BOOL)animated;
 {
-    PageController *pageController = [self.pageServer pageControllerForModelObject:song];
+    PageController *pageController = [self.pageServer pageControllerForModelObject:modelObject
+                                                                pageViewController:self];
     
     [self setViewControllers:@[pageController]
                    direction:UIPageViewControllerNavigationDirectionForward
-                    animated:NO
+                    animated:animated
                   completion:NULL];
+}
+
+#pragma mark - PageControllerDelegate
+
+- (void)pageController:(PageController *)pageController
+   selectedModelObject:(NSManagedObject *)modelObject
+{
+    [self showPageForModelObject:modelObject animated:NO];
 }
 
 @end

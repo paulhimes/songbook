@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIView (Additions)
+@interface UIView (Helpers)
 
 - (void)setOriginX:(CGFloat)originX;
 - (void)setOriginY:(CGFloat)originY;

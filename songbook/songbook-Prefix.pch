@@ -15,9 +15,10 @@
     #import <Foundation/Foundation.h>
     #import <CoreData/CoreData.h>
     #import "UIView+Debug.h"
-    #import "UIView+Additions.h"
+    #import "UIView+Helpers.h"
     #import "NSMutableAttributedString+Helpers.h"
     #import "NSString+Helpers.h"
+    #import "UITableView+Helpers.h"
 
     #define M_PHI 1.61803399
 

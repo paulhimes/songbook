@@ -16,6 +16,7 @@ const CGFloat kToolbarHeight = 44;
 @interface PageController () <UIScrollViewDelegate, UIToolbarDelegate>
 
 @property (nonatomic, strong) UIToolbar *foregroundToolbar;
+@property (nonatomic, strong) UITableView *relatedItemsView;
 
 @end
 
@@ -85,6 +86,21 @@ const CGFloat kToolbarHeight = 44;
     return [[NSAttributedString alloc] initWithString:@""];
 }
 
+- (UITableView *)relatedItemsView
+{
+    if (!_relatedItemsView) {
+        _relatedItemsView = [[UITableView alloc] init];
+        _relatedItemsView.dataSource = self;
+        _relatedItemsView.delegate = self;
+        _relatedItemsView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        _relatedItemsView.scrollEnabled = NO;
+        _relatedItemsView.separatorInset = UIEdgeInsetsZero;
+        _relatedItemsView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [_relatedItemsView setDebugColor:[UIColor purpleColor]];
+    }
+    return _relatedItemsView;
+}
+
 - (TitleView *)buildTitleView
 {
     return nil;
@@ -118,8 +134,11 @@ const CGFloat kToolbarHeight = 44;
     self.textView.attributedText = self.text;
     self.textView.frame = CGRectMake(0, 0, contentWidth, 0);
     
+    self.relatedItemsView.frame = CGRectMake(0, 0, contentWidth, 0);
+    
     [self.view addSubview:self.scrollView];
     [self.scrollView addSubview:self.textView];
+    [self.scrollView addSubview:self.relatedItemsView];
     
     if (self.titleView) {
         [self.view addSubview:self.foregroundToolbar];
@@ -146,7 +165,12 @@ const CGFloat kToolbarHeight = 44;
     CGSize textSize = [self.textView sizeThatFits:CGSizeMake(self.textView.frame.size.width, CGFLOAT_MAX)];
     [self.textView setHeight:textSize.height];
     
-    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, MAX(self.scrollView.frame.size.height - (self.scrollView.contentInset.top + self.scrollView.contentInset.bottom), CGRectGetMaxY(self.textView.frame)));
+    [self.relatedItemsView setOriginY:CGRectGetMaxY(self.textView.frame) + 3 * kGutterWidth];
+    [self.relatedItemsView setHeight:self.relatedItemsView.contentHeight];
+    
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width,
+                                             MAX(self.scrollView.frame.size.height - (self.scrollView.contentInset.top + self.scrollView.contentInset.bottom),
+                                                 CGRectGetMaxY(self.relatedItemsView.frame)));
     
     CGFloat titleContentOriginY = self.titleView.contentOriginY;
     NSLog(@"titleContentOriginY %f", titleContentOriginY);
@@ -202,6 +226,23 @@ const CGFloat kToolbarHeight = 44;
 - (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
 {
     return UIBarPositionAny;
+}
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 0;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 0;
 }
 
 @end

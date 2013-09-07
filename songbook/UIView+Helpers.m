@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Paul Himes. All rights reserved.
 //
 
-#import "UIView+Additions.h"
+#import "UIView+Helpers.h"
 
-@implementation UIView (Additions)
+@implementation UIView (Helpers)
 
 - (void)setOriginX:(CGFloat)originX
 {

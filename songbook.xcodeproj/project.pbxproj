@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8B088FC217C867440043341D /* UIView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B088FC117C867440043341D /* UIView+Additions.m */; };
+		8B088FC217C867440043341D /* UIView+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B088FC117C867440043341D /* UIView+Helpers.m */; };
 		8B380E2A17C6874100D8F905 /* SongbookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B380E2917C6874100D8F905 /* SongbookViewController.m */; };
 		8B6F1BEF17ACB67D00F72C3D /* PageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B6F1BEE17ACB67D00F72C3D /* PageController.m */; };
 		8B6F1BF417ACBBFB00F72C3D /* BookPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B6F1BF317ACBBFB00F72C3D /* BookPageController.m */; };
@@ -35,6 +35,7 @@
 		8BA3061B17A0BDAD00A2ABDE /* Songbook.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BA3061A17A0BDAD00A2ABDE /* Songbook.storyboard */; };
 		8BA3062117A1656B00A2ABDE /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA3062017A1640B00A2ABDE /* PageViewController.m */; };
 		8BA5142917ADA275009E960D /* UIView+Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5142817ADA275009E960D /* UIView+Debug.m */; };
+		8BA5E1D017DB702600858741 /* UITableView+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5E1CF17DB702600858741 /* UITableView+Helpers.m */; };
 		8BA785B317D5864D00BEF4D9 /* NSString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA785B217D5864D00BEF4D9 /* NSString+Helpers.m */; };
 		8BAE5B4D17B1F7C5004631CA /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAE5B4C17B1F7C5004631CA /* SearchViewController.m */; };
 		8BB02AE217CB97BE001CCB6C /* SimpleSearchDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB02AE117CB97BE001CCB6C /* SimpleSearchDataSource.m */; };
@@ -66,8 +67,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8B088FC017C867440043341D /* UIView+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Additions.h"; sourceTree = "<group>"; };
-		8B088FC117C867440043341D /* UIView+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Additions.m"; sourceTree = "<group>"; };
+		8B088FC017C867440043341D /* UIView+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Helpers.h"; sourceTree = "<group>"; };
+		8B088FC117C867440043341D /* UIView+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Helpers.m"; sourceTree = "<group>"; };
 		8B380E2817C6874100D8F905 /* SongbookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongbookViewController.h; sourceTree = "<group>"; };
 		8B380E2917C6874100D8F905 /* SongbookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongbookViewController.m; sourceTree = "<group>"; };
 		8B6F1BED17ACB67D00F72C3D /* PageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageController.h; sourceTree = "<group>"; };
@@ -110,6 +111,8 @@
 		8BA3062017A1640B00A2ABDE /* PageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PageViewController.m; sourceTree = "<group>"; };
 		8BA5142717ADA275009E960D /* UIView+Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Debug.h"; sourceTree = "<group>"; };
 		8BA5142817ADA275009E960D /* UIView+Debug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Debug.m"; sourceTree = "<group>"; };
+		8BA5E1CE17DB702600858741 /* UITableView+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+Helpers.h"; sourceTree = "<group>"; };
+		8BA5E1CF17DB702600858741 /* UITableView+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+Helpers.m"; sourceTree = "<group>"; };
 		8BA785B117D5864D00BEF4D9 /* NSString+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Helpers.h"; sourceTree = "<group>"; };
 		8BA785B217D5864D00BEF4D9 /* NSString+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Helpers.m"; sourceTree = "<group>"; };
 		8BA85DFD17B2F12200F6B3B7 /* SongbookModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongbookModel.h; sourceTree = "<group>"; };
@@ -298,8 +301,10 @@
 				8BA785B217D5864D00BEF4D9 /* NSString+Helpers.m */,
 				8BC674C817BC912C001E71B1 /* NSMutableAttributedString+Helpers.h */,
 				8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */,
-				8B088FC017C867440043341D /* UIView+Additions.h */,
-				8B088FC117C867440043341D /* UIView+Additions.m */,
+				8B088FC017C867440043341D /* UIView+Helpers.h */,
+				8B088FC117C867440043341D /* UIView+Helpers.m */,
+				8BA5E1CE17DB702600858741 /* UITableView+Helpers.h */,
+				8BA5E1CF17DB702600858741 /* UITableView+Helpers.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -499,6 +504,7 @@
 				8BA5142917ADA275009E960D /* UIView+Debug.m in Sources */,
 				8BB18ADC17A5DB77006E257C /* Song.m in Sources */,
 				8BA305F817A0BCF200A2ABDE /* AppDelegate.m in Sources */,
+				8BA5E1D017DB702600858741 /* UITableView+Helpers.m in Sources */,
 				8BED9F1017C9418400D834BE /* GradientView.m in Sources */,
 				8BA305FB17A0BCF200A2ABDE /* songbook.xcdatamodeld in Sources */,
 				8B94532517A5F44000327479 /* Section+Helpers.m in Sources */,
@@ -506,7 +512,7 @@
 				8BE5A65517CD8FA2002028E5 /* SmartSearchDataSource.m in Sources */,
 				8BB02AE217CB97BE001CCB6C /* SimpleSearchDataSource.m in Sources */,
 				8BA305F417A0BCF200A2ABDE /* main.m in Sources */,
-				8B088FC217C867440043341D /* UIView+Additions.m in Sources */,
+				8B088FC217C867440043341D /* UIView+Helpers.m in Sources */,
 				8BB54D5F17A4C79300FD2914 /* SongPageController.m in Sources */,
 				8BC674C417B9D2CB001E71B1 /* TitleView.m in Sources */,
 				8B810A5517D9519A00F339CE /* Token.m in Sources */,
