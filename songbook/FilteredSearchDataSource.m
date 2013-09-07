@@ -332,35 +332,39 @@ static const NSString * const kFragmentKey = @"FragmentKey";
 {
     NSMutableArray *matchingSongs = [@[] mutableCopy];
     
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-    [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    NSString *decimalDigitSearchString = [searchString stringLimitedToCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
     
-    NSNumber *searchNumber = [formatter numberFromString:searchString];
-    
-    if (searchNumber) {
+    if ([decimalDigitSearchString length] > 0) {
+        
         for (Section *section in self.book.sections) {
             for (Song *song in section.songs) {
                 
-                if (song.number && [song.number isEqualToNumber:searchNumber]) {
+                if (song.number) {
                     
-                    // Add the song's title as a matching fragment.
-                    NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] init];
-                    if (song.number) {
-                        [titleString appendString:[song.number stringValue] attributes:self.matchingTitleAttributes];
-                        [titleString appendString:@" " attributes:self.matchingTitleAttributes];
-                    }
-                    if ([song.title length] > 0) {
-                        [titleString appendString:song.title attributes:self.normalTitleAttributes];
-                    }
+                    NSString *songNumberDecimalOnly = [[song.number stringValue] stringLimitedToCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
                     
-                    // Add the title to the matching songs array.
-                    [matchingSongs addObject:@{kSongKey: song,
-                                               kFragmentKey: titleString}];
+                    if ([songNumberDecimalOnly hasPrefix:decimalDigitSearchString]) {
+                        
+                        // Add the song's title as a matching fragment.
+                        NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] init];
+                        if (song.number) {
+                            [titleString appendString:[song.number stringValue] attributes:self.matchingTitleAttributes];
+                            [titleString appendString:@" " attributes:self.matchingTitleAttributes];
+                        }
+                        if ([song.title length] > 0) {
+                            [titleString appendString:song.title attributes:self.normalTitleAttributes];
+                        }
+                        
+                        // Add the title to the matching songs array.
+                        [matchingSongs addObject:@{kSongKey: song,
+                                                   kFragmentKey: titleString}];
+                    }
                     
                 }
                 
             }
         }
+        
     }
     
     return [matchingSongs copy];
