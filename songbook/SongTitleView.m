@@ -7,6 +7,7 @@
 //
 
 #import "SongTitleView.h"
+#import "PageController.h"
 
 static const NSInteger kTopMargin = 16;
 static const CGFloat kSongComponentPadding = 8;
@@ -24,7 +25,11 @@ static const CGFloat kSongComponentPadding = 8;
 - (UIFont *)numberFont
 {
     if (!_numberFont) {
-        _numberFont = [UIFont fontWithName:@"Marion-Bold" size:30];
+        
+        NSNumber *standardTextSizeNumber = [[NSUserDefaults standardUserDefaults] objectForKey:kStandardTextSizeKey];
+        CGFloat standardTextSize = [standardTextSizeNumber floatValue];
+        
+        _numberFont = [UIFont fontWithName:@"Marion-Bold" size:standardTextSize * 1.5];
     }
     return _numberFont;
 }
@@ -32,7 +37,11 @@ static const CGFloat kSongComponentPadding = 8;
 - (UIFont *)titleFont
 {
     if (!_titleFont) {
-        _titleFont = [UIFont fontWithName:@"Marion" size:22];
+        
+        NSNumber *standardTextSizeNumber = [[NSUserDefaults standardUserDefaults] objectForKey:kStandardTextSizeKey];
+        CGFloat standardTextSize = [standardTextSizeNumber floatValue];
+        
+        _titleFont = [UIFont fontWithName:@"Marion" size:standardTextSize * 1.1];
     }
     return _titleFont;
 }
@@ -62,13 +71,13 @@ static const CGFloat kSongComponentPadding = 8;
 
 - (CGSize)sizeForWidth:(CGFloat)width
 {
-    NSLog(@"sizeForWidth for %@ %f", self.title, width);
+//    NSLog(@"sizeForWidth for %@ %f", self.title, width);
     
     CGRect textRect = [self placedTextRectForWidth:width];
     CGFloat titleLowestBaseline = CGRectGetMaxY(textRect) + self.titleFont.descender;
     CGSize size = CGSizeMake(width, titleLowestBaseline + kSongComponentPadding);
     
-    NSLog(@"final %@ size %@", self.title, NSStringFromCGSize(size));
+//    NSLog(@"final %@ size %@", self.title, NSStringFromCGSize(size));
     
     return size;
 }
@@ -83,16 +92,16 @@ static const CGFloat kSongComponentPadding = 8;
 
 - (CGRect)placedTextRectForWidth:(CGFloat)width
 {
-    NSLog(@"content width for %@ %f", self.title, width);
+//    NSLog(@"content width for %@ %f", self.title, width);
     
     CGRect textRect = [self textRectForWidth:width];
     CGFloat titleLowestBaseline = CGRectGetMaxY(textRect) + self.titleFont.descender;
     CGFloat proposedBottom = kTopMargin + titleLowestBaseline + kSongComponentPadding;
     CGFloat additionalTopMargin = MAX(kMinimumTitleViewHeight - proposedBottom, 0);
     
-    NSLog(@"original rect for %@ %@", self.title, NSStringFromCGRect(textRect));
+//    NSLog(@"original rect for %@ %@", self.title, NSStringFromCGRect(textRect));
     
-    NSLog(@"additional top margin for %@ %f", self.title, additionalTopMargin);
+//    NSLog(@"additional top margin for %@ %f", self.title, additionalTopMargin);
 
     
     CGRect placedRect = CGRectMake(0, additionalTopMargin + kTopMargin, textRect.size.width, textRect.size.height);
@@ -105,11 +114,11 @@ static const CGFloat kSongComponentPadding = 8;
     [[UIColor blackColor] setFill];
     [[UIColor blackColor] setStroke];
     
-    NSLog(@"bounds width for %@ %f", self.title, self.bounds.size.width);
+//    NSLog(@"bounds width for %@ %f", self.title, self.bounds.size.width);
 
     
     CGRect drawingRect = [self placedTextRectForWidth:self.bounds.size.width];
-    NSLog(@"drawing rect for %@ %@", self.title, NSStringFromCGRect(drawingRect));
+//    NSLog(@"drawing rect for %@ %@", self.title, NSStringFromCGRect(drawingRect));
     [[self text] drawWithRect:drawingRect options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
     
 //    [[UIColor colorWithWhite:0 alpha:0.5] setStroke];
@@ -152,6 +161,25 @@ static const CGFloat kSongComponentPadding = 8;
     paragraphStyle.firstLineHeadIndent = firstLineIndent;
     paragraphStyle.headIndent = normalIndent;
     return paragraphStyle;
+}
+
+- (void)resetMetrics
+{
+    self.numberFont = nil;
+    self.titleFont = nil;
+    self.titleAttributes = nil;
+}
+
+- (void)setNeedsDisplay
+{
+    [self resetMetrics];
+    [super setNeedsDisplay];
+}
+
+- (void)setNeedsLayout
+{
+    [self resetMetrics];
+    [super setNeedsLayout];
 }
 
 @end

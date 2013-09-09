@@ -7,16 +7,22 @@
 //
 
 #import "PageController.h"
-#import "AppDelegate.h"
+#import "PinchAnchor.h"
+
+NSString * const kStandardTextSizeKey = @"StandardTextSize";
 
 static const NSInteger kGutterWidth = 16;
-
-const CGFloat kToolbarHeight = 44;
+static const CGFloat kToolbarHeight = 44;
+static const float kMaximumStandardTextSize = 50;
+static const float kMinimumStandardTextSize = 8;
 
 @interface PageController () <UIScrollViewDelegate, UIToolbarDelegate>
 
 @property (nonatomic, strong) UIToolbar *foregroundToolbar;
 @property (nonatomic, strong) UITableView *relatedItemsView;
+@property (nonatomic, strong) UIPinchGestureRecognizer *pinchGestureRecognizer;
+@property (nonatomic, strong) NSNumber *gestureStartTextSize;
+@property (nonatomic, strong) PinchAnchor *pinchAnchor;
 
 @end
 
@@ -101,6 +107,15 @@ const CGFloat kToolbarHeight = 44;
     return _relatedItemsView;
 }
 
+- (UIPinchGestureRecognizer *)pinchGestureRecognizer
+{
+    if (!_pinchGestureRecognizer) {
+        _pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self
+                                                                            action:@selector(handleGesture:)];
+    }
+    return _pinchGestureRecognizer;
+}
+
 - (TitleView *)buildTitleView
 {
     return nil;
@@ -115,7 +130,7 @@ const CGFloat kToolbarHeight = 44;
     self.view.clipsToBounds = YES;
     
     CGFloat contentWidth = self.view.bounds.size.width - 2 * kGutterWidth;
-    NSLog(@"contentwidth = %f", contentWidth);
+//    NSLog(@"contentwidth = %f", contentWidth);
     self.scrollView.frame = CGRectMake(kGutterWidth,
                                        0,
                                        contentWidth,
@@ -144,6 +159,8 @@ const CGFloat kToolbarHeight = 44;
         [self.view addSubview:self.foregroundToolbar];
         [self.foregroundToolbar addSubview:self.titleView];
     }
+    
+    [self.view addGestureRecognizer:self.pinchGestureRecognizer];
 }
 
 - (void)viewDidLayoutSubviews
@@ -152,11 +169,12 @@ const CGFloat kToolbarHeight = 44;
     
     // Update any frames and view properties that the normal layout system (autolayout or autoresize) can't handle.
 
-    NSLog(@"Laid out view with bounds %@ %@", NSStringFromCGRect(self.view.bounds), [self textFragment]);
+//    NSLog(@"Laid out view with bounds %@ %@", NSStringFromCGRect(self.view.bounds), [self textFragment]);
     
-    CGFloat contentWidth = self.view.bounds.size.width - 2 * kGutterWidth;
-    NSLog(@"contentwidth = %f", contentWidth);
+//    CGFloat contentWidth = self.view.bounds.size.width - 2 * kGutterWidth;
+//    NSLog(@"contentwidth = %f", contentWidth);
     
+    [self.titleView resetMetrics];
     [self.titleView setHeight:[self.titleView sizeForWidth:self.titleView.frame.size.width].height];
     [self.foregroundToolbar setHeight:self.titleView.frame.size.height];
     
@@ -173,8 +191,30 @@ const CGFloat kToolbarHeight = 44;
                                                  CGRectGetMaxY(self.relatedItemsView.frame)));
     
     CGFloat titleContentOriginY = self.titleView.contentOriginY;
-    NSLog(@"titleContentOriginY %f", titleContentOriginY);
+//    NSLog(@"titleContentOriginY %f", titleContentOriginY);
     self.textView.textContainerInset = UIEdgeInsetsMake(titleContentOriginY, 0, 0, 0);
+    
+    
+    if (self.pinchAnchor) {
+        
+//        self.pinchAnchor = [[PinchAnchor alloc] initWithScrollViewYCoordinate:50 percentDownSubview:0.5];
+        
+        CGFloat contentYCoordinate = self.textView.frame.origin.y + (self.pinchAnchor.percentDownSubview * self.textView.frame.size.height);
+        
+        NSLog(@"contentYCoordinate %f", contentYCoordinate);
+        
+        CGFloat contentOffsetY = (contentYCoordinate - self.pinchAnchor.yCoordinateInScrollView);
+        
+        // Limit the content offset to the actual content size.
+        CGFloat minimumContentOffset = 0;
+        CGFloat maximumContentOffset = MAX(self.scrollView.contentSize.height - self.scrollView.frame.size.height, 0);
+        
+        contentOffsetY = MIN(maximumContentOffset, MAX(minimumContentOffset, contentOffsetY));
+        
+        NSLog(@"contentOffsetY %f", contentOffsetY);
+        
+        self.scrollView.contentOffset = CGPointMake(self.scrollView.contentOffset.x, contentOffsetY);
+    }
     
     [self.titleView setNeedsDisplay];
 }
@@ -243,6 +283,42 @@ const CGFloat kToolbarHeight = 44;
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 0;
+}
+
+#pragma mark - UIGestureRecognizer target
+- (void)handleGesture:(UIPinchGestureRecognizer *)sender
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        self.gestureStartTextSize = [userDefaults objectForKey:kStandardTextSizeKey];
+    }
+    
+    // Scale the existing text size by the gesture recognizer's scale.
+    float scaledSize = (int)round([self.gestureStartTextSize floatValue] * sender.scale);
+    
+    // Limit the scaled size to sane bounds.
+    float scaledAndLimitedSize = MIN(kMaximumStandardTextSize, MAX(kMinimumStandardTextSize, scaledSize));
+    
+    
+    if (![@(scaledAndLimitedSize) isEqualToNumber:[userDefaults objectForKey:kStandardTextSizeKey]]) {
+        NSLog(@"Pinching %f %fpt", sender.scale, scaledAndLimitedSize);
+        
+        CGFloat percentDownTextView = [sender locationInView:self.textView].y / self.textView.frame.size.height;
+        CGFloat yCoordinateInScrollView = [sender locationInView:self.view].y - self.scrollView.frame.origin.y;
+        
+        self.pinchAnchor = [[PinchAnchor alloc] initWithScrollViewYCoordinate:yCoordinateInScrollView
+                                                           percentDownSubview:percentDownTextView];
+        
+        NSLog(@"%@", self.pinchAnchor);
+        
+        [userDefaults setObject:@(scaledAndLimitedSize) forKey:kStandardTextSizeKey];
+        [userDefaults synchronize];
+        self.textView.attributedText = self.text;
+        [self.view setNeedsLayout];
+    }
+    
+    
 }
 
 @end

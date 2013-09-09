@@ -44,8 +44,11 @@
 
 - (NSAttributedString *)text
 {
+    NSNumber *standardTextSizeNumber = [[NSUserDefaults standardUserDefaults] objectForKey:kStandardTextSizeKey];
+    CGFloat standardTextSize = [standardTextSizeNumber floatValue];
+    
     return [[NSAttributedString alloc] initWithString:self.book.title
-                                           attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:40],
+                                           attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:standardTextSize * 2],
                                                         NSForegroundColorAttributeName: [UIColor whiteColor],
                                                         NSTextEffectAttributeName: NSTextEffectLetterpressStyle}];
 }

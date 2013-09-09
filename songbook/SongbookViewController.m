@@ -9,6 +9,7 @@
 #import "SongbookViewController.h"
 #import "SearchViewController.h"
 #import "PageViewController.h"
+#import "BookParser.h"
 
 @interface SongbookViewController () <UIToolbarDelegate>
 
@@ -53,6 +54,13 @@
         
         searchViewController.currentSong = self.pageViewController.closestSong;
     }
+}
+
+- (IBAction)testAction:(id)sender
+{
+    BookParser *parser = [[BookParser alloc] init];
+    
+    Book *book = [parser bookFromFilePath:[[NSBundle mainBundle] pathForResource:@"songs" ofType:@"txt"]];
 }
 
 #pragma mark - UIToolbarDelegate

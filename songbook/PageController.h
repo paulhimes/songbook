@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "TitleView.h"
 
+extern NSString * const kStandardTextSizeKey;
+
 @protocol PageControllerDelegate;
 
 @interface PageController : UIViewController <UITableViewDataSource, UITableViewDelegate>

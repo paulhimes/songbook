@@ -38,4 +38,9 @@ const CGFloat kMinimumTitleViewHeight = 44;
 //    return CGSizeMake(self.containerWidth, kMinimumTitleViewHeight);
 //}
 
+- (void)resetMetrics
+{
+    
+}
+
 @end

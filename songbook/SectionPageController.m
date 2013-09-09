@@ -32,8 +32,11 @@
 
 - (NSAttributedString *)text
 {
+    NSNumber *standardTextSizeNumber = [[NSUserDefaults standardUserDefaults] objectForKey:kStandardTextSizeKey];
+    CGFloat standardTextSize = [standardTextSizeNumber floatValue];
+    
     return [[NSAttributedString alloc] initWithString:self.section.title
-                                           attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:35]}];
+                                           attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:standardTextSize * 1.75]}];
 }
 
 @end

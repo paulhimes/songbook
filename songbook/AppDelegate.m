@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "PageController.h"
 
 @implementation AppDelegate
 
@@ -18,6 +19,8 @@
 {
     // Override point for customization after application launch.
     self.window.tintColor = [UIColor colorWithRed:0.93 green:0.08 blue:0.19 alpha:1.0];
+    
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{kStandardTextSizeKey: @20}];
     
     return YES;
 }
