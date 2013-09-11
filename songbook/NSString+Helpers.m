@@ -113,4 +113,9 @@
     return [stringComponents componentsJoinedByString:@" "];
 }
 
+- (NSString *)stringByAppendingCharacter:(unichar)character
+{
+    return [self stringByAppendingString:[NSString stringWithCharacters:&character length:1]];
+}
+
 @end

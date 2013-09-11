@@ -11,6 +11,7 @@
 
 @interface BookParser : NSObject
 
-- (Book *)bookFromFilePath:(NSString *)path;
+- (NSArray *)songsFromFilePath:(NSString *)path;
+
 
 @end

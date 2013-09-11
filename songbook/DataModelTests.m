@@ -11,6 +11,7 @@
 #import "Song+Helpers.h"
 #import "Section+Helpers.h"
 #import "Verse+Helpers.h"
+#import "BookParser.h"
 
 @implementation DataModelTests
 
@@ -25,54 +26,78 @@
     Section *hymnSection = [Section newOrExistingSectionTitled:@"Hymns of Believers" inBook:book];
 
     // Create the songs.
-    Song *song1 = [Song newOrExistingSongTitled:@"Oh How Lovely Is The Bride" inSection:songsSection];
-    if ([song1.verses count] == 0) {
-        song1.number = @1;
-        song1.subtitle = @"(tune: 244 UL, O Kuinka Kaunis Ja Ihana)";
-        [song1 addVerse:@"Oh how lovely is the Bride, Born of God never to die; In a beautiful gown so rare, Only the Angels here can wear."];
-        [song1 addVerse:@"The wise men think it’s a mystery, They have eyes but cannot see; A Christmas tree from Heaven’s lot, Without blemish without spot."];
-        [song1 addVerse:@"In a little town of Bethlehem, My Christmas gift was tucked away; In a lowly manger there, The Inns were crowded no one cared."];
-        [song1 addVerse:@"God the Father placed Him there, He was in His Mother’s care; The Angles told the shepherds so, You’ll find Him in swaddling clothes."];
-        [song1 addVerse:@"How many blessings did he bring? Oh that’s more than I can sing; Wisdom, redemption, salvation, Sanctification righteousness."];
-        [song1 addVerse:@"Blessed children come to rest, Near the Mother’s loving breast; Lift your eyes and you can see, A slaughtered Lamb on Calvary."];
-        [song1 addVerse:@"He sacrificed His life for sin, So that you and I can live; He came to be our daily bread, By His blood we are all fed."];
-        [song1 addVerse:@"In His Kingdom He now reigns, Foundation is one great name; The name of Jesus written there, In the skies and everywhere."];
-        [song1 addVerse:@"That is the place where all have gone, Who obeyed and loved the Lord; It is the city for the free, With a living Christmas tree."];
-        [song1 addVerse:@"There the lame can walk and the dumb can talk, The blind can see the builder’s rock; On that rock we gather then, To sing our praises and Amen."];
-        [song1 addVerse:@"God help me to keep my faith, Float my ark here on His grace; The flood of blood will carry me, Up to the Mount of the Olive Tree."];
-        [song1 addVerse:@"Praise the Lord and sing to Him, Soon the wedding bells will ring; When the sin’s last atom falls, We can wait for the Shepherd’s call."];
-        [song1 addVerse:@"When our God will shake this land, We will hear the Heaven’s band; So let’s stand fast on the rock ‘till then, Hallelujah and Amen."];
+    BookParser *parser = [[BookParser alloc] init];
+    NSArray *songs = [parser songsFromFilePath:[[NSBundle mainBundle] pathForResource:@"songs" ofType:@"txt"]];
+    Song *song41;
+    for (Song *song in songs) {
+        BOOL alreadyExists = NO;
+        for (Song *existingSong in songsSection.songs) {
+            if ([existingSong.title isEqualToString:song.title]) {
+                alreadyExists = YES;
+                if ([existingSong.number isEqualToNumber:@41]) {
+                    song41 = existingSong;
+                }
+                break;
+            }
+        }
+        
+        if (!alreadyExists) {
+            song.section = songsSection;
+            
+            if ([song.number isEqualToNumber:@41]) {
+                song41 = song;
+            }
+        }
     }
     
-    Song *song7 = [Song newOrExistingSongTitled:@"When My Life Work Is Ended" inSection:songsSection];
-    if ([song7.verses count] == 0) {
-        song7.number = @7;
-        song7.subtitle = @"(tune: 162 UL, Kun On Markani Maara Kayty)";
-        Verse *song7Verse1 = [song7 addVerse:@"When my life work is ended and I cross the swelling tide, When the bright and glorious morning I shall see; I shall know my Redeemer when I reach the other side, And his smile will be the first to welcome me."];
-        song7Verse1.number = @1;
-        Verse *song7Chorus1 = [song7 addVerse:@"I shall know Him, I shall know Him, As redeemed by his side I shall stand; I shall know Him, I shall know Him, By the prints of the nails in His hands."];
-        song7Chorus1.number = nil;
-        song7Chorus1.isChorus = @YES;
-        Verse *song7Verse2 = [song7 addVerse:@"Oh the soul-thrilling rapture when I view His blessed face, And the luster of His kindly beaming eyes; How my full heart will praise Him for the mercy love and grace, That prepares for me a mansion in the sky."];
-        song7Verse2.number = @2;
-        song7Verse2.chorus = song7Chorus1;
-        Verse *song7Verse3 = [song7 addVerse:@"Oh the dear ones in glory how they beckon me to come, Oh the parting at the river I recall; To the sweet vales of Eden they will sing my welcome home, But I long to meet my Saviour first of all."];
-        song7Verse3.number = @3;
-        song7Verse3.chorus = song7Chorus1;
-        Verse *song7Verse4 = [song7 addVerse:@"Through the gates to the city in a robe of spotless white, He will lead me where no tears shall ever fall; In the glad song of ages I shall mingle with delight, but I long to meet my Saviour first of all."];
-        song7Verse4.number = @4;
-        song7Verse4.chorus = song7Chorus1;
-    }
-    
-    Song *song41 = [Song newOrExistingSongTitled:@"My Wish Is To Praise God" inSection:songsSection];
-    if ([song41.verses count] == 0) {
-        song41.number = @41;
-        song41.subtitle = @"(trans: 64 UL, Jo Mahtaisin Yota)";
-        Verse *song41Verse1 = [song41 addVerse:@"My wish is to praise God night and day, For His great Love He showed toward us; That we’ve been made ready, For the great wedding, In Heaven with the Lamb of God."];
-        song41Verse1.repeatText = @"That we’ve been made ready, For the great wedding, In Heaven with the Lamb of God.";
-        Verse *song41Verse2 = [song41 addVerse:@"O boundless Love O endless grace, That I’ve been selected to be His Bride, For me this is plenty, That Jesus is mine, O endless grace and Love Divine."];
-        song41Verse2.repeatText = @"For me this is plenty, That Jesus is mine, O endless grace and Love Divine.";
-    }
+//    Song *song1 = [Song newOrExistingSongTitled:@"Oh How Lovely Is The Bride" inSection:songsSection];
+//    if ([song1.verses count] == 0) {
+//        song1.number = @1;
+//        song1.subtitle = @"(tune: 244 UL, O Kuinka Kaunis Ja Ihana)";
+//        [song1 addVerse:@"Oh how lovely is the Bride, Born of God never to die; In a beautiful gown so rare, Only the Angels here can wear."];
+//        [song1 addVerse:@"The wise men think it’s a mystery, They have eyes but cannot see; A Christmas tree from Heaven’s lot, Without blemish without spot."];
+//        [song1 addVerse:@"In a little town of Bethlehem, My Christmas gift was tucked away; In a lowly manger there, The Inns were crowded no one cared."];
+//        [song1 addVerse:@"God the Father placed Him there, He was in His Mother’s care; The Angles told the shepherds so, You’ll find Him in swaddling clothes."];
+//        [song1 addVerse:@"How many blessings did he bring? Oh that’s more than I can sing; Wisdom, redemption, salvation, Sanctification righteousness."];
+//        [song1 addVerse:@"Blessed children come to rest, Near the Mother’s loving breast; Lift your eyes and you can see, A slaughtered Lamb on Calvary."];
+//        [song1 addVerse:@"He sacrificed His life for sin, So that you and I can live; He came to be our daily bread, By His blood we are all fed."];
+//        [song1 addVerse:@"In His Kingdom He now reigns, Foundation is one great name; The name of Jesus written there, In the skies and everywhere."];
+//        [song1 addVerse:@"That is the place where all have gone, Who obeyed and loved the Lord; It is the city for the free, With a living Christmas tree."];
+//        [song1 addVerse:@"There the lame can walk and the dumb can talk, The blind can see the builder’s rock; On that rock we gather then, To sing our praises and Amen."];
+//        [song1 addVerse:@"God help me to keep my faith, Float my ark here on His grace; The flood of blood will carry me, Up to the Mount of the Olive Tree."];
+//        [song1 addVerse:@"Praise the Lord and sing to Him, Soon the wedding bells will ring; When the sin’s last atom falls, We can wait for the Shepherd’s call."];
+//        [song1 addVerse:@"When our God will shake this land, We will hear the Heaven’s band; So let’s stand fast on the rock ‘till then, Hallelujah and Amen."];
+//    }
+//    
+//    Song *song7 = [Song newOrExistingSongTitled:@"When My Life Work Is Ended" inSection:songsSection];
+//    if ([song7.verses count] == 0) {
+//        song7.number = @7;
+//        song7.subtitle = @"(tune: 162 UL, Kun On Markani Maara Kayty)";
+//        Verse *song7Verse1 = [song7 addVerse:@"When my life work is ended and I cross the swelling tide, When the bright and glorious morning I shall see; I shall know my Redeemer when I reach the other side, And his smile will be the first to welcome me."];
+//        song7Verse1.number = @1;
+//        Verse *song7Chorus1 = [song7 addVerse:@"I shall know Him, I shall know Him, As redeemed by his side I shall stand; I shall know Him, I shall know Him, By the prints of the nails in His hands."];
+//        song7Chorus1.number = nil;
+//        song7Chorus1.isChorus = @YES;
+//        Verse *song7Verse2 = [song7 addVerse:@"Oh the soul-thrilling rapture when I view His blessed face, And the luster of His kindly beaming eyes; How my full heart will praise Him for the mercy love and grace, That prepares for me a mansion in the sky."];
+//        song7Verse2.number = @2;
+//        song7Verse2.chorus = song7Chorus1;
+//        Verse *song7Verse3 = [song7 addVerse:@"Oh the dear ones in glory how they beckon me to come, Oh the parting at the river I recall; To the sweet vales of Eden they will sing my welcome home, But I long to meet my Saviour first of all."];
+//        song7Verse3.number = @3;
+//        song7Verse3.chorus = song7Chorus1;
+//        Verse *song7Verse4 = [song7 addVerse:@"Through the gates to the city in a robe of spotless white, He will lead me where no tears shall ever fall; In the glad song of ages I shall mingle with delight, but I long to meet my Saviour first of all."];
+//        song7Verse4.number = @4;
+//        song7Verse4.chorus = song7Chorus1;
+//    }
+//    
+//    Song *song41 = [Song newOrExistingSongTitled:@"My Wish Is To Praise God" inSection:songsSection];
+//    if ([song41.verses count] == 0) {
+//        song41.number = @41;
+//        song41.subtitle = @"(trans: 64 UL, Jo Mahtaisin Yota)";
+//        Verse *song41Verse1 = [song41 addVerse:@"My wish is to praise God night and day, For His great Love He showed toward us; That we’ve been made ready, For the great wedding, In Heaven with the Lamb of God."];
+//        song41Verse1.repeatText = @"That we’ve been made ready, For the great wedding, In Heaven with the Lamb of God.";
+//        Verse *song41Verse2 = [song41 addVerse:@"O boundless Love O endless grace, That I’ve been selected to be His Bride, For me this is plenty, That Jesus is mine, O endless grace and Love Divine."];
+//        song41Verse2.repeatText = @"For me this is plenty, That Jesus is mine, O endless grace and Love Divine.";
+//    }
     
     // Create the Finn Songs
     Song *finnSong0 = [Song newOrExistingSongTitled:@"O Jumalan Karitsa" inSection:finnSection];

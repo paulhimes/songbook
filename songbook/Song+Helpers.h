@@ -19,4 +19,6 @@
 - (NSString *)stringForSearching;
 - (NSString *)headerString;
 
+- (NSString *)description;
+
 @end

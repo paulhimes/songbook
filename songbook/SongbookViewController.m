@@ -58,9 +58,7 @@
 
 - (IBAction)testAction:(id)sender
 {
-    BookParser *parser = [[BookParser alloc] init];
-    
-    Book *book = [parser bookFromFilePath:[[NSBundle mainBundle] pathForResource:@"songs" ofType:@"txt"]];
+
 }
 
 #pragma mark - UIToolbarDelegate

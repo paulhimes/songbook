@@ -154,4 +154,39 @@
     return [headerString copy];
 }
 
+- (NSString *)description
+{
+    NSMutableString *string = [@"" mutableCopy];
+    
+    if (self.number) {
+        [string appendFormat:@"%@ ", self.number];
+    }
+    [string appendString:self.title];
+    if (self.subtitle) {
+        [string appendFormat:@"\n%@", self.subtitle];
+    }
+    
+    for (Verse *verse in self.verses) {
+        [string appendString:@"\n\n"];
+        if (verse.title) {
+            [string appendFormat:@"\t\t\t%@\n", verse.title];
+        }
+        if ([verse.isChorus boolValue]) {
+            [string appendFormat:@"Chorus: %@", verse.text];
+        } else {
+            if (verse.number) {
+                [string appendFormat:@"%@. ", verse.number];
+            }
+            [string appendString:verse.text];
+        }
+        
+        if (verse.chorus) {
+            [string appendString:@"\n\n"];
+            [string appendFormat:@"(Chorus: %@)", verse.chorus.text];
+        }
+    }
+    
+    return [string copy];
+}
+
 @end
