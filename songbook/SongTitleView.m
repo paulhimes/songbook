@@ -57,8 +57,8 @@ static const CGFloat kSongComponentPadding = 8;
 - (CGFloat)titleOriginX
 {
     NSAttributedString *numberText = [self numberText];
-    CGRect numberRect = [numberText boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)
-                                                 options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+    CGRect numberRect = [numberText boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, self.numberFont.lineHeight)
+                                                 options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading | NSStringDrawingTruncatesLastVisibleLine
                                                  context:nil];
     return numberRect.size.width;
 }
@@ -84,8 +84,8 @@ static const CGFloat kSongComponentPadding = 8;
 
 - (CGRect)textRectForWidth:(CGFloat)width
 {
-    CGRect boundingRect = [[self text] boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)
-                                                    options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+    CGRect boundingRect = [[self text] boundingRectWithSize:CGSizeMake(width, self.numberFont.lineHeight)
+                                                    options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading | NSStringDrawingTruncatesLastVisibleLine
                                                     context:nil];
     return boundingRect;
 }
@@ -119,7 +119,7 @@ static const CGFloat kSongComponentPadding = 8;
     
     CGRect drawingRect = [self placedTextRectForWidth:self.bounds.size.width];
 //    NSLog(@"drawing rect for %@ %@", self.title, NSStringFromCGRect(drawingRect));
-    [[self text] drawWithRect:drawingRect options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+    [[self text] drawWithRect:drawingRect options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading | NSStringDrawingTruncatesLastVisibleLine context:nil];
     
 //    [[UIColor colorWithWhite:0 alpha:0.5] setStroke];
 //    [[UIBezierPath bezierPathWithRect:drawingRect] stroke];
