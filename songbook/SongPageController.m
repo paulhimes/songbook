@@ -56,12 +56,12 @@ static const NSInteger kGutterWidth = 8;
     normalAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion" size:standardTextSize];
     
     NSMutableDictionary *numberAttributes = [normalAttributes mutableCopy];
-    numberAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion-Bold" size:standardTextSize * 1.5];
+    numberAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion-Bold" size:kTitleNumberFontSize];
     numberAttributes[NSParagraphStyleAttributeName] = [self paragraphStyleFirstLineIndent:0
                                                                           andNormalIndent:titleView.titleOriginX];
 
     NSMutableDictionary *titleAttributes = [normalAttributes mutableCopy];
-    titleAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion" size:standardTextSize * 1.1];
+    titleAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion" size:kTitleFontSize];
     titleAttributes[NSParagraphStyleAttributeName] = [self paragraphStyleFirstLineIndent:0
                                                                          andNormalIndent:titleView.titleOriginX];
 
@@ -71,7 +71,7 @@ static const NSInteger kGutterWidth = 8;
     NSMutableDictionary *subtitleAttributes = [normalAttributes mutableCopy];
     subtitleAttributes[NSParagraphStyleAttributeName] = [self paragraphStyleFirstLineIndent:titleView.titleOriginX
                                                                             andNormalIndent:titleView.titleOriginX];
-    subtitleAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion" size:standardTextSize * 0.75];
+    subtitleAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion" size:kSubtitleFontSize];
     
     NSMutableDictionary *verseTitleAttributes = [normalAttributes mutableCopy];
     NSMutableParagraphStyle *verseTitleParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];

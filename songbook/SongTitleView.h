@@ -8,6 +8,10 @@
 
 #import "TitleView.h"
 
+extern const CGFloat kTitleNumberFontSize;
+extern const CGFloat kTitleFontSize;
+extern const CGFloat kSubtitleFontSize;
+
 @interface SongTitleView : TitleView
 
 @property (nonatomic, strong) NSNumber *number;

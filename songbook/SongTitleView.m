@@ -9,6 +9,10 @@
 #import "SongTitleView.h"
 #import "PageController.h"
 
+const CGFloat kTitleNumberFontSize = 30;
+const CGFloat kTitleFontSize = 22;
+const CGFloat kSubtitleFontSize = 15;
+
 static const NSInteger kTopMargin = 16;
 static const CGFloat kSongComponentPadding = 8;
 
@@ -25,11 +29,7 @@ static const CGFloat kSongComponentPadding = 8;
 - (UIFont *)numberFont
 {
     if (!_numberFont) {
-        
-        NSNumber *standardTextSizeNumber = [[NSUserDefaults standardUserDefaults] objectForKey:kStandardTextSizeKey];
-        CGFloat standardTextSize = [standardTextSizeNumber floatValue];
-        
-        _numberFont = [UIFont fontWithName:@"Marion-Bold" size:standardTextSize * 1.5];
+        _numberFont = [UIFont fontWithName:@"Marion-Bold" size:kTitleNumberFontSize];
     }
     return _numberFont;
 }
@@ -37,11 +37,7 @@ static const CGFloat kSongComponentPadding = 8;
 - (UIFont *)titleFont
 {
     if (!_titleFont) {
-        
-        NSNumber *standardTextSizeNumber = [[NSUserDefaults standardUserDefaults] objectForKey:kStandardTextSizeKey];
-        CGFloat standardTextSize = [standardTextSizeNumber floatValue];
-        
-        _titleFont = [UIFont fontWithName:@"Marion" size:standardTextSize * 1.1];
+        _titleFont = [UIFont fontWithName:@"Marion" size:kTitleFontSize];
     }
     return _titleFont;
 }
