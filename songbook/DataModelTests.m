@@ -17,6 +17,12 @@
 
 + (void)populateSampleDataInContext:(NSManagedObjectContext *)context
 {
+    // First check if data has already been populated.
+    NSArray *books = [Book allBooksInContext:context];
+    if ([books count] > 0) {
+        return;
+    }
+    
     // Create the book.
     Book *book = [Book newOrExistingBookTitled:@"Songs & Hymns of Believers" inContext:context];
     

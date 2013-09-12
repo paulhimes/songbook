@@ -50,7 +50,8 @@
     return [[NSAttributedString alloc] initWithString:self.book.title
                                            attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:standardTextSize * 2],
                                                         NSForegroundColorAttributeName: [UIColor whiteColor],
-                                                        NSTextEffectAttributeName: NSTextEffectLetterpressStyle}];
+//                                                        NSTextEffectAttributeName: NSTextEffectLetterpressStyle
+                                                        }];
 }
 
 @end
