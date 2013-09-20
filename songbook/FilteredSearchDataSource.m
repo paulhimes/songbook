@@ -291,53 +291,25 @@ static const NSString * const kFragmentKey = @"FragmentKey";
             Token *token = firstTokenOptions[positionOption];
             
             for (__strong TokenInstance *tokenInstance in token.instances) {
-                Song *song = tokenInstance.song;
-//                NSUInteger tokenIndex = [song.tokenInstances indexOfObject:tokenInstance];
-                
+
                 NSMutableArray *songTokenInstances = [@[] mutableCopy];
-                
                 [songTokenInstances addObject:tokenInstance];
-                
                 while (tokenInstance.nextInstance && [songTokenInstances count] < [searchTokens count]) {
                     tokenInstance = tokenInstance.nextInstance;
                     [songTokenInstances addObject:tokenInstance];
                 }
                 
-                
-//                NSArray *songTokenInstances = [[song.tokenInstances array] subarrayWithRange:NSMakeRange(tokenIndex, [song.tokenInstances count] - tokenIndex)];
-                
                 if ([songTokenInstances count] == [searchTokens count]) {
-//                    songTokenInstances = [songTokenInstances subarrayWithRange:NSMakeRange(0, [searchTokens count])];
                     
                     NSMutableArray *songTokens = [@[] mutableCopy];
                     for (TokenInstance *songTokenInstance in songTokenInstances) {
                         [songTokens addObject:songTokenInstance.token];
                     }
                     
-                    BOOL matched = [self tokenArray:songTokens matchesTokenOptionsArrays:searchTokens];
-                    
-//                    BOOL allMatched = YES;
-//                    for (NSUInteger tokenPosition = 1; tokenPosition < [searchTokens count]; tokenPosition++) {
-//                        BOOL foundMatch = NO;
-//                        NSArray *tokenOptions = searchTokens[tokenPosition];
-//                        Token *songToken = songTokens[tokenPosition]; //((TokenInstance *)songTokenInstances[tokenPosition]).token;
-//                        for (Token *tokenOption in tokenOptions) {
-//                            if ([tokenOption.text isEqualToString:songToken.text]) {
-//                                foundMatch = YES;
-//                                break;
-//                            }
-//                        }
-//                        
-//                        if (!foundMatch) {
-//                            allMatched = NO;
-//                            break;
-//                        } else {
-//                            NSLog(@"found match");
-//                        }
-//                    }
-                    
-                    if (matched) {
+                    if ([self tokenArray:songTokens matchesTokenOptionsArrays:searchTokens]) {
                         
+                        Song *song = tokenInstance.song;
+
                         if (![uniqueSongs containsObject:song]) {
                             [uniqueSongs addObject:song];
                             
@@ -410,14 +382,7 @@ static const NSString * const kFragmentKey = @"FragmentKey";
 - (BOOL)tokenArray:(NSArray *)tokenArray matchesTokenOptionsArrays:(NSArray *)tokenOptionsArrays
 {
     BOOL matches = NO;
-    
-    
-    NSMutableString *testString = [@"" mutableCopy];
-    for (Token *token in tokenArray) {
-        [testString appendFormat:@"%@ ", token.text];
-    }
-    NSLog(@"%@", testString);
-    
+
     if ([tokenArray count] > 0 && [tokenArray count] == [tokenOptionsArrays count]) {
         
         matches = YES;
@@ -432,14 +397,7 @@ static const NSString * const kFragmentKey = @"FragmentKey";
             for (Token *tokenOption in tokenOptionsArray) {
                 if ([token.text isEqualToString:tokenOption.text]) {
                     foundMatchingTokenAtIndex = YES;
-                    
-//                    NSLog(@"%@ matches %@", token.text, tokenOption.text);
-                    
                     break;
-                } else {
-                    if (tokenIndex > 0) {
-//                        NSLog(@"%@ does not match %@", token.text, tokenOption.text);
-                    }
                 }
             }
             
