@@ -13,9 +13,21 @@
 
 - (NSArray *)rangesOfSubstring:(NSString *)substring;
 - (NSArray *)wordRangesOfSubstring:(NSString *)substring;
-- (NSArray *)tokens;
+- (NSArray *)tokens; // Array of StringTokens
 - (NSString *)stringByAppendingCharacter:(unichar)character;
 - (NSString *)stringLimitedToCharacterSet:(NSCharacterSet *)characterSet;
 + (NSString *)stringFromTokenArray:(NSArray *)tokens;
+
+@end
+
+@interface StringToken : NSObject
+
+@property (nonatomic, strong) NSString *string;
+@property (nonatomic) NSRange range;
+
+- (instancetype)initWithString:(NSString *)string range:(NSRange)range;
+
++ (NSArray *)rangeListsMatchingTokens:(NSArray *)searchTokens
+                             inTokens:(NSArray *)tokens;
 
 @end

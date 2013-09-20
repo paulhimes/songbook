@@ -9,6 +9,8 @@
 #import "FilteredSearchDataSource.h"
 #import "Song+Helpers.h"
 #import "Section.h"
+#import "Token+Helpers.h"
+#import "TokenInstance.h"
 
 static const NSUInteger kFragmentPrefixMaxLength = 5;
 static const NSUInteger kFragmentSuffixMaxLength = 20;
@@ -20,6 +22,7 @@ static const NSString * const kFragmentKey = @"FragmentKey";
 @property (nonatomic, strong) Book *book;
 @property (nonatomic, strong) NSArray *matchingSongs;
 @property (nonatomic, readonly) NSArray *matchingSections;
+@property (nonatomic, strong) NSArray *matchingSongsBySection;
 @property (nonatomic, strong) NSString *searchString;
 @property (nonatomic) CGFloat basicHeight;
 @property (nonatomic) CGFloat contextHeight;
@@ -109,10 +112,24 @@ static const NSString * const kFragmentKey = @"FragmentKey";
     return [sections copy];
 }
 
+- (NSArray *)matchingSongsBySection
+{
+    if (!_matchingSongsBySection) {
+        NSMutableArray *matchingSongsBySection = [@[] mutableCopy];
+        NSArray *sections = self.matchingSections;
+        for (NSUInteger sectionIndex = 0; sectionIndex < [sections count]; sectionIndex++) {
+            [matchingSongsBySection addObject:[self matchingSongsInSection:sections[sectionIndex]]];
+        }
+        _matchingSongsBySection = [matchingSongsBySection copy];
+    }
+    return _matchingSongsBySection;
+}
+
 - (void)setSearchString:(NSString *)searchString
 {
     _searchString = searchString;
     self.matchingSongs = nil;
+    self.matchingSongsBySection = nil;
 }
 
 - (instancetype)initWithBook:(Book *)book
@@ -139,14 +156,12 @@ static const NSString * const kFragmentKey = @"FragmentKey";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    Section *sectionForTableSection = self.matchingSections[section];
-    return [[self matchingSongsInSection:sectionForTableSection] count];
+    return [self.matchingSongsBySection[section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Section *sectionForTableSection = self.matchingSections[indexPath.section];
-    NSDictionary *songDictionary = [self matchingSongsInSection:sectionForTableSection][indexPath.row];
+    NSDictionary *songDictionary = self.matchingSongsBySection[indexPath.section][indexPath.row];
     
     Song *songForRow = songDictionary[kSongKey];
     NSAttributedString *fragment = songDictionary[kFragmentKey];
@@ -192,8 +207,7 @@ static const NSString * const kFragmentKey = @"FragmentKey";
         self.contextHeight = contextCell.frame.size.height;
     }
     
-    Section *sectionForTableSection = self.matchingSections[indexPath.section];
-    NSDictionary *songDictionary = [self matchingSongsInSection:sectionForTableSection][indexPath.row];
+    NSDictionary *songDictionary = self.matchingSongsBySection[indexPath.section][indexPath.row];
     
     Song *songForRow = songDictionary[kSongKey];
     NSAttributedString *fragment = songDictionary[kFragmentKey];
@@ -212,8 +226,7 @@ static const NSString * const kFragmentKey = @"FragmentKey";
 
 - (Song *)songAtIndexPath:(NSIndexPath *)indexPath
 {
-    Section *sectionForTableSection = self.matchingSections[indexPath.section];
-    NSDictionary *songDictionary = [self matchingSongsInSection:sectionForTableSection][indexPath.row];
+    NSDictionary *songDictionary = self.matchingSongsBySection[indexPath.section][indexPath.row];
     return songDictionary[kSongKey];
 }
 
@@ -230,6 +243,7 @@ static const NSString * const kFragmentKey = @"FragmentKey";
     
     for (NSDictionary *songDictionary in self.matchingSongs) {
         Song *matchingSong = songDictionary[kSongKey];
+//        NSLog(@"Checking %@", [matchingSong headerString]);
         if (matchingSong.section == section) {
             [matchingSongs addObject:songDictionary];
         }
@@ -255,77 +269,188 @@ static const NSString * const kFragmentKey = @"FragmentKey";
 - (NSArray *)tokenSearchForString:(NSString *)searchString
 {
     NSMutableArray *matchingSongs = [@[] mutableCopy];
+    NSMutableArray *uniqueSongs = [@[] mutableCopy];
     
     NSArray *searchStringTokens = [searchString tokens];
     
-    for (Section *section in self.book.sections) {
-        for (Song *song in section.songs) {
+    NSMutableArray *searchTokens = [@[] mutableCopy];
+    for (StringToken *searchStringToken in searchStringTokens) {
+        NSString *normalizedString = [searchStringToken.string stringByFoldingWithOptions:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch | NSWidthInsensitiveSearch locale:nil];
+        
+        NSArray *tokens = [Token existingTokensStartingWithText:normalizedString
+                                                      inContext:self.book.managedObjectContext];
+        
+        [searchTokens addObject:tokens];
+    }
+    
+    if ([searchTokens count] > 0) {
+        NSArray *firstTokenOptions = searchTokens[0];
+        
+        for (NSUInteger positionOption = 0; positionOption < [firstTokenOptions count]; positionOption++) {
             
-            NSString *stringForSearching = [song stringForSearching];
-            NSArray *songTokens = [stringForSearching tokens];
+            Token *token = firstTokenOptions[positionOption];
             
-            NSArray *rangeLists = [Token rangeListsMatchingTokens:searchStringTokens inTokens:songTokens];
-            
-            // Song title.
-            if ([rangeLists count] > 0) {
-                // Add the song's title as a matching fragment.
-                NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] init];
-                if (song.number) {
-                    [titleString appendString:[song.number stringValue] attributes:self.matchingTitleAttributes];
-                    [titleString appendString:@" " attributes:self.matchingTitleAttributes];
-                }
-                if ([song.title length] > 0) {
-                    [titleString appendString:song.title attributes:self.normalTitleAttributes];
-                }
+            for (__strong TokenInstance *tokenInstance in token.instances) {
+                Song *song = tokenInstance.song;
+//                NSUInteger tokenIndex = [song.tokenInstances indexOfObject:tokenInstance];
                 
-                NSArray *titleTokens = [titleString.string tokens];
+                NSMutableArray *songTokenInstances = [@[] mutableCopy];
                 
-                // Make the matching text bold.
-                NSArray *titleRangeLists = [Token rangeListsMatchingTokens:searchStringTokens inTokens:titleTokens];
-                for (NSArray *rangeList in titleRangeLists) {
-                    for (NSValue *rangeValue in rangeList) {
-                        NSRange range = [rangeValue rangeValue];
-                        
-                        // Make matching text black and bold.
-                        [titleString setAttributes:self.matchingTitleAttributes range:NSMakeRange(range.location, range.length)];
-                    }
+                [songTokenInstances addObject:tokenInstance];
+                
+                while (tokenInstance.nextInstance && [songTokenInstances count] < [searchTokens count]) {
+                    tokenInstance = tokenInstance.nextInstance;
+                    [songTokenInstances addObject:tokenInstance];
                 }
                 
-                // Add the title to the matching songs array.
-                [matchingSongs addObject:@{kSongKey: song,
-                                           kFragmentKey: titleString}];
-            }
-            
-            // Song body.
-            for (NSArray *rangeList in rangeLists) {
-                if ([rangeList count] > 0) {
-                    NSRange firstRange = [rangeList[0] rangeValue];
+                
+//                NSArray *songTokenInstances = [[song.tokenInstances array] subarrayWithRange:NSMakeRange(tokenIndex, [song.tokenInstances count] - tokenIndex)];
+                
+                if ([songTokenInstances count] == [searchTokens count]) {
+//                    songTokenInstances = [songTokenInstances subarrayWithRange:NSMakeRange(0, [searchTokens count])];
                     
-                    // Create an attributed string fragment around the matching ranges.
-                    NSRange fragmentRange = NSMakeRange(firstRange.location, [stringForSearching length] - firstRange.location);
-                    NSString *fragmentString = [stringForSearching substringWithRange:fragmentRange];
-                    NSMutableAttributedString *fragment = [[NSMutableAttributedString alloc] initWithString:fragmentString attributes:self.normalFragmentAttributes];
-                    
-                    for (NSValue *rangeValue in rangeList) {
-                        NSRange range = [rangeValue rangeValue];
-                        
-                        // Make matching text black and bold.
-                        [fragment setAttributes:self.matchingFragmentAttributes range:NSMakeRange(range.location - firstRange.location, range.length)];
+                    NSMutableArray *songTokens = [@[] mutableCopy];
+                    for (TokenInstance *songTokenInstance in songTokenInstances) {
+                        [songTokens addObject:songTokenInstance.token];
                     }
                     
-                    // Prepend the "..."
-                    NSAttributedString *ellipsis = [[NSAttributedString alloc] initWithString:@"…" attributes:self.normalFragmentAttributes];
-                    [fragment insertAttributedString:ellipsis atIndex:0];
+                    BOOL matched = [self tokenArray:songTokens matchesTokenOptionsArrays:searchTokens];
                     
-                    // Add this fragment entry to the matching songs array.
-                    [matchingSongs addObject:@{kSongKey: song,
-                                               kFragmentKey: fragment}];
+//                    BOOL allMatched = YES;
+//                    for (NSUInteger tokenPosition = 1; tokenPosition < [searchTokens count]; tokenPosition++) {
+//                        BOOL foundMatch = NO;
+//                        NSArray *tokenOptions = searchTokens[tokenPosition];
+//                        Token *songToken = songTokens[tokenPosition]; //((TokenInstance *)songTokenInstances[tokenPosition]).token;
+//                        for (Token *tokenOption in tokenOptions) {
+//                            if ([tokenOption.text isEqualToString:songToken.text]) {
+//                                foundMatch = YES;
+//                                break;
+//                            }
+//                        }
+//                        
+//                        if (!foundMatch) {
+//                            allMatched = NO;
+//                            break;
+//                        } else {
+//                            NSLog(@"found match");
+//                        }
+//                    }
+                    
+                    if (matched) {
+                        
+                        if (![uniqueSongs containsObject:song]) {
+                            [uniqueSongs addObject:song];
+                            
+                            // Add the song's title as a matching fragment.
+                            NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] init];
+                            if (song.number) {
+                                [titleString appendString:[song.number stringValue] attributes:self.matchingTitleAttributes];
+                                [titleString appendString:@" " attributes:self.matchingTitleAttributes];
+                            }
+                            if ([song.title length] > 0) {
+                                [titleString appendString:song.title attributes:self.normalTitleAttributes];
+                            }
+                            
+                            NSArray *titleTokens = [titleString.string tokens];
+
+                            // Make the matching text bold.
+                            NSArray *titleRangeLists = [StringToken rangeListsMatchingTokens:searchStringTokens inTokens:titleTokens];
+                            for (NSArray *rangeList in titleRangeLists) {
+                                for (NSValue *rangeValue in rangeList) {
+                                    NSRange range = [rangeValue rangeValue];
+                                    
+                                    // Make matching text black and bold.
+                                    [titleString setAttributes:self.matchingTitleAttributes range:NSMakeRange(range.location, range.length)];
+                                }
+                            }
+                            
+                            // Add the title to the matching songs array.
+                            [matchingSongs addObject:@{kSongKey: song,
+                                                       kFragmentKey: titleString}];
+                            
+                        }
+                        
+                        
+                        
+                        // Song body.
+                        if ([songTokenInstances count] > 0) {
+                            TokenInstance *firstSongTokenInstance = songTokenInstances[0];
+                            
+                            // Create an attributed string fragment around the matching ranges.
+                            NSString *stringForSearching = [song stringForSearching];
+                            
+                            NSRange fragmentRange = NSMakeRange([firstSongTokenInstance.location unsignedIntegerValue], [stringForSearching length] - [firstSongTokenInstance.location unsignedIntegerValue]);
+                            NSString *fragmentString = [stringForSearching substringWithRange:fragmentRange];
+                            NSMutableAttributedString *fragment = [[NSMutableAttributedString alloc] initWithString:fragmentString attributes:self.normalFragmentAttributes];
+                            
+                            for (TokenInstance *songTokenInstance in songTokenInstances) {
+                                // Make matching text black and bold.
+                                [fragment setAttributes:self.matchingFragmentAttributes range:NSMakeRange([songTokenInstance.location unsignedIntegerValue] - [firstSongTokenInstance.location unsignedIntegerValue], [songTokenInstance.length unsignedIntegerValue])];
+                            }
+                            
+                            // Prepend the "..."
+                            NSAttributedString *ellipsis = [[NSAttributedString alloc] initWithString:@"…" attributes:self.normalFragmentAttributes];
+                            [fragment insertAttributedString:ellipsis atIndex:0];
+                            
+                            // Add this fragment entry to the matching songs array.
+                            [matchingSongs addObject:@{kSongKey: song,
+                                                       kFragmentKey: fragment}];
+                        }
+                        
+                        
+                    }
                 }
             }
         }
     }
-    
+
     return [matchingSongs copy];
+}
+
+- (BOOL)tokenArray:(NSArray *)tokenArray matchesTokenOptionsArrays:(NSArray *)tokenOptionsArrays
+{
+    BOOL matches = NO;
+    
+    
+    NSMutableString *testString = [@"" mutableCopy];
+    for (Token *token in tokenArray) {
+        [testString appendFormat:@"%@ ", token.text];
+    }
+    NSLog(@"%@", testString);
+    
+    if ([tokenArray count] > 0 && [tokenArray count] == [tokenOptionsArrays count]) {
+        
+        matches = YES;
+        
+        for (NSUInteger tokenIndex = 0; tokenIndex < [tokenArray count]; tokenIndex++) {
+            
+            BOOL foundMatchingTokenAtIndex = NO;
+            
+            Token *token = tokenArray[tokenIndex];
+            NSArray *tokenOptionsArray = tokenOptionsArrays[tokenIndex];
+            
+            for (Token *tokenOption in tokenOptionsArray) {
+                if ([token.text isEqualToString:tokenOption.text]) {
+                    foundMatchingTokenAtIndex = YES;
+                    
+//                    NSLog(@"%@ matches %@", token.text, tokenOption.text);
+                    
+                    break;
+                } else {
+                    if (tokenIndex > 0) {
+//                        NSLog(@"%@ does not match %@", token.text, tokenOption.text);
+                    }
+                }
+            }
+            
+            if (!foundMatchingTokenAtIndex) {
+                matches = NO;
+                break;
+            }
+        }
+    }
+    
+    return matches;
 }
 
 - (NSArray *)numberSearchForString:(NSString *)searchString

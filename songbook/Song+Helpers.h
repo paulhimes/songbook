@@ -16,9 +16,13 @@
 + (Song *)songInContext:(NSManagedObjectContext *)context;
 - (Verse *)addVerse:(NSString *)verseText;
 
+- (void)generateSearchTokensWithCache:(NSCache *)cache;
+
 - (NSString *)stringForSearching;
 - (NSString *)headerString;
 
 - (NSString *)description;
+
+- (void)clearCachedSong;
 
 @end

@@ -12,6 +12,7 @@
 #import "Section+Helpers.h"
 #import "Verse+Helpers.h"
 #import "AppDelegate.h"
+#import "TokenInstance.h"
 
 static NSString * const kTitleKey = @"title";
 static NSString * const kVerseTextKey = @"text";
@@ -161,12 +162,53 @@ static NSString * const kHasChorusKey = @"hasChorus";
         [songs addObject:currentSong];
     }
     
-//    for (Song *song in songs) {
-//        NSLog(@"\n%@", song);
-//    }
+    [context save:NULL];
     
+    // Collect the Song object IDs and clear all the songs.
+    NSMutableArray *songIDs = [@[] mutableCopy];
+    for (Song *song in songs) {
+        [songIDs addObject:song.objectID];
+        [song clearCachedSong];
+    }
+    [songs removeAllObjects];
     
-//    NSLog(@"%@", fileString);
+    NSCache *tokenCache = [[NSCache alloc] init];
+    
+    // Generate the search tokens.
+    NSMutableArray *unsavedSongs = [@[] mutableCopy];
+    
+    for (NSManagedObjectID *songID in songIDs) {
+        @autoreleasepool {
+            Song *song = (Song *)[context objectWithID:songID];
+            
+            [song generateSearchTokensWithCache:tokenCache];
+            NSLog(@"Tokenized: %@", [song headerString]);
+            
+            [unsavedSongs addObject:song];
+
+            if ([unsavedSongs count] > 5) {
+                [context save:NULL];
+                
+                for (Song *song in unsavedSongs) {
+                    // Clear the song (along with all it's tokens and token instances)
+                    [song clearCachedSong];
+                }
+                
+                [unsavedSongs removeAllObjects];
+            }
+        }
+    }
+    
+    [context save:NULL];
+    for (Song *song in unsavedSongs) {
+        [song clearCachedSong];
+    }
+
+    // Reload all the song objects.
+    for (NSManagedObjectID *songID in songIDs) {
+        Song *song = (Song *)[context objectWithID:songID];
+        [songs addObject:song];
+    }
     
     return songs;
 }

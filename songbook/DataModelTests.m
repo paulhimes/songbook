@@ -36,23 +36,10 @@
     NSArray *songs = [parser songsFromFilePath:[[NSBundle mainBundle] pathForResource:@"songs" ofType:@"txt"]];
     Song *song41;
     for (Song *song in songs) {
-        BOOL alreadyExists = NO;
-        for (Song *existingSong in songsSection.songs) {
-            if ([existingSong.title isEqualToString:song.title]) {
-                alreadyExists = YES;
-                if ([existingSong.number isEqualToNumber:@41]) {
-                    song41 = existingSong;
-                }
-                break;
-            }
-        }
+        song.section = songsSection;
         
-        if (!alreadyExists) {
-            song.section = songsSection;
-            
-            if ([song.number isEqualToNumber:@41]) {
-                song41 = song;
-            }
+        if ([song.number isEqualToNumber:@41]) {
+            song41 = song;
         }
     }
     

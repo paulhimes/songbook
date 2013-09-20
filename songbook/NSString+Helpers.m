@@ -82,7 +82,7 @@
                    i == [self length] - 1) {
             if ([currentToken length] > 0) {
                 NSRange tokenRange = NSMakeRange(indexOfFirstTokenCharacter, indexOfLastTokenCharacter + 1 - indexOfFirstTokenCharacter);
-                [tokens addObject:[[Token alloc] initWithString:[currentToken copy] range:tokenRange]];
+                [tokens addObject:[[StringToken alloc] initWithString:[currentToken copy] range:tokenRange]];
             }
             currentToken = [@"" mutableCopy];
             indexOfFirstTokenCharacter = -1;
@@ -92,7 +92,7 @@
     
     if ([currentToken length] > 0) {
         NSRange tokenRange = NSMakeRange(indexOfFirstTokenCharacter, indexOfLastTokenCharacter + 1 - indexOfFirstTokenCharacter);
-        [tokens addObject:[[Token alloc] initWithString:[currentToken copy] range:tokenRange]];
+        [tokens addObject:[[StringToken alloc] initWithString:[currentToken copy] range:tokenRange]];
     }
     
     return [tokens copy];
@@ -106,7 +106,7 @@
 + (NSString *)stringFromTokenArray:(NSArray *)tokens
 {
     NSMutableArray *stringComponents = [@[] mutableCopy];
-    for (Token *token in tokens) {
+    for (StringToken *token in tokens) {
         [stringComponents addObject:token.string];
     }
     
@@ -116,6 +116,58 @@
 - (NSString *)stringByAppendingCharacter:(unichar)character
 {
     return [self stringByAppendingString:[NSString stringWithCharacters:&character length:1]];
+}
+
+@end
+
+@implementation StringToken
+
+- (instancetype)initWithString:(NSString *)string range:(NSRange)range
+{
+    self = [super init];
+    if (self) {
+        self.string = string;
+        self.range = range;
+    }
+    return self;
+}
+
+/** Returns an array of range arrays. Each range array has one range for each search token. Each range array corresponds to a location in the tokens array in which the search tokens line up such that each search token begins a token in a contiguous subset of the tokens. **/
++ (NSArray *)rangeListsMatchingTokens:(NSArray *)searchTokens
+                             inTokens:(NSArray *)tokens
+{
+    NSMutableArray *rangeLists = [@[] mutableCopy];
+    
+    for (int tokenIndex = 0; tokenIndex < [tokens count]; tokenIndex++) {
+        
+        NSMutableArray *rangeList = [@[] mutableCopy];
+        
+        if ([tokens count] - tokenIndex >= [searchTokens count]) {
+            for (int searchTokenIndex = 0; searchTokenIndex < [searchTokens count]; searchTokenIndex++) {
+                
+                StringToken *token = tokens[tokenIndex + searchTokenIndex];
+                StringToken *searchToken = searchTokens[searchTokenIndex];
+                
+                NSRange matchingRange = [token.string rangeOfString:searchToken.string
+                                                            options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch | NSWidthInsensitiveSearch];
+                
+                if (matchingRange.location != 0) {
+                    [rangeList removeAllObjects];
+                    break;
+                } else {
+                    [rangeList addObject:[NSValue valueWithRange:token.range]];
+                }
+            }
+        } else {
+            break;
+        }
+        
+        if ([rangeList count] > 0) {
+            [rangeLists addObject:[rangeList copy]];
+        }
+    }
+    
+    return [rangeLists copy];
 }
 
 @end

@@ -10,6 +10,8 @@
 #import "Verse+Helpers.h"
 #import "Section.h"
 #import "Book.h"
+#import "Token+Helpers.h"
+#import "TokenInstance+Helpers.h"
 
 @implementation Song (Helpers)
 
@@ -26,10 +28,10 @@
     
     Song *song;
     if ([results count] > 0) {
-        // Return an existing section.
+        // Return an existing object.
         song = results[0];
     } else {
-        // Return a new section.
+        // Return a new object.
         song = [Song songInContext:section.managedObjectContext];
         song.title = title;
         song.section = section;
@@ -90,54 +92,78 @@
     return self;
 }
 
+- (void)generateSearchTokensWithCache:(NSCache *)cache
+{
+    NSString *stringForSearching = [self stringForSearching];
+    NSArray *stringTokens = [stringForSearching tokens];
+    
+    for (StringToken *stringToken in stringTokens) {
+        NSString *normalizedString = [stringToken.string stringByFoldingWithOptions:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch | NSWidthInsensitiveSearch locale:nil];
+        
+        Token *token = [cache objectForKey:normalizedString];
+        
+        if (!token) {
+            token = [Token newOrExistingTokenWithText:normalizedString inContext:self.managedObjectContext];
+            [cache setObject:token forKey:normalizedString];
+        }
+        
+        [TokenInstance instanceOfToken:token atRange:stringToken.range inSong:self];
+    }
+}
+
 - (NSString *)stringForSearching
 {
-    NSMutableString *string = [@"" mutableCopy];
+    if (!self.cachedStringForSearching) {
 
-    if ([self.subtitle length] > 0) {
-        [string appendString:self.subtitle];
-        [string appendString:@" "];
-    }
-    
-    [self.verses enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        Verse *verse = (Verse *)obj;
+        NSMutableString *string = [@"" mutableCopy];
         
-        if (idx != 0) {
+        if ([self.subtitle length] > 0) {
+            [string appendString:self.subtitle];
             [string appendString:@" "];
         }
         
-        if (verse.title) {
-            [string appendString:[NSString stringWithFormat:@" %@", verse.title]];
-            [string appendString:@" "];
-        }
-        
-        if ([verse.isChorus boolValue]) {
-            [string appendString:@" Chorus: "];
-        } else {
-            if (verse.number) {
-                [string appendString:[NSString stringWithFormat:@" %@. ", verse.number]];
+        for (NSUInteger index = 0; index < [self.verses count]; index++) {
+            if (index != 0) {
+                [string appendString:@" "];
             }
+            
+            Verse *verse = self.verses[index];
+            
+            if (verse.title) {
+                [string appendString:[NSString stringWithFormat:@" %@", verse.title]];
+                [string appendString:@" "];
+            }
+            
+            if ([verse.isChorus boolValue]) {
+                [string appendString:@" Chorus: "];
+            } else {
+                if (verse.number) {
+                    [string appendString:[NSString stringWithFormat:@" %@. ", verse.number]];
+                }
+            }
+            
+            [string appendString:verse.text];
         }
         
-        [string appendString:verse.text];
-    }];
-    
-    if ([self.author length] > 0 ||
-        [self.year length] > 0) {
-        [string appendString:@" "];
+        if ([self.author length] > 0 ||
+            [self.year length] > 0) {
+            [string appendString:@" "];
+        }
+        
+        if ([self.author length] > 0) {
+            [string appendString:@" "];
+            [string appendString:self.author];
+        }
+        
+        if ([self.year length] > 0) {
+            [string appendString:@" "];
+            [string appendString:self.year];
+        }
+        
+        self.cachedStringForSearching = [string copy];
     }
     
-    if ([self.author length] > 0) {
-        [string appendString:@" "];
-        [string appendString:self.author];
-    }
-    
-    if ([self.year length] > 0) {
-        [string appendString:@" "];
-        [string appendString:self.year];
-    }
-    
-    return [string copy];
+    return self.cachedStringForSearching;
 }
 
 - (NSString *)headerString
@@ -187,6 +213,24 @@
     }
     
     return [string copy];
+}
+
+- (void)clearCachedSong
+{
+//    NSMutableArray *uniqueTokens = [@[] mutableCopy];
+
+    for (TokenInstance *tokenInstance in self.tokenInstances) {
+//        if (![uniqueTokens containsObject:tokenInstance.token]) {
+//            [uniqueTokens addObject:tokenInstance.token];
+//        }
+        [self.managedObjectContext refreshObject:tokenInstance mergeChanges:NO];
+    }
+    
+//    for (Token *token in uniqueTokens) {
+//        [self.managedObjectContext refreshObject:token mergeChanges:NO];
+//    }
+    
+    [self.managedObjectContext refreshObject:self mergeChanges:NO];
 }
 
 @end
