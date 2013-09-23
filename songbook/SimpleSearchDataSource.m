@@ -14,6 +14,7 @@
 
 @property (nonatomic, strong) Book *book;
 @property (nonatomic, strong) NSString *searchString;
+@property (nonatomic) CGFloat cellHeight;
 
 @end
 
@@ -77,8 +78,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *basicCell = [tableView dequeueReusableCellWithIdentifier:@"BasicCell"];
-    return basicCell.frame.size.height;
+    if (self.cellHeight == 0) {
+        UITableViewCell *basicCell = [tableView dequeueReusableCellWithIdentifier:@"BasicCell"];
+        self.cellHeight = basicCell.frame.size.height;
+    }
+    return self.cellHeight;
 }
 
 #pragma mark - SearchDataSource

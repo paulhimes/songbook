@@ -113,6 +113,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
     
     [self setDataSourceWithSearchString:searchText];
     [self.tableView reloadData];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     
     NSTimeInterval endTime = [[NSDate date] timeIntervalSince1970];
     
