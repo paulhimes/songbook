@@ -12,10 +12,7 @@
 
 @interface SmartSearchDataSource()
 
-@property (nonatomic, strong) Book *book;
-@property (nonatomic, strong) id<SearchDataSource> activeDataSource;
-@property (nonatomic, strong) SimpleSearchDataSource *simpleDataSource;
-@property (nonatomic, strong) FilteredSearchDataSource *filteredDataSource;
+@property (nonatomic, strong) id<SearchDataSource> dataSource;
 
 @end
 
@@ -23,81 +20,53 @@
 
 #pragma mark - SearchDataSource
 
-- (void)setSearchString:(NSString *)searchString
-{
-    [self.filteredDataSource setSearchString:searchString];
-    [self.simpleDataSource setSearchString:searchString];
-    
-    self.activeDataSource = [searchString length] > 0 ? self.filteredDataSource : self.simpleDataSource;
-}
-
-- (id<SearchDataSource>)activeDataSource
-{
-    if (!_activeDataSource) {
-        _activeDataSource = self.simpleDataSource;
-    }
-    return _activeDataSource;
-}
-
-- (SimpleSearchDataSource *)simpleDataSource
-{
-    if (!_simpleDataSource) {
-        _simpleDataSource = [[SimpleSearchDataSource alloc] initWithBook:self.book];
-    }
-    return _simpleDataSource;
-}
-
-- (FilteredSearchDataSource *)filteredDataSource
-{
-    if (!_filteredDataSource) {
-        _filteredDataSource = [[FilteredSearchDataSource alloc] initWithBook:self.book];
-    }
-    return _filteredDataSource;
-}
-
-- (instancetype)initWithBook:(Book *)book
+- (instancetype)initWithBook:(Book *)book searchString:(NSString *)searchString
 {
     self = [super init];
     if (self) {
-        self.book = book;
+        if ([searchString length] > 0) {
+            self.dataSource = [[FilteredSearchDataSource alloc] initWithBook:book searchString:searchString];
+        } else {
+            self.dataSource = [[SimpleSearchDataSource alloc] initWithBook:book searchString:searchString];
+        }
     }
     return self;
 }
 
 - (Song *)songAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [self.activeDataSource songAtIndexPath:indexPath];
+    return [self.dataSource songAtIndexPath:indexPath];
 }
 - (NSIndexPath *)indexPathForSong:(Song *)song
 {
-    return [self.activeDataSource indexPathForSong:song];
+    return [self.dataSource indexPathForSong:song];
 }
 
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [self.activeDataSource numberOfSectionsInTableView:tableView];
+    return [self.dataSource numberOfSectionsInTableView:tableView];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return [self.activeDataSource tableView:tableView titleForHeaderInSection:section];
+    return [self.dataSource tableView:tableView titleForHeaderInSection:section];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.activeDataSource tableView:tableView numberOfRowsInSection:section];
+    return [self.dataSource tableView:tableView numberOfRowsInSection:section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [self.activeDataSource tableView:tableView cellForRowAtIndexPath:indexPath];
+    return [self.dataSource tableView:tableView cellForRowAtIndexPath:indexPath];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [self.activeDataSource tableView:tableView heightForRowAtIndexPath:indexPath];
+    return [self.dataSource tableView:tableView heightForRowAtIndexPath:indexPath];
 }
 
 

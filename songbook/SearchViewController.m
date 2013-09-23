@@ -22,6 +22,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
 @interface SearchViewController () <UISearchBarDelegate, UITableViewDelegate, UIToolbarDelegate>
 
 @property (nonatomic, strong) id<SearchDataSource> searchDataSource;
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchField;
@@ -31,22 +32,14 @@ typedef enum PreferredSearchMethod : NSUInteger {
 
 @implementation SearchViewController
 
-- (id<SearchDataSource>)searchDataSource
-{
-    if (!_searchDataSource) {
-        _searchDataSource = [[SmartSearchDataSource alloc] initWithBook:self.currentSong.section.book];
-    }
-    return _searchDataSource;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     self.tableView.contentInset = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
     self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
-    self.tableView.dataSource = self.searchDataSource;
-    self.tableView.delegate = self.searchDataSource;
+    
+    [self setDataSourceWithSearchString:@""];
     
     self.toolbar.delegate = self;
     self.searchField.delegate = self;
@@ -118,7 +111,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
     
     NSTimeInterval startTime = [[NSDate date] timeIntervalSince1970];
     
-    [self.searchDataSource setSearchString:searchText];
+    [self setDataSourceWithSearchString:searchText];
     [self.tableView reloadData];
     
     NSTimeInterval endTime = [[NSDate date] timeIntervalSince1970];
@@ -139,6 +132,13 @@ typedef enum PreferredSearchMethod : NSUInteger {
 }
 
 #pragma mark - Helper Methods
+
+- (void)setDataSourceWithSearchString:(NSString *)searchString
+{
+    self.searchDataSource = [[SmartSearchDataSource alloc] initWithBook:self.currentSong.section.book searchString:searchString];
+    self.tableView.dataSource = self.searchDataSource;
+    self.tableView.delegate = self.searchDataSource;
+}
 
 - (void)scrollToCurrentSong
 {

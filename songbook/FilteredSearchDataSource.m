@@ -21,11 +21,11 @@ static const NSString * const kLocationKey = @"LocationKey";
 @interface FilteredSearchDataSource()
 
 @property (nonatomic, strong) Book *book;
+@property (nonatomic, strong) NSString *searchString;
 @property (nonatomic, strong) NSDictionary *matchingSongFragmentsBySongID;
 @property (nonatomic, strong) NSArray *matchingSections;
 @property (nonatomic, strong) NSArray *matchingSongsBySection;
 @property (nonatomic, strong) NSArray *fragmentDictionariesBySection;
-@property (nonatomic, strong) NSString *searchString;
 @property (nonatomic) CGFloat basicHeight;
 @property (nonatomic) CGFloat contextHeight;
 
@@ -232,20 +232,12 @@ static const NSString * const kLocationKey = @"LocationKey";
     return _fragmentDictionariesBySection;
 }
 
-- (void)setSearchString:(NSString *)searchString
-{
-    _searchString = searchString;
-    self.matchingSongFragmentsBySongID = nil;
-    self.matchingSections = nil;
-    self.matchingSongsBySection = nil;
-    self.fragmentDictionariesBySection = nil;
-}
-
-- (instancetype)initWithBook:(Book *)book
+- (instancetype)initWithBook:(Book *)book searchString:(NSString *)searchString
 {
     self = [super init];
     if (self) {
         self.book = book;
+        self.searchString = searchString;
     }
     return self;
 }

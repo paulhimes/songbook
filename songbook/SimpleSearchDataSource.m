@@ -13,16 +13,18 @@
 @interface SimpleSearchDataSource()
 
 @property (nonatomic, strong) Book *book;
+@property (nonatomic, strong) NSString *searchString;
 
 @end
 
 @implementation SimpleSearchDataSource
 
-- (instancetype)initWithBook:(Book *)book
+- (instancetype)initWithBook:(Book *)book searchString:(NSString *)searchString
 {
     self = [super init];
     if (self) {
         self.book = book;
+        self.searchString = searchString;
     }
     return self;
 }
@@ -80,11 +82,6 @@
 }
 
 #pragma mark - SearchDataSource
-
-- (void)setSearchString:(NSString *)searchString
-{
-    
-}
 
 - (Song *)songAtIndexPath:(NSIndexPath *)indexPath
 {

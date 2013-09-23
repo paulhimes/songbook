@@ -12,9 +12,8 @@
 
 @protocol SearchDataSource <NSObject, UITableViewDataSource, UITableViewDelegate>
 
-- (instancetype)initWithBook:(Book *)book;
+- (instancetype)initWithBook:(Book *)book searchString:(NSString *)searchString;
 - (Song *)songAtIndexPath:(NSIndexPath *)indexPath;
 - (NSIndexPath *)indexPathForSong:(Song *)song;
-- (void)setSearchString:(NSString *)searchString;
 
 @end
