@@ -17,6 +17,8 @@
 
 + (void)populateSampleDataInContext:(NSManagedObjectContext *)context
 {
+    NSTimeInterval startTime = [[NSDate date] timeIntervalSince1970];
+    
     // First check if data has already been populated.
     NSArray *books = [Book allBooksInContext:context];
     if ([books count] > 0) {
@@ -98,6 +100,7 @@
         [finnSong0 addVerse:@"O Jumalan Karitsa! Joka pois otat maailman synnit, Armahda meidän päällemme!"];
         [finnSong0 addVerse:@"O Jumalan Karitsa! Joka pois otat maailman synnit, Armahda meidän päällemme!"];
         [finnSong0 addVerse:@"O Jumalan Karitsa! Joka pois otat maailman synnit, Anna meille rauhas ja siunaukses!"];
+        [self tokenizeSong:finnSong0];
     }
     
     Song *finnSong40 = [Song newOrExistingSongTitled:@"Jo Mahtaisin Yötä Ja Päivääkin Kiitää" inSection:finnSection];
@@ -107,6 +110,7 @@
         [finnSong40 addVerse:@"O rakkaus surri, O ääreton armo, että olla morsian Jeesukesen, Ja siinä on jo kyllä, Että Jeesus on mulla, O ääreton armo ja rakkaus; Ja siinä on jo kyllä, Että Jeesus on mulla, O ääreton armo ja rakkaus."];
         [finnSong40 addRelatedSongsObject:song41];
         [song41 addRelatedSongsObject:finnSong40];
+        [self tokenizeSong:finnSong40];
     }
     
     // Create the Hymns
@@ -116,9 +120,11 @@
         [hymn72 addVerse:@"Lord dismiss us with Thy blessing, Fill our hearts with joy and peace; Let us each, Thy love possessing, Triumph in redeeming grace; Oh, refresh us, Oh, refresh us; Travelling through this wilderness."];
         [hymn72 addVerse:@"Thanks we give and adoration, For Thy Gospel’s joyful sound; May the fruits of Thy salvation, In our hearts and lives abound; Ever faithful, Ever faithful; To the truth may we be found."];
         [hymn72 addVerse:@"So whene’er the signal’s given, Us from earth to call away; Borne on Angel’s wings to Heaven, Glad Thy summons to obey; May we ever, May we ever; Reign with Christ in endless day."];
+        hymn72.author = @"John Fawcett";
+        hymn72.year = @"1773";
+        
+        [self tokenizeSong:hymn72];
     }
-    hymn72.author = @"John Fawcett";
-    hymn72.year = @"1773";
     
     Song *hymn79 = [Song newOrExistingSongTitled:@"Trans: Hymn 56 UV, vs. 12 and 13" inSection:hymnSection];
     if ([hymn79.verses count] == 0) {
@@ -127,6 +133,8 @@
         hymn79Verse1.title = @"Jesus";
         Verse *hymn79Verse2 = [hymn79 addVerse:@"With joy, dear Jesus, I do thank Thee, Because of Thy comforting love; Singing with a spiritual mind, As sin does no longer bind me; Thank Thee Father, Oh my soul, Everything is now fulfilled."];
         hymn79Verse2.title = @"Sinner";
+        
+        [self tokenizeSong:hymn79];
     }
     
     // Save it all.
@@ -134,6 +142,15 @@
     if (![context save:&error]) {
         NSLog(@"%@", error);
     };
+    
+    NSTimeInterval endTime = [[NSDate date] timeIntervalSince1970];
+    NSLog(@"loading data took %f seconds", endTime - startTime);
+}
+
++ (void)tokenizeSong:(Song *)song
+{
+    [song generateSearchTokensWithCache:nil];
+    NSLog(@"Tokenized: %@", [song headerString]);
 }
 
 + (void)printBook:(Book *)book

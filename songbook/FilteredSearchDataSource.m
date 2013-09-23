@@ -16,13 +16,15 @@ static const NSUInteger kFragmentPrefixMaxLength = 5;
 static const NSUInteger kFragmentSuffixMaxLength = 20;
 static const NSString * const kSongKey = @"SongKey";
 static const NSString * const kFragmentKey = @"FragmentKey";
+static const NSString * const kLocationKey = @"LocationKey";
 
 @interface FilteredSearchDataSource()
 
 @property (nonatomic, strong) Book *book;
-@property (nonatomic, strong) NSArray *matchingSongs;
-@property (nonatomic, readonly) NSArray *matchingSections;
+@property (nonatomic, strong) NSDictionary *matchingSongFragmentsBySongID;
+@property (nonatomic, strong) NSArray *matchingSections;
 @property (nonatomic, strong) NSArray *matchingSongsBySection;
+@property (nonatomic, strong) NSArray *fragmentDictionariesBySection;
 @property (nonatomic, strong) NSString *searchString;
 @property (nonatomic) CGFloat basicHeight;
 @property (nonatomic) CGFloat contextHeight;
@@ -89,47 +91,154 @@ static const NSString * const kFragmentKey = @"FragmentKey";
     return _matchingFragmentAttributes;
 }
 
-- (NSArray *)matchingSongs
+- (NSDictionary *)matchingSongFragmentsBySongID
 {
-    if (!_matchingSongs) {
-        _matchingSongs = [self songsMatchingSearchString:self.searchString];
+    if (!_matchingSongFragmentsBySongID) {
+        
+        NSDictionary *matchingSongFragmentsBySongID;
+        
+        NSString *searchString = self.searchString;
+        NSString *letterOnlyString = [searchString stringLimitedToCharacterSet:[NSCharacterSet letterCharacterSet]];
+        NSString *decimalDigitOnlyString = [searchString stringLimitedToCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
+        
+        if ([letterOnlyString length] > 0) {
+            matchingSongFragmentsBySongID = [self tokenSearchForString:searchString];
+        } else if ([decimalDigitOnlyString length] > 0) {
+            matchingSongFragmentsBySongID = [self numberSearchForString:decimalDigitOnlyString];
+        }
+        
+        _matchingSongFragmentsBySongID = matchingSongFragmentsBySongID;
     }
-    return _matchingSongs;
+    return _matchingSongFragmentsBySongID;
 }
 
 - (NSArray *)matchingSections
 {
-    NSMutableArray *sections = [NSMutableArray array];
-    
-    for (NSDictionary *songDictionary in self.matchingSongs) {
-        Song *song = songDictionary[kSongKey];
+    if (!_matchingSections) {
         
-        if (![sections containsObject:song.section]) {
-            [sections addObject:song.section];
+        NSMutableArray *sections = [NSMutableArray array];
+        
+        for (NSManagedObjectID *songID in [self.matchingSongFragmentsBySongID allKeys]) {
+            Song *song = (Song *)[self.book.managedObjectContext objectWithID:songID];
+            
+            if (![sections containsObject:song.section]) {
+                [sections addObject:song.section];
+            }
         }
+        
+        // Sort the sections using book order.
+        [sections sortedArrayUsingComparator:^NSComparisonResult(Section *section1, Section *section2) {
+            return [@([self.book.sections indexOfObject:section1]) compare:@([self.book.sections indexOfObject:section1])];
+        }];
+        
+        _matchingSections = [sections copy];
     }
-    
-    return [sections copy];
+    return _matchingSections;
 }
 
 - (NSArray *)matchingSongsBySection
 {
     if (!_matchingSongsBySection) {
-        NSMutableArray *matchingSongsBySection = [@[] mutableCopy];
+        NSMutableArray *sortedMatchingSongsBySection = [@[] mutableCopy];
         NSArray *sections = self.matchingSections;
-        for (NSUInteger sectionIndex = 0; sectionIndex < [sections count]; sectionIndex++) {
-            [matchingSongsBySection addObject:[self matchingSongsInSection:sections[sectionIndex]]];
+        
+        for (Section *section in sections) {
+            
+            NSMutableArray *sortedMatchingSongs = [@[] mutableCopy];
+            
+            for (NSManagedObjectID *songID in [self.matchingSongFragmentsBySongID allKeys]) {
+                Song *song = (Song *)[self.book.managedObjectContext objectWithID:songID];
+                
+                if (song.section == section) {
+                    [sortedMatchingSongs addObject:song];
+                }
+            }
+            
+            [sortedMatchingSongs sortUsingComparator:^NSComparisonResult(Song *song1, Song *song2) {
+                if (!song1.number) {
+                    if (!song2.number) {
+                        return NSOrderedSame;
+                    } else {
+                        return NSOrderedAscending;
+                    }
+                }
+                
+                if (!song2.number) {
+                    if (!song1.number) {
+                        return NSOrderedSame;
+                    } else {
+                        return NSOrderedDescending;
+                    }
+                }
+                
+                return [song1.number compare:song2.number];
+            }];
+            
+            [sortedMatchingSongsBySection addObject:[sortedMatchingSongs copy]];
         }
-        _matchingSongsBySection = [matchingSongsBySection copy];
+        
+        _matchingSongsBySection = [sortedMatchingSongsBySection copy];
     }
     return _matchingSongsBySection;
+}
+
+- (NSArray *)fragmentDictionariesBySection
+{
+    if (!_fragmentDictionariesBySection) {
+        
+        NSMutableArray *fragmentDictionariesBySection = [@[] mutableCopy];
+        
+        for (NSUInteger sectionIndex = 0; sectionIndex < [self.matchingSections count]; sectionIndex++) {
+            
+            NSMutableArray *fragmentDictionaries = [@[] mutableCopy];
+            
+            NSArray *songsInSection = self.matchingSongsBySection[sectionIndex];
+            for (Song *song in songsInSection) {
+                NSArray *matchingSongFragments = self.matchingSongFragmentsBySongID[song.objectID];
+                
+                // Add the song's title as a matching fragment.
+                NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] init];
+                if (song.number) {
+                    [titleString appendString:[song.number stringValue] attributes:self.matchingTitleAttributes];
+                    [titleString appendString:@" " attributes:self.matchingTitleAttributes];
+                }
+                if ([song.title length] > 0) {
+                    [titleString appendString:song.title attributes:self.normalTitleAttributes];
+                }
+                //            NSArray *titleTokens = [titleString.string tokens];
+                //
+                //            // Make the matching text bold.
+                //            NSArray *titleRangeLists = [StringToken rangeListsMatchingTokens:searchStringTokens inTokens:titleTokens];
+                //            for (NSArray *rangeList in titleRangeLists) {
+                //                for (NSValue *rangeValue in rangeList) {
+                //                    NSRange range = [rangeValue rangeValue];
+                //
+                //                    // Make matching text black and bold.
+                //                    [titleString setAttributes:self.matchingTitleAttributes range:NSMakeRange(range.location, range.length)];
+                //                }
+                //}
+                
+                [fragmentDictionaries addObject:@{kSongKey: song,
+                                                  kFragmentKey: titleString}];
+                [fragmentDictionaries addObjectsFromArray:matchingSongFragments];
+            }
+            
+            [fragmentDictionariesBySection addObject:[fragmentDictionaries copy]];
+        }
+        
+        _fragmentDictionariesBySection = fragmentDictionariesBySection;
+    }
+    
+    return _fragmentDictionariesBySection;
 }
 
 - (void)setSearchString:(NSString *)searchString
 {
     _searchString = searchString;
-    self.matchingSongs = nil;
+    self.matchingSongFragmentsBySongID = nil;
+    self.matchingSections = nil;
     self.matchingSongsBySection = nil;
+    self.fragmentDictionariesBySection = nil;
 }
 
 - (instancetype)initWithBook:(Book *)book
@@ -156,15 +265,15 @@ static const NSString * const kFragmentKey = @"FragmentKey";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.matchingSongsBySection[section] count];
+    return [self.fragmentDictionariesBySection[section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *songDictionary = self.matchingSongsBySection[indexPath.section][indexPath.row];
+    NSDictionary *fragmentDictionaryAtIndexPath = self.fragmentDictionariesBySection[indexPath.section][indexPath.row];
     
-    Song *songForRow = songDictionary[kSongKey];
-    NSAttributedString *fragment = songDictionary[kFragmentKey];
+    Song *songForRow = fragmentDictionaryAtIndexPath[kSongKey];
+    NSAttributedString *fragment = fragmentDictionaryAtIndexPath[kFragmentKey];
     
     NSMutableDictionary *numberAttributes = [@{} mutableCopy];
     numberAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion-Bold" size:30];
@@ -207,10 +316,10 @@ static const NSString * const kFragmentKey = @"FragmentKey";
         self.contextHeight = contextCell.frame.size.height;
     }
     
-    NSDictionary *songDictionary = self.matchingSongsBySection[indexPath.section][indexPath.row];
-    
-    Song *songForRow = songDictionary[kSongKey];
-    NSAttributedString *fragment = songDictionary[kFragmentKey];
+    NSDictionary *fragmentDictionaryAtIndexPath = self.fragmentDictionariesBySection[indexPath.section][indexPath.row];
+
+    Song *songForRow = fragmentDictionaryAtIndexPath[kSongKey];
+    NSAttributedString *fragment = fragmentDictionaryAtIndexPath[kFragmentKey];
 
     CGFloat cellHeight;
     if ([fragment.string isEqualToString:[songForRow headerString]]) {
@@ -226,8 +335,8 @@ static const NSString * const kFragmentKey = @"FragmentKey";
 
 - (Song *)songAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *songDictionary = self.matchingSongsBySection[indexPath.section][indexPath.row];
-    return songDictionary[kSongKey];
+    NSDictionary *fragmentDictionaryAtIndexPath = self.fragmentDictionariesBySection[indexPath.section][indexPath.row];
+    return fragmentDictionaryAtIndexPath[kSongKey];
 }
 
 - (NSIndexPath *)indexPathForSong:(Song *)song
@@ -237,39 +346,9 @@ static const NSString * const kFragmentKey = @"FragmentKey";
 
 #pragma mark - Helper Methods
 
-- (NSArray *)matchingSongsInSection:(Section *)section
+- (NSDictionary *)tokenSearchForString:(NSString *)searchString
 {
-    NSMutableArray *matchingSongs = [NSMutableArray array];
-    
-    for (NSDictionary *songDictionary in self.matchingSongs) {
-        Song *matchingSong = songDictionary[kSongKey];
-//        NSLog(@"Checking %@", [matchingSong headerString]);
-        if (matchingSong.section == section) {
-            [matchingSongs addObject:songDictionary];
-        }
-    }
-    
-    return [matchingSongs copy];
-}
-
-- (NSArray *)songsMatchingSearchString:(NSString *)searchString
-{
-    NSString *letterOnlyString = [searchString stringLimitedToCharacterSet:[NSCharacterSet letterCharacterSet]];
-    NSString *decimalDigitOnlyString = [searchString stringLimitedToCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
-    
-    if ([letterOnlyString length] > 0) {
-        return [self tokenSearchForString:searchString];
-    } else if ([decimalDigitOnlyString length] > 0) {
-        return [self numberSearchForString:decimalDigitOnlyString];
-    }
-    
-    return @[];
-}
-
-- (NSArray *)tokenSearchForString:(NSString *)searchString
-{
-    NSMutableArray *matchingSongs = [@[] mutableCopy];
-    NSMutableArray *uniqueSongs = [@[] mutableCopy];
+    NSMutableDictionary *matchingSongFragmentsBySongID = [@{} mutableCopy];
     
     NSArray *searchStringTokens = [searchString tokens];
     
@@ -308,42 +387,15 @@ static const NSString * const kFragmentKey = @"FragmentKey";
                     
                     if ([self tokenArray:songTokens matchesTokenOptionsArrays:searchTokens]) {
                         
+                        
                         Song *song = tokenInstance.song;
-
-                        if (![uniqueSongs containsObject:song]) {
-                            [uniqueSongs addObject:song];
-                            
-                            // Add the song's title as a matching fragment.
-                            NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] init];
-                            if (song.number) {
-                                [titleString appendString:[song.number stringValue] attributes:self.matchingTitleAttributes];
-                                [titleString appendString:@" " attributes:self.matchingTitleAttributes];
-                            }
-                            if ([song.title length] > 0) {
-                                [titleString appendString:song.title attributes:self.normalTitleAttributes];
-                            }
-                            
-                            NSArray *titleTokens = [titleString.string tokens];
-
-                            // Make the matching text bold.
-                            NSArray *titleRangeLists = [StringToken rangeListsMatchingTokens:searchStringTokens inTokens:titleTokens];
-                            for (NSArray *rangeList in titleRangeLists) {
-                                for (NSValue *rangeValue in rangeList) {
-                                    NSRange range = [rangeValue rangeValue];
-                                    
-                                    // Make matching text black and bold.
-                                    [titleString setAttributes:self.matchingTitleAttributes range:NSMakeRange(range.location, range.length)];
-                                }
-                            }
-                            
-                            // Add the title to the matching songs array.
-                            [matchingSongs addObject:@{kSongKey: song,
-                                                       kFragmentKey: titleString}];
-                            
+                        
+                        NSMutableArray *matchingSongFragments = matchingSongFragmentsBySongID[song.objectID];
+                        if (!matchingSongFragments) {
+                            matchingSongFragments = [@[] mutableCopy];
+                            matchingSongFragmentsBySongID[song.objectID] = matchingSongFragments;
                         }
-                        
-                        
-                        
+
                         // Song body.
                         if ([songTokenInstances count] > 0) {
                             TokenInstance *firstSongTokenInstance = songTokenInstances[0];
@@ -365,8 +417,9 @@ static const NSString * const kFragmentKey = @"FragmentKey";
                             [fragment insertAttributedString:ellipsis atIndex:0];
                             
                             // Add this fragment entry to the matching songs array.
-                            [matchingSongs addObject:@{kSongKey: song,
-                                                       kFragmentKey: fragment}];
+                            [matchingSongFragments addObject:@{kSongKey: song,
+                                                               kFragmentKey: fragment,
+                                                               kLocationKey: firstSongTokenInstance.location}];
                         }
                         
                         
@@ -375,8 +428,22 @@ static const NSString * const kFragmentKey = @"FragmentKey";
             }
         }
     }
+    
+    // Sort the song fragments
+    for (NSManagedObjectID *songId in [matchingSongFragmentsBySongID allKeys]) {
+        NSMutableArray *matchingSongFragments = matchingSongFragmentsBySongID[songId];
+        
+        [matchingSongFragments sortUsingComparator:^NSComparisonResult(NSDictionary *fragment1, NSDictionary *fragment2) {
+            NSNumber *fragement1StartIndex = fragment1[kLocationKey];
+            NSNumber *fragement2StartIndex = fragment2[kLocationKey];
+            
+            return [fragement1StartIndex compare:fragement2StartIndex];
+        }];
+        
+        matchingSongFragmentsBySongID[songId] = [matchingSongFragments copy];
+    }
 
-    return [matchingSongs copy];
+    return [matchingSongFragmentsBySongID copy];
 }
 
 - (BOOL)tokenArray:(NSArray *)tokenArray matchesTokenOptionsArrays:(NSArray *)tokenOptionsArrays
@@ -411,9 +478,9 @@ static const NSString * const kFragmentKey = @"FragmentKey";
     return matches;
 }
 
-- (NSArray *)numberSearchForString:(NSString *)searchString
+- (NSDictionary *)numberSearchForString:(NSString *)searchString
 {
-    NSMutableArray *matchingSongs = [@[] mutableCopy];
+    NSMutableDictionary *matchingSongFragmentsBySongID = [@{} mutableCopy];
     
     NSString *decimalDigitSearchString = [searchString stringLimitedToCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
     
@@ -428,19 +495,21 @@ static const NSString * const kFragmentKey = @"FragmentKey";
                     
                     if ([songNumberDecimalOnly hasPrefix:decimalDigitSearchString]) {
                         
-                        // Add the song's title as a matching fragment.
-                        NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] init];
-                        if (song.number) {
-                            [titleString appendString:[song.number stringValue] attributes:self.matchingTitleAttributes];
-                            [titleString appendString:@" " attributes:self.matchingTitleAttributes];
-                        }
-                        if ([song.title length] > 0) {
-                            [titleString appendString:song.title attributes:self.normalTitleAttributes];
-                        }
+//                        // Add the song's title as a matching fragment.
+//                        NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] init];
+//                        if (song.number) {
+//                            [titleString appendString:[song.number stringValue] attributes:self.matchingTitleAttributes];
+//                            [titleString appendString:@" " attributes:self.matchingTitleAttributes];
+//                        }
+//                        if ([song.title length] > 0) {
+//                            [titleString appendString:song.title attributes:self.normalTitleAttributes];
+//                        }
+//                        
+//                        // Add the title to the matching songs array.
+//                        [matchingSongs addObject:@{kSongKey: song,
+//                                                   kFragmentKey: titleString}];
                         
-                        // Add the title to the matching songs array.
-                        [matchingSongs addObject:@{kSongKey: song,
-                                                   kFragmentKey: titleString}];
+                        matchingSongFragmentsBySongID[song.objectID] = @[];
                     }
                     
                 }
@@ -450,7 +519,7 @@ static const NSString * const kFragmentKey = @"FragmentKey";
         
     }
     
-    return [matchingSongs copy];
+    return [matchingSongFragmentsBySongID copy];
 }
 
 @end

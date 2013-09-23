@@ -117,6 +117,9 @@
 
         NSMutableString *string = [@"" mutableCopy];
         
+        [string appendString:[self headerString]];
+        [string appendString:@" "];
+        
         if ([self.subtitle length] > 0) {
             [string appendString:self.subtitle];
             [string appendString:@" "];

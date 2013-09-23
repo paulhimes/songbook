@@ -115,11 +115,15 @@ typedef enum PreferredSearchMethod : NSUInteger {
     }
     [userDefaults synchronize];
     
-//#warning HACK to avoid slow searches
-//    if ([searchText length] > 5 || [decimalDigitOnlyString length] > 0) {
-        [self.searchDataSource setSearchString:searchText];
-        [self.tableView reloadData];
-//    }
+    
+    NSTimeInterval startTime = [[NSDate date] timeIntervalSince1970];
+    
+    [self.searchDataSource setSearchString:searchText];
+    [self.tableView reloadData];
+    
+    NSTimeInterval endTime = [[NSDate date] timeIntervalSince1970];
+    
+    NSLog(@"search update took %f seconds", endTime - startTime);
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
