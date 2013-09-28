@@ -10,7 +10,9 @@
 #import "Section.h"
 #import "Book.h"
 #import "Song+Helpers.h"
-#import "SmartSearchDataSource.h"
+#import "SmartSearcher.h"
+#import "SearchOperation.h"
+#import "SearchTableDataSource.h"
 
 NSString * const kPreferredSearchMethodKey = @"PreferredSearchMethodKey";
 
@@ -21,8 +23,8 @@ typedef enum PreferredSearchMethod : NSUInteger {
 
 @interface SearchViewController () <UISearchBarDelegate, UITableViewDelegate, UIToolbarDelegate>
 
-@property (nonatomic, strong) id<SearchDataSource> searchDataSource;
-
+@property (nonatomic, strong) SearchTableDataSource *dataSource;
+@property (nonatomic, strong) NSOperationQueue *searchQueue;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchField;
@@ -32,6 +34,15 @@ typedef enum PreferredSearchMethod : NSUInteger {
 
 @implementation SearchViewController
 
+- (NSOperationQueue *)searchQueue
+{
+    if (!_searchQueue) {
+        _searchQueue = [[NSOperationQueue alloc] init];
+        [_searchQueue setMaxConcurrentOperationCount:1];
+    }
+    return _searchQueue;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -39,7 +50,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
     self.tableView.contentInset = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
     self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
     
-    [self setDataSourceWithSearchString:@""];
+    [self updateDataSourceWithTableModel:[SmartSearcher buildModelForSearchString:@"" inBook:self.currentSong.section.book]];
     
     self.toolbar.delegate = self;
     self.searchField.delegate = self;
@@ -77,10 +88,10 @@ typedef enum PreferredSearchMethod : NSUInteger {
         NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
         
         // Get the selected song.
-        Song *selectedSong = [self.searchDataSource songAtIndexPath:selectedIndexPath];
+//        Song *selectedSong = [self.searchDataSource songAtIndexPath:selectedIndexPath];
 
         // Maintain a reference to the selected song.
-        self.selectedSong = selectedSong;
+//        self.selectedSong = selectedSong;
     }
 }
 
@@ -108,16 +119,19 @@ typedef enum PreferredSearchMethod : NSUInteger {
     }
     [userDefaults synchronize];
     
-    
-    NSTimeInterval startTime = [[NSDate date] timeIntervalSince1970];
-    
-    [self setDataSourceWithSearchString:searchText];
-    [self.tableView reloadData];
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-    
-    NSTimeInterval endTime = [[NSDate date] timeIntervalSince1970];
-    
-    NSLog(@"search update took %f seconds", endTime - startTime);
+    SearchOperation *operation = [[SearchOperation alloc] initWithSearchString:searchText
+                                                                        bookID:self.currentSong.section.book.objectID
+                                                              storeCoordinator:self.currentSong.managedObjectContext.persistentStoreCoordinator];
+    __weak SearchOperation *weakOperation = operation;
+    [operation setCompletionBlock:^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"search operation completed");
+            [self updateDataSourceWithTableModel:weakOperation.tableModel];
+            [self.tableView reloadData];
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        });
+    }];
+    [self.searchQueue addOperation:operation];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -134,22 +148,22 @@ typedef enum PreferredSearchMethod : NSUInteger {
 
 #pragma mark - Helper Methods
 
-- (void)setDataSourceWithSearchString:(NSString *)searchString
+- (void)updateDataSourceWithTableModel:(SearchTableModel *)tableModel
 {
-    self.searchDataSource = [[SmartSearchDataSource alloc] initWithBook:self.currentSong.section.book searchString:searchString];
-    self.tableView.dataSource = self.searchDataSource;
-    self.tableView.delegate = self.searchDataSource;
+    self.dataSource = [[SearchTableDataSource alloc] initWithTableModel:tableModel];
+    self.tableView.dataSource = self.dataSource;
+    self.tableView.delegate = self.dataSource;
 }
 
 - (void)scrollToCurrentSong
 {
-    NSIndexPath *currentSongIndexPath = [self.searchDataSource indexPathForSong:self.currentSong];
-    
-    if (currentSongIndexPath) {
-        [self.tableView scrollToRowAtIndexPath:currentSongIndexPath
-                              atScrollPosition:UITableViewScrollPositionTop
-                                      animated:NO];
-    }
+//    NSIndexPath *currentSongIndexPath = [self.searchDataSource indexPathForSong:self.currentSong];
+//    
+//    if (currentSongIndexPath) {
+//        [self.tableView scrollToRowAtIndexPath:currentSongIndexPath
+//                              atScrollPosition:UITableViewScrollPositionTop
+//                                      animated:NO];
+//    }
 }
 
 @end

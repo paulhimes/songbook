@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SearchDataSource.h"
+#import "Searcher.h"
 
-@interface SimpleSearchDataSource : NSObject <SearchDataSource>
+@interface SimpleSearcher : NSObject <Searcher>
 
 @end

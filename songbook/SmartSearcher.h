@@ -1,5 +1,5 @@
 //
-//  FilteredSearchDataSource.h
+//  SmartSearchDataSource.h
 //  songbook
 //
 //  Created by Paul Himes on 8/27/13.
@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SearchDataSource.h"
+#import "Searcher.h"
 
-@interface FilteredSearchDataSource : NSObject <SearchDataSource>
+@interface SmartSearcher : NSObject <Searcher>
 
 @end

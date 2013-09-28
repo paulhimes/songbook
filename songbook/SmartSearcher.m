@@ -1,0 +1,24 @@
+//
+//  SmartSearchDataSource.m
+//  songbook
+//
+//  Created by Paul Himes on 8/27/13.
+//  Copyright (c) 2013 Paul Himes. All rights reserved.
+//
+
+#import "SmartSearcher.h"
+#import "SimpleSearcher.h"
+#import "FilteredSearcher.h"
+
+@implementation SmartSearcher
+
++ (SearchTableModel *)buildModelForSearchString:(NSString *)searchString inBook:(Book *)book;
+{
+    if ([searchString length] > 0) {
+        return [FilteredSearcher buildModelForSearchString:searchString inBook:book];
+    } else {
+        return [SimpleSearcher buildModelForSearchString:searchString inBook:book];
+    }
+}
+
+@end
