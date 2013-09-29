@@ -26,7 +26,7 @@
     if (self) {
         self.tableModel = tableModel;
         if (!self.tableModel || [self.tableModel.sectionModels count] < 1) {
-            self.tableModel = [[SearchTableModel alloc] initWithSectionModels:@[]];
+            self.tableModel = [[SearchTableModel alloc] initWithSectionModels:@[[[SearchSectionModel alloc] initWithTitle:@"No Results" cellModels:@[]]]];
         }
     }
     return self;
