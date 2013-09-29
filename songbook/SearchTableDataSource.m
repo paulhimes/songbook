@@ -40,6 +40,22 @@
     return cell.songID;
 }
 
+- (NSIndexPath *)indexPathForSongID:(NSManagedObjectID *)songID
+{
+    for (NSUInteger sectionIndex = 0; sectionIndex < [self.tableModel.sectionModels count]; sectionIndex++) {
+        SearchSectionModel *section = self.tableModel.sectionModels[sectionIndex];
+        for (NSInteger row = 0; row < [section.cellModels count]; row++) {
+            SearchCellModel *cell = section.cellModels[row];
+            
+            if ([cell.songID isEqual:songID]) {
+                return [NSIndexPath indexPathForRow:row inSection:sectionIndex];
+            }
+        }
+    }
+    
+    return nil;
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

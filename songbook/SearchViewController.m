@@ -173,13 +173,13 @@ typedef enum PreferredSearchMethod : NSUInteger {
 
 - (void)scrollToCurrentSong
 {
-//    NSIndexPath *currentSongIndexPath = [self.searchDataSource indexPathForSong:self.currentSong];
-//    
-//    if (currentSongIndexPath) {
-//        [self.tableView scrollToRowAtIndexPath:currentSongIndexPath
-//                              atScrollPosition:UITableViewScrollPositionTop
-//                                      animated:NO];
-//    }
+    NSIndexPath *currentSongIndexPath = [self.dataSource indexPathForSongID:self.currentSong.objectID];
+    
+    if (currentSongIndexPath) {
+        [self.tableView scrollToRowAtIndexPath:currentSongIndexPath
+                              atScrollPosition:UITableViewScrollPositionTop
+                                      animated:NO];
+    }
 }
 
 @end
