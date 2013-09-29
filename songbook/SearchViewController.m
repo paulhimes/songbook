@@ -92,10 +92,13 @@ typedef enum PreferredSearchMethod : NSUInteger {
         NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
         
         // Get the selected song.
-//        Song *selectedSong = [self.searchDataSource songAtIndexPath:selectedIndexPath];
-
-        // Maintain a reference to the selected song.
-//        self.selectedSong = selectedSong;
+        NSManagedObjectID *songID = [self.dataSource songIDAtIndexPath:selectedIndexPath];
+        if (songID) {
+            Song *song = (Song *)[self.currentSong.managedObjectContext existingObjectWithID:songID error:NULL];
+            
+            // Maintain a reference to the selected song.
+            self.selectedSong = song;
+        }
     }
 }
 

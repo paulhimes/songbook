@@ -12,5 +12,7 @@
 @interface SearchTableDataSource : NSObject <UITableViewDataSource, UITableViewDelegate>
 
 - (instancetype)initWithTableModel:(SearchTableModel *)tableModel;
+- (NSManagedObjectID *)songIDAtIndexPath:(NSIndexPath *)indexPath;
+
 
 @end

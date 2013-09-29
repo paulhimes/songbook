@@ -32,6 +32,14 @@
     return self;
 }
 
+- (NSManagedObjectID *)songIDAtIndexPath:(NSIndexPath *)indexPath
+{
+    SearchSectionModel *section = indexPath.section < [self.tableModel.sectionModels count] ? self.tableModel.sectionModels[indexPath.section] : nil;
+    SearchCellModel *cell = indexPath.row < [section.cellModels count] ? section.cellModels[indexPath.row] : nil;
+    
+    return cell.songID;
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
