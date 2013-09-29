@@ -50,7 +50,11 @@ typedef enum PreferredSearchMethod : NSUInteger {
     self.tableView.contentInset = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
     self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
     
-    [self updateDataSourceWithTableModel:[SmartSearcher buildModelForSearchString:@"" inBook:self.currentSong.section.book]];
+    [self updateDataSourceWithTableModel:[SmartSearcher buildModelForSearchString:@""
+                                                                           inBook:self.currentSong.section.book
+                                                                   shouldContinue:^BOOL{
+                                                                       return YES;
+                                                                   }]];
     
     self.toolbar.delegate = self;
     self.searchField.delegate = self;
@@ -123,14 +127,22 @@ typedef enum PreferredSearchMethod : NSUInteger {
                                                                         bookID:self.currentSong.section.book.objectID
                                                               storeCoordinator:self.currentSong.managedObjectContext.persistentStoreCoordinator];
     __weak SearchOperation *weakOperation = operation;
+    __weak SearchViewController *weakSelf = self;
     [operation setCompletionBlock:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"search operation completed");
-            [self updateDataSourceWithTableModel:weakOperation.tableModel];
-            [self.tableView reloadData];
-            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-        });
+        
+        if (!weakOperation.isCancelled && weakOperation.tableModel) {
+            SearchTableModel *tableModel = weakOperation.tableModel;
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"search operation completed");
+                [weakSelf updateDataSourceWithTableModel:tableModel];
+                [weakSelf.tableView reloadData];
+                [weakSelf.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+            });
+        }
     }];
+    
+    [self.searchQueue cancelAllOperations];
     [self.searchQueue addOperation:operation];
 }
 

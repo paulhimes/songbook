@@ -50,10 +50,25 @@
     NSTimeInterval startTime = [[NSDate date] timeIntervalSince1970];
     
     Book *book = (Book *)[self.context objectWithID:self.bookID];
-    self.tableModel = [SmartSearcher buildModelForSearchString:self.searchString inBook:book];
+    __weak SearchOperation *weakSelf = self;
+    self.tableModel = [SmartSearcher buildModelForSearchString:self.searchString
+                                                        inBook:book
+                                                shouldContinue:^BOOL{
+                                                    return !weakSelf.isCancelled;
+                                                }];
+    
+    NSLog(@"%d sections", [self.tableModel.sectionModels count]);
+    for (SearchSectionModel *section in self.tableModel.sectionModels) {
+        NSLog(@"%d cells in section %@", [section.cellModels count], section.title);
+    }
     
     NSTimeInterval endTime = [[NSDate date] timeIntervalSince1970];
-    NSLog(@"Finished Searching for %@ in %f seconds", self.searchString, endTime - startTime);
+    
+    if (self.isCancelled) {
+        NSLog(@"Finished Cancelled Search for %@ in %f seconds", self.searchString, endTime - startTime);
+    } else {
+        NSLog(@"Finished Search for %@ in %f seconds", self.searchString, endTime - startTime);
+    }
     
 }
 

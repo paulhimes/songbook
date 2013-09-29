@@ -12,7 +12,9 @@
 
 @implementation SimpleSearcher
 
-+ (SearchTableModel *)buildModelForSearchString:(NSString *)searchString inBook:(Book *)book
++ (SearchTableModel *)buildModelForSearchString:(NSString *)searchString
+                                         inBook:(Book *)book
+                                 shouldContinue:(BOOL (^)(void))shouldContinue
 {
     NSMutableDictionary *numberAttributes = [@{} mutableCopy];
     numberAttributes[NSFontAttributeName] = [UIFont boldSystemFontOfSize:18];

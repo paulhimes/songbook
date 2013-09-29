@@ -12,12 +12,14 @@
 
 @implementation SmartSearcher
 
-+ (SearchTableModel *)buildModelForSearchString:(NSString *)searchString inBook:(Book *)book;
++ (SearchTableModel *)buildModelForSearchString:(NSString *)searchString
+                                         inBook:(Book *)book
+                                 shouldContinue:(BOOL (^)(void))shouldContinue
 {
     if ([searchString length] > 0) {
-        return [FilteredSearcher buildModelForSearchString:searchString inBook:book];
+        return [FilteredSearcher buildModelForSearchString:searchString inBook:book shouldContinue:shouldContinue];
     } else {
-        return [SimpleSearcher buildModelForSearchString:searchString inBook:book];
+        return [SimpleSearcher buildModelForSearchString:searchString inBook:book shouldContinue:shouldContinue];
     }
 }
 

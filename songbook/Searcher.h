@@ -15,6 +15,8 @@
 
 @protocol Searcher <NSObject>
 
-+ (SearchTableModel *)buildModelForSearchString:(NSString *)searchString inBook:(Book *)book;
++ (SearchTableModel *)buildModelForSearchString:(NSString *)searchString
+                                         inBook:(Book *)book
+                                 shouldContinue:(BOOL (^)(void))shouldContinue;
 
 @end

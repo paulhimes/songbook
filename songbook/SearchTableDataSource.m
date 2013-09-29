@@ -25,6 +25,9 @@
     self = [super init];
     if (self) {
         self.tableModel = tableModel;
+        if (!self.tableModel || [self.tableModel.sectionModels count] < 1) {
+            self.tableModel = [[SearchTableModel alloc] initWithSectionModels:@[]];
+        }
     }
     return self;
 }

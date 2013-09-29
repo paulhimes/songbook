@@ -42,7 +42,24 @@ static const NSString * const kLocationKey = @"LocationKey";
     return [matchingFragmentAttributes copy];
 }
 
-+ (NSDictionary *)matchingSongFragmentsBySongIDForSearchString:(NSString *)searchString inBook:(Book *)book
++ (NSDictionary *)numberAttributes
+{
+    return @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18]};
+}
+
++ (NSDictionary *)titleAttributes
+{
+    return @{NSFontAttributeName: [UIFont systemFontOfSize:18]};
+}
+
++ (NSDictionary *)matchingTitleAttributes
+{
+    return @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18]};
+}
+
++ (NSDictionary *)matchingSongFragmentsBySongIDForSearchString:(NSString *)searchString
+                                                        inBook:(Book *)book
+                                                shouldContinue:(BOOL (^)(void))shouldContinue
 {
     NSDictionary *matchingSongFragmentsBySongID;
     
@@ -50,7 +67,7 @@ static const NSString * const kLocationKey = @"LocationKey";
     NSString *decimalDigitOnlyString = [searchString stringLimitedToCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
     
     if ([letterOnlyString length] > 0) {
-        matchingSongFragmentsBySongID = [FilteredSearcher tokenSearchForString:searchString inBook:book];
+        matchingSongFragmentsBySongID = [FilteredSearcher tokenSearchForString:searchString inBook:book shouldContinue:shouldContinue];
     } else if ([decimalDigitOnlyString length] > 0) {
         matchingSongFragmentsBySongID = [FilteredSearcher numberSearchForString:decimalDigitOnlyString inBook:book];
     }
@@ -58,9 +75,13 @@ static const NSString * const kLocationKey = @"LocationKey";
     return matchingSongFragmentsBySongID;
 }
 
-+ (SearchTableModel *)buildModelForSearchString:(NSString *)searchString inBook:(Book *)book
++ (SearchTableModel *)buildModelForSearchString:(NSString *)searchString
+                                         inBook:(Book *)book
+                                 shouldContinue:(BOOL (^)(void))shouldContinue
 {
-    NSDictionary *matchingSongFragmentsBySongID = [FilteredSearcher matchingSongFragmentsBySongIDForSearchString:searchString inBook:book];
+    NSDictionary *matchingSongFragmentsBySongID = [FilteredSearcher matchingSongFragmentsBySongIDForSearchString:searchString
+                                                                                                          inBook:book
+                                                                                                  shouldContinue:shouldContinue];
 
     // Separate the songs into sections.
     NSMutableDictionary *songsIDsBySectionID = [@{} mutableCopy];
@@ -119,19 +140,48 @@ static const NSString * const kLocationKey = @"LocationKey";
         // Build the search cell models.
         NSMutableArray *cellModels = [@[] mutableCopy];
         for (NSManagedObjectID *songID in songsIDsBySectionID[sectionID]) {
-            NSString *songHeaderString = [(Song *)[book.managedObjectContext objectWithID:songID] headerString];
+            Song *song = (Song *)[book.managedObjectContext objectWithID:songID];
+            NSString *songHeaderString = [song headerString];
             NSArray *songFragments = matchingSongFragmentsBySongID[songID];
 
+            // Add the song title cell.
+            NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] initWithString:@""
+                                                                                            attributes:nil];
+            if (song.number) {
+                [titleString appendString:[NSString stringWithFormat:@"%d", [song.number integerValue]]attributes:[FilteredSearcher numberAttributes]];
+                [titleString appendString:@" " attributes:[FilteredSearcher titleAttributes]];
+            }
+            [titleString appendString:song.title attributes:[FilteredSearcher titleAttributes]];
+
+            //            NSArray *titleTokens = [titleString.string tokens];
+            //
+            //            // Make the matching text bold.
+            //            NSArray *titleRangeLists = [StringToken rangeListsMatchingTokens:searchStringTokens inTokens:titleTokens];
+            //            for (NSArray *rangeList in titleRangeLists) {
+            //                for (NSValue *rangeValue in rangeList) {
+            //                    NSRange range = [rangeValue rangeValue];
+            //
+            //                    // Make matching text black and bold.
+            //                    [titleString setAttributes:self.matchingTitleAttributes range:NSMakeRange(range.location, range.length)];
+            //                }
+            //}
+            
+            [cellModels addObject:[[SearchCellModel alloc] initWithSongID:songID
+                                                                  content:titleString
+                                                                 location:0
+                                                              asTitleCell:YES]];
+            
             for (NSDictionary *songFragment in songFragments) {
                 NSAttributedString *fragment = songFragment[kFragmentKey];
                 NSNumber *location = songFragment[kLocationKey];
-                BOOL isTitleCell = [fragment.string isEqualToString:songHeaderString];
-
-                SearchCellModel *cellModel = [[SearchCellModel alloc] initWithSongID:songID
-                                                                             content:fragment
-                                                                            location:[location unsignedIntegerValue]
-                                                                         asTitleCell:isTitleCell];
-                [cellModels addObject:cellModel];
+                
+                if ([location unsignedIntegerValue] >= [songHeaderString length]) {
+                    SearchCellModel *cellModel = [[SearchCellModel alloc] initWithSongID:songID
+                                                                                 content:fragment
+                                                                                location:[location unsignedIntegerValue]
+                                                                             asTitleCell:NO];
+                    [cellModels addObject:cellModel];
+                }
             }
         }
         
@@ -146,7 +196,7 @@ static const NSString * const kLocationKey = @"LocationKey";
 
 #pragma mark - Helper Methods
 
-+ (NSDictionary *)tokenSearchForString:(NSString *)searchString inBook:(Book *)book
++ (NSDictionary *)tokenSearchForString:(NSString *)searchString inBook:(Book *)book shouldContinue:(BOOL (^)(void))shouldContinue
 {
     NSDictionary *normalFragmentAttributes = [FilteredSearcher normalFragmentAttributes];
     NSDictionary *matchingFragmentAttributes = [FilteredSearcher matchingFragmentAttributes];
@@ -168,9 +218,13 @@ static const NSString * const kLocationKey = @"LocationKey";
     if ([searchTokens count] > 0) {
         NSArray *firstTokenOptions = searchTokens[0];
         
-        for (NSUInteger positionOption = 0; positionOption < [firstTokenOptions count]; positionOption++) {
+        for (NSUInteger optionIndex = 0; optionIndex < [firstTokenOptions count]; optionIndex++) {
             
-            Token *token = firstTokenOptions[positionOption];
+            if (!shouldContinue()) {
+                return nil;
+            }
+            
+            Token *token = firstTokenOptions[optionIndex];
             
             for (__strong TokenInstance *tokenInstance in token.instances) {
 
