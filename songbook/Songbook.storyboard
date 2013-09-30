@@ -24,11 +24,6 @@
                                 <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
-                                    <barButtonItem title="Test" id="O8j-tO-cOF">
-                                        <connections>
-                                            <action selector="testAction:" destination="Jj1-L6-Wdw" id="WGt-2O-WbU"/>
-                                        </connections>
-                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="pEJ-7o-R5c"/>
                                     <barButtonItem style="plain" systemItem="search" id="hKf-yF-Whj">
                                         <connections>
