@@ -13,6 +13,7 @@
 
 - (instancetype)initWithTableModel:(SearchTableModel *)tableModel;
 - (NSManagedObjectID *)songIDAtIndexPath:(NSIndexPath *)indexPath;
+- (NSUInteger)songLocationAtIndexPath:(NSIndexPath *)indexPath;
 - (NSIndexPath *)indexPathForSongID:(NSManagedObjectID *)songID;
 
 

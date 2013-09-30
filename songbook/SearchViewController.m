@@ -21,13 +21,14 @@ typedef enum PreferredSearchMethod : NSUInteger {
     PreferredSearchMethodLetters
 } PreferredSearchMethod;
 
-@interface SearchViewController () <UISearchBarDelegate, UITableViewDelegate, UIToolbarDelegate>
+@interface SearchViewController () <UITableViewDelegate, UIToolbarDelegate>
 
 @property (nonatomic, strong) SearchTableDataSource *dataSource;
 @property (nonatomic, strong) NSOperationQueue *searchQueue;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchField;
+@property (weak, nonatomic) IBOutlet UITextField *searchField;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 
 @end
@@ -41,6 +42,14 @@ typedef enum PreferredSearchMethod : NSUInteger {
         [_searchQueue setMaxConcurrentOperationCount:1];
     }
     return _searchQueue;
+}
+
+- (UIActivityIndicatorView *)activityIndicator
+{
+    if (!_activityIndicator) {
+        _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    }
+    return _activityIndicator;
 }
 
 - (void)viewDidLoad
@@ -57,7 +66,15 @@ typedef enum PreferredSearchMethod : NSUInteger {
                                                                    }]];
     
     self.toolbar.delegate = self;
-    self.searchField.delegate = self;
+    
+    self.searchField.layer.cornerRadius = 5;
+    self.searchField.leftViewMode = UITextFieldViewModeAlways;
+    UIImageView *searchImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MagnifyingGlass"]];
+    searchImage.frame = CGRectMake(0, 0, 30, 30);
+    self.searchField.leftView = searchImage;
+    
+    self.searchField.rightView = self.activityIndicator;
+    self.searchField.rightViewMode = UITextFieldViewModeAlways;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -98,19 +115,23 @@ typedef enum PreferredSearchMethod : NSUInteger {
             
             // Maintain a reference to the selected song.
             self.selectedSong = song;
+            
+            // Remember which location in the song was selected.
+            self.selectedLocation = [self.dataSource songLocationAtIndexPath:selectedIndexPath];
         }
     }
 }
 
 #pragma mark - UISearchBarDelegate
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
-{
-    [self performSegueWithIdentifier:@"CancelSearch" sender:self];
-}
+- (IBAction)searchFieldEditingChanged:(UITextField *)sender {
 
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
-{
+    if (!self.activityIndicator.isAnimating) {
+        [self.activityIndicator startAnimating];
+    }
+    
+    NSString *searchText = sender.text;
+    
     NSString *letterOnlyString = [searchText stringLimitedToCharacterSet:[NSCharacterSet letterCharacterSet]];
     NSString *decimalDigitOnlyString = [searchText stringLimitedToCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
     
@@ -142,17 +163,14 @@ typedef enum PreferredSearchMethod : NSUInteger {
                 [weakSelf.tableView reloadData];
                 
                 [weakSelf.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:NSNotFound inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+                
+                [self.activityIndicator stopAnimating];
             });
         }
     }];
     
     [self.searchQueue cancelAllOperations];
     [self.searchQueue addOperation:operation];
-}
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
-    [searchBar resignFirstResponder];
 }
 
 #pragma mark - UIToolbarDelegate

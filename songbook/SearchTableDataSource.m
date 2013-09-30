@@ -34,10 +34,22 @@
 
 - (NSManagedObjectID *)songIDAtIndexPath:(NSIndexPath *)indexPath
 {
+    SearchCellModel *cell = [self cellModelAtIndexPath:indexPath];
+    return cell.songID;
+}
+
+- (NSUInteger)songLocationAtIndexPath:(NSIndexPath *)indexPath
+{
+    SearchCellModel *cell = [self cellModelAtIndexPath:indexPath];
+    return cell.location;
+}
+
+- (SearchCellModel *)cellModelAtIndexPath:(NSIndexPath *)indexPath
+{
     SearchSectionModel *section = indexPath.section < [self.tableModel.sectionModels count] ? self.tableModel.sectionModels[indexPath.section] : nil;
     SearchCellModel *cell = indexPath.row < [section.cellModels count] ? section.cellModels[indexPath.row] : nil;
     
-    return cell.songID;
+    return cell;
 }
 
 - (NSIndexPath *)indexPathForSongID:(NSManagedObjectID *)songID
