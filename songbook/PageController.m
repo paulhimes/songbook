@@ -9,8 +9,6 @@
 #import "PageController.h"
 #import "PinchAnchor.h"
 
-#define NEW_WAY 1
-
 NSString * const kStandardTextSizeKey = @"StandardTextSize";
 
 static const NSInteger kGutterWidth = 16;
@@ -210,7 +208,6 @@ static const float kMinimumStandardTextSize = 8;
     
 
     
-#ifdef NEW_WAY
     if (self.shouldLockScrolling) {
         
 //        self.pinchAnchor = [[PinchAnchor alloc] initWithScrollViewYCoordinate:50 percentDownSubview:0.5];
@@ -234,28 +231,6 @@ static const float kMinimumStandardTextSize = 8;
         
         self.scrollView.contentOffset = CGPointMake(self.scrollView.contentOffset.x, contentOffsetY);
     }
-#else
-    if (self.pinchAnchor) {
-        
-        //        self.pinchAnchor = [[PinchAnchor alloc] initWithScrollViewYCoordinate:50 percentDownSubview:0.5];
-        
-        CGFloat contentYCoordinate = self.textView.frame.origin.y + (self.pinchAnchor.percentDownSubview * self.textView.frame.size.height);
-        
-        NSLog(@"contentYCoordinate %f", contentYCoordinate);
-        
-        CGFloat contentOffsetY = (contentYCoordinate - self.pinchAnchor.yCoordinateInScrollView);
-        
-        // Limit the content offset to the actual content size.
-        CGFloat minimumContentOffset = 0;
-        CGFloat maximumContentOffset = MAX(self.scrollView.contentSize.height - self.scrollView.frame.size.height, 0);
-        
-        contentOffsetY = MIN(maximumContentOffset, MAX(minimumContentOffset, contentOffsetY));
-        
-        NSLog(@"contentOffsetY %f", contentOffsetY);
-        
-        self.scrollView.contentOffset = CGPointMake(self.scrollView.contentOffset.x, contentOffsetY);
-    }
-#endif
     
     [self.titleView setNeedsDisplay];
 }
@@ -326,8 +301,6 @@ static const float kMinimumStandardTextSize = 8;
     return 0;
 }
 
-#ifdef NEW_WAY
-
 #pragma mark - UIGestureRecognizer target
 - (void)handleGesture:(UIPinchGestureRecognizer *)sender
 {
@@ -385,7 +358,8 @@ static const float kMinimumStandardTextSize = 8;
             self.glyphYCoordinateInMainView = self.glyphOriginalYCoordinateInMainView + touchPointVerticalShift;
             
             [userDefaults setObject:@(scaledAndLimitedSize) forKey:kStandardTextSizeKey];
-            self.textView.attributedText = self.text;
+            NSAttributedString *text = self.text;
+            self.textView.attributedText = text;
             [self.view setNeedsLayout];
         }
     }
@@ -393,46 +367,6 @@ static const float kMinimumStandardTextSize = 8;
     
     
 }
-
-#else
-
-#pragma mark - UIGestureRecognizer target
-- (void)handleGesture:(UIPinchGestureRecognizer *)sender
-{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    
-    if (sender.state == UIGestureRecognizerStateBegan) {
-        self.gestureStartTextSize = [userDefaults objectForKey:kStandardTextSizeKey];
-    }
-    
-    // Scale the existing text size by the gesture recognizer's scale.
-    float scaledSize = (int)round([self.gestureStartTextSize floatValue] * sender.scale);
-    
-    // Limit the scaled size to sane bounds.
-    float scaledAndLimitedSize = MIN(kMaximumStandardTextSize, MAX(kMinimumStandardTextSize, scaledSize));
-    
-    
-    if (![@(scaledAndLimitedSize) isEqualToNumber:[userDefaults objectForKey:kStandardTextSizeKey]]) {
-        NSLog(@"Pinching %f %fpt", sender.scale, scaledAndLimitedSize);
-        
-        CGFloat percentDownTextView = [sender locationInView:self.textView].y / self.textView.frame.size.height;
-        CGFloat yCoordinateInScrollView = [sender locationInView:self.view].y - self.scrollView.frame.origin.y;
-        
-        self.pinchAnchor = [[PinchAnchor alloc] initWithScrollViewYCoordinate:yCoordinateInScrollView
-                                                           percentDownSubview:percentDownTextView];
-        
-        NSLog(@"%@", self.pinchAnchor);
-        
-        [userDefaults setObject:@(scaledAndLimitedSize) forKey:kStandardTextSizeKey];
-        [userDefaults synchronize];
-        self.textView.attributedText = self.text;
-        [self.view setNeedsLayout];
-    }
-    
-    
-}
-
-#endif
 
 - (CGFloat)yCoordinateInMainViewOfGlyphAtIndex:(NSUInteger)glyphIndex
 {
