@@ -9,6 +9,8 @@
 #import "PageController.h"
 #import "PinchAnchor.h"
 
+#define NEW_WAY 1
+
 NSString * const kStandardTextSizeKey = @"StandardTextSize";
 
 static const NSInteger kGutterWidth = 16;
@@ -22,7 +24,17 @@ static const float kMinimumStandardTextSize = 8;
 @property (nonatomic, strong) UITableView *relatedItemsView;
 @property (nonatomic, strong) UIPinchGestureRecognizer *pinchGestureRecognizer;
 @property (nonatomic, strong) NSNumber *gestureStartTextSize;
+
+// NEW WAY
+@property (nonatomic) BOOL shouldLockScrolling;
+@property (nonatomic) NSUInteger glyphIndex;
+@property (nonatomic) CGFloat glyphOriginalYCoordinateInMainView;
+@property (nonatomic) CGFloat glyphYCoordinateInMainView;
+@property (nonatomic) CGPoint touchStartPoint;
+
+// OLD WAY
 @property (nonatomic, strong) PinchAnchor *pinchAnchor;
+
 
 @end
 
@@ -150,6 +162,7 @@ static const float kMinimumStandardTextSize = 8;
     self.textView.frame = CGRectMake(0, 0, contentWidth, 0);
     
     self.relatedItemsView.frame = CGRectMake(0, 0, contentWidth, 0);
+    [self.relatedItemsView setHeight:self.relatedItemsView.contentHeight];
     
     [self.view addSubview:self.scrollView];
     [self.scrollView addSubview:self.textView];
@@ -159,6 +172,12 @@ static const float kMinimumStandardTextSize = 8;
         [self.view addSubview:self.foregroundToolbar];
         [self.foregroundToolbar addSubview:self.titleView];
     }
+    
+    self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(self.foregroundToolbar.frame.size.height, 0, kToolbarHeight, -kGutterWidth);
+    
+    CGFloat titleContentOriginY = self.titleView.contentOriginY;
+    //    NSLog(@"titleContentOriginY %f", titleContentOriginY);
+    self.textView.textContainerInset = UIEdgeInsetsMake(titleContentOriginY, 0, 0, 0);
     
     [self.view addGestureRecognizer:self.pinchGestureRecognizer];
 }
@@ -174,30 +193,51 @@ static const float kMinimumStandardTextSize = 8;
 //    CGFloat contentWidth = self.view.bounds.size.width - 2 * kGutterWidth;
 //    NSLog(@"contentwidth = %f", contentWidth);
     
-    [self.titleView resetMetrics];
-    [self.titleView setHeight:[self.titleView sizeForWidth:self.titleView.frame.size.width].height];
-    [self.foregroundToolbar setHeight:self.titleView.frame.size.height];
+//    [self.titleView resetMetrics];
+//    [self.titleView setHeight:[self.titleView sizeForWidth:self.titleView.frame.size.width].height];
+//    [self.foregroundToolbar setHeight:self.titleView.frame.size.height];
     
-    self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(self.foregroundToolbar.frame.size.height, 0, kToolbarHeight, -kGutterWidth);
+//    self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(self.foregroundToolbar.frame.size.height, 0, kToolbarHeight, -kGutterWidth);
     
     CGSize textSize = [self.textView sizeThatFits:CGSizeMake(self.textView.frame.size.width, CGFLOAT_MAX)];
     [self.textView setHeight:textSize.height];
     
     [self.relatedItemsView setOriginY:CGRectGetMaxY(self.textView.frame) + 3 * kGutterWidth];
-    [self.relatedItemsView setHeight:self.relatedItemsView.contentHeight];
     
     self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width,
                                              MAX(self.scrollView.frame.size.height - (self.scrollView.contentInset.top + self.scrollView.contentInset.bottom),
                                                  CGRectGetMaxY(self.relatedItemsView.frame)));
     
-    CGFloat titleContentOriginY = self.titleView.contentOriginY;
-//    NSLog(@"titleContentOriginY %f", titleContentOriginY);
-    self.textView.textContainerInset = UIEdgeInsetsMake(titleContentOriginY, 0, 0, 0);
+
     
-    
-    if (self.pinchAnchor) {
+#ifdef NEW_WAY
+    if (self.shouldLockScrolling) {
         
 //        self.pinchAnchor = [[PinchAnchor alloc] initWithScrollViewYCoordinate:50 percentDownSubview:0.5];
+        
+        
+        CGFloat currentYCoordinateOfGlyphInMainView = [self yCoordinateInMainViewOfGlyphAtIndex:self.glyphIndex];
+
+        CGFloat glyphVerticalError = self.glyphYCoordinateInMainView - currentYCoordinateOfGlyphInMainView;
+        
+//        NSLog(@"Glyph vertical error %f", glyphVerticalError);
+        
+        CGFloat contentOffsetY = self.scrollView.contentOffset.y - glyphVerticalError;
+        
+        // Limit the content offset to the actual content size.
+        CGFloat minimumContentOffset = 0;
+        CGFloat maximumContentOffset = MAX(self.scrollView.contentSize.height - self.scrollView.frame.size.height, 0);
+        
+        contentOffsetY = MIN(maximumContentOffset, MAX(minimumContentOffset, contentOffsetY));
+        
+//        NSLog(@"contentOffsetY %f", contentOffsetY);
+        
+        self.scrollView.contentOffset = CGPointMake(self.scrollView.contentOffset.x, contentOffsetY);
+    }
+#else
+    if (self.pinchAnchor) {
+        
+        //        self.pinchAnchor = [[PinchAnchor alloc] initWithScrollViewYCoordinate:50 percentDownSubview:0.5];
         
         CGFloat contentYCoordinate = self.textView.frame.origin.y + (self.pinchAnchor.percentDownSubview * self.textView.frame.size.height);
         
@@ -215,6 +255,7 @@ static const float kMinimumStandardTextSize = 8;
         
         self.scrollView.contentOffset = CGPointMake(self.scrollView.contentOffset.x, contentOffsetY);
     }
+#endif
     
     [self.titleView setNeedsDisplay];
 }
@@ -285,6 +326,76 @@ static const float kMinimumStandardTextSize = 8;
     return 0;
 }
 
+#ifdef NEW_WAY
+
+#pragma mark - UIGestureRecognizer target
+- (void)handleGesture:(UIPinchGestureRecognizer *)sender
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        self.gestureStartTextSize = [userDefaults objectForKey:kStandardTextSizeKey];
+        
+        CGPoint gesturePoint = [sender locationInView:self.textView];
+        
+        NSLog(@"TextView Point = %@", NSStringFromCGPoint(gesturePoint));
+        
+        // Convert to the text container's coordinate space.
+        gesturePoint.x -= self.textView.textContainerInset.left;
+        gesturePoint.y -= self.textView.textContainerInset.top;
+        
+        self.glyphIndex = [self.textView.layoutManager glyphIndexForPoint:gesturePoint inTextContainer:self.textView.textContainer fractionOfDistanceThroughGlyph:NULL];
+        
+//        NSString *touchedString = [self.textView.text substringWithRange:NSMakeRange([self.textView.layoutManager characterIndexForGlyphAtIndex:self.glyphIndex], 5)];
+//        NSLog(@"glyph index %d [%@]", self.glyphIndex, touchedString);
+        
+        self.glyphOriginalYCoordinateInMainView = [self yCoordinateInMainViewOfGlyphAtIndex:self.glyphIndex];
+
+        self.touchStartPoint = [sender locationInView:self.view];
+        
+        
+        self.shouldLockScrolling = YES;
+    } else if (sender.state == UIGestureRecognizerStateEnded ||
+               sender.state == UIGestureRecognizerStateCancelled ||
+               sender.state == UIGestureRecognizerStateFailed) {
+        [userDefaults synchronize];
+        self.shouldLockScrolling = NO;
+        self.glyphIndex = 0;
+        self.glyphOriginalYCoordinateInMainView = 0;
+        self.glyphYCoordinateInMainView = 0;
+        self.touchStartPoint = CGPointZero;
+    } else {
+        
+        // Scale the existing text size by the gesture recognizer's scale.
+        float scaledSize = [self.gestureStartTextSize floatValue] * sender.scale;
+        
+        // Limit the scaled size to sane bounds.
+        float scaledAndLimitedSize = MIN(kMaximumStandardTextSize, MAX(kMinimumStandardTextSize, scaledSize));
+        
+        
+        if (![@(scaledAndLimitedSize) isEqualToNumber:[userDefaults objectForKey:kStandardTextSizeKey]]) {
+            
+            
+            //        self.glyphYCoordinateInMainView = [self yCoordinateInMainViewOfGlyphAtIndex:self.glyphIndex];
+            
+            CGPoint updatedTouchPoint = [sender locationInView:self.view];
+            
+            CGFloat touchPointVerticalShift = updatedTouchPoint.y - self.touchStartPoint.y;
+            
+            self.glyphYCoordinateInMainView = self.glyphOriginalYCoordinateInMainView + touchPointVerticalShift;
+            
+            [userDefaults setObject:@(scaledAndLimitedSize) forKey:kStandardTextSizeKey];
+            self.textView.attributedText = self.text;
+            [self.view setNeedsLayout];
+        }
+    }
+    
+    
+    
+}
+
+#else
+
 #pragma mark - UIGestureRecognizer target
 - (void)handleGesture:(UIPinchGestureRecognizer *)sender
 {
@@ -319,6 +430,33 @@ static const float kMinimumStandardTextSize = 8;
     }
     
     
+}
+
+#endif
+
+- (CGFloat)yCoordinateInMainViewOfGlyphAtIndex:(NSUInteger)glyphIndex
+{
+    CGRect fragmentRect = [self.textView.layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex effectiveRange:NULL];
+    CGPoint glyphLocation = [self.textView.layoutManager locationForGlyphAtIndex:glyphIndex];
+    glyphLocation.x += CGRectGetMinX(fragmentRect);
+    glyphLocation.y += CGRectGetMinY(fragmentRect);
+    
+//    NSLog(@"Glyph Point (container) = %@", NSStringFromCGPoint(glyphLocation));
+    
+    // Convert to the text view's coordinate space.
+    glyphLocation.x += self.textView.textContainerInset.left;
+    glyphLocation.y += self.textView.textContainerInset.top;
+    
+//    NSLog(@"Glyph Point (view) = %@", NSStringFromCGPoint(glyphLocation));
+    
+    
+    //        CGFloat percentDownTextView = glyphLocation.y / self.textView.frame.size.height;
+    
+    CGPoint glyphLocationInMainView = [self.view convertPoint:glyphLocation fromView:self.textView];
+    
+//    NSLog(@"Glyph Point (main view) = %@", NSStringFromCGPoint(glyphLocationInMainView));
+    
+    return glyphLocationInMainView.y;
 }
 
 @end
