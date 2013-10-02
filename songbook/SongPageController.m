@@ -55,15 +55,16 @@ static const NSInteger kGutterWidth = 8;
     NSMutableDictionary *normalAttributes = [@{} mutableCopy];
     normalAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion" size:standardTextSize];
     
+    NSParagraphStyle *numberAndTitleParagraphStyle = [self paragraphStyleFirstLineIndent:0
+                                                                         andNormalIndent:titleView.titleOriginX];
+    
     NSMutableDictionary *numberAttributes = [normalAttributes mutableCopy];
     numberAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion-Bold" size:kTitleNumberFontSize];
-    numberAttributes[NSParagraphStyleAttributeName] = [self paragraphStyleFirstLineIndent:0
-                                                                          andNormalIndent:titleView.titleOriginX];
+    numberAttributes[NSParagraphStyleAttributeName] = numberAndTitleParagraphStyle;
 
     NSMutableDictionary *titleAttributes = [normalAttributes mutableCopy];
     titleAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion" size:kTitleFontSize];
-    titleAttributes[NSParagraphStyleAttributeName] = [self paragraphStyleFirstLineIndent:0
-                                                                         andNormalIndent:titleView.titleOriginX];
+    titleAttributes[NSParagraphStyleAttributeName] = numberAndTitleParagraphStyle;
 
     NSMutableDictionary *ghostAttributes = [normalAttributes mutableCopy];
     ghostAttributes[NSForegroundColorAttributeName] = [UIColor grayColor];
@@ -108,10 +109,10 @@ static const NSInteger kGutterWidth = 8;
         [attributedString appendString:@"\n" attributes:normalAttributes];
     }
     
-    [self.song.verses enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        Verse *verse = (Verse *)obj;
+    for (NSUInteger verseIndex = 0; verseIndex < [self.song.verses count]; verseIndex++) {
+        Verse *verse = self.song.verses[verseIndex];
         
-        if (idx != 0) {
+        if (verseIndex != 0) {
             [attributedString appendString:@"\n\n" attributes:normalAttributes];
         }
         
@@ -137,7 +138,7 @@ static const NSInteger kGutterWidth = 8;
                 [attributedString appendString:[NSString stringWithFormat:@"Chorus: %@", verse.chorus.text] attributes:ghostChorusAttributes];
             }
         }
-    }];
+    }
     
     if ([self.song.author length] > 0 ||
         [self.song.year length] > 0) {

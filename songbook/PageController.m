@@ -13,7 +13,7 @@ NSString * const kStandardTextSizeKey = @"StandardTextSize";
 
 static const NSInteger kGutterWidth = 16;
 static const CGFloat kToolbarHeight = 44;
-static const float kMaximumStandardTextSize = 30;
+static const float kMaximumStandardTextSize = 50;
 static const float kMinimumStandardTextSize = 8;
 
 @interface PageController () <UIScrollViewDelegate, UIToolbarDelegate>
