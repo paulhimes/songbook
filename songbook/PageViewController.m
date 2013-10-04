@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "DataModelTests.h"
 #import "Book+Helpers.h"
+#import "SearchViewController.h"
 
 @interface PageViewController () <PageControllerDelegate>
 
@@ -47,6 +48,36 @@
                                 completion:NULL];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"Search"] &&
+               [segue.destinationViewController isKindOfClass:[SearchViewController class]]) {
+        SearchViewController *searchViewController = ((SearchViewController *)segue.destinationViewController);
+        
+        searchViewController.currentSong = [self closestSong];
+    }
+}
+
+- (IBAction)searchCancelled:(UIStoryboardSegue *)segue
+{
+}
+
+- (IBAction)songSelected:(UIStoryboardSegue *)segue
+{
+    if ([segue.sourceViewController isKindOfClass:[SearchViewController class]]) {
+        SearchViewController *searchViewController = (SearchViewController *)segue.sourceViewController;
+        
+        if (searchViewController.selectedSong) {
+            [self showPageForModelObject:searchViewController.selectedSong animated:NO];
+        }
+    }
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 - (Song *)closestSong
 {
     PageController *currentController = self.viewControllers[0];
@@ -78,6 +109,11 @@
    selectedModelObject:(NSManagedObject *)modelObject
 {
     [self showPageForModelObject:modelObject animated:NO];
+}
+
+- (void)search
+{
+    [self performSegueWithIdentifier:@"Search" sender:nil];
 }
 
 @end

@@ -13,26 +13,22 @@ NSString * const kStandardTextSizeKey = @"StandardTextSize";
 
 static const NSInteger kGutterWidth = 16;
 static const CGFloat kToolbarHeight = 44;
-static const float kMaximumStandardTextSize = 50;
+static const float kMaximumStandardTextSize = 40;
 static const float kMinimumStandardTextSize = 8;
 
 @interface PageController () <UIScrollViewDelegate, UIToolbarDelegate>
 
-@property (nonatomic, strong) UIToolbar *foregroundToolbar;
+@property (nonatomic, strong) UIToolbar *topToolbar;
+@property (nonatomic, strong) UIToolbar *bottomToolbar;
 @property (nonatomic, strong) UITableView *relatedItemsView;
 @property (nonatomic, strong) UIPinchGestureRecognizer *pinchGestureRecognizer;
 @property (nonatomic, strong) NSNumber *gestureStartTextSize;
 
-// NEW WAY
 @property (nonatomic) BOOL shouldLockScrolling;
 @property (nonatomic) NSUInteger glyphIndex;
 @property (nonatomic) CGFloat glyphOriginalYCoordinateInMainView;
 @property (nonatomic) CGFloat glyphYCoordinateInMainView;
 @property (nonatomic) CGPoint touchStartPoint;
-
-// OLD WAY
-@property (nonatomic, strong) PinchAnchor *pinchAnchor;
-
 
 @end
 
@@ -55,17 +51,32 @@ static const float kMinimumStandardTextSize = 8;
     return _scrollView;
 }
 
-- (UIToolbar *)foregroundToolbar
+- (UIToolbar *)topToolbar
 {
-    if (!_foregroundToolbar) {
-        _foregroundToolbar = [[UIToolbar alloc] init];
-        _foregroundToolbar.delegate = self;
-        _foregroundToolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        _foregroundToolbar.hidden = YES;
-        _foregroundToolbar.userInteractionEnabled = NO;
-        _foregroundToolbar.barTintColor = [UIColor clearColor];
+    if (!_topToolbar) {
+        _topToolbar = [[UIToolbar alloc] init];
+        _topToolbar.delegate = self;
+        _topToolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        _topToolbar.hidden = YES;
+        _topToolbar.barTintColor = [UIColor clearColor];
     }
-    return _foregroundToolbar;
+    return _topToolbar;
+}
+
+- (UIToolbar *)bottomToolbar
+{
+    if (!_bottomToolbar) {
+        _bottomToolbar = [[UIToolbar alloc] init];
+        _bottomToolbar.delegate = self;
+        _bottomToolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+        _bottomToolbar.barTintColor = [UIColor clearColor];
+        
+        _bottomToolbar.items = @[
+                                 [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                                 [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(search)]
+                                 ];
+    }
+    return _bottomToolbar;
 }
 
 - (TitleView *)titleView
@@ -92,7 +103,6 @@ static const float kMinimumStandardTextSize = 8;
         [_textView setDebugColor:[UIColor greenColor]];
         _textView.opaque = NO;
         _textView.backgroundColor = [UIColor clearColor];
-//        _textView.backgroundColor = [UIColor blueColor];
     }
     return _textView;
 }
@@ -151,10 +161,15 @@ static const float kMinimumStandardTextSize = 8;
                                       contentWidth,
                                       [self.titleView sizeForWidth:contentWidth].height);
     
-    self.foregroundToolbar.frame = CGRectMake(0,
-                                              0,
-                                              self.view.bounds.size.width,
-                                              self.titleView.frame.size.height);
+    self.topToolbar.frame = CGRectMake(0,
+                                       0,
+                                       self.view.bounds.size.width,
+                                       kToolbarHeight);
+    
+    self.bottomToolbar.frame = CGRectMake(0,
+                                          self.view.bounds.size.height - kToolbarHeight,
+                                          self.view.bounds.size.width,
+                                          kToolbarHeight);
     
     self.textView.attributedText = self.text;
     self.textView.frame = CGRectMake(0, 0, contentWidth, 0);
@@ -167,11 +182,13 @@ static const float kMinimumStandardTextSize = 8;
     [self.scrollView addSubview:self.relatedItemsView];
     
     if (self.titleView) {
-        [self.view addSubview:self.foregroundToolbar];
-        [self.foregroundToolbar addSubview:self.titleView];
+        [self.view addSubview:self.topToolbar];
+        [self.topToolbar addSubview:self.titleView];
     }
     
-    self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(self.foregroundToolbar.frame.size.height, 0, kToolbarHeight, -kGutterWidth);
+    [self.view addSubview:self.bottomToolbar];
+    
+    self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(self.topToolbar.frame.size.height, 0, kToolbarHeight, -kGutterWidth);
     
     CGFloat titleContentOriginY = self.titleView.contentOriginY;
     //    NSLog(@"titleContentOriginY %f", titleContentOriginY);
@@ -187,16 +204,7 @@ static const float kMinimumStandardTextSize = 8;
     // Update any frames and view properties that the normal layout system (autolayout or autoresize) can't handle.
 
 //    NSLog(@"Laid out view with bounds %@ %@", NSStringFromCGRect(self.view.bounds), [self textFragment]);
-    
-//    CGFloat contentWidth = self.view.bounds.size.width - 2 * kGutterWidth;
-//    NSLog(@"contentwidth = %f", contentWidth);
-    
-//    [self.titleView resetMetrics];
-//    [self.titleView setHeight:[self.titleView sizeForWidth:self.titleView.frame.size.width].height];
-//    [self.foregroundToolbar setHeight:self.titleView.frame.size.height];
-    
-//    self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(self.foregroundToolbar.frame.size.height, 0, kToolbarHeight, -kGutterWidth);
-    
+
     CGSize textSize = [self.textView sizeThatFits:CGSizeMake(self.textView.frame.size.width, CGFLOAT_MAX)];
     [self.textView setHeight:textSize.height];
     
@@ -209,9 +217,6 @@ static const float kMinimumStandardTextSize = 8;
 
     
     if (self.shouldLockScrolling) {
-        
-//        self.pinchAnchor = [[PinchAnchor alloc] initWithScrollViewYCoordinate:50 percentDownSubview:0.5];
-        
         
         CGFloat currentYCoordinateOfGlyphInMainView = [self yCoordinateInMainViewOfGlyphAtIndex:self.glyphIndex];
 
@@ -258,10 +263,10 @@ static const float kMinimumStandardTextSize = 8;
 {
     CGFloat offsetY = scrollView.contentOffset.y;
     if (offsetY <= 0) {
-        self.foregroundToolbar.hidden = YES;
+        self.topToolbar.hidden = YES;
         self.scrollView.showsVerticalScrollIndicator = NO;
     } else {
-        self.foregroundToolbar.hidden = NO;
+        self.topToolbar.hidden = NO;
         self.scrollView.showsVerticalScrollIndicator = YES;
     }
 
@@ -281,6 +286,11 @@ static const float kMinimumStandardTextSize = 8;
 
 - (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
 {
+    if (bar == self.topToolbar) {
+        return UIBarPositionBottom;
+    } else if (bar == self.bottomToolbar) {
+        return UIBarPositionTop;
+    }
     return UIBarPositionAny;
 }
 
@@ -391,6 +401,13 @@ static const float kMinimumStandardTextSize = 8;
 //    NSLog(@"Glyph Point (main view) = %@", NSStringFromCGPoint(glyphLocationInMainView));
     
     return glyphLocationInMainView.y;
+}
+
+#pragma mark - Action Methods
+
+- (void)search
+{
+    [self.delegate search];
 }
 
 @end

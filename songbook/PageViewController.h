@@ -14,7 +14,6 @@
 
 @property (nonatomic, strong) PageServer *pageServer;
 
-- (Song *)closestSong;
 - (void)showPageForModelObject:(NSManagedObject *)modelObject
                       animated:(BOOL)animated;
 

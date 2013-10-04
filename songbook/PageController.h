@@ -21,8 +21,11 @@ extern NSString * const kStandardTextSizeKey;
 @property (nonatomic, readonly) UIScrollView *scrollView;
 @property (nonatomic, readonly) UITextView *textView;
 @property (nonatomic, weak) id<PageControllerDelegate> delegate;
+@property (nonatomic, readonly) UIToolbar *bottomToolbar;
+
 
 - (TitleView *)buildTitleView;
+
 
 @end
 
@@ -30,5 +33,6 @@ extern NSString * const kStandardTextSizeKey;
 
 - (void)pageController:(PageController *)pageController
    selectedModelObject:(NSManagedObject *)modelObject;
+- (void)search;
 
 @end
