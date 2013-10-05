@@ -35,7 +35,7 @@
     [self.view insertSubview:gradientView atIndex:0];
     
     self.view.clipsToBounds = NO;
-    self.bottomToolbar.barTintColor = [UIColor redColor];
+    self.bottomToolbar.barTintColor = [UIColor colorWithRed:0.89 green:0.15 blue:0.26 alpha:1.0];
     self.bottomToolbar.tintColor = [UIColor whiteColor];
 }
 

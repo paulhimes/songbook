@@ -25,6 +25,7 @@
 		8B94532217A5F3E500327479 /* Verse+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94532117A5F3E500327479 /* Verse+Helpers.m */; };
 		8B94532517A5F44000327479 /* Section+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94532417A5F43800327479 /* Section+Helpers.m */; };
 		8B94532817A5F4C900327479 /* Book+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94532717A5F4C900327479 /* Book+Helpers.m */; };
+		8B983C0617FE636900D1A4C7 /* Songbook~iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BA3061E17A0BE2B00A2ABDE /* Songbook~iPad.storyboard */; };
 		8BA305E617A0BCF200A2ABDE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305E517A0BCF200A2ABDE /* Foundation.framework */; };
 		8BA305E817A0BCF200A2ABDE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305E717A0BCF200A2ABDE /* CoreGraphics.framework */; };
 		8BA305EA17A0BCF200A2ABDE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305E917A0BCF200A2ABDE /* UIKit.framework */; };
@@ -334,9 +335,9 @@
 				8B6F1BEC17ACB4E100F72C3D /* Song Pages */,
 				8BA305FC17A0BCF200A2ABDE /* Images.xcassets */,
 				8BA3061A17A0BDAD00A2ABDE /* Songbook.storyboard */,
+				8BA3061E17A0BE2B00A2ABDE /* Songbook~iPad.storyboard */,
 				8BEB2A2917DE8E30006F118C /* BookParser.h */,
 				8BEB2A2A17DE8E30006F118C /* BookParser.m */,
-				8BA3061E17A0BE2B00A2ABDE /* Songbook~iPad.storyboard */,
 				8BA3061F17A1640B00A2ABDE /* PageViewController.h */,
 				8BA3062017A1640B00A2ABDE /* PageViewController.m */,
 				8BB54D5A17A4C60700FD2914 /* PageServer.h */,
@@ -536,6 +537,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B983C0617FE636900D1A4C7 /* Songbook~iPad.storyboard in Resources */,
 				8BA305F217A0BCF200A2ABDE /* InfoPlist.strings in Resources */,
 				8BEB2A2817DE8994006F118C /* songs.txt in Resources */,
 				8BA3061B17A0BDAD00A2ABDE /* Songbook.storyboard in Resources */,

@@ -11,7 +11,6 @@
 
 NSString * const kStandardTextSizeKey = @"StandardTextSize";
 
-static const NSInteger kGutterWidth = 16;
 static const CGFloat kToolbarHeight = 44;
 static const float kMaximumStandardTextSize = 40;
 static const float kMinimumStandardTextSize = 8;
@@ -30,12 +29,19 @@ static const float kMinimumStandardTextSize = 8;
 @property (nonatomic) CGFloat glyphYCoordinateInMainView;
 @property (nonatomic) CGPoint touchStartPoint;
 
+@property (nonatomic) NSInteger gutterWidth;
+
 @end
 
 @implementation PageController
 @synthesize titleView = _titleView;
 @synthesize scrollView = _scrollView;
 @synthesize textView = _textView;
+
+- (NSInteger)gutterWidth
+{
+    return round(self.view.bounds.size.width * 0.05);
+}
 
 - (UIScrollView *)scrollView
 {
@@ -58,7 +64,6 @@ static const float kMinimumStandardTextSize = 8;
         _topToolbar.delegate = self;
         _topToolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         _topToolbar.hidden = YES;
-        _topToolbar.barTintColor = [UIColor clearColor];
     }
     return _topToolbar;
 }
@@ -69,7 +74,6 @@ static const float kMinimumStandardTextSize = 8;
         _bottomToolbar = [[UIToolbar alloc] init];
         _bottomToolbar.delegate = self;
         _bottomToolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-        _bottomToolbar.barTintColor = [UIColor clearColor];
         
         _bottomToolbar.items = @[
                                  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
@@ -149,18 +153,6 @@ static const float kMinimumStandardTextSize = 8;
     self.view.frame = applicationFrame;
     self.view.clipsToBounds = YES;
     
-    CGFloat contentWidth = self.view.bounds.size.width - 2 * kGutterWidth;
-//    NSLog(@"contentwidth = %f", contentWidth);
-    self.scrollView.frame = CGRectMake(kGutterWidth,
-                                       0,
-                                       contentWidth,
-                                       self.view.bounds.size.height);
-    
-    self.titleView.frame = CGRectMake(kGutterWidth,
-                                      0,
-                                      contentWidth,
-                                      [self.titleView sizeForWidth:contentWidth].height);
-    
     self.topToolbar.frame = CGRectMake(0,
                                        0,
                                        self.view.bounds.size.width,
@@ -172,9 +164,7 @@ static const float kMinimumStandardTextSize = 8;
                                           kToolbarHeight);
     
     self.textView.attributedText = self.text;
-    self.textView.frame = CGRectMake(0, 0, contentWidth, 0);
-    
-    self.relatedItemsView.frame = CGRectMake(0, 0, contentWidth, 0);
+
     [self.relatedItemsView setHeight:self.relatedItemsView.contentHeight];
     
     [self.view addSubview:self.scrollView];
@@ -188,7 +178,7 @@ static const float kMinimumStandardTextSize = 8;
     
     [self.view addSubview:self.bottomToolbar];
     
-    self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(self.topToolbar.frame.size.height, 0, kToolbarHeight, -kGutterWidth);
+
     
     CGFloat titleContentOriginY = self.titleView.contentOriginY;
     //    NSLog(@"titleContentOriginY %f", titleContentOriginY);
@@ -204,11 +194,29 @@ static const float kMinimumStandardTextSize = 8;
     // Update any frames and view properties that the normal layout system (autolayout or autoresize) can't handle.
 
 //    NSLog(@"Laid out view with bounds %@ %@", NSStringFromCGRect(self.view.bounds), [self textFragment]);
+    
+    CGFloat contentWidth = self.view.bounds.size.width - 2 * self.gutterWidth;
+    //    NSLog(@"contentwidth = %f", contentWidth);
+    self.scrollView.frame = CGRectMake(self.gutterWidth,
+                                       0,
+                                       contentWidth,
+                                       self.view.bounds.size.height);
+    
+    self.titleView.frame = CGRectMake(self.gutterWidth,
+                                      0,
+                                      contentWidth,
+                                      [self.titleView sizeForWidth:contentWidth].height);
 
+    self.textView.frame = CGRectMake(0, 0, contentWidth, 0);
+    
+    self.relatedItemsView.frame = CGRectMake(0, 0, contentWidth, 0);
+    
+    self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(self.topToolbar.frame.size.height, 0, kToolbarHeight, -self.gutterWidth);
+    
     CGSize textSize = [self.textView sizeThatFits:CGSizeMake(self.textView.frame.size.width, CGFLOAT_MAX)];
     [self.textView setHeight:textSize.height];
     
-    [self.relatedItemsView setOriginY:CGRectGetMaxY(self.textView.frame) + 3 * kGutterWidth];
+    [self.relatedItemsView setOriginY:CGRectGetMaxY(self.textView.frame) + 3 * self.gutterWidth];
     
     self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width,
                                              MAX(self.scrollView.frame.size.height - (self.scrollView.contentInset.top + self.scrollView.contentInset.bottom),
@@ -355,27 +363,24 @@ static const float kMinimumStandardTextSize = 8;
         // Limit the scaled size to sane bounds.
         float scaledAndLimitedSize = MIN(kMaximumStandardTextSize, MAX(kMinimumStandardTextSize, scaledSize));
         
+        //        self.glyphYCoordinateInMainView = [self yCoordinateInMainViewOfGlyphAtIndex:self.glyphIndex];
+        
+        CGPoint updatedTouchPoint = [sender locationInView:self.view];
+        
+        CGFloat touchPointVerticalShift = updatedTouchPoint.y - self.touchStartPoint.y;
+        
+        self.glyphYCoordinateInMainView = self.glyphOriginalYCoordinateInMainView + touchPointVerticalShift;
+        
         
         if (![@(scaledAndLimitedSize) isEqualToNumber:[userDefaults objectForKey:kStandardTextSizeKey]]) {
-            
-            
-            //        self.glyphYCoordinateInMainView = [self yCoordinateInMainViewOfGlyphAtIndex:self.glyphIndex];
-            
-            CGPoint updatedTouchPoint = [sender locationInView:self.view];
-            
-            CGFloat touchPointVerticalShift = updatedTouchPoint.y - self.touchStartPoint.y;
-            
-            self.glyphYCoordinateInMainView = self.glyphOriginalYCoordinateInMainView + touchPointVerticalShift;
             
             [userDefaults setObject:@(scaledAndLimitedSize) forKey:kStandardTextSizeKey];
             NSAttributedString *text = self.text;
             self.textView.attributedText = text;
-            [self.view setNeedsLayout];
         }
+        
+        [self.view setNeedsLayout];
     }
-    
-    
-    
 }
 
 - (CGFloat)yCoordinateInMainViewOfGlyphAtIndex:(NSUInteger)glyphIndex
