@@ -7,7 +7,6 @@
 //
 
 #import "PageController.h"
-#import "PinchAnchor.h"
 
 NSString * const kStandardTextSizeKey = @"StandardTextSize";
 

@@ -3154,7 +3154,8 @@ Chorus: The shining star did show the wise-men three; Where to find the lowly Je
 319 Oh Listen Young Ones
 (Trans. No. 119 UL, Oi kuulkaa, Nuoret; Sylvia Niemi)
 1. Oh, listen young ones, Jesus still is calling; Searching the wilderness for all the fallen.
-2. Oh, stand and listen, Hear your Jesus speaking; Offering His love and mercy still unceasing. 3. Now shepherd calls you, Harken to His pleading; Open your hearts to His still open, bleeding.
+2. Oh, stand and listen, Hear your Jesus speaking; Offering His love and mercy still unceasing. 
+3. Now shepherd calls you, Harken to His pleading; Open your hearts to His still open, bleeding.
 
 4. He, from your slavery, Wants to free and help you; Breaking the chains of death by His death for you.
 5. All of your sin wounds, He will heal in His wounds; There sweet refreshment will once more revive you.
@@ -3194,7 +3195,8 @@ Chorus: The shining star did show the wise-men three; Where to find the lowly Je
 1. My journey now is starting, To Heaven I’m departing, Soon I’ll arrive up there.
 2. Away from earth so vile, No sorrow, weeping, trial, In that new Homeland fair.
 3. The door to Heaven opens, My soul in joy awakens, Leaving this dust behind.
-4. Farewell, I now must leave you, I do not wish to grieve you, All of my loved ones, kind. 5. Rejoice with me in spirit, My grave is restful, quiet, Wherein they lay my frame.
+4. Farewell, I now must leave you, I do not wish to grieve you, All of my loved ones, kind. 
+5. Rejoice with me in spirit, My grave is restful, quiet, Wherein they lay my frame.
 6. And soon we’ll be together, To sing of vict’ry ever, In Glory, praise His name.
 7. The song of triumph rings there, Unto the Lamb we sing there, The Halleluja hymn!
 8. The Bride, her crown is wearing, The joy of Heaven sharing, By grace we enter in.
@@ -4008,9 +4010,12 @@ Chorus: Beautiful message coming from God, Warm summer breezes sway in His Love;
 5. The way has all been marked now, by blood-drops of My Son, :,: So have no fear my little ones, you are my chosen one. :,:
 6. Just wait a little longer, in peace within my love, :,: The mansions I’ve prepared for you are waiting here above. :,:
 419 Be Ready, Be Ready, Be Ready To Go
-1. Be ready, be ready, be ready to go, We know not the time Lord Jesus will come. 2. Be ready, be ready, be ready to go, We know that the Eastern sky will glow.
+1. Be ready, be ready, be ready to go, We know not the time Lord Jesus will come. 
+2. Be ready, be ready, be ready to go, We know that the Eastern sky will glow.
 
-3. Be ready, be ready, be ready to go, For we know not the time the trumpets will blow. 4. Be ready, be ready, be ready to go, We know not the time the white cloud will come. 5. Be ready, be ready, be ready to go, We trust that our Faith will carry us Home.
+3. Be ready, be ready, be ready to go, For we know not the time the trumpets will blow. 
+4. Be ready, be ready, be ready to go, We know not the time the white cloud will come. 
+5. Be ready, be ready, be ready to go, We trust that our Faith will carry us Home.
 6. Be ready, be ready, be ready to go, The music is louder when He calls us Home.
 7. Be ready, be ready, be ready to go, When Jesus calls us, on a cloud we shall go.
 8. Be ready, be ready, be ready to go, From this cold world below to the shores of Home.
@@ -4123,11 +4128,15 @@ Chorus: Oh Listen, Oh Listen, please listen to Me, From birth, you’ve been cho
 8. Keep your faith as simple children, Guided by our Father’s hand, He will take you from this worldly end, Home to our promised land.
 430 Isn’t It Most Joyous
 (Trans. #197 UL, Onpa Hauska Olla Uskossa)
-1. Isn’t it most joyous, just to stay in faith, And be the Bride of Him who in Heaven awaits? 2. Isn’t it most joyous, just to stay in faith, Gathering His drops of blood for our soul’s sake? 3. Isn’t it most joyous, just to stay in faith? Over all the world we have this victory so great! 4. Isn’t it most joyous, just to stay in faith, Knowing that a Home Above will be our fate?
+1. Isn’t it most joyous, just to stay in faith, And be the Bride of Him who in Heaven awaits? 
+2. Isn’t it most joyous, just to stay in faith, Gathering His drops of blood for our soul’s sake? 
+3. Isn’t it most joyous, just to stay in faith? Over all the world we have this victory so great! 
+4. Isn’t it most joyous, just to stay in faith, Knowing that a Home Above will be our fate?
 5. Isn’t it most joyous, just to stay in faith, Soon to hear the thunder of His glorious praise?
 6. Isn’t it most joyous, to face our final breath? When our name is known Above, Where there is no death!
 7. Soon will fly my spirit, to the shores of Home, Where my earthly trials are forevermore unknown!
-8. We will not remember, anything of earth, Only peace and happiness, and lasting mirth! 9. Even all my teardrops, will be gathered up, Held by God’s own angels, in a golden cup.
+8. We will not remember, anything of earth, Only peace and happiness, and lasting mirth! 
+9. Even all my teardrops, will be gathered up, Held by God’s own angels, in a golden cup.
 
 431 Satan Get Behind Me
 1. Satan get behind me, I’m not your child; You have tempt and tried me, from our kind beguiled; I have but one Father, He takes care of me; All He asks His children, In Me, please believe.
@@ -4667,7 +4676,7 @@ Chorus: Oh, joyous day when I can see, The bridegroom coming just for me, His ou
 503 Oh, She Heard Jesus Call Above
 1. Oh, she heard Jesus call above, A message sent on wings of love, And hastened to her wedding day, A brand new name she heard Him say.
 
-2. She leaped for joy, her time had come, Excitement pealed, she heard the drum, Oh wondrous joy8, eternally! My bridegroom comes at last for me.
+2. She leaped for joy, her time had come, Excitement pealed, she heard the drum, Oh wondrous joy, eternally! My bridegroom comes at last for me.
 3. And she can’t believe her eyes, As she shed her earthly guise, And steps into her wedding gown, And is adorned with golden crown.
 4. She flies away on angel’s wings, And with a glorious voice she sings, A voice too beautiful and clear, A song of love to bridegroom dear.
 5. There bridegroom meets her at the door, This place she’d never seen before, Where angels sing their songs of love, Praising our Father up above.
@@ -5175,10 +5184,12 @@ Chorus: You too shall fly on angel’s wings, As with the choir you too will sin
 
 575 Oh Child Of God
 1. Oh child of God forget all your fears, Our Jesus has saved us, he’s remembered our tears.
-2. Oh child of God just remember he died, On the cross he’s our Savior, that’s why we’re alive. 3. Oh child of God, our tears aren’t so much, To bear on this journey we’re given so much.
+2. Oh child of God just remember he died, On the cross he’s our Savior, that’s why we’re alive. 
+3. Oh child of God, our tears aren’t so much, To bear on this journey we’re given so much.
 4. Our faith is important, remember each day, How Jesus was sent to keep us on the way.
 5. Our road here is troubled, we all can attest, But God in his great mercy will not forget.
-6. How we struggled and fought to keep our faith alive, Just keep on the path of everlasting life. 7. Oh child of God, remember this well, When life seems too hard he carries you still.
+6. How we struggled and fought to keep our faith alive, Just keep on the path of everlasting life. 
+7. Oh child of God, remember this well, When life seems too hard he carries you still.
 8. Don’t look left or right just keep on the way, And someday we’ll see that heavenly day.
 576 When Sometimes You Are Defending
 1. When sometimes you are defending, That which you know is true; The great and noble standard, Jesus has planted in you. Never give up to a scorner, To those who look and frown. Remember the thing you have at stake, Of winning or losing your crown.

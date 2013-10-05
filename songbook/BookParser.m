@@ -22,7 +22,7 @@ static NSString * const kHasChorusKey = @"hasChorus";
 
 @implementation BookParser
 
-- (NSArray *)songsFromFilePath:(NSString *)path;
++ (NSArray *)songsFromFilePath:(NSString *)path;
 {
     NSMutableArray *songs = [@[] mutableCopy];
     
@@ -45,14 +45,15 @@ static NSString * const kHasChorusKey = @"hasChorus";
     __block NSUInteger lastErrorIndex = 0;
     [lines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSString *line = [obj stringByTrimmingCharactersInSet:whitespaceAndNewlineCharacterSet];
-        if ([self isSongTitleLine:line]) {
+        if ([self isSongTitleLine:line scratchSongExists:currentSong != nil]) {
             titleCounter++;
             NSDictionary *titleComponents = [self titleComponentsFromLine:line];
             
-            if (titleCounter != [titleComponents[kNumberKey] integerValue]) {
-                NSLog(@"ERROR %d - [%@] [%@]", titleCounter, titleComponents[kNumberKey], titleComponents[kTitleKey]);
-                *stop = YES;
-            } else {
+//            NSNumber *titleNumber = titleComponents[kNumberKey];
+//            if (titleNumber && titleCounter != [titleNumber integerValue]) {
+//                NSLog(@"ERROR %d - [%@] [%@]", titleCounter, titleComponents[kNumberKey], titleComponents[kTitleKey]);
+//                *stop = YES;
+//            } else {
                 // Save the old song.
                 if (currentSong) {
                     [songs addObject:currentSong];
@@ -64,8 +65,10 @@ static NSString * const kHasChorusKey = @"hasChorus";
                 currentSong = [Song songInContext:context];
                 currentChorus = nil;
                 currentSong.title = titleComponents[kTitleKey];
+            if ([titleComponents[kNumberKey] length] > 0) {
                 currentSong.number = @([titleComponents[kNumberKey] integerValue]);
             }
+//            }
             
         } else if ([self isSubtitleLine:line]) {
             if (currentSong && [currentSong.subtitle length] == 0) {
@@ -105,8 +108,15 @@ static NSString * const kHasChorusKey = @"hasChorus";
             verse.text = verseComponents[kVerseTextKey];
             verse.number = verseComponents[kNumberKey];
             
+            NSString *numberString = [verse.text stringLimitedToCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
+            
             if (currentSong) {
-                verse.song = currentSong;
+                if ([numberString length] > 0) {
+                    NSLog(@"ERROR [%@]", line);
+                    *stop = YES;
+                } else {
+                    verse.song = currentSong;
+                }
             } else {
                 NSLog(@"ERROR [%@]", line);
                 *stop = YES;
@@ -214,7 +224,7 @@ static NSString * const kHasChorusKey = @"hasChorus";
 }
 
 
-- (NSString *)isolateSubtitleLines:(NSString *)string
++ (NSString *)isolateSubtitleLines:(NSString *)string
 {
     string = [[string componentsSeparatedByString:@"("] componentsJoinedByString:@"\n("];
     
@@ -222,7 +232,7 @@ static NSString * const kHasChorusKey = @"hasChorus";
 }
 
 
-- (BOOL)isSongTitleLine:(NSString *)line
++ (BOOL)isSongTitleLine:(NSString *)line scratchSongExists:(BOOL)scratchSongExists
 {
     NSCharacterSet *whitespaceAndNewlineCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
     
@@ -237,11 +247,11 @@ static NSString * const kHasChorusKey = @"hasChorus";
             if ([decimalDigitCharacterSet characterIsMember:character]) {
                 hasSeenDigit = YES;
             } else if ([whitespaceAndNewlineCharacterSet characterIsMember:character]) {
-                if (!hasSeenDigit) {
+                if (!hasSeenDigit && scratchSongExists) {
                     isTitle = NO;
                 }
                 break;
-            } else {
+            } else if (scratchSongExists) {
                 isTitle = NO;
                 break;
             }
@@ -253,7 +263,7 @@ static NSString * const kHasChorusKey = @"hasChorus";
     return isTitle;
 }
 
-- (NSDictionary *)titleComponentsFromLine:(NSString *)line
++ (NSDictionary *)titleComponentsFromLine:(NSString *)line
 {
     NSCharacterSet *decimalDigitCharacterSet = [NSCharacterSet decimalDigitCharacterSet];
     
@@ -280,7 +290,7 @@ static NSString * const kHasChorusKey = @"hasChorus";
     return @{kNumberKey: numberString, kTitleKey: titleString};
 }
 
-- (BOOL)isSubtitleLine:(NSString *)line
++ (BOOL)isSubtitleLine:(NSString *)line
 {
     if ([line length] > 0) {
         unichar character = [line characterAtIndex:0];
@@ -293,7 +303,7 @@ static NSString * const kHasChorusKey = @"hasChorus";
     return NO;
 }
 
-- (BOOL)isChorusLine:(NSString *)line
++ (BOOL)isChorusLine:(NSString *)line
 {
     line = [line lowercaseString];
 
@@ -304,7 +314,7 @@ static NSString * const kHasChorusKey = @"hasChorus";
     }
 }
 
-- (NSString *)chorusTextFromLine:(NSString *)line
++ (NSString *)chorusTextFromLine:(NSString *)line
 {
     NSString *lowerCase = [line lowercaseString];
     NSRange range = [lowerCase rangeOfString:@"chorus"];
@@ -328,7 +338,7 @@ static NSString * const kHasChorusKey = @"hasChorus";
     return [stripped substringFromIndex:index];
 }
 
-- (BOOL)isVerseLine:(NSString *)line
++ (BOOL)isVerseLine:(NSString *)line
 {
     NSCharacterSet *decimalDigitCharacterSet = [NSCharacterSet decimalDigitCharacterSet];
     NSArray *components = [line componentsSeparatedByString:@"."];
@@ -341,7 +351,7 @@ static NSString * const kHasChorusKey = @"hasChorus";
     }
 }
 
-- (NSDictionary *)verseComponentsFromLine:(NSString *)line
++ (NSDictionary *)verseComponentsFromLine:(NSString *)line
 {
     NSCharacterSet *whitespaceAndNewlineCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
     NSCharacterSet *decimalDigitCharacterSet = [NSCharacterSet decimalDigitCharacterSet];
@@ -370,7 +380,7 @@ static NSString * const kHasChorusKey = @"hasChorus";
     return @{kNumberKey: number, kVerseTextKey: line, kHasChorusKey: @(hasChorus)};
 }
 
-- (BOOL)isUnNumberedVerseLine:(NSString *)line
++ (BOOL)isUnNumberedVerseLine:(NSString *)line
 {
     NSMutableCharacterSet *firstCharacterSet = [[NSMutableCharacterSet alloc] init];
     [firstCharacterSet formUnionWithCharacterSet:[NSCharacterSet uppercaseLetterCharacterSet]];
@@ -384,7 +394,7 @@ static NSString * const kHasChorusKey = @"hasChorus";
     }
 }
 
-- (NSDictionary *)unNumberedVerseComponentsFromLine:(NSString *)line
++ (NSDictionary *)unNumberedVerseComponentsFromLine:(NSString *)line
 {
     NSCharacterSet *whitespaceAndNewlineCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 

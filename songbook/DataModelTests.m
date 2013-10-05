@@ -34,8 +34,7 @@
     Section *hymnSection = [Section newOrExistingSectionTitled:@"Hymns of Believers" inBook:book];
 
     // Create the songs.
-    BookParser *parser = [[BookParser alloc] init];
-    NSArray *songs = [parser songsFromFilePath:[[NSBundle mainBundle] pathForResource:@"songs" ofType:@"txt"]];
+    NSArray *songs = [BookParser songsFromFilePath:[[NSBundle mainBundle] pathForResource:@"songs" ofType:@"txt"]];
     Song *song41;
     for (Song *song in songs) {
         song.section = songsSection;
@@ -95,47 +94,62 @@
 //    }
     
     // Create the Finn Songs
-    Song *finnSong0 = [Song newOrExistingSongTitled:@"O Jumalan Karitsa" inSection:finnSection];
-    if ([finnSong0.verses count] == 0) {
-        [finnSong0 addVerse:@"O Jumalan Karitsa! Joka pois otat maailman synnit, Armahda meidän päällemme!"];
-        [finnSong0 addVerse:@"O Jumalan Karitsa! Joka pois otat maailman synnit, Armahda meidän päällemme!"];
-        [finnSong0 addVerse:@"O Jumalan Karitsa! Joka pois otat maailman synnit, Anna meille rauhas ja siunaukses!"];
-        [self tokenizeSong:finnSong0];
+    NSArray *finnSongs = [BookParser songsFromFilePath:[[NSBundle mainBundle] pathForResource:@"afewfinnsongs" ofType:@"txt"]];
+    for (Song *song in finnSongs) {
+        song.section = finnSection;
+        
+        if ([song.number isEqualToNumber:@40] && song41) {
+            [song addRelatedSongsObject:song41];
+            [song41 addRelatedSongsObject:song];
+        }
     }
     
-    Song *finnSong40 = [Song newOrExistingSongTitled:@"Jo Mahtaisin Yötä Ja Päivääkin Kiitää" inSection:finnSection];
-    if ([finnSong40.verses count] == 0) {
-        finnSong40.number = @40;
-        [finnSong40 addVerse:@"Jo mahtaisin jota ja päivääkin kiitää, Jumalan suurta hyvyyttä; Että saisimme taivassa häitämme viettää, Karitsan suuressa hovissa; Että saisimme taivassa häitämme viettää, Karitsan suuressa hovissa."];
-        [finnSong40 addVerse:@"O rakkaus surri, O ääreton armo, että olla morsian Jeesukesen, Ja siinä on jo kyllä, Että Jeesus on mulla, O ääreton armo ja rakkaus; Ja siinä on jo kyllä, Että Jeesus on mulla, O ääreton armo ja rakkaus."];
-        [finnSong40 addRelatedSongsObject:song41];
-        [song41 addRelatedSongsObject:finnSong40];
-        [self tokenizeSong:finnSong40];
-    }
+//    Song *finnSong0 = [Song newOrExistingSongTitled:@"O Jumalan Karitsa" inSection:finnSection];
+//    if ([finnSong0.verses count] == 0) {
+//        [finnSong0 addVerse:@"O Jumalan Karitsa! Joka pois otat maailman synnit, Armahda meidän päällemme!"];
+//        [finnSong0 addVerse:@"O Jumalan Karitsa! Joka pois otat maailman synnit, Armahda meidän päällemme!"];
+//        [finnSong0 addVerse:@"O Jumalan Karitsa! Joka pois otat maailman synnit, Anna meille rauhas ja siunaukses!"];
+//        [self tokenizeSong:finnSong0];
+//    }
+//    
+//    Song *finnSong40 = [Song newOrExistingSongTitled:@"Jo Mahtaisin Yötä Ja Päivääkin Kiitää" inSection:finnSection];
+//    if ([finnSong40.verses count] == 0) {
+//        finnSong40.number = @40;
+//        [finnSong40 addVerse:@"Jo mahtaisin jota ja päivääkin kiitää, Jumalan suurta hyvyyttä; Että saisimme taivassa häitämme viettää, Karitsan suuressa hovissa; Että saisimme taivassa häitämme viettää, Karitsan suuressa hovissa."];
+//        [finnSong40 addVerse:@"O rakkaus surri, O ääreton armo, että olla morsian Jeesukesen, Ja siinä on jo kyllä, Että Jeesus on mulla, O ääreton armo ja rakkaus; Ja siinä on jo kyllä, Että Jeesus on mulla, O ääreton armo ja rakkaus."];
+//        [finnSong40 addRelatedSongsObject:song41];
+//        [song41 addRelatedSongsObject:finnSong40];
+//        [self tokenizeSong:finnSong40];
+//    }
     
     // Create the Hymns
-    Song *hymn72 = [Song newOrExistingSongTitled:@"Lord Dismiss Us With Thy Blessing" inSection:hymnSection];
-    if ([hymn72.verses count] == 0) {
-        hymn72.number = @72;
-        [hymn72 addVerse:@"Lord dismiss us with Thy blessing, Fill our hearts with joy and peace; Let us each, Thy love possessing, Triumph in redeeming grace; Oh, refresh us, Oh, refresh us; Travelling through this wilderness."];
-        [hymn72 addVerse:@"Thanks we give and adoration, For Thy Gospel’s joyful sound; May the fruits of Thy salvation, In our hearts and lives abound; Ever faithful, Ever faithful; To the truth may we be found."];
-        [hymn72 addVerse:@"So whene’er the signal’s given, Us from earth to call away; Borne on Angel’s wings to Heaven, Glad Thy summons to obey; May we ever, May we ever; Reign with Christ in endless day."];
-        hymn72.author = @"John Fawcett";
-        hymn72.year = @"1773";
-        
-        [self tokenizeSong:hymn72];
+    NSArray *hymns = [BookParser songsFromFilePath:[[NSBundle mainBundle] pathForResource:@"hymns" ofType:@"txt"]];
+    for (Song *hymn in hymns) {
+        hymn.section = hymnSection;
     }
-    
-    Song *hymn79 = [Song newOrExistingSongTitled:@"Trans: Hymn 56 UV, vs. 12 and 13" inSection:hymnSection];
-    if ([hymn79.verses count] == 0) {
-        hymn79.number = @79;
-        Verse *hymn79Verse1 = [hymn79 addVerse:@"Recall my anguish, death and suffering, Which for your sake here I bore; While dying for you on the cross, Therefore making full atonement; All your debts I fully paid, Earned the Fathers’ Grace that day."];
-        hymn79Verse1.title = @"Jesus";
-        Verse *hymn79Verse2 = [hymn79 addVerse:@"With joy, dear Jesus, I do thank Thee, Because of Thy comforting love; Singing with a spiritual mind, As sin does no longer bind me; Thank Thee Father, Oh my soul, Everything is now fulfilled."];
-        hymn79Verse2.title = @"Sinner";
-        
-        [self tokenizeSong:hymn79];
-    }
+
+//    Song *hymn72 = [Song newOrExistingSongTitled:@"Lord Dismiss Us With Thy Blessing" inSection:hymnSection];
+//    if ([hymn72.verses count] == 0) {
+//        hymn72.number = @72;
+//        [hymn72 addVerse:@"Lord dismiss us with Thy blessing, Fill our hearts with joy and peace; Let us each, Thy love possessing, Triumph in redeeming grace; Oh, refresh us, Oh, refresh us; Travelling through this wilderness."];
+//        [hymn72 addVerse:@"Thanks we give and adoration, For Thy Gospel’s joyful sound; May the fruits of Thy salvation, In our hearts and lives abound; Ever faithful, Ever faithful; To the truth may we be found."];
+//        [hymn72 addVerse:@"So whene’er the signal’s given, Us from earth to call away; Borne on Angel’s wings to Heaven, Glad Thy summons to obey; May we ever, May we ever; Reign with Christ in endless day."];
+//        hymn72.author = @"John Fawcett";
+//        hymn72.year = @"1773";
+//        
+//        [self tokenizeSong:hymn72];
+//    }
+//    
+//    Song *hymn79 = [Song newOrExistingSongTitled:@"Trans: Hymn 56 UV, vs. 12 and 13" inSection:hymnSection];
+//    if ([hymn79.verses count] == 0) {
+//        hymn79.number = @79;
+//        Verse *hymn79Verse1 = [hymn79 addVerse:@"Recall my anguish, death and suffering, Which for your sake here I bore; While dying for you on the cross, Therefore making full atonement; All your debts I fully paid, Earned the Fathers’ Grace that day."];
+//        hymn79Verse1.title = @"Jesus";
+//        Verse *hymn79Verse2 = [hymn79 addVerse:@"With joy, dear Jesus, I do thank Thee, Because of Thy comforting love; Singing with a spiritual mind, As sin does no longer bind me; Thank Thee Father, Oh my soul, Everything is now fulfilled."];
+//        hymn79Verse2.title = @"Sinner";
+//        
+//        [self tokenizeSong:hymn79];
+//    }
     
     // Save it all.
     NSError *error;
