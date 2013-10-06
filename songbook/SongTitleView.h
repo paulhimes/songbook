@@ -6,16 +6,17 @@
 //  Copyright (c) 2013 Paul Himes. All rights reserved.
 //
 
-#import "TitleView.h"
+#import <UIKit/UIKit.h>
 
 extern const CGFloat kTitleNumberFontSize;
 extern const CGFloat kTitleFontSize;
 extern const CGFloat kSubtitleFontSize;
 
-@interface SongTitleView : TitleView
+@interface SongTitleView : UIView
 
 @property (nonatomic, strong) NSNumber *number;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, readonly) CGFloat titleOriginX;
+@property (nonatomic, readonly) CGFloat contentOriginY;
 
 @end

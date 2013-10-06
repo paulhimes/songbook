@@ -7,25 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TitleView.h"
 
 extern NSString * const kStandardTextSizeKey;
 
 @protocol PageControllerDelegate;
 
-@interface PageController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface PageController : UIViewController
 
 @property (nonatomic, readonly) NSManagedObject *modelObject;
-@property (nonatomic, readonly) NSAttributedString *text;
-@property (nonatomic, readonly) TitleView *titleView;
-@property (nonatomic, readonly) UIScrollView *scrollView;
-@property (nonatomic, readonly) UITextView *textView;
 @property (nonatomic, weak) id<PageControllerDelegate> delegate;
-@property (nonatomic, readonly) UIToolbar *bottomToolbar;
-
-
-- (TitleView *)buildTitleView;
-
+@property (weak, nonatomic) IBOutlet UITextView *textView;
+@property (nonatomic, readonly) NSAttributedString *text;
 
 @end
 

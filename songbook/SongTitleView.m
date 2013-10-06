@@ -9,6 +9,7 @@
 #import "SongTitleView.h"
 #import "PageController.h"
 
+const CGFloat kMinimumTitleViewHeight = 44;
 const CGFloat kTitleNumberFontSize = 30;
 const CGFloat kTitleFontSize = 22;
 const CGFloat kSubtitleFontSize = 15;
@@ -56,7 +57,9 @@ static const CGFloat kSongComponentPadding = 8;
     CGRect numberRect = [numberText boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, self.numberFont.lineHeight)
                                                  options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading | NSStringDrawingTruncatesLastVisibleLine
                                                  context:nil];
-    return numberRect.size.width;
+    
+    CGFloat titleOriginX = numberRect.size.width;
+    return titleOriginX;
 }
 
 - (CGFloat)contentOriginY
@@ -157,25 +160,6 @@ static const CGFloat kSongComponentPadding = 8;
     paragraphStyle.firstLineHeadIndent = firstLineIndent;
     paragraphStyle.headIndent = normalIndent;
     return paragraphStyle;
-}
-
-- (void)resetMetrics
-{
-    self.numberFont = nil;
-    self.titleFont = nil;
-    self.titleAttributes = nil;
-}
-
-- (void)setNeedsDisplay
-{
-    [self resetMetrics];
-    [super setNeedsDisplay];
-}
-
-- (void)setNeedsLayout
-{
-    [self resetMetrics];
-    [super setNeedsLayout];
 }
 
 @end

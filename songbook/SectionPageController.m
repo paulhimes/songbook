@@ -10,19 +10,20 @@
 
 @interface SectionPageController ()
 
-@property (strong, nonatomic) Section *section;
+@property (weak, nonatomic) IBOutlet UIButton *searchButton;
 
 @end
 
 @implementation SectionPageController
 
-- (instancetype)initWithSection:(Section *)section
+- (void)viewDidLoad
 {
-    self = [super init];
-    if (self) {
-        self.section = section;
-    }
-    return self;
+    [super viewDidLoad];
+    
+    UIImage *searchButtonImage = [[self.searchButton imageForState:UIControlStateNormal] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIImage *searchButtonHighlightedImage = [[self.searchButton imageForState:UIControlStateHighlighted] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [self.searchButton setImage:searchButtonImage forState:UIControlStateNormal];
+    [self.searchButton setImage:searchButtonHighlightedImage forState:UIControlStateHighlighted];
 }
 
 - (NSManagedObject *)modelObject

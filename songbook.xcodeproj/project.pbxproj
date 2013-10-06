@@ -56,7 +56,6 @@
 		8BB18AE517A5EA57006E257C /* DataModelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB18AE417A5EA57006E257C /* DataModelTests.m */; };
 		8BB54D5C17A4C60700FD2914 /* PageServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB54D5B17A4C60700FD2914 /* PageServer.m */; };
 		8BB54D5F17A4C79300FD2914 /* SongPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB54D5E17A4C79300FD2914 /* SongPageController.m */; };
-		8BC674C417B9D2CB001E71B1 /* TitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C317B9D2CB001E71B1 /* TitleView.m */; };
 		8BC674C717B9E1D8001E71B1 /* SongTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C617B9E1D8001E71B1 /* SongTitleView.m */; };
 		8BC674CA17BC912C001E71B1 /* NSMutableAttributedString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */; };
 		8BE5A65217CD2356002028E5 /* FilteredSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE5A65117CD2356002028E5 /* FilteredSearcher.m */; };
@@ -163,8 +162,6 @@
 		8BB54D5B17A4C60700FD2914 /* PageServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PageServer.m; path = ../PageServer.m; sourceTree = "<group>"; };
 		8BB54D5D17A4C79300FD2914 /* SongPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongPageController.h; sourceTree = "<group>"; };
 		8BB54D5E17A4C79300FD2914 /* SongPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongPageController.m; sourceTree = "<group>"; };
-		8BC674C217B9D2CB001E71B1 /* TitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleView.h; sourceTree = "<group>"; };
-		8BC674C317B9D2CB001E71B1 /* TitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleView.m; sourceTree = "<group>"; };
 		8BC674C517B9E1D8001E71B1 /* SongTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongTitleView.h; sourceTree = "<group>"; };
 		8BC674C617B9E1D8001E71B1 /* SongTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongTitleView.m; sourceTree = "<group>"; };
 		8BC674C817BC912C001E71B1 /* NSMutableAttributedString+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+Helpers.h"; sourceTree = "<group>"; };
@@ -276,8 +273,6 @@
 			children = (
 				8B6F1BED17ACB67D00F72C3D /* PageController.h */,
 				8B6F1BEE17ACB67D00F72C3D /* PageController.m */,
-				8BC674C217B9D2CB001E71B1 /* TitleView.h */,
-				8BC674C317B9D2CB001E71B1 /* TitleView.m */,
 				8BED9F0B17C91E9A00D834BE /* TitlePageController.h */,
 				8BED9F0C17C91E9A00D834BE /* TitlePageController.m */,
 			);
@@ -588,7 +583,6 @@
 				8BA305F417A0BCF200A2ABDE /* main.m in Sources */,
 				8B088FC217C867440043341D /* UIView+Helpers.m in Sources */,
 				8BB54D5F17A4C79300FD2914 /* SongPageController.m in Sources */,
-				8BC674C417B9D2CB001E71B1 /* TitleView.m in Sources */,
 				8B810A5517D9519A00F339CE /* Token+Helpers.m in Sources */,
 				8BB18AD917A5DB76006E257C /* Section.m in Sources */,
 				8BE5A65217CD2356002028E5 /* FilteredSearcher.m in Sources */,

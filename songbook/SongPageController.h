@@ -12,7 +12,6 @@
 
 @interface SongPageController : PageController
 
-- (instancetype)initWithSong:(Song *)song;
-- (Song *)song;
+@property (nonatomic, strong) Song *song;
 
 @end

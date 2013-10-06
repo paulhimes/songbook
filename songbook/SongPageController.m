@@ -12,23 +12,57 @@
 
 static const NSInteger kGutterWidth = 8;
 
-@interface SongPageController ()
+@interface SongPageController () <UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UIToolbarDelegate>
 
-@property (strong, nonatomic) Song *song;
 @property (nonatomic, strong) NSArray *relatedSongs;
+
+@property (weak, nonatomic) IBOutlet UIToolbar *topBar;
+@property (weak, nonatomic) IBOutlet UIToolbar *bottomBar;
+@property (weak, nonatomic) IBOutlet UITextView *textView;
+@property (weak, nonatomic) IBOutlet SongTitleView *titleView;
+@property (weak, nonatomic) IBOutlet UIButton *searchButton;
+
+@property (nonatomic, strong) UITableView *relatedItemsView;
 
 @end
 
 @implementation SongPageController
 
-- (instancetype)initWithSong:(Song *)song
+- (void)setSong:(Song *)song
 {
-    self = [super init];
-    if (self) {
-        self.song = song;
-        self.relatedSongs = [self.song.relatedSongs allObjects];
-    }
-    return self;
+    _song = song;
+    
+    self.relatedSongs = [self.song.relatedSongs allObjects];
+}
+
+- (void)viewDidLoad
+{
+    [self.relatedItemsView setHeight:self.relatedItemsView.contentHeight];
+    [self.textView addSubview:self.relatedItemsView];
+    
+    self.titleView.number = self.song.number;
+    self.titleView.title = self.song.title;
+    
+    CGFloat titleContentOriginY = self.titleView.contentOriginY;
+    //    NSLog(@"titleContentOriginY %f", titleContentOriginY);
+    self.textView.textContainerInset = UIEdgeInsetsMake(titleContentOriginY, 0, 0, 0);
+    
+    self.topBar.delegate = self;
+    self.bottomBar.delegate = self;
+
+    UIImage *searchButtonImage = [[self.searchButton imageForState:UIControlStateNormal] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIImage *searchButtonHighlightedImage = [[self.searchButton imageForState:UIControlStateHighlighted] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [self.searchButton setImage:searchButtonImage forState:UIControlStateNormal];
+    [self.searchButton setImage:searchButtonHighlightedImage forState:UIControlStateHighlighted];
+
+    [super viewDidLoad];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    [self.titleView setNeedsDisplay];
 }
 
 - (NSManagedObject *)modelObject
@@ -36,13 +70,19 @@ static const NSInteger kGutterWidth = 8;
     return self.song;
 }
 
-- (TitleView *)buildTitleView
+- (UITableView *)relatedItemsView
 {
-    SongTitleView *titleView = [[SongTitleView alloc] init];
-    titleView.number = self.song.number;
-    titleView.title = self.song.title;
-    
-    return titleView;
+    if (!_relatedItemsView) {
+        _relatedItemsView = [[UITableView alloc] init];
+        _relatedItemsView.dataSource = self;
+        _relatedItemsView.delegate = self;
+        _relatedItemsView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        _relatedItemsView.scrollEnabled = NO;
+        _relatedItemsView.separatorInset = UIEdgeInsetsZero;
+        _relatedItemsView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [_relatedItemsView setDebugColor:[UIColor purpleColor]];
+    }
+    return _relatedItemsView;
 }
 
 - (NSAttributedString *)text
@@ -217,6 +257,45 @@ static const NSInteger kGutterWidth = 8;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.delegate pageController:self selectedModelObject:self.relatedSongs[indexPath.row]];
+}
+
+#pragma mark - UITextViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat offsetY = scrollView.contentOffset.y;
+    if (offsetY <= 0) {
+        self.topBar.hidden = YES;
+        self.titleView.hidden = YES;
+        self.textView.showsVerticalScrollIndicator = NO;
+    } else {
+        self.topBar.hidden = NO;
+        self.titleView.hidden = NO;
+        self.textView.showsVerticalScrollIndicator = YES;
+    }
+    
+    //    NSLog(@"scrollview offset y = %f [%@]", offsetY, [self textFragment]);
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView
+                     withVelocity:(CGPoint)velocity
+              targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    if (ABS(targetContentOffset->y) <= 1) {
+        targetContentOffset->y = 0;
+    }
+}
+
+#pragma mark - UIBarPositioningDelegate
+
+- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
+{
+    if (bar == self.topBar) {
+        return UIBarPositionBottom;
+    } else if (bar == self.bottomBar) {
+        return UIBarPositionTop;
+    }
+    return UIBarPositionAny;
 }
 
 @end

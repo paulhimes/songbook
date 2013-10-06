@@ -10,124 +10,26 @@
 
 NSString * const kStandardTextSizeKey = @"StandardTextSize";
 
-static const CGFloat kToolbarHeight = 44;
 static const float kMaximumStandardTextSize = 40;
 static const float kMinimumStandardTextSize = 8;
 
 @interface PageController () <UIScrollViewDelegate, UIToolbarDelegate>
 
-@property (nonatomic, strong) UIToolbar *topToolbar;
-@property (nonatomic, strong) UIToolbar *bottomToolbar;
-@property (nonatomic, strong) UITableView *relatedItemsView;
 @property (nonatomic, strong) UIPinchGestureRecognizer *pinchGestureRecognizer;
 @property (nonatomic, strong) NSNumber *gestureStartTextSize;
-
 @property (nonatomic) BOOL shouldLockScrolling;
 @property (nonatomic) NSUInteger glyphIndex;
 @property (nonatomic) CGFloat glyphOriginalYCoordinateInMainView;
 @property (nonatomic) CGFloat glyphYCoordinateInMainView;
 @property (nonatomic) CGPoint touchStartPoint;
 
-@property (nonatomic) NSInteger gutterWidth;
-
 @end
 
 @implementation PageController
-@synthesize titleView = _titleView;
-@synthesize scrollView = _scrollView;
-@synthesize textView = _textView;
-
-- (NSInteger)gutterWidth
-{
-    return round(self.view.bounds.size.width * 0.05);
-}
-
-- (UIScrollView *)scrollView
-{
-    if (!_scrollView) {
-        _scrollView = [[UIScrollView alloc] init];
-        _scrollView.clipsToBounds = NO;
-        _scrollView.delegate = self;
-        _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        _scrollView.contentInset = UIEdgeInsetsMake(0, 0, kToolbarHeight, 0);
-        _scrollView.alwaysBounceVertical = YES;
-        [_scrollView setDebugColor:[UIColor magentaColor]];
-    }
-    return _scrollView;
-}
-
-- (UIToolbar *)topToolbar
-{
-    if (!_topToolbar) {
-        _topToolbar = [[UIToolbar alloc] init];
-        _topToolbar.delegate = self;
-        _topToolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        _topToolbar.hidden = YES;
-    }
-    return _topToolbar;
-}
-
-- (UIToolbar *)bottomToolbar
-{
-    if (!_bottomToolbar) {
-        _bottomToolbar = [[UIToolbar alloc] init];
-        _bottomToolbar.delegate = self;
-        _bottomToolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-        
-        _bottomToolbar.items = @[
-                                 [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-                                 [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(search)]
-                                 ];
-    }
-    return _bottomToolbar;
-}
-
-- (TitleView *)titleView
-{
-    if (!_titleView) {
-        _titleView = [self buildTitleView];
-        _titleView.userInteractionEnabled = NO;
-        _titleView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        _titleView.backgroundColor = [UIColor clearColor];
-//        [_titleView setDebugColor:[UIColor orangeColor]];
-    }
-    return _titleView;
-}
-
-- (UITextView *)textView
-{
-    if (!_textView) {
-        _textView = [[UITextView alloc] init];
-        _textView.scrollEnabled = NO;
-        _textView.editable = NO;
-        _textView.clipsToBounds = NO;
-        _textView.textContainer.lineFragmentPadding = 0;
-        _textView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        [_textView setDebugColor:[UIColor greenColor]];
-        _textView.opaque = NO;
-        _textView.backgroundColor = [UIColor clearColor];
-    }
-    return _textView;
-}
 
 - (NSAttributedString *)text
 {
     return [[NSAttributedString alloc] initWithString:@""];
-}
-
-- (UITableView *)relatedItemsView
-{
-    if (!_relatedItemsView) {
-        _relatedItemsView = [[UITableView alloc] init];
-        _relatedItemsView.dataSource = self;
-        _relatedItemsView.delegate = self;
-        _relatedItemsView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        _relatedItemsView.scrollEnabled = NO;
-        _relatedItemsView.separatorInset = UIEdgeInsetsZero;
-        _relatedItemsView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        [_relatedItemsView setDebugColor:[UIColor purpleColor]];
-    }
-    return _relatedItemsView;
 }
 
 - (UIPinchGestureRecognizer *)pinchGestureRecognizer
@@ -139,49 +41,12 @@ static const float kMinimumStandardTextSize = 8;
     return _pinchGestureRecognizer;
 }
 
-- (TitleView *)buildTitleView
+- (void)viewDidLoad
 {
-    return nil;
-}
-
-- (void)loadView
-{
-    self.view = [[UIView alloc] init];
+    [super viewDidLoad];
     
-    CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
-    self.view.frame = applicationFrame;
-    self.view.clipsToBounds = YES;
-    
-    self.topToolbar.frame = CGRectMake(0,
-                                       0,
-                                       self.view.bounds.size.width,
-                                       kToolbarHeight);
-    
-    self.bottomToolbar.frame = CGRectMake(0,
-                                          self.view.bounds.size.height - kToolbarHeight,
-                                          self.view.bounds.size.width,
-                                          kToolbarHeight);
-    
+    self.textView.textContainer.lineFragmentPadding = 0;
     self.textView.attributedText = self.text;
-
-    [self.relatedItemsView setHeight:self.relatedItemsView.contentHeight];
-    
-    [self.view addSubview:self.scrollView];
-    [self.scrollView addSubview:self.textView];
-    [self.scrollView addSubview:self.relatedItemsView];
-    
-    if (self.titleView) {
-        [self.view addSubview:self.topToolbar];
-        [self.topToolbar addSubview:self.titleView];
-    }
-    
-    [self.view addSubview:self.bottomToolbar];
-    
-
-    
-    CGFloat titleContentOriginY = self.titleView.contentOriginY;
-    //    NSLog(@"titleContentOriginY %f", titleContentOriginY);
-    self.textView.textContainerInset = UIEdgeInsetsMake(titleContentOriginY, 0, 0, 0);
     
     [self.view addGestureRecognizer:self.pinchGestureRecognizer];
 }
@@ -191,37 +56,6 @@ static const float kMinimumStandardTextSize = 8;
     [super viewDidLayoutSubviews];
     
     // Update any frames and view properties that the normal layout system (autolayout or autoresize) can't handle.
-
-//    NSLog(@"Laid out view with bounds %@ %@", NSStringFromCGRect(self.view.bounds), [self textFragment]);
-    
-    CGFloat contentWidth = self.view.bounds.size.width - 2 * self.gutterWidth;
-    //    NSLog(@"contentwidth = %f", contentWidth);
-    self.scrollView.frame = CGRectMake(self.gutterWidth,
-                                       0,
-                                       contentWidth,
-                                       self.view.bounds.size.height);
-    
-    self.titleView.frame = CGRectMake(self.gutterWidth,
-                                      0,
-                                      contentWidth,
-                                      [self.titleView sizeForWidth:contentWidth].height);
-
-    self.textView.frame = CGRectMake(0, 0, contentWidth, 0);
-    
-    self.relatedItemsView.frame = CGRectMake(0, 0, contentWidth, 0);
-    
-    self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(self.topToolbar.frame.size.height, 0, kToolbarHeight, -self.gutterWidth);
-    
-    CGSize textSize = [self.textView sizeThatFits:CGSizeMake(self.textView.frame.size.width, CGFLOAT_MAX)];
-    [self.textView setHeight:textSize.height];
-    
-    [self.relatedItemsView setOriginY:CGRectGetMaxY(self.textView.frame) + 3 * self.gutterWidth];
-    
-    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width,
-                                             MAX(self.scrollView.frame.size.height - (self.scrollView.contentInset.top + self.scrollView.contentInset.bottom),
-                                                 CGRectGetMaxY(self.relatedItemsView.frame)));
-    
-
     
     if (self.shouldLockScrolling) {
         
@@ -231,91 +65,25 @@ static const float kMinimumStandardTextSize = 8;
         
 //        NSLog(@"Glyph vertical error %f", glyphVerticalError);
         
-        CGFloat contentOffsetY = self.scrollView.contentOffset.y - glyphVerticalError;
+        CGFloat contentOffsetY = self.textView.contentOffset.y - glyphVerticalError;
         
         // Limit the content offset to the actual content size.
         CGFloat minimumContentOffset = 0;
-        CGFloat maximumContentOffset = MAX(self.scrollView.contentSize.height - self.scrollView.frame.size.height, 0);
+        CGFloat maximumContentOffset = MAX(self.textView.contentSize.height - self.textView.frame.size.height, 0);
         
         contentOffsetY = MIN(maximumContentOffset, MAX(minimumContentOffset, contentOffsetY));
         
 //        NSLog(@"contentOffsetY %f", contentOffsetY);
         
-        self.scrollView.contentOffset = CGPointMake(self.scrollView.contentOffset.x, contentOffsetY);
+        self.textView.contentOffset = CGPointMake(self.textView.contentOffset.x, contentOffsetY);
     }
     
-    [self.titleView setNeedsDisplay];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    self.scrollView.contentOffset = CGPointZero;
-}
-
-- (NSString *)textFragment
-{
-    NSString *string = self.text.string;
-    
-    if ([string length] > 15) {
-        string = [string substringToIndex:15];
-    }
-    
-    return string;
-}
-
-#pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    CGFloat offsetY = scrollView.contentOffset.y;
-    if (offsetY <= 0) {
-        self.topToolbar.hidden = YES;
-        self.scrollView.showsVerticalScrollIndicator = NO;
-    } else {
-        self.topToolbar.hidden = NO;
-        self.scrollView.showsVerticalScrollIndicator = YES;
-    }
-
-//    NSLog(@"scrollview offset y = %f [%@]", offsetY, [self textFragment]);
-}
-
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView
-                     withVelocity:(CGPoint)velocity
-              targetContentOffset:(inout CGPoint *)targetContentOffset
-{
-    if (ABS(targetContentOffset->y) <= 1) {
-        targetContentOffset->y = 0;
-    }
-}
-
-#pragma mark - UIBarPositioningDelegate
-
-- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
-{
-    if (bar == self.topToolbar) {
-        return UIBarPositionBottom;
-    } else if (bar == self.bottomToolbar) {
-        return UIBarPositionTop;
-    }
-    return UIBarPositionAny;
-}
-
-#pragma mark - UITableViewDataSource
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 0;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 0;
+    self.textView.contentOffset = CGPointZero;
 }
 
 #pragma mark - UIGestureRecognizer target
@@ -408,8 +176,7 @@ static const float kMinimumStandardTextSize = 8;
 }
 
 #pragma mark - Action Methods
-
-- (void)search
+- (IBAction)searchAction:(UIButton *)sender
 {
     [self.delegate search];
 }

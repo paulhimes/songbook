@@ -11,7 +11,6 @@
 
 @interface BookPageController : TitlePageController
 
-- (instancetype)initWithBook:(Book *)book;
-- (Book *)book;
+@property (nonatomic, strong) Book *book;
 
 @end

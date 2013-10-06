@@ -11,32 +11,17 @@
 
 @interface BookPageController ()
 
-@property (strong, nonatomic) Book *book;
-
 @end
 
 @implementation BookPageController
 
-- (instancetype)initWithBook:(Book *)book
+- (void)viewDidLoad
 {
-    self = [super init];
-    if (self) {
-        self.book = book;
-    }
-    return self;
-}
-
-- (void)loadView
-{
-    [super loadView];
+    [super viewDidLoad];
     
     GradientView *gradientView = [[GradientView alloc] initWithFrame:CGRectMake(-self.view.bounds.size.width, 0, 2 * self.view.bounds.size.width, self.view.bounds.size.height)];
     gradientView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view insertSubview:gradientView atIndex:0];
-    
-    self.view.clipsToBounds = NO;
-    self.bottomToolbar.barTintColor = [UIColor colorWithRed:0.89 green:0.15 blue:0.26 alpha:1.0];
-    self.bottomToolbar.tintColor = [UIColor whiteColor];
 }
 
 - (NSManagedObject *)modelObject

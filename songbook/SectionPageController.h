@@ -11,7 +11,6 @@
 
 @interface SectionPageController : TitlePageController
 
-- (instancetype)initWithSection:(Section *)section;
-- (Section *)section;
+@property (nonatomic, strong) Section *section;
 
 @end
