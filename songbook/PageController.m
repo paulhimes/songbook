@@ -47,6 +47,7 @@ static const float kMinimumStandardTextSize = 8;
     
     self.textView.textContainer.lineFragmentPadding = 0;
     self.textView.attributedText = self.text;
+    self.textView.layoutManager.allowsNonContiguousLayout = NO;
     
     [self.view addGestureRecognizer:self.pinchGestureRecognizer];
 }
@@ -63,6 +64,9 @@ static const float kMinimumStandardTextSize = 8;
 
         CGFloat glyphVerticalError = self.glyphYCoordinateInMainView - currentYCoordinateOfGlyphInMainView;
         
+//        NSLog(@"Glyph index %d", self.glyphIndex);
+//        NSLog(@"Glyph target Y coordinate in main view %f", self.glyphYCoordinateInMainView);
+//        NSLog(@"Glyph current Y coordinate in main view %f", currentYCoordinateOfGlyphInMainView);
 //        NSLog(@"Glyph vertical error %f", glyphVerticalError);
         
         CGFloat contentOffsetY = self.textView.contentOffset.y - glyphVerticalError;
@@ -109,8 +113,11 @@ static const float kMinimumStandardTextSize = 8;
         
         self.glyphOriginalYCoordinateInMainView = [self yCoordinateInMainViewOfGlyphAtIndex:self.glyphIndex];
 
+//        NSLog(@"glyph start y coordinate in main view %f", self.glyphOriginalYCoordinateInMainView);
+        
         self.touchStartPoint = [sender locationInView:self.view];
         
+//        NSLog(@"Touch start point %@", NSStringFromCGPoint(self.touchStartPoint));
         
         self.shouldLockScrolling = YES;
     } else if (sender.state == UIGestureRecognizerStateEnded ||
@@ -133,17 +140,19 @@ static const float kMinimumStandardTextSize = 8;
         //        self.glyphYCoordinateInMainView = [self yCoordinateInMainViewOfGlyphAtIndex:self.glyphIndex];
         
         CGPoint updatedTouchPoint = [sender locationInView:self.view];
-        
         CGFloat touchPointVerticalShift = updatedTouchPoint.y - self.touchStartPoint.y;
-        
         self.glyphYCoordinateInMainView = self.glyphOriginalYCoordinateInMainView + touchPointVerticalShift;
         
+//        NSLog(@"Glyph y coordinate in main view %f", self.glyphYCoordinateInMainView);
         
         if (![@(scaledAndLimitedSize) isEqualToNumber:[userDefaults objectForKey:kStandardTextSizeKey]]) {
             
             [userDefaults setObject:@(scaledAndLimitedSize) forKey:kStandardTextSizeKey];
             NSAttributedString *text = self.text;
             self.textView.attributedText = text;
+            
+//            CGFloat currentYCoordinateOfGlyphInMainView = [self yCoordinateInMainViewOfGlyphAtIndex:self.glyphIndex log:YES];
+
         }
         
         [self.view setNeedsLayout];
@@ -153,24 +162,38 @@ static const float kMinimumStandardTextSize = 8;
 - (CGFloat)yCoordinateInMainViewOfGlyphAtIndex:(NSUInteger)glyphIndex
 {
     CGRect fragmentRect = [self.textView.layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex effectiveRange:NULL];
+
     CGPoint glyphLocation = [self.textView.layoutManager locationForGlyphAtIndex:glyphIndex];
     glyphLocation.x += CGRectGetMinX(fragmentRect);
     glyphLocation.y += CGRectGetMinY(fragmentRect);
     
-//    NSLog(@"Glyph Point (container) = %@", NSStringFromCGPoint(glyphLocation));
+//    if (log) {
+//        NSLog(@"\n\n");
+//        NSLog(@"TextView contentOffsetY %f", self.textView.contentOffset.y);
+////        NSLog(@"TextView container insets %@", NSStringFromUIEdgeInsets(self.textView.textContainerInset));
+////        NSLog(@"TextView container size %@", NSStringFromCGSize(self.textView.textContainer.size));
+//        NSLog(@"Glyph[%d] fragment rect %@", glyphIndex, NSStringFromCGRect(fragmentRect));
+//        NSLog(@"Glyph[%d] Point (container) = %@", glyphIndex, NSStringFromCGPoint(glyphLocation));
+//    }
     
     // Convert to the text view's coordinate space.
     glyphLocation.x += self.textView.textContainerInset.left;
     glyphLocation.y += self.textView.textContainerInset.top;
     
-//    NSLog(@"Glyph Point (view) = %@", NSStringFromCGPoint(glyphLocation));
+//    if (log) {
+//        NSLog(@"Glyph[%d] Point (view) = %@", glyphIndex, NSStringFromCGPoint(glyphLocation));
+//    }
     
     
     //        CGFloat percentDownTextView = glyphLocation.y / self.textView.frame.size.height;
     
     CGPoint glyphLocationInMainView = [self.view convertPoint:glyphLocation fromView:self.textView];
     
-//    NSLog(@"Glyph Point (main view) = %@", NSStringFromCGPoint(glyphLocationInMainView));
+//    if (log) {
+//        NSLog(@"Glyph Point (main view) = %@", NSStringFromCGPoint(glyphLocationInMainView));
+//        
+//        NSLog(@"\n\n");
+//    }
     
     return glyphLocationInMainView.y;
 }
