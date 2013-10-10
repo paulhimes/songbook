@@ -7,37 +7,55 @@
 //
 
 #import "TitlePageController.h"
-
-static const NSInteger kTopMargin = 16;
+#import "PageController+Private.h"
 
 @interface TitlePageController ()
+
+@property (nonatomic) BOOL observingTextViewText;
+@property (nonatomic) CGRect originalTextViewFrame;
 
 @end
 
 @implementation TitlePageController
 
-- (void)viewDidLayoutSubviews
+- (void)viewDidLoad
 {
-    [super viewDidLayoutSubviews];
+    self.originalTextViewFrame = self.textView.frame;
+    [super viewDidLoad];
     
+    self.textView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    self.textView.textContainerInset = UIEdgeInsetsMake(0, 0, 0, 0);
+}
+
+- (void)textContentChanged
+{
     [self.textView setDebugColor:[UIColor greenColor]];
     
     // Vertically center the title at the golden ratio. Shift up if the title overflows the container.
     CGFloat desiredVerticalCenter = self.view.bounds.size.height / M_PHI;
     
-    CGRect textRect = [self.text boundingRectWithSize:CGSizeMake(self.textView.frame.size.width, CGFLOAT_MAX)
-                             options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading | NSStringDrawingTruncatesLastVisibleLine
-                             context:nil];
-    [self.textView setHeight:textRect.size.height * 2];
+    CGSize textSize = [self.textView sizeThatFits:CGSizeMake(self.originalTextViewFrame.size.width, 0.0)];
+    [self.textView setHeight:textSize.height];
+    [self.textView setWidth:textSize.width];
     
-    CGFloat halfTextViewHeight = textRect.size.height / 2.0;
-
-    if (desiredVerticalCenter - halfTextViewHeight < kTopMargin) {
-        // Frame top aligned.
-        [self.textView setOriginY:kTopMargin];
+    //    [self.textView setHeight:textRect.size.height];
+    
+    CGFloat halfTextViewHeight = self.textView.frame.size.height / 2.0;
+    
+    // Frame centered at the golden ratio.
+    [self.textView setOriginY:desiredVerticalCenter - halfTextViewHeight];
+    
+    if ((desiredVerticalCenter + halfTextViewHeight) > self.view.bounds.size.height) {
+        // Limit the bottom of the textView to the bottom of the main view.
+        [self.textView setOriginY:self.view.bounds.size.height - textSize.height];
+    }
+    if (textSize.height > self.view.bounds.size.height) {
+        // Limit the textView height to the height of the main view.
+        [self.textView setHeight:self.view.bounds.size.height];
+        [self.textView setOriginY:0];
+        self.textView.scrollEnabled = YES;
     } else {
-        // Frame centered at the golden ratio.
-        [self.textView setOriginY:desiredVerticalCenter - halfTextViewHeight];
+        self.textView.scrollEnabled = NO;
     }
 }
 

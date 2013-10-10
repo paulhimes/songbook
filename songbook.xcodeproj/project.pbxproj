@@ -28,6 +28,7 @@
 		8B983C0617FE636900D1A4C7 /* Songbook~iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BA3061E17A0BE2B00A2ABDE /* Songbook~iPad.storyboard */; };
 		8B983C0817FFC62D00D1A4C7 /* hymns.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8B983C0717FFC62D00D1A4C7 /* hymns.txt */; };
 		8B983C0A17FFD16800D1A4C7 /* afewfinnsongs.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8B983C0917FFD16800D1A4C7 /* afewfinnsongs.txt */; };
+		8B983C0D1804EAA300D1A4C7 /* PageController+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B983C0C1804EAA300D1A4C7 /* PageController+Private.m */; };
 		8BA305E617A0BCF200A2ABDE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305E517A0BCF200A2ABDE /* Foundation.framework */; };
 		8BA305E817A0BCF200A2ABDE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305E717A0BCF200A2ABDE /* CoreGraphics.framework */; };
 		8BA305EA17A0BCF200A2ABDE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305E917A0BCF200A2ABDE /* UIKit.framework */; };
@@ -116,6 +117,8 @@
 		8B94532717A5F4C900327479 /* Book+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Book+Helpers.m"; sourceTree = "<group>"; };
 		8B983C0717FFC62D00D1A4C7 /* hymns.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = hymns.txt; sourceTree = "<group>"; };
 		8B983C0917FFD16800D1A4C7 /* afewfinnsongs.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = afewfinnsongs.txt; sourceTree = "<group>"; };
+		8B983C0B1804EAA300D1A4C7 /* PageController+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PageController+Private.h"; sourceTree = "<group>"; };
+		8B983C0C1804EAA300D1A4C7 /* PageController+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PageController+Private.m"; sourceTree = "<group>"; };
 		8BA305E217A0BCF200A2ABDE /* songbook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = songbook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BA305E517A0BCF200A2ABDE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8BA305E717A0BCF200A2ABDE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -275,6 +278,8 @@
 				8B6F1BEE17ACB67D00F72C3D /* PageController.m */,
 				8BED9F0B17C91E9A00D834BE /* TitlePageController.h */,
 				8BED9F0C17C91E9A00D834BE /* TitlePageController.m */,
+				8B983C0B1804EAA300D1A4C7 /* PageController+Private.h */,
+				8B983C0C1804EAA300D1A4C7 /* PageController+Private.m */,
 			);
 			name = Pages;
 			sourceTree = "<group>";
@@ -574,6 +579,7 @@
 				8BED9F1017C9418400D834BE /* GradientView.m in Sources */,
 				8B42030D17E7CAED00019A80 /* TokenInstance.m in Sources */,
 				8BA305FB17A0BCF200A2ABDE /* songbook.xcdatamodeld in Sources */,
+				8B983C0D1804EAA300D1A4C7 /* PageController+Private.m in Sources */,
 				8B14432617F142190000A898 /* SearchTableModel.m in Sources */,
 				8B94532517A5F44000327479 /* Section+Helpers.m in Sources */,
 				8BB18ADF17A5DB77006E257C /* Verse.m in Sources */,
