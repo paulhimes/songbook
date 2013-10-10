@@ -10,8 +10,6 @@
 #import "Verse.h"
 #import "SongTitleView.h"
 
-static const NSInteger kGutterWidth = 8;
-
 @interface SongPageController () <UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UIToolbarDelegate>
 
 @property (nonatomic, strong) NSArray *relatedSongs;
@@ -273,8 +271,6 @@ static const NSInteger kGutterWidth = 8;
         self.titleView.hidden = NO;
         self.textView.showsVerticalScrollIndicator = YES;
     }
-    
-    //    NSLog(@"scrollview offset y = %f [%@]", offsetY, [self textFragment]);
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView

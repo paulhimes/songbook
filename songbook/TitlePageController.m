@@ -43,9 +43,7 @@
     CGSize textSize = [self.textView sizeThatFits:CGSizeMake(self.view.bounds.size.width - (2 * self.originalTextViewHorizontalPadding), 0.0)];
     [self.textView setHeight:textSize.height];
     [self.textView setWidth:textSize.width];
-    
-    //    [self.textView setHeight:textRect.size.height];
-    
+
     CGFloat halfTextViewHeight = self.textView.frame.size.height / 2.0;
     
     // Frame centered at the golden ratio.

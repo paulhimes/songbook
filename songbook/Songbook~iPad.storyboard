@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="13A584" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="PL7-pw-XwR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="13A584" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="Aec-Sy-MG7">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
@@ -21,23 +21,23 @@
             <objects>
                 <viewController id="Ib0-7i-B1o" customClass="SearchViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3FY-Km-tpd">
-                        <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="852"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Cgg-se-M4E">
-                                <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="852"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BasicCell" textLabel="l5h-jl-ZnS" style="IBUITableViewCellStyleDefault" id="f5A-6J-kye">
-                                        <rect key="frame" x="0.0" y="22" width="540" height="44"/>
+                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="f5A-6J-kye" id="OQq-PB-nAx">
-                                            <rect key="frame" x="0.0" y="0.0" width="540" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="l5h-jl-ZnS">
-                                                    <rect key="frame" x="15" y="0.0" width="510" height="43"/>
+                                                    <rect key="frame" x="15" y="0.0" width="290" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -50,14 +50,14 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ContextCell" textLabel="6Jk-hQ-G8k" rowHeight="35" style="IBUITableViewCellStyleDefault" id="quM-KW-aGq">
-                                        <rect key="frame" x="0.0" y="66" width="540" height="35"/>
+                                        <rect key="frame" x="0.0" y="66" width="320" height="35"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="quM-KW-aGq" id="RL6-33-8Bs">
-                                            <rect key="frame" x="0.0" y="0.0" width="540" height="34"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="34"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6Jk-hQ-G8k">
-                                                    <rect key="frame" x="15" y="0.0" width="510" height="34"/>
+                                                    <rect key="frame" x="15" y="0.0" width="290" height="34"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -75,16 +75,16 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" id="i1Y-Dx-TyF">
-                                <rect key="frame" x="0.0" y="0.0" width="540" height="44"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <toolbar opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.98999999999999999" contentMode="scaleToFill" id="94X-qz-xle">
-                                        <rect key="frame" x="0.0" y="0.0" width="540" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                         <items/>
                                     </toolbar>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search" minimumFontSize="17" id="hr1-Se-d29" userLabel="Search Field">
-                                        <rect key="frame" x="7" y="7" width="460" height="30"/>
+                                        <rect key="frame" x="7" y="7" width="240" height="30"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -94,7 +94,7 @@
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ZtW-W9-Pbw">
-                                        <rect key="frame" x="475" y="0.0" width="65" height="44"/>
+                                        <rect key="frame" x="255" y="0.0" width="65" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                         <state key="normal" title="Cancel">
@@ -124,87 +124,6 @@
             </objects>
             <point key="canvasLocation" x="807" y="-920"/>
         </scene>
-        <!--Book Page Controller-->
-        <scene sceneID="K2T-Td-n1e">
-            <objects>
-                <viewController storyboardIdentifier="BookPage" id="so6-SW-9J3" customClass="BookPageController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Rac-mV-iDo">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" id="Imq-DD-mTJ">
-                                <rect key="frame" x="16" y="0.0" width="736" height="1024"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <inset key="contentInset" minX="0.0" minY="0.0" maxX="0.0" maxY="44"/>
-                                <inset key="scrollIndicatorInsets" minX="0.0" minY="44" maxX="-16" maxY="44"/>
-                                <attributedString key="attributedText"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="APS-tv-4gU">
-                                <rect key="frame" x="304" y="980" width="160" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <state key="normal" image="MagnifyingGlassBarIcon">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted" image="MagnifyingGlassBarIconHighlighted"/>
-                                <connections>
-                                    <action selector="searchAction:" destination="so6-SW-9J3" eventType="touchUpInside" id="jyQ-ah-pVM"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <nil key="simulatedStatusBarMetrics"/>
-                    <connections>
-                        <outlet property="textView" destination="Imq-DD-mTJ" id="j6v-Bi-tX5"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MvU-1I-LZo" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-164" y="303"/>
-        </scene>
-        <!--Section Page Controller-->
-        <scene sceneID="DN5-AK-aOP">
-            <objects>
-                <viewController storyboardIdentifier="SectionPage" id="Z2F-mn-WQc" customClass="SectionPageController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="sWg-Je-oaw">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <textView userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" id="YfS-Wh-tpR">
-                                <rect key="frame" x="16" y="0.0" width="736" height="1024"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <inset key="contentInset" minX="0.0" minY="0.0" maxX="0.0" maxY="44"/>
-                                <inset key="scrollIndicatorInsets" minX="0.0" minY="44" maxX="-16" maxY="44"/>
-                                <attributedString key="attributedText"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lCx-l1-3ed">
-                                <rect key="frame" x="304" y="980" width="160" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <state key="normal" image="MagnifyingGlassBarIcon">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted" image="MagnifyingGlassBarIconHighlighted"/>
-                                <connections>
-                                    <action selector="searchAction:" destination="Z2F-mn-WQc" eventType="touchUpInside" id="dQ5-FH-Cqu"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <nil key="simulatedStatusBarMetrics"/>
-                    <connections>
-                        <outlet property="searchButton" destination="lCx-l1-3ed" id="4mS-et-JpF"/>
-                        <outlet property="textView" destination="YfS-Wh-tpR" id="pei-c1-JLz"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="INY-pe-tVz" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="807" y="303"/>
-        </scene>
         <!--Song Page Controller-->
         <scene sceneID="S4c-1X-Y4Q">
             <objects>
@@ -214,11 +133,11 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" editable="NO" usesAttributedText="YES" id="8y5-ta-sLh">
-                                <rect key="frame" x="16" y="0.0" width="736" height="1024"/>
+                                <rect key="frame" x="32" y="0.0" width="704" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="contentInset" minX="0.0" minY="0.0" maxX="0.0" maxY="44"/>
-                                <inset key="scrollIndicatorInsets" minX="0.0" minY="44" maxX="-16" maxY="44"/>
+                                <inset key="scrollIndicatorInsets" minX="0.0" minY="44" maxX="-32" maxY="44"/>
                                 <attributedString key="attributedText">
                                     <fragment>
                                         <string key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
@@ -255,8 +174,8 @@
                                 <items/>
                             </toolbar>
                             <view hidden="YES" opaque="NO" contentMode="scaleToFill" id="MMl-zF-bKk" customClass="SongTitleView">
-                                <rect key="frame" x="16" y="0.0" width="288" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="32" y="0.0" width="704" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -275,9 +194,108 @@
             </objects>
             <point key="canvasLocation" x="1787" y="303"/>
         </scene>
+        <!--Book Page Controller-->
+        <scene sceneID="Qo6-IO-HE4">
+            <objects>
+                <viewController storyboardIdentifier="BookPage" id="xRO-Bd-g44" customClass="BookPageController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="kPh-5a-MkV">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" id="Qhk-Vi-Vi9">
+                                <rect key="frame" x="32" y="0.0" width="704" height="1024"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <inset key="contentInset" minX="0.0" minY="0.0" maxX="0.0" maxY="44"/>
+                                <inset key="scrollIndicatorInsets" minX="0.0" minY="44" maxX="-32" maxY="44"/>
+                                <attributedString key="attributedText"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Cff-Wo-J7C">
+                                <rect key="frame" x="304" y="980" width="160" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <state key="normal" image="MagnifyingGlassBarIcon">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted" image="MagnifyingGlassBarIconHighlighted"/>
+                                <connections>
+                                    <action selector="searchAction:" destination="xRO-Bd-g44" eventType="touchUpInside" id="20z-Tw-THJ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="textView" destination="Qhk-Vi-Vi9" id="gR6-cr-b59"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tTU-kz-EmK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-164" y="303"/>
+        </scene>
+        <!--Section Page Controller-->
+        <scene sceneID="ggZ-VD-sch">
+            <objects>
+                <viewController storyboardIdentifier="SectionPage" id="qBS-d5-2mh" customClass="SectionPageController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jvZ-lB-Ez3">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" id="ZPS-WZ-eZB">
+                                <rect key="frame" x="32" y="0.0" width="704" height="1024"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <inset key="contentInset" minX="0.0" minY="0.0" maxX="0.0" maxY="44"/>
+                                <inset key="scrollIndicatorInsets" minX="0.0" minY="44" maxX="-32" maxY="44"/>
+                                <attributedString key="attributedText"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="GqD-Lh-tUK">
+                                <rect key="frame" x="304" y="980" width="160" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <state key="normal" image="MagnifyingGlassBarIcon">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted" image="MagnifyingGlassBarIconHighlighted"/>
+                                <connections>
+                                    <action selector="searchAction:" destination="qBS-d5-2mh" eventType="touchUpInside" id="OLT-Ro-F5G"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="searchButton" destination="GqD-Lh-tUK" id="4uV-Xb-U5I"/>
+                        <outlet property="textView" destination="ZPS-WZ-eZB" id="grO-5s-bm9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0D8-Gk-BsP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="807" y="295"/>
+        </scene>
+        <!--Split View Controller-->
+        <scene sceneID="mo3-2t-Qqt">
+            <objects>
+                <splitViewController id="Aec-Sy-MG7" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <connections>
+                        <segue destination="PL7-pw-XwR" kind="relationship" relationship="detailViewController" id="MpU-B8-YLO"/>
+                        <segue destination="Ib0-7i-B1o" kind="relationship" relationship="masterViewController" id="P7h-9R-2yg"/>
+                    </connections>
+                </splitViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dmH-ZM-q7N" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1148" y="-920"/>
+        </scene>
     </scenes>
     <resources>
         <image name="MagnifyingGlassBarIcon" width="44" height="44"/>
+        <image name="MagnifyingGlassBarIcon" width="44" height="44"/>
+        <image name="MagnifyingGlassBarIcon" width="44" height="44"/>
+        <image name="MagnifyingGlassBarIconHighlighted" width="44" height="44"/>
+        <image name="MagnifyingGlassBarIconHighlighted" width="44" height="44"/>
         <image name="MagnifyingGlassBarIconHighlighted" width="44" height="44"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -285,4 +303,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="P7h-9R-2yg"/>
+    </inferredMetricsTieBreakers>
 </document>
