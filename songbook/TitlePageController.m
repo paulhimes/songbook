@@ -12,7 +12,7 @@
 @interface TitlePageController ()
 
 @property (nonatomic) BOOL observingTextViewText;
-@property (nonatomic) CGRect originalTextViewFrame;
+@property (nonatomic) CGFloat originalTextViewHorizontalPadding;
 
 @end
 
@@ -20,11 +20,17 @@
 
 - (void)viewDidLoad
 {
-    self.originalTextViewFrame = self.textView.frame;
+    self.originalTextViewHorizontalPadding = self.textView.frame.origin.x;
     [super viewDidLoad];
     
     self.textView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     self.textView.textContainerInset = UIEdgeInsetsMake(0, 0, 0, 0);
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    [self textContentChanged];
 }
 
 - (void)textContentChanged
@@ -34,7 +40,7 @@
     // Vertically center the title at the golden ratio. Shift up if the title overflows the container.
     CGFloat desiredVerticalCenter = self.view.bounds.size.height / M_PHI;
     
-    CGSize textSize = [self.textView sizeThatFits:CGSizeMake(self.originalTextViewFrame.size.width, 0.0)];
+    CGSize textSize = [self.textView sizeThatFits:CGSizeMake(self.view.bounds.size.width - (2 * self.originalTextViewHorizontalPadding), 0.0)];
     [self.textView setHeight:textSize.height];
     [self.textView setWidth:textSize.width];
     
