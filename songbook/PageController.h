@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SafeTextView.h"
 
 extern NSString * const kStandardTextSizeKey;
+extern const float kMaximumStandardTextSize;
+extern const float kMinimumStandardTextSize;
 
 @protocol PageControllerDelegate;
 
@@ -16,8 +19,10 @@ extern NSString * const kStandardTextSizeKey;
 
 @property (nonatomic, readonly) NSManagedObject *modelObject;
 @property (nonatomic, weak) id<PageControllerDelegate> delegate;
-@property (weak, nonatomic) IBOutlet UITextView *textView;
+@property (weak, nonatomic) IBOutlet SafeTextView *textView;
 @property (nonatomic, readonly) NSAttributedString *text;
+
+- (void)handleGesture:(UIPinchGestureRecognizer *)sender;
 
 @end
 

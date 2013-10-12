@@ -10,6 +10,4 @@
 
 @interface PageController (Private)
 
-- (void)textContentChanged;
-
 @end

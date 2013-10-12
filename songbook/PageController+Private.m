@@ -10,9 +10,4 @@
 
 @implementation PageController (Private)
 
-- (void)textContentChanged
-{
-    
-}
-
 @end

@@ -12,7 +12,7 @@
 @interface TitlePageController ()
 
 @property (nonatomic) BOOL observingTextViewText;
-@property (nonatomic) CGFloat originalTextViewHorizontalPadding;
+@property (nonatomic, strong) NSNumber *gestureStartTextSize;
 
 @end
 
@@ -20,11 +20,10 @@
 
 - (void)viewDidLoad
 {
-    self.originalTextViewHorizontalPadding = self.textView.frame.origin.x;
     [super viewDidLoad];
     
     self.textView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    self.textView.textContainerInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    self.textView.textContainerInset = UIEdgeInsetsMake(0, 0, 0, 5);
 }
 
 - (void)viewDidLayoutSubviews
@@ -40,9 +39,8 @@
     // Vertically center the title at the golden ratio. Shift up if the title overflows the container.
     CGFloat desiredVerticalCenter = self.view.bounds.size.height / M_PHI;
     
-    CGSize textSize = [self.textView sizeThatFits:CGSizeMake(self.view.bounds.size.width - (2 * self.originalTextViewHorizontalPadding), 0.0)];
+    CGSize textSize = [self.textView sizeThatFits:CGSizeMake(self.textView.frame.size.width, 0.0)];
     [self.textView setHeight:textSize.height];
-    [self.textView setWidth:textSize.width];
 
     CGFloat halfTextViewHeight = self.textView.frame.size.height / 2.0;
     
@@ -57,10 +55,40 @@
         // Limit the textView height to the height of the main view.
         [self.textView setHeight:self.view.bounds.size.height];
         [self.textView setOriginY:0];
-        self.textView.scrollEnabled = YES;
+        self.textView.bounces = YES;
     } else {
-        self.textView.scrollEnabled = NO;
+        self.textView.bounces = NO;
     }
 }
+
+#pragma mark - UIGestureRecognizer target
+- (void)handleGesture:(UIPinchGestureRecognizer *)sender
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        self.gestureStartTextSize = [userDefaults objectForKey:kStandardTextSizeKey];
+        
+    } else if (sender.state == UIGestureRecognizerStateEnded ||
+               sender.state == UIGestureRecognizerStateCancelled ||
+               sender.state == UIGestureRecognizerStateFailed) {
+        [userDefaults synchronize];
+    } else {
+        // Scale the existing text size by the gesture recognizer's scale.
+        float scaledSize = [self.gestureStartTextSize floatValue] * sender.scale;
+        
+        // Limit the scaled size to sane bounds.
+        float scaledAndLimitedSize = MIN(kMaximumStandardTextSize, MAX(kMinimumStandardTextSize, scaledSize));
+        
+        if (![@(scaledAndLimitedSize) isEqualToNumber:[userDefaults objectForKey:kStandardTextSizeKey]]) {
+            [userDefaults setObject:@(scaledAndLimitedSize) forKey:kStandardTextSizeKey];
+            NSAttributedString *text = self.text;
+            self.textView.attributedText = text;
+            
+            [self textContentChanged];
+        }
+    }
+}
+
 
 @end

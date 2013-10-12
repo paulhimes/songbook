@@ -132,7 +132,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" editable="NO" usesAttributedText="YES" id="8y5-ta-sLh">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" editable="NO" usesAttributedText="YES" id="8y5-ta-sLh" customClass="SafeTextView">
                                 <rect key="frame" x="32" y="0.0" width="704" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -202,7 +202,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" id="Qhk-Vi-Vi9">
+                            <textView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" id="Qhk-Vi-Vi9" customClass="SafeTextView">
                                 <rect key="frame" x="32" y="0.0" width="704" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -242,7 +242,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" id="ZPS-WZ-eZB">
+                            <textView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" id="ZPS-WZ-eZB" customClass="SafeTextView">
                                 <rect key="frame" x="32" y="0.0" width="704" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -278,7 +278,7 @@
         <!--Split View Controller-->
         <scene sceneID="mo3-2t-Qqt">
             <objects>
-                <splitViewController id="Aec-Sy-MG7" sceneMemberID="viewController">
+                <splitViewController id="Aec-Sy-MG7" customClass="SplitViewController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <connections>
                         <segue destination="PL7-pw-XwR" kind="relationship" relationship="detailViewController" id="MpU-B8-YLO"/>
@@ -292,10 +292,6 @@
     </scenes>
     <resources>
         <image name="MagnifyingGlassBarIcon" width="44" height="44"/>
-        <image name="MagnifyingGlassBarIcon" width="44" height="44"/>
-        <image name="MagnifyingGlassBarIcon" width="44" height="44"/>
-        <image name="MagnifyingGlassBarIconHighlighted" width="44" height="44"/>
-        <image name="MagnifyingGlassBarIconHighlighted" width="44" height="44"/>
         <image name="MagnifyingGlassBarIconHighlighted" width="44" height="44"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
