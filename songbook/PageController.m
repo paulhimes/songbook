@@ -45,14 +45,14 @@ const float kMinimumStandardTextSize = 8;
     self.textView.layoutManager.allowsNonContiguousLayout = NO;
     
     [self.view addGestureRecognizer:self.pinchGestureRecognizer];
+    
+    self.textView.clipsToBounds = NO;
 }
 
 - (void)handleGesture:(UIPinchGestureRecognizer *)sender
 {
     
 }
-
-
 
 #pragma mark - Action Methods
 - (IBAction)searchAction:(UIButton *)sender
