@@ -10,6 +10,7 @@
 #import "SafeTextView.h"
 
 extern NSString * const kStandardTextSizeKey;
+extern const float kSuperMaximumStandardTextSize;
 extern const float kMaximumStandardTextSize;
 extern const float kMinimumStandardTextSize;
 

@@ -11,6 +11,7 @@
 
 NSString * const kStandardTextSizeKey = @"StandardTextSize";
 
+const float kSuperMaximumStandardTextSize = 60;
 const float kMaximumStandardTextSize = 40;
 const float kMinimumStandardTextSize = 8;
 

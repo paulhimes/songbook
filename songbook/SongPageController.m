@@ -27,6 +27,7 @@
 @property (nonatomic) CGFloat glyphOriginalYCoordinateInMainView;
 @property (nonatomic) CGFloat glyphYCoordinateInMainView;
 @property (nonatomic) CGPoint touchStartPoint;
+@property (nonatomic) CGPoint latestTouchPoint;
 
 @end
 
@@ -60,6 +61,8 @@
     [self.searchButton setImage:searchButtonHighlightedImage forState:UIControlStateHighlighted];
 
     [super viewDidLoad];
+    
+    [self.textView setDebugColor:[UIColor redColor]];
 }
 
 - (void)viewDidLayoutSubviews
@@ -319,50 +322,44 @@
         self.glyphOriginalYCoordinateInMainView = [self yCoordinateInMainViewOfGlyphAtIndex:self.glyphIndex];
         
         self.touchStartPoint = [sender locationInView:self.view];
+        self.latestTouchPoint = self.touchStartPoint;
         
         self.textView.contentOffsetCallsDisabled = YES;
         
     } else if (sender.state == UIGestureRecognizerStateEnded ||
                sender.state == UIGestureRecognizerStateCancelled ||
                sender.state == UIGestureRecognizerStateFailed) {
+
+        [self scaleTextWithScale:sender.scale
+                      touchPoint:self.latestTouchPoint
+                 minimumFontSize:kMinimumStandardTextSize
+                 maximumFontSize:kMaximumStandardTextSize];
+
         [userDefaults synchronize];
         self.glyphIndex = 0;
         self.glyphOriginalYCoordinateInMainView = 0;
         self.glyphYCoordinateInMainView = 0;
         self.touchStartPoint = CGPointZero;
+        self.latestTouchPoint = CGPointZero;
         
         self.textView.contentOffsetCallsDisabled = NO;
         
         // Limit the content offset to the actual content size.
         CGFloat minimumContentOffset = 0;
-        CGFloat maximumContentOffset = MAX(self.textView.contentSize.height - self.textView.frame.size.height, 0);
+        CGFloat maximumContentOffset = MAX(self.textView.contentSize.height - (self.textView.frame.size.height - self.textView.contentInset.bottom), 0);
         CGFloat contentOffsetY = self.textView.contentOffset.y;
         contentOffsetY = MIN(maximumContentOffset, MAX(minimumContentOffset, contentOffsetY));
-        [self.textView setContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY) animated:YES];
+        [self.textView setContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
 
     } else {
         
-        // Scale the existing text size by the gesture recognizer's scale.
-        float scaledSize = [self.gestureStartTextSize floatValue] * sender.scale;
-        
-        // Limit the scaled size to sane bounds.
-        float scaledAndLimitedSize = MIN(kMaximumStandardTextSize, MAX(kMinimumStandardTextSize, scaledSize));
-        
         CGPoint updatedTouchPoint = [sender locationInView:self.view];
-        CGFloat touchPointVerticalShift = updatedTouchPoint.y - self.touchStartPoint.y;
-        self.glyphYCoordinateInMainView = self.glyphOriginalYCoordinateInMainView + touchPointVerticalShift;
+        self.latestTouchPoint = updatedTouchPoint;
         
-        if (![@(scaledAndLimitedSize) isEqualToNumber:[userDefaults objectForKey:kStandardTextSizeKey]]) {
-            [userDefaults setObject:@(scaledAndLimitedSize) forKey:kStandardTextSizeKey];
-            NSAttributedString *text = self.text;
-            self.textView.attributedText = text;
-        }
-        
-        CGFloat currentYCoordinateOfGlyphInMainView = [self yCoordinateInMainViewOfGlyphAtIndex:self.glyphIndex];
-        CGFloat glyphVerticalError = self.glyphYCoordinateInMainView - currentYCoordinateOfGlyphInMainView;
-        CGFloat contentOffsetY = self.textView.contentOffset.y - glyphVerticalError;
-        
-        [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
+        [self scaleTextWithScale:sender.scale
+                      touchPoint:updatedTouchPoint
+                 minimumFontSize:1
+                 maximumFontSize:kSuperMaximumStandardTextSize];
     }
 }
 
@@ -382,6 +379,32 @@
     CGPoint glyphLocationInMainView = [self.view convertPoint:glyphLocation fromView:self.textView];
     
     return glyphLocationInMainView.y;
+}
+
+- (void)scaleTextWithScale:(CGFloat)scale
+                touchPoint:(CGPoint)touchPoint
+           minimumFontSize:(CGFloat)minimumFontSize
+           maximumFontSize:(CGFloat)maximumFontSize
+{
+    
+    // Scale the existing text size by the gesture recognizer's scale.
+    float scaledSize = [self.gestureStartTextSize floatValue] * scale;
+    
+    // Limit the scaled size to sane bounds.
+    float scaledAndLimitedSize = MIN(maximumFontSize, MAX(minimumFontSize, scaledSize));
+    
+    CGFloat touchPointVerticalShift = touchPoint.y - self.touchStartPoint.y;
+    self.glyphYCoordinateInMainView = self.glyphOriginalYCoordinateInMainView + touchPointVerticalShift;
+    
+    [[NSUserDefaults standardUserDefaults] setObject:@(scaledAndLimitedSize) forKey:kStandardTextSizeKey];
+    NSAttributedString *text = self.text;
+    self.textView.attributedText = text;
+    
+    CGFloat currentYCoordinateOfGlyphInMainView = [self yCoordinateInMainViewOfGlyphAtIndex:self.glyphIndex];
+    CGFloat glyphVerticalError = self.glyphYCoordinateInMainView - currentYCoordinateOfGlyphInMainView;
+    CGFloat contentOffsetY = self.textView.contentOffset.y - glyphVerticalError;
+    
+    [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
 }
 
 @end
