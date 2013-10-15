@@ -12,6 +12,7 @@
 #import "DataModelTests.h"
 #import "Book+Helpers.h"
 #import "SearchViewController.h"
+#import "SplitViewController.h"
 
 @interface PageViewController () <PageControllerDelegate>
 
@@ -46,6 +47,8 @@
                                  direction:UIPageViewControllerNavigationDirectionForward
                                   animated:NO
                                 completion:NULL];
+    
+    [self.view setDebugColor:[UIColor purpleColor]];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -53,7 +56,6 @@
     if ([segue.identifier isEqualToString:@"Search"] &&
                [segue.destinationViewController isKindOfClass:[SearchViewController class]]) {
         SearchViewController *searchViewController = ((SearchViewController *)segue.destinationViewController);
-        
         searchViewController.currentSong = [self closestSong];
     }
 }
@@ -113,7 +115,14 @@
 
 - (void)search
 {
-    [self performSegueWithIdentifier:@"Search" sender:nil];
+    if ([self.splitController.master isKindOfClass:[SearchViewController class]]) {
+        SearchViewController *searchViewController = (SearchViewController *)self.splitController.master;
+        searchViewController.currentSong = [self closestSong];
+        
+        self.splitController.masterHidden = !self.splitController.masterHidden;
+    } else {
+        [self performSegueWithIdentifier:@"Search" sender:nil];
+    }
 }
 
 @end

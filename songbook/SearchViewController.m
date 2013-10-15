@@ -80,6 +80,13 @@ typedef enum PreferredSearchMethod : NSUInteger {
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self updateDataSourceWithTableModel:[SmartSearcher buildModelForSearchString:@""
+                                                                           inBook:self.currentSong.section.book
+                                                                   shouldContinue:^BOOL{
+                                                                       return YES;
+                                                                   }]];
+    [self.tableView reloadData];
     [self scrollToCurrentSong];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];

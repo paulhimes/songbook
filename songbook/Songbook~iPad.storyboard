@@ -1,9 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="13A584" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="Aec-Sy-MG7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="13A598" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="jrp-vl-Nww">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <scenes>
+        <!--Split View Controller-->
+        <scene sceneID="Y7v-sZ-4si">
+            <objects>
+                <viewController id="jrp-vl-Nww" customClass="SplitViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="b78-bx-XMb">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <containerView contentMode="scaleToFill" id="Mye-XC-Rdy">
+                                <rect key="frame" x="-320" y="0.0" width="320" height="1024"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <connections>
+                                    <segue destination="Ib0-7i-B1o" kind="embed" identifier="EmbedMaster" id="byV-7g-eIC"/>
+                                </connections>
+                            </containerView>
+                            <containerView contentMode="scaleToFill" id="REn-G0-DO6">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <connections>
+                                    <segue destination="PL7-pw-XwR" kind="embed" identifier="EmbedDetail" id="XCt-oo-bhp"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.78431372549019607" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <connections>
+                        <outlet property="detailContainer" destination="REn-G0-DO6" id="pgu-KW-nHN"/>
+                        <outlet property="masterContainer" destination="Mye-XC-Rdy" id="t94-yy-pgf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="97R-C6-6gg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1389" y="-920"/>
+        </scene>
         <!--Page View Controller-->
         <scene sceneID="zNy-hm-Zrn">
             <objects>
@@ -21,11 +57,11 @@
             <objects>
                 <viewController id="Ib0-7i-B1o" customClass="SearchViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3FY-Km-tpd">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Cgg-se-M4E">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="852"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -84,7 +120,7 @@
                                         <items/>
                                     </toolbar>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search" minimumFontSize="17" id="hr1-Se-d29" userLabel="Search Field">
-                                        <rect key="frame" x="7" y="7" width="240" height="30"/>
+                                        <rect key="frame" x="7" y="7" width="306" height="30"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -93,17 +129,6 @@
                                             <action selector="searchFieldEditingChanged:" destination="Ib0-7i-B1o" eventType="editingChanged" id="ZIS-ew-etT"/>
                                         </connections>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ZtW-W9-Pbw">
-                                        <rect key="frame" x="255" y="0.0" width="65" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                        <state key="normal" title="Cancel">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <segue destination="3kv-So-Xvb" kind="unwind" unwindAction="searchCancelled:" id="Gah-La-edQ"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
@@ -112,7 +137,6 @@
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <outlet property="cancelButton" destination="ZtW-W9-Pbw" id="x0N-rv-20J"/>
                         <outlet property="searchField" destination="hr1-Se-d29" id="yT8-hk-4Xi"/>
                         <outlet property="tableView" destination="Cgg-se-M4E" id="nJ9-G6-oFw"/>
                         <outlet property="toolbar" destination="94X-qz-xle" id="Nzt-VN-d7L"/>
@@ -122,7 +146,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xAE-LL-Jth" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="3kv-So-Xvb" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="807" y="-920"/>
+            <point key="canvasLocation" x="735" y="-1824"/>
         </scene>
         <!--Song Page Controller-->
         <scene sceneID="S4c-1X-Y4Q">
@@ -132,7 +156,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" editable="NO" usesAttributedText="YES" id="8y5-ta-sLh" customClass="SafeTextView">
+                            <textView multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" editable="NO" usesAttributedText="YES" id="8y5-ta-sLh" customClass="SafeTextView">
                                 <rect key="frame" x="32" y="0.0" width="704" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -157,9 +181,9 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items/>
                             </toolbar>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Qt4-kG-vrU">
-                                <rect key="frame" x="304" y="980" width="160" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Qt4-kG-vrU">
+                                <rect key="frame" x="0.0" y="980" width="160" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <state key="normal" image="MagnifyingGlassBarIcon">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -179,7 +203,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
@@ -202,7 +226,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" id="Qhk-Vi-Vi9" customClass="SafeTextView">
+                            <textView contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" id="Qhk-Vi-Vi9" customClass="SafeTextView">
                                 <rect key="frame" x="32" y="0.0" width="704" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -211,9 +235,9 @@
                                 <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Cff-Wo-J7C">
-                                <rect key="frame" x="304" y="980" width="160" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Cff-Wo-J7C">
+                                <rect key="frame" x="0.0" y="980" width="160" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <state key="normal" image="MagnifyingGlassBarIcon">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -242,7 +266,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" id="ZPS-WZ-eZB" customClass="SafeTextView">
+                            <textView contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" id="ZPS-WZ-eZB" customClass="SafeTextView">
                                 <rect key="frame" x="32" y="0.0" width="704" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -251,9 +275,9 @@
                                 <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="GqD-Lh-tUK">
-                                <rect key="frame" x="304" y="980" width="160" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="GqD-Lh-tUK">
+                                <rect key="frame" x="0.0" y="980" width="160" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <state key="normal" image="MagnifyingGlassBarIcon">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -275,20 +299,6 @@
             </objects>
             <point key="canvasLocation" x="807" y="295"/>
         </scene>
-        <!--Split View Controller-->
-        <scene sceneID="mo3-2t-Qqt">
-            <objects>
-                <splitViewController id="Aec-Sy-MG7" customClass="SplitViewController" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <connections>
-                        <segue destination="PL7-pw-XwR" kind="relationship" relationship="detailViewController" id="MpU-B8-YLO"/>
-                        <segue destination="Ib0-7i-B1o" kind="relationship" relationship="masterViewController" id="P7h-9R-2yg"/>
-                    </connections>
-                </splitViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dmH-ZM-q7N" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1148" y="-920"/>
-        </scene>
     </scenes>
     <resources>
         <image name="MagnifyingGlassBarIcon" width="44" height="44"/>
@@ -300,6 +310,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="P7h-9R-2yg"/>
+        <segue reference="byV-7g-eIC"/>
     </inferredMetricsTieBreakers>
 </document>
