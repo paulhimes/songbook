@@ -70,7 +70,7 @@
                 // Show master.
                 [self.master viewWillAppear:YES];
                 [self.masterContainer setOriginX:0];
-                CGFloat detailOriginX = self.masterContainer.frame.size.width + 1;
+                CGFloat detailOriginX = self.masterContainer.frame.size.width + 0.5;
                 self.detailContainer.frame = CGRectMake(detailOriginX, 0, self.view.bounds.size.width - detailOriginX, self.view.bounds.size.height);
             } else if (!_masterHidden && masterHidden) {
                 // Hide master.

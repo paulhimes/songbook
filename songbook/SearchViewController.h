@@ -15,7 +15,7 @@
 
 @property (nonatomic, strong) Song *currentSong;
 @property (nonatomic, strong) Song *selectedSong;
-@property (nonatomic) NSUInteger selectedLocation;
+@property (nonatomic) NSRange selectedRange;
 
 @end
 

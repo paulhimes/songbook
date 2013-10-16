@@ -15,6 +15,7 @@
 @property (nonatomic, strong) PageServer *pageServer;
 
 - (void)showPageForModelObject:(NSManagedObject *)modelObject
+                highlightRange:(NSRange)highlightRange
                       animated:(BOOL)animated;
 
 @end

@@ -38,10 +38,10 @@
     return cell.songID;
 }
 
-- (NSUInteger)songLocationAtIndexPath:(NSIndexPath *)indexPath
+- (NSRange)songRangeAtIndexPath:(NSIndexPath *)indexPath
 {
     SearchCellModel *cell = [self cellModelAtIndexPath:indexPath];
-    return cell.location;
+    return cell.range;
 }
 
 - (SearchCellModel *)cellModelAtIndexPath:(NSIndexPath *)indexPath
@@ -128,6 +128,11 @@
     }
     
     return cellHeight;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

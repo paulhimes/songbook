@@ -22,6 +22,7 @@ extern const float kMinimumStandardTextSize;
 @property (nonatomic, weak) id<PageControllerDelegate> delegate;
 @property (weak, nonatomic) IBOutlet SafeTextView *textView;
 @property (nonatomic, readonly) NSAttributedString *text;
+@property (nonatomic) NSRange highlightRange;
 
 - (void)handleGesture:(UIPinchGestureRecognizer *)sender;
 

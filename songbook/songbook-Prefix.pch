@@ -19,6 +19,7 @@
     #import "NSMutableAttributedString+Helpers.h"
     #import "NSString+Helpers.h"
     #import "UITableView+Helpers.h"
+    #import "Theme.h"
 
     #define M_PHI 1.61803399
 

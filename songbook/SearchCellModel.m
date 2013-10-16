@@ -12,14 +12,14 @@
 
 - (instancetype)initWithSongID:(NSManagedObjectID *)songID
                        content:(NSAttributedString *)content
-                      location:(NSUInteger)location
+                         range:(NSRange)range
                    asTitleCell:(BOOL)titleCell
 {
     self = [super init];
     if (self) {
         _songID = songID;
         _content = content;
-        _location = location;
+        _range = range;
         _titleCell = titleCell;
     }
     return self;

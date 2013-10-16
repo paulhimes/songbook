@@ -124,8 +124,10 @@ typedef enum PreferredSearchMethod : NSUInteger {
             self.selectedSong = song;
             
             // Remember which location in the song was selected.
-            self.selectedLocation = [self.dataSource songLocationAtIndexPath:selectedIndexPath];
+            self.selectedRange = [self.dataSource songRangeAtIndexPath:selectedIndexPath];
         }
+        
+        [self.searchField resignFirstResponder];
     }
 }
 

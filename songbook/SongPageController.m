@@ -65,6 +65,13 @@
     [self.textView setDebugColor:[UIColor redColor]];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [self scrollToCharacterAtIndex:self.highlightRange.location];
+}
+
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
@@ -202,6 +209,11 @@
         }
         [attributedString appendString:self.song.year attributes:footerAttributes];
     }
+    
+    // Highlight a portion of the text.
+    [attributedString addAttributes:@{NSForegroundColorAttributeName:[Theme redColor],
+                                      NSStrokeWidthAttributeName:@(-2)}
+                              range:self.highlightRange];
     
     return [attributedString copy];
 }
@@ -403,6 +415,29 @@
     CGFloat currentYCoordinateOfGlyphInMainView = [self yCoordinateInMainViewOfGlyphAtIndex:self.glyphIndex];
     CGFloat glyphVerticalError = self.glyphYCoordinateInMainView - currentYCoordinateOfGlyphInMainView;
     CGFloat contentOffsetY = self.textView.contentOffset.y - glyphVerticalError;
+    
+    [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
+}
+
+- (void)scrollToCharacterAtIndex:(NSUInteger)characterIndex
+{
+    CGFloat viewHeight = self.view.bounds.size.height;
+    CGFloat targetYCoordinate = viewHeight - (viewHeight / M_PHI);
+    
+    NSUInteger glyphIndex = [self.textView.layoutManager glyphIndexForCharacterAtIndex:characterIndex];
+    CGFloat currentYCoordinateOfGlyphInMainView = [self yCoordinateInMainViewOfGlyphAtIndex:glyphIndex];
+    CGFloat glyphVerticalError = targetYCoordinate - currentYCoordinateOfGlyphInMainView;
+    CGFloat currentContentOffsetY = self.textView.contentOffset.y;
+    CGFloat contentOffsetY = currentContentOffsetY - glyphVerticalError;
+    
+//    // Limit the content offset to the actual content size.
+//    CGFloat minimumContentOffset = 0;
+//    
+//    CGFloat textViewContentHeight = self.textView.contentSize.height;
+//    CGFloat textViewFrameHeight = self.textView.frame.size.height;
+//    CGFloat textViewBottomInset = self.textView.contentInset.bottom;
+//    CGFloat maximumContentOffset = MAX(textViewContentHeight - (textViewFrameHeight - textViewBottomInset), 0);
+//    contentOffsetY = MIN(maximumContentOffset, MAX(minimumContentOffset, contentOffsetY));
     
     [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
 }

@@ -12,12 +12,12 @@
 
 @property (nonatomic, readonly) NSManagedObjectID *songID;
 @property (nonatomic, readonly) NSAttributedString *content;
-@property (nonatomic, readonly) NSUInteger location;
+@property (nonatomic, readonly) NSRange range;
 @property (nonatomic, readonly) BOOL titleCell;
 
 - (instancetype)initWithSongID:(NSManagedObjectID *)songID
                        content:(NSAttributedString *)content
-                      location:(NSUInteger)location
+                         range:(NSRange)range
                    asTitleCell:(BOOL)titleCell;
 
 @end

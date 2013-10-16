@@ -52,6 +52,7 @@
 		8BA5E1D017DB702600858741 /* UITableView+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5E1CF17DB702600858741 /* UITableView+Helpers.m */; };
 		8BA785B317D5864D00BEF4D9 /* NSString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA785B217D5864D00BEF4D9 /* NSString+Helpers.m */; };
 		8BAE5B4D17B1F7C5004631CA /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAE5B4C17B1F7C5004631CA /* SearchViewController.m */; };
+		8BAF6ADE180E3C6B00BFC813 /* Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF6ADD180E3C6B00BFC813 /* Theme.m */; };
 		8BB02AE217CB97BE001CCB6C /* SimpleSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB02AE117CB97BE001CCB6C /* SimpleSearcher.m */; };
 		8BB18AD917A5DB76006E257C /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB18AD817A5DB76006E257C /* Section.m */; };
 		8BB18ADF17A5DB77006E257C /* Verse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB18ADE17A5DB77006E257C /* Verse.m */; };
@@ -156,6 +157,8 @@
 		8BA85DFD17B2F12200F6B3B7 /* SongbookModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongbookModel.h; sourceTree = "<group>"; };
 		8BAE5B4B17B1F7C5004631CA /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		8BAE5B4C17B1F7C5004631CA /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		8BAF6ADC180E3C6B00BFC813 /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Theme.h; sourceTree = "<group>"; };
+		8BAF6ADD180E3C6B00BFC813 /* Theme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Theme.m; sourceTree = "<group>"; };
 		8BB02AE017CB97BE001CCB6C /* SimpleSearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleSearcher.h; sourceTree = "<group>"; };
 		8BB02AE117CB97BE001CCB6C /* SimpleSearcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleSearcher.m; sourceTree = "<group>"; };
 		8BB02AE317CC3935001CCB6C /* Searcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Searcher.h; sourceTree = "<group>"; };
@@ -381,6 +384,8 @@
 				8BA5E1CF17DB702600858741 /* UITableView+Helpers.m */,
 				8B191A031809CEB50071DF4D /* SafeTextView.h */,
 				8B191A041809CEB50071DF4D /* SafeTextView.m */,
+				8BAF6ADC180E3C6B00BFC813 /* Theme.h */,
+				8BAF6ADD180E3C6B00BFC813 /* Theme.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -576,6 +581,7 @@
 				8BC674CA17BC912C001E71B1 /* NSMutableAttributedString+Helpers.m in Sources */,
 				8B14432217F141770000A898 /* SearchSectionModel.m in Sources */,
 				8BC674C717B9E1D8001E71B1 /* SongTitleView.m in Sources */,
+				8BAF6ADE180E3C6B00BFC813 /* Theme.m in Sources */,
 				8BB18AE517A5EA57006E257C /* DataModelTests.m in Sources */,
 				8BA785B317D5864D00BEF4D9 /* NSString+Helpers.m in Sources */,
 				8BED9F0D17C91E9A00D834BE /* TitlePageController.m in Sources */,

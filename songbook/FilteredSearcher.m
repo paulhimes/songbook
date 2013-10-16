@@ -15,7 +15,7 @@
 static const NSUInteger kFragmentPrefixMaxLength = 5;
 static const NSUInteger kFragmentSuffixMaxLength = 20;
 static const NSString * const kFragmentKey = @"FragmentKey";
-static const NSString * const kLocationKey = @"LocationKey";
+static const NSString * const kRangeKey = @"RangeKey";
 
 @implementation FilteredSearcher
 
@@ -168,17 +168,17 @@ static const NSString * const kLocationKey = @"LocationKey";
             
             [cellModels addObject:[[SearchCellModel alloc] initWithSongID:songID
                                                                   content:titleString
-                                                                 location:0
+                                                                    range:NSMakeRange(0, 0)
                                                               asTitleCell:YES]];
             
             for (NSDictionary *songFragment in songFragments) {
                 NSAttributedString *fragment = songFragment[kFragmentKey];
-                NSNumber *location = songFragment[kLocationKey];
+                NSRange range = [songFragment[kRangeKey] rangeValue];
                 
-                if ([location unsignedIntegerValue] >= [songHeaderString length]) {
+                if (range.location >= [songHeaderString length]) {
                     SearchCellModel *cellModel = [[SearchCellModel alloc] initWithSongID:songID
                                                                                  content:fragment
-                                                                                location:[location unsignedIntegerValue]
+                                                                                   range:range
                                                                              asTitleCell:NO];
                     [cellModels addObject:cellModel];
                 }
@@ -273,9 +273,13 @@ static const NSString * const kLocationKey = @"LocationKey";
                             NSAttributedString *ellipsis = [[NSAttributedString alloc] initWithString:@"…" attributes:normalFragmentAttributes];
                             [fragment insertAttributedString:ellipsis atIndex:0];
                             
+                            // Calculate the range of the matching text within the song.
+                            TokenInstance *lastSongTokenInstance = [songTokenInstances lastObject];
+                            NSRange matchingRange = NSMakeRange([firstSongTokenInstance.location unsignedIntegerValue], [lastSongTokenInstance.location unsignedIntegerValue] + [lastSongTokenInstance.length unsignedIntegerValue] - [firstSongTokenInstance.location unsignedIntegerValue]);
+                            
                             // Add this fragment entry to the matching songs array.
                             [matchingSongFragments addObject:@{kFragmentKey: fragment,
-                                                               kLocationKey: firstSongTokenInstance.location}];
+                                                               kRangeKey: [NSValue valueWithRange:matchingRange]}];
                         }
                         
                         
@@ -290,8 +294,8 @@ static const NSString * const kLocationKey = @"LocationKey";
         NSMutableArray *matchingSongFragments = matchingSongFragmentsBySongID[songId];
         
         [matchingSongFragments sortUsingComparator:^NSComparisonResult(NSDictionary *fragment1, NSDictionary *fragment2) {
-            NSNumber *fragement1StartIndex = fragment1[kLocationKey];
-            NSNumber *fragement2StartIndex = fragment2[kLocationKey];
+            NSNumber *fragement1StartIndex = @([fragment1[kRangeKey] rangeValue].location);
+            NSNumber *fragement2StartIndex = @([fragment2[kRangeKey] rangeValue].location);
             
             return [fragement1StartIndex compare:fragement2StartIndex];
         }];

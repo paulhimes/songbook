@@ -16,6 +16,8 @@
 
 @interface PageViewController () <PageControllerDelegate>
 
+@property (nonatomic, strong) UIBarButtonItem *searchBarButton;
+
 @end
 
 @implementation PageViewController
@@ -56,6 +58,7 @@
     if ([segue.identifier isEqualToString:@"Search"] &&
                [segue.destinationViewController isKindOfClass:[SearchViewController class]]) {
         SearchViewController *searchViewController = ((SearchViewController *)segue.destinationViewController);
+        
         searchViewController.currentSong = [self closestSong];
     }
 }
@@ -70,9 +73,7 @@
         SearchViewController *searchViewController = (SearchViewController *)segue.sourceViewController;
         
         if (searchViewController.selectedSong) {
-            [self showPageForModelObject:searchViewController.selectedSong
-                          highlightRange:searchViewController.selectedRange
-                                animated:NO];
+            [self showPageForModelObject:searchViewController.selectedSong animated:NO];
         }
     }
 }
@@ -96,12 +97,10 @@
 }
 
 - (void)showPageForModelObject:(NSManagedObject *)modelObject
-                highlightRange:(NSRange)highlightRange
                       animated:(BOOL)animated;
 {
     PageController *pageController = [self.pageServer pageControllerForModelObject:modelObject
                                                                 pageViewController:self];
-    pageController.highlightRange = highlightRange;
     
     [self setViewControllers:@[pageController]
                    direction:UIPageViewControllerNavigationDirectionForward
@@ -114,19 +113,39 @@
 - (void)pageController:(PageController *)pageController
    selectedModelObject:(NSManagedObject *)modelObject
 {
-    [self showPageForModelObject:modelObject highlightRange:NSMakeRange(0, 0) animated:NO];
+    [self showPageForModelObject:modelObject animated:NO];
 }
 
 - (void)search
 {
+//    [self performSegueWithIdentifier:@"Search" sender:nil];
+    
     if ([self.splitController.master isKindOfClass:[SearchViewController class]]) {
         SearchViewController *searchViewController = (SearchViewController *)self.splitController.master;
         searchViewController.currentSong = [self closestSong];
         
         self.splitController.masterHidden = !self.splitController.masterHidden;
-    } else {
-        [self performSegueWithIdentifier:@"Search" sender:nil];
     }
+    
+//    [self.searchBarButton.target performSelector:self.searchBarButton.action];
+}
+
+#pragma mark - UISplitViewControllerDelegate
+
+- (void)splitViewController:(UISplitViewController *)svc
+     willHideViewController:(UIViewController *)aViewController
+          withBarButtonItem:(UIBarButtonItem *)barButtonItem
+       forPopoverController:(UIPopoverController *)pc
+{
+    self.searchBarButton = barButtonItem;
+}
+
+- (void)splitViewController:(UISplitViewController *)splitController
+     willShowViewController:(UIViewController *)viewController
+  invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
+{
+    // Called when the view is shown again in the split view, invalidating the button and popover controller.
+    self.searchBarButton = nil;
 }
 
 @end
