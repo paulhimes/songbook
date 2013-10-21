@@ -269,13 +269,17 @@ static const NSString * const kRangeKey = @"RangeKey";
                                 [fragment setAttributes:matchingFragmentAttributes range:NSMakeRange([songTokenInstance.location unsignedIntegerValue] - [firstSongTokenInstance.location unsignedIntegerValue], [songTokenInstance.length unsignedIntegerValue])];
                             }
                             
+                            // Calculate the range of the matching text within the song.
+                            TokenInstance *lastSongTokenInstance = [songTokenInstances lastObject];
+                            NSRange matchingRange = NSMakeRange([firstSongTokenInstance.location unsignedIntegerValue], [lastSongTokenInstance.location unsignedIntegerValue] + [lastSongTokenInstance.length unsignedIntegerValue] - [firstSongTokenInstance.location unsignedIntegerValue]);
+                            
                             // Prepend the "..."
                             NSAttributedString *ellipsis = [[NSAttributedString alloc] initWithString:@"…" attributes:normalFragmentAttributes];
                             [fragment insertAttributedString:ellipsis atIndex:0];
                             
-                            // Calculate the range of the matching text within the song.
-                            TokenInstance *lastSongTokenInstance = [songTokenInstances lastObject];
-                            NSRange matchingRange = NSMakeRange([firstSongTokenInstance.location unsignedIntegerValue], [lastSongTokenInstance.location unsignedIntegerValue] + [lastSongTokenInstance.length unsignedIntegerValue] - [firstSongTokenInstance.location unsignedIntegerValue]);
+                            // Replace all new line characters with spaces.
+                            NSMutableString *mutableFragmentString = [fragment mutableString];
+                            [mutableFragmentString replaceOccurrencesOfString:@"\n" withString:@" " options:0 range:NSMakeRange(0, [mutableFragmentString length])];
                             
                             // Add this fragment entry to the matching songs array.
                             [matchingSongFragments addObject:@{kFragmentKey: fragment,
