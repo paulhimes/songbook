@@ -10,6 +10,15 @@
 #import "Verse.h"
 #import "SongbookModel.h"
 
+extern NSString * const kSongNumberRangesKey;
+extern NSString * const kTitleRangesKey;
+extern NSString * const kNormalRangesKey;
+extern NSString * const kSubtitleRangesKey;
+extern NSString * const kVerseTitleRangesKey;
+extern NSString * const kChorusRangesKey;
+extern NSString * const kGhostRangesKey;
+extern NSString * const kFooterRangesKey;
+
 @interface Song (Helpers) <SongbookModel>
 
 + (Song *)newOrExistingSongTitled:(NSString *)title inSection:(Section *)section;
@@ -18,7 +27,9 @@
 
 - (void)generateSearchTokensWithCache:(NSCache *)cache;
 
-- (NSString *)stringForSearching;
+- (NSString *)string;
+- (NSDictionary *)stringComponentRanges;
+
 - (NSString *)headerString;
 
 - (NSString *)description;

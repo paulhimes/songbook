@@ -13,6 +13,15 @@
 #import "Token+Helpers.h"
 #import "TokenInstance+Helpers.h"
 
+NSString * const kSongNumberRangesKey = @"songNumberRanges";
+NSString * const kTitleRangesKey = @"titleRanges";
+NSString * const kNormalRangesKey = @"normalRanges";
+NSString * const kSubtitleRangesKey = @"subtitleRanges";
+NSString * const kVerseTitleRangesKey = @"verseTitleRanges";
+NSString * const kChorusRangesKey = @"chorusRanges";
+NSString * const kGhostRangesKey = @"GhostRanges";
+NSString * const kFooterRangesKey = @"FooterRanges";
+
 @implementation Song (Helpers)
 
 + (Song *)newOrExistingSongTitled:(NSString *)title inSection:(Section *)section
@@ -94,7 +103,7 @@
 
 - (void)generateSearchTokensWithCache:(NSCache *)cache
 {
-    NSString *stringForSearching = [self stringForSearching];
+    NSString *stringForSearching = [self string];
     NSArray *stringTokens = [stringForSearching tokens];
     
     for (StringToken *stringToken in stringTokens) {
@@ -111,62 +120,120 @@
     }
 }
 
-- (NSString *)stringForSearching
+- (NSString *)string
 {
-    if (!self.cachedStringForSearching) {
+    if (!self.cachedString) {
+        self.cachedString = [self stringWithRanges:nil];
+    }
+    return self.cachedString;
+}
 
-        NSMutableString *string = [@"" mutableCopy];
-        
-        [string appendString:[self headerString]];
-        [string appendString:@" "];
-        
-        if ([self.subtitle length] > 0) {
-            [string appendString:self.subtitle];
-            [string appendString:@" "];
-        }
-        
-        for (NSUInteger index = 0; index < [self.verses count]; index++) {
-            if (index != 0) {
-                [string appendString:@" "];
-            }
-            
-            Verse *verse = self.verses[index];
-            
-            if (verse.title) {
-                [string appendString:[NSString stringWithFormat:@" %@", verse.title]];
-                [string appendString:@" "];
-            }
-            
-            if ([verse.isChorus boolValue]) {
-                [string appendString:@" Chorus: "];
-            } else {
-                if (verse.number) {
-                    [string appendString:[NSString stringWithFormat:@" %@. ", verse.number]];
-                }
-            }
-            
-            [string appendString:verse.text];
-        }
-        
-        if ([self.author length] > 0 ||
-            [self.year length] > 0) {
-            [string appendString:@" "];
-        }
-        
-        if ([self.author length] > 0) {
-            [string appendString:@" "];
-            [string appendString:self.author];
-        }
-        
-        if ([self.year length] > 0) {
-            [string appendString:@" "];
-            [string appendString:self.year];
-        }
-        
-        self.cachedStringForSearching = [string copy];
+- (NSDictionary *)stringComponentRanges
+{
+    NSMutableDictionary *ranges = [@{} mutableCopy];
+    [self stringWithRanges:ranges];
+    return [ranges copy];
+}
+
+- (NSString *)stringWithRanges:(NSMutableDictionary *)dictionary
+{
+    NSMutableArray *songNumberRanges = [@[] mutableCopy];
+    NSMutableArray *titleRanges = [@[] mutableCopy];
+    NSMutableArray *normalRanges = [@[] mutableCopy];
+    NSMutableArray *subtitleRanges = [@[] mutableCopy];
+    NSMutableArray *verseTitleRanges = [@[] mutableCopy];
+    NSMutableArray *chorusRanges = [@[] mutableCopy];
+    NSMutableArray *ghostRanges = [@[] mutableCopy];
+    NSMutableArray *footerRanges = [@[] mutableCopy];
+    
+    NSMutableString *string = [@"" mutableCopy];
+    
+    // Look at me! I can use a crazy local block to cut down on the amount of duplicate code.
+    void (^addString)(NSMutableArray *, NSString *) = ^(NSMutableArray *rangeArray, NSString *additionalString) {
+        [rangeArray addObject:[NSValue valueWithRange:NSMakeRange([string length], [additionalString length])]];
+        [string appendString:additionalString];
+    };
+    
+    
+    if (self.number) {
+        addString(songNumberRanges, [self.number stringValue]);
+        addString(titleRanges, @" ");
     }
     
-    return self.cachedStringForSearching;
+    if ([self.title length] > 0) {
+        addString(titleRanges, self.title);
+        addString(normalRanges, @"\n");
+    }
+    
+    if ([self.subtitle length] > 0) {
+        addString(subtitleRanges, self.subtitle);
+        addString(normalRanges, @"\n\n");
+    } else {
+        addString(normalRanges, @"\n");
+    }
+    
+    for (NSUInteger verseIndex = 0; verseIndex < [self.verses count]; verseIndex++) {
+        Verse *verse = self.verses[verseIndex];
+        
+        if (verseIndex != 0) {
+            addString(normalRanges, @"\n\n");
+        }
+        
+        if (verse.title) {
+            addString(verseTitleRanges, [NSString stringWithFormat:@"%@\n", verse.title]);
+        }
+        if ([verse.isChorus boolValue]) {
+            addString(chorusRanges, [NSString stringWithFormat:@"Chorus: %@", verse.text]);
+        } else {
+            if (verse.number) {
+                addString(normalRanges, [NSString stringWithFormat:@"%@. ", verse.number]);
+            }
+            
+            addString(normalRanges, verse.text);
+            
+            if (verse.repeatText) {
+                addString(ghostRanges, [NSString stringWithFormat:@" %@", verse.repeatText]);
+            }
+            
+            if (verse.chorus) {
+                addString(normalRanges, @"\n\n");
+                
+                NSString *ghostString = [NSString stringWithFormat:@"Chorus: %@", verse.chorus.text];
+                
+                [chorusRanges addObject:[NSValue valueWithRange:NSMakeRange([string length], [ghostString length])]];
+                [ghostRanges addObject:[NSValue valueWithRange:NSMakeRange([string length], [ghostString length])]];
+                [string appendString:ghostString];
+            }
+        }
+    }
+    
+    if ([self.author length] > 0 ||
+        [self.year length] > 0) {
+        addString(normalRanges, @"\n\n");
+    }
+    
+    if ([self.author length] > 0) {
+        addString(footerRanges, self.author);
+    }
+    
+    if ([self.year length] > 0) {
+        if ([self.author length] > 0) {
+            addString(footerRanges, @" ");
+        }
+        addString(footerRanges, self.year);
+    }
+    
+    // Add all the ranges to the dictionary.
+    [dictionary addEntriesFromDictionary:@{kSongNumberRangesKey:[songNumberRanges copy],
+                                           kTitleRangesKey:[titleRanges copy],
+                                           kNormalRangesKey:[normalRanges copy],
+                                           kSubtitleRangesKey:[subtitleRanges copy],
+                                           kVerseTitleRangesKey:[verseTitleRanges copy],
+                                           kChorusRangesKey:[chorusRanges copy],
+                                           kGhostRangesKey:[ghostRanges copy],
+                                           kFooterRangesKey:[footerRanges copy]}];
+    
+    return [string copy];
 }
 
 - (NSString *)headerString

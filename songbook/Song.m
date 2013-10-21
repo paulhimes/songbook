@@ -17,7 +17,7 @@
 
 @dynamic author;
 @dynamic number;
-@dynamic cachedStringForSearching;
+@dynamic cachedString;
 @dynamic subtitle;
 @dynamic title;
 @dynamic year;

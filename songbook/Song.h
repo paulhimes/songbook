@@ -15,7 +15,7 @@
 
 @property (nonatomic, retain) NSString * author;
 @property (nonatomic, retain) NSNumber * number;
-@property (nonatomic, retain) NSString * cachedStringForSearching;
+@property (nonatomic, retain) NSString * cachedString;
 @property (nonatomic, retain) NSString * subtitle;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * year;

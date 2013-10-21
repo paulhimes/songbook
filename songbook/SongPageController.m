@@ -29,6 +29,8 @@
 @property (nonatomic) CGPoint touchStartPoint;
 @property (nonatomic) CGPoint latestTouchPoint;
 
+@property (nonatomic) BOOL hasAutoScrolledToHighlight;
+
 @end
 
 @implementation SongPageController
@@ -65,18 +67,17 @@
     [self.textView setDebugColor:[UIColor redColor]];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    [self scrollToCharacterAtIndex:self.highlightRange.location];
-}
-
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
     
     [self.titleView setNeedsDisplay];
+    
+    // Auto scroll the first time only.
+    if (!self.hasAutoScrolledToHighlight) {
+        self.hasAutoScrolledToHighlight = YES;
+        [self scrollToCharacterAtIndex:self.highlightRange.location];
+    }
 }
 
 - (NSManagedObject *)modelObject
@@ -104,13 +105,11 @@
     NSNumber *standardTextSizeNumber = [[NSUserDefaults standardUserDefaults] objectForKey:kStandardTextSizeKey];
     CGFloat standardTextSize = [standardTextSizeNumber floatValue];
     
-    SongTitleView *titleView = (SongTitleView *)self.titleView;
-    
     NSMutableDictionary *normalAttributes = [@{} mutableCopy];
     normalAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion" size:standardTextSize];
     
     NSParagraphStyle *numberAndTitleParagraphStyle = [self paragraphStyleFirstLineIndent:0
-                                                                         andNormalIndent:titleView.titleOriginX];
+                                                                         andNormalIndent:self.titleView.titleOriginX];
     
     NSMutableDictionary *numberAttributes = [normalAttributes mutableCopy];
     numberAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion-Bold" size:kTitleNumberFontSize];
@@ -124,8 +123,8 @@
     ghostAttributes[NSForegroundColorAttributeName] = [UIColor grayColor];
     
     NSMutableDictionary *subtitleAttributes = [normalAttributes mutableCopy];
-    subtitleAttributes[NSParagraphStyleAttributeName] = [self paragraphStyleFirstLineIndent:titleView.titleOriginX
-                                                                            andNormalIndent:titleView.titleOriginX];
+    subtitleAttributes[NSParagraphStyleAttributeName] = [self paragraphStyleFirstLineIndent:self.titleView.titleOriginX
+                                                                            andNormalIndent:self.titleView.titleOriginX];
     subtitleAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion" size:kSubtitleFontSize];
     
     NSMutableDictionary *verseTitleAttributes = [normalAttributes mutableCopy];
@@ -144,71 +143,17 @@
     footerParagraphStyle.alignment = NSTextAlignmentRight;
     footerAttributes[NSParagraphStyleAttributeName] = footerParagraphStyle;
     
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@""];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[self.song string]];
+    NSDictionary *songComponentRanges = [self.song stringComponentRanges];
     
-    if (self.song.number) {
-        [attributedString appendString:[self.song.number stringValue] attributes:numberAttributes];
-        [attributedString appendString:@" " attributes:titleAttributes];
-    }
-    
-    if ([self.song.title length] > 0) {
-        [attributedString appendString:self.song.title attributes:titleAttributes];
-        [attributedString appendString:@"\n" attributes:normalAttributes];
-    }
-    
-    if ([self.song.subtitle length] > 0) {
-        [attributedString appendString:self.song.subtitle attributes:subtitleAttributes];
-        [attributedString appendString:@"\n\n" attributes:normalAttributes];
-    } else {
-        [attributedString appendString:@"\n" attributes:normalAttributes];
-    }
-    
-    for (NSUInteger verseIndex = 0; verseIndex < [self.song.verses count]; verseIndex++) {
-        Verse *verse = self.song.verses[verseIndex];
-        
-        if (verseIndex != 0) {
-            [attributedString appendString:@"\n\n" attributes:normalAttributes];
-        }
-        
-        if (verse.title) {
-            [attributedString appendString:[NSString stringWithFormat:@"%@\n", verse.title] attributes:verseTitleAttributes];
-        }
-        if ([verse.isChorus boolValue]) {
-            [attributedString appendString:[NSString stringWithFormat:@"Chorus: %@", verse.text] attributes:chorusAttributes];
-        } else {
-            if (verse.number) {
-                [attributedString appendString:[NSString stringWithFormat:@"%@. ", verse.number] attributes:normalAttributes];
-            }
-            
-            [attributedString appendString:verse.text attributes:normalAttributes];
-            
-            if (verse.repeatText) {
-                [attributedString appendString:@" " attributes:ghostAttributes];
-                [attributedString appendString:verse.repeatText attributes:ghostAttributes];
-            }
-
-            if (verse.chorus) {
-                [attributedString appendString:@"\n\n" attributes:normalAttributes];
-                [attributedString appendString:[NSString stringWithFormat:@"Chorus: %@", verse.chorus.text] attributes:ghostChorusAttributes];
-            }
-        }
-    }
-    
-    if ([self.song.author length] > 0 ||
-        [self.song.year length] > 0) {
-        [attributedString appendString:@"\n\n" attributes:normalAttributes];
-    }
-    
-    if ([self.song.author length] > 0) {
-        [attributedString appendString:self.song.author attributes:footerAttributes];
-    }
-    
-    if ([self.song.year length] > 0) {
-        if ([self.song.author length] > 0) {
-            [attributedString appendString:@" " attributes:footerAttributes];
-        }
-        [attributedString appendString:self.song.year attributes:footerAttributes];
-    }
+    [self applyAttributes:normalAttributes toRanges:songComponentRanges[kNormalRangesKey] ofString:attributedString];
+    [self applyAttributes:numberAttributes toRanges:songComponentRanges[kSongNumberRangesKey] ofString:attributedString];
+    [self applyAttributes:titleAttributes toRanges:songComponentRanges[kTitleRangesKey] ofString:attributedString];
+    [self applyAttributes:subtitleAttributes toRanges:songComponentRanges[kSubtitleRangesKey] ofString:attributedString];
+    [self applyAttributes:verseTitleAttributes toRanges:songComponentRanges[kVerseTitleRangesKey] ofString:attributedString];
+    [self applyAttributes:chorusAttributes toRanges:songComponentRanges[kChorusRangesKey] ofString:attributedString];
+    [self applyAttributes:ghostAttributes toRanges:songComponentRanges[kGhostRangesKey] ofString:attributedString];
+    [self applyAttributes:footerAttributes toRanges:songComponentRanges[kFooterRangesKey] ofString:attributedString];
     
     // Highlight a portion of the text.
     [attributedString addAttributes:@{NSForegroundColorAttributeName:[Theme redColor],
@@ -216,6 +161,14 @@
                               range:self.highlightRange];
     
     return [attributedString copy];
+}
+
+- (void)applyAttributes:(NSDictionary *)attributes toRanges:(NSArray *)ranges ofString:(NSMutableAttributedString *)string
+{
+    for (NSValue *rangeValue in ranges) {
+        NSRange range = [rangeValue rangeValue];
+        [string addAttributes:attributes range:range];
+    }
 }
 
 - (NSParagraphStyle *)paragraphStyleFirstLineIndent:(CGFloat)firstLineIndent
@@ -292,6 +245,8 @@
         self.titleView.hidden = NO;
         self.textView.showsVerticalScrollIndicator = YES;
     }
+    
+    NSLog(@"scroll offset y = %f", offsetY);
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView
@@ -438,6 +393,8 @@
 //    CGFloat textViewBottomInset = self.textView.contentInset.bottom;
 //    CGFloat maximumContentOffset = MAX(textViewContentHeight - (textViewFrameHeight - textViewBottomInset), 0);
 //    contentOffsetY = MIN(maximumContentOffset, MAX(minimumContentOffset, contentOffsetY));
+//    contentOffsetY = MAX(contentOffsetY, 0);
+    
     
     [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
 }

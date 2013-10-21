@@ -258,7 +258,7 @@ static const NSString * const kRangeKey = @"RangeKey";
                             TokenInstance *firstSongTokenInstance = songTokenInstances[0];
                             
                             // Create an attributed string fragment around the matching ranges.
-                            NSString *stringForSearching = [song stringForSearching];
+                            NSString *stringForSearching = [song string];
                             
                             NSRange fragmentRange = NSMakeRange([firstSongTokenInstance.location unsignedIntegerValue], [stringForSearching length] - [firstSongTokenInstance.location unsignedIntegerValue]);
                             NSString *fragmentString = [stringForSearching substringWithRange:fragmentRange];

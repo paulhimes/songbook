@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PageController.h"
-#import "Song.h"
+#import "Song+Helpers.h"
 
 @interface SongPageController : PageController
 
