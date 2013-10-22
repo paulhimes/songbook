@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Paul Himes. All rights reserved.
 //
 
+#import <Crashlytics/Crashlytics.h>
 #import "AppDelegate.h"
 #import "PageController.h"
 
@@ -18,6 +19,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    [Crashlytics startWithAPIKey:@"9be265b58168dc66ff492f601ff87ed72389455f"];
+    
     self.window.tintColor = [Theme redColor];
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{kStandardTextSizeKey: @20}];

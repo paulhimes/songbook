@@ -53,6 +53,7 @@
 		8BA785B317D5864D00BEF4D9 /* NSString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA785B217D5864D00BEF4D9 /* NSString+Helpers.m */; };
 		8BAE5B4D17B1F7C5004631CA /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAE5B4C17B1F7C5004631CA /* SearchViewController.m */; };
 		8BAF6ADE180E3C6B00BFC813 /* Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF6ADD180E3C6B00BFC813 /* Theme.m */; };
+		8BAF6AE11816046A00BFC813 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BAF6AE01816046A00BFC813 /* Crashlytics.framework */; };
 		8BB02AE217CB97BE001CCB6C /* SimpleSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB02AE117CB97BE001CCB6C /* SimpleSearcher.m */; };
 		8BB18AD917A5DB76006E257C /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB18AD817A5DB76006E257C /* Section.m */; };
 		8BB18ADF17A5DB77006E257C /* Verse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB18ADE17A5DB77006E257C /* Verse.m */; };
@@ -159,6 +160,7 @@
 		8BAE5B4C17B1F7C5004631CA /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		8BAF6ADC180E3C6B00BFC813 /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Theme.h; sourceTree = "<group>"; };
 		8BAF6ADD180E3C6B00BFC813 /* Theme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Theme.m; sourceTree = "<group>"; };
+		8BAF6AE01816046A00BFC813 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		8BB02AE017CB97BE001CCB6C /* SimpleSearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleSearcher.h; sourceTree = "<group>"; };
 		8BB02AE117CB97BE001CCB6C /* SimpleSearcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleSearcher.m; sourceTree = "<group>"; };
 		8BB02AE317CC3935001CCB6C /* Searcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Searcher.h; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8BA305E817A0BCF200A2ABDE /* CoreGraphics.framework in Frameworks */,
+				8BAF6AE11816046A00BFC813 /* Crashlytics.framework in Frameworks */,
 				8BA305EC17A0BCF200A2ABDE /* CoreData.framework in Frameworks */,
 				8BA305EA17A0BCF200A2ABDE /* UIKit.framework in Frameworks */,
 				8BA305E617A0BCF200A2ABDE /* Foundation.framework in Frameworks */,
@@ -324,6 +327,7 @@
 		8BA305E417A0BCF200A2ABDE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8BAF6AE01816046A00BFC813 /* Crashlytics.framework */,
 				8BA305E517A0BCF200A2ABDE /* Foundation.framework */,
 				8BA305E717A0BCF200A2ABDE /* CoreGraphics.framework */,
 				8BA305E917A0BCF200A2ABDE /* UIKit.framework */,
@@ -488,6 +492,7 @@
 				8BA305DE17A0BCF200A2ABDE /* Sources */,
 				8BA305DF17A0BCF200A2ABDE /* Frameworks */,
 				8BA305E017A0BCF200A2ABDE /* Resources */,
+				8BAF6ADF1816040E00BFC813 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -572,6 +577,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		8BAF6ADF1816040E00BFC813 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run 9be265b58168dc66ff492f601ff87ed72389455f";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8BA305DE17A0BCF200A2ABDE /* Sources */ = {
@@ -739,6 +760,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/paulhimes/Dropbox/Projects/songbook/songbook,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "songbook/songbook-Prefix.pch";
 				INFOPLIST_FILE = "songbook/songbook-Info.plist";
@@ -752,6 +777,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/paulhimes/Dropbox/Projects/songbook/songbook,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "songbook/songbook-Prefix.pch";
 				INFOPLIST_FILE = "songbook/songbook-Info.plist";
