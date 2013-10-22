@@ -34,6 +34,8 @@
 
 - (void)textContentChanged
 {
+    [super textContentChanged];
+    
     [self.textView setDebugColor:[UIColor greenColor]];
     
     // Vertically center the title at the golden ratio. Shift up if the title overflows the container.
@@ -82,10 +84,6 @@
         
         if (![@(scaledAndLimitedSize) isEqualToNumber:[userDefaults objectForKey:kStandardTextSizeKey]]) {
             [userDefaults setObject:@(scaledAndLimitedSize) forKey:kStandardTextSizeKey];
-            NSAttributedString *text = self.text;
-            self.textView.attributedText = text;
-            
-            [self textContentChanged];
         }
     }
 }

@@ -244,9 +244,7 @@
         self.topBar.hidden = NO;
         self.titleView.hidden = NO;
         self.textView.showsVerticalScrollIndicator = YES;
-    }
-    
-    NSLog(@"scroll offset y = %f", offsetY);
+    }    
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView
@@ -364,8 +362,6 @@
     self.glyphYCoordinateInMainView = self.glyphOriginalYCoordinateInMainView + touchPointVerticalShift;
     
     [[NSUserDefaults standardUserDefaults] setObject:@(scaledAndLimitedSize) forKey:kStandardTextSizeKey];
-    NSAttributedString *text = self.text;
-    self.textView.attributedText = text;
     
     CGFloat currentYCoordinateOfGlyphInMainView = [self yCoordinateInMainViewOfGlyphAtIndex:self.glyphIndex];
     CGFloat glyphVerticalError = self.glyphYCoordinateInMainView - currentYCoordinateOfGlyphInMainView;

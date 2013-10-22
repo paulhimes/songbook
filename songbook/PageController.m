@@ -48,6 +48,25 @@ const float kMinimumStandardTextSize = 8;
     [self.view addGestureRecognizer:self.pinchGestureRecognizer];
     
     self.textView.clipsToBounds = NO;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotification:) name:NSUserDefaultsDidChangeNotification object:nil];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)handleNotification:(NSNotification *)notification
+{
+    if ([[notification name] isEqualToString:NSUserDefaultsDidChangeNotification]) {
+        [self textContentChanged];
+    }
+}
+
+- (void)textContentChanged
+{
+    self.textView.attributedText = self.text;
 }
 
 - (void)handleGesture:(UIPinchGestureRecognizer *)sender

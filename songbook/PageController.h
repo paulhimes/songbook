@@ -25,6 +25,7 @@ extern const float kMinimumStandardTextSize;
 @property (nonatomic) NSRange highlightRange;
 
 - (void)handleGesture:(UIPinchGestureRecognizer *)sender;
+- (void)textContentChanged;
 
 @end
 
