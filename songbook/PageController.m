@@ -7,7 +7,7 @@
 //
 
 #import "PageController.h"
-#import "PageController+Private.h"
+#import "BookCodec.h"
 
 NSString * const kStandardTextSizeKey = @"StandardTextSize";
 
@@ -15,9 +15,10 @@ const float kSuperMaximumStandardTextSize = 60;
 const float kMaximumStandardTextSize = 40;
 const float kMinimumStandardTextSize = 8;
 
-@interface PageController () <UIScrollViewDelegate, UIToolbarDelegate>
+@interface PageController () <UIScrollViewDelegate, UIToolbarDelegate, MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) UIPinchGestureRecognizer *pinchGestureRecognizer;
+@property (nonatomic, strong) NSString *temporaryExportFilePath;
 
 @end
 
@@ -78,6 +79,36 @@ const float kMinimumStandardTextSize = 8;
 - (IBAction)searchAction:(UIButton *)sender
 {
     [self.delegate search];
+}
+
+- (IBAction)exportAction:(UIButton *)sender
+{
+    self.temporaryExportFilePath = [BookCodec exportBook];
+    NSData *exportData = [NSData dataWithContentsOfFile:self.temporaryExportFilePath];
+    
+    // Email the file data.
+    MFMailComposeViewController *mailController = [[MFMailComposeViewController alloc] init];
+    mailController.mailComposeDelegate = self;
+    [mailController setSubject:[[self.temporaryExportFilePath lastPathComponent] stringByDeletingPathExtension]];
+    [mailController addAttachmentData:exportData
+                             mimeType:@"application/vnd.paulhimes.songbook.songbook"
+                             fileName:[self.temporaryExportFilePath lastPathComponent]];
+    [self presentViewController:mailController animated:YES completion:^{}];
+}
+
+#pragma mark - MFMailComposeViewControllerDelegate
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    [self dismissViewControllerAnimated:YES completion:^{}];
+    
+    // Delete the temporary file.
+    if ([self.temporaryExportFilePath length] > 0) {
+        NSError *deleteError;
+        [[NSFileManager defaultManager] removeItemAtPath:self.temporaryExportFilePath error:&deleteError];
+    }
+    self.temporaryExportFilePath = nil;
+
 }
 
 @end

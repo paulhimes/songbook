@@ -9,6 +9,7 @@
 #import <Crashlytics/Crashlytics.h>
 #import "AppDelegate.h"
 #import "PageController.h"
+#import "BookCodec.h"
 
 @implementation AppDelegate
 
@@ -24,6 +25,11 @@
     self.window.tintColor = [Theme redColor];
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{kStandardTextSizeKey: @20}];
+    
+    NSURL *url = (NSURL *)[launchOptions valueForKey:UIApplicationLaunchOptionsURLKey];
+    if (url) {
+        [self loadFileAtUrl:url];
+    }
     
     return YES;
 }
@@ -54,6 +60,21 @@
 {
     // Saves changes in the application's managed object context before the application terminates.
     [self saveContext];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    [self loadFileAtUrl:url];
+    return YES;
+}
+
+- (void)loadFileAtUrl:(NSURL*)url
+{
+    if ([url isFileURL]) {
+        dispatch_async(dispatch_get_main_queue(), ^{            
+            [BookCodec importBook:url.filePathURL.path];
+        });
+    }
 }
 
 - (void)saveContext

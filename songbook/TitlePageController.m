@@ -7,7 +7,6 @@
 //
 
 #import "TitlePageController.h"
-#import "PageController+Private.h"
 
 @interface TitlePageController ()
 
