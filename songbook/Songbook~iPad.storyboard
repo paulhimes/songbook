@@ -61,6 +61,20 @@
                                 <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="jPt-PC-5sJ">
+                                    <rect key="frame" x="0.0" y="101" width="540" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DE4-lg-BJU">
+                                            <rect key="frame" x="20" y="11" width="500" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                </view>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BasicCell" textLabel="l5h-jl-ZnS" style="IBUITableViewCellStyleDefault" id="f5A-6J-kye">
                                         <rect key="frame" x="0.0" y="22" width="540" height="44"/>
@@ -137,6 +151,7 @@
                     <connections>
                         <outlet property="searchField" destination="hr1-Se-d29" id="yT8-hk-4Xi"/>
                         <outlet property="tableView" destination="Cgg-se-M4E" id="nJ9-G6-oFw"/>
+                        <outlet property="tokenizeProgressLabel" destination="DE4-lg-BJU" id="7EU-ge-xbN"/>
                         <outlet property="toolbar" destination="94X-qz-xle" id="Nzt-VN-d7L"/>
                         <segue destination="3kv-So-Xvb" kind="unwind" identifier="CancelSearch" unwindAction="searchCancelled:" id="0Fu-SH-tlP"/>
                     </connections>

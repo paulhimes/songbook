@@ -25,7 +25,6 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
 
 @property (nonatomic, strong) CoreDataStack *mainBookStack;
 @property (nonatomic, strong) NSOperationQueue *tokenizerOperationQueue;
-//@property (nonatomic, strong) id observerToken;
 
 @end
 
@@ -57,18 +56,6 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [Theme redColor];
-    
-//    self.observerToken = [[NSNotificationCenter defaultCenter] addObserverForName:kTokenizeProgressNotification
-//                                                                           object:nil
-//                                                                            queue:[NSOperationQueue mainQueue]
-//                                                                       usingBlock:^(NSNotification *note) {
-//                                                                           NSError *getBookError;
-//                                                                           Book *book = (Book *)[self.mainBookStack.managedObjectContext existingObjectWithID:note.userInfo[kBookIDKey] error:&getBookError];
-//                                                                           int complete = [note.userInfo[kCompletedSongCountKey] integerValue];
-//                                                                           int total = [note.userInfo[kTotalSongCountKey] integerValue];
-//                                                                           float percentComplete = (float)complete / (float)total;
-//                                                                           NSLog(@"Tokenizing %@: %d", book.title, (int)floor(percentComplete * 100));
-//                                                                       }];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -103,13 +90,6 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
 
     }
 }
-
-//- (void)dealloc
-//{
-//    if (self.observerToken) {
-//        [[NSNotificationCenter defaultCenter] removeObserver:self.observerToken];
-//    }
-//}
 
 - (BOOL)prefersStatusBarHidden
 {
