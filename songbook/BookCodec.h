@@ -11,7 +11,7 @@
 
 @interface BookCodec : NSObject
 
-+ (NSString *)exportBook;
-+ (void)importBook:(NSString *)filePath;
++ (NSURL *)exportBookFromContext:(NSManagedObjectContext *)context;
++ (void)importBookFromURL:(NSURL *)file intoContext:(NSManagedObjectContext *)context;
 
 @end

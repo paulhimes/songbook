@@ -11,7 +11,6 @@
 #import "Song+Helpers.h"
 #import "Section+Helpers.h"
 #import "Verse+Helpers.h"
-#import "AppDelegate.h"
 #import "TokenInstance.h"
 
 static NSString * const kTitleKey = @"title";
@@ -22,7 +21,7 @@ static NSString * const kHasChorusKey = @"hasChorus";
 
 @implementation BookParser
 
-+ (NSArray *)songsFromFilePath:(NSString *)path;
++ (NSArray *)songsFromFilePath:(NSString *)path intoContext:(NSManagedObjectContext *)context
 {
     NSMutableArray *songs = [@[] mutableCopy];
     
@@ -36,8 +35,6 @@ static NSString * const kHasChorusKey = @"hasChorus";
     
     NSArray *lines = [fileString componentsSeparatedByString:@"\n"];
     
-    NSManagedObjectContext *context = ((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext;
-
     __block Song *currentSong;
     __block Verse *currentChorus;
     

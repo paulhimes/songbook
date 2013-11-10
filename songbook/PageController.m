@@ -18,7 +18,7 @@ const float kMinimumStandardTextSize = 8;
 @interface PageController () <UIScrollViewDelegate, UIToolbarDelegate, MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) UIPinchGestureRecognizer *pinchGestureRecognizer;
-@property (nonatomic, strong) NSString *temporaryExportFilePath;
+@property (nonatomic, strong) NSURL *temporaryExportFile;
 
 @end
 
@@ -83,16 +83,16 @@ const float kMinimumStandardTextSize = 8;
 
 - (IBAction)exportAction:(UIButton *)sender
 {
-    self.temporaryExportFilePath = [BookCodec exportBook];
-    NSData *exportData = [NSData dataWithContentsOfFile:self.temporaryExportFilePath];
+    self.temporaryExportFile = [BookCodec exportBookFromContext:self.modelObject.managedObjectContext];
+    NSData *exportData = [NSData dataWithContentsOfURL:self.temporaryExportFile];
     
     // Email the file data.
     MFMailComposeViewController *mailController = [[MFMailComposeViewController alloc] init];
     mailController.mailComposeDelegate = self;
-    [mailController setSubject:[[self.temporaryExportFilePath lastPathComponent] stringByDeletingPathExtension]];
+    [mailController setSubject:[[self.temporaryExportFile lastPathComponent] stringByDeletingPathExtension]];
     [mailController addAttachmentData:exportData
                              mimeType:@"application/vnd.paulhimes.songbook.songbook"
-                             fileName:[self.temporaryExportFilePath lastPathComponent]];
+                             fileName:[self.temporaryExportFile lastPathComponent]];
     [self presentViewController:mailController animated:YES completion:^{}];
 }
 
@@ -103,11 +103,13 @@ const float kMinimumStandardTextSize = 8;
     [self dismissViewControllerAnimated:YES completion:^{}];
     
     // Delete the temporary file.
-    if ([self.temporaryExportFilePath length] > 0) {
+    if (self.temporaryExportFile) {
         NSError *deleteError;
-        [[NSFileManager defaultManager] removeItemAtPath:self.temporaryExportFilePath error:&deleteError];
+        if (![[NSFileManager defaultManager] removeItemAtURL:self.temporaryExportFile error:&deleteError]) {
+            NSLog(@"Failed to delete temporary export file: %@", deleteError);
+        }
     }
-    self.temporaryExportFilePath = nil;
+    self.temporaryExportFile = nil;
 
 }
 

@@ -57,4 +57,12 @@
     return results;
 }
 
+// Tokens should get automatically deleted when they no longer have any instances.
+- (void)willSave
+{
+    if (!self.isDeleted && [self.instances count] == 0) {
+        [self.managedObjectContext deleteObject:self];
+    }
+}
+
 @end

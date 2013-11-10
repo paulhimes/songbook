@@ -43,7 +43,7 @@
                             insertIntoManagedObjectContext:context];
 }
 
-+ (NSArray *)allBooksInContext:(NSManagedObjectContext *)context
++ (Book *)bookFromContext:(NSManagedObjectContext *)context
 {
     NSError *fetchError;
     
@@ -53,7 +53,10 @@
     // Fetch the results.
     NSArray *results = [context executeFetchRequest:fetchRequest error:&fetchError];
     
-    return results;
+    //  Get the first book.
+    Book *book = [results firstObject];
+    
+    return book;
 }
 
 - (NSManagedObject *)nextObject

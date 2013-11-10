@@ -8,8 +8,6 @@
 
 #import "PageViewController.h"
 #import "SongbookModel.h"
-#import "AppDelegate.h"
-#import "DataModelTests.h"
 #import "Book+Helpers.h"
 #import "SearchViewController.h"
 #import "SplitViewController.h"
@@ -36,13 +34,11 @@
 //    [self.view setDebugColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:0.5]];
     self.dataSource = self.pageServer;
     
-    NSManagedObjectContext *context = ((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext;
-    [DataModelTests populateSampleDataInContext:context];
+    if (!self.book) {
+        self.book = self.splitController.userData;
+    }
     
-    NSArray *books = [Book allBooksInContext:context];
-    Book *book = [books firstObject];
-    
-    [self setViewControllers:@[[self.pageServer pageControllerForModelObject:book
+    [self setViewControllers:@[[self.pageServer pageControllerForModelObject:self.book
                                                           pageViewController:self]]
                                  direction:UIPageViewControllerNavigationDirectionForward
                                   animated:NO

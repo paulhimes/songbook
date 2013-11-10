@@ -20,13 +20,13 @@
     NSTimeInterval startTime = [[NSDate date] timeIntervalSince1970];
     
     // First check if data has already been populated.
-    NSArray *books = [Book allBooksInContext:context];
-    if ([books count] > 0) {
+    Book *book = [Book bookFromContext:context];
+    if (book) {
         return;
     }
     
     // Create the book.
-    Book *book = [Book newOrExistingBookTitled:@"Songs & Hymns of Believers" inContext:context];
+    book = [Book newOrExistingBookTitled:@"Songs & Hymns of Believers" inContext:context];
     
     // Create the sections.
     Section *songsSection = [Section newOrExistingSectionTitled:@"Songs of Believers" inBook:book];
@@ -34,7 +34,7 @@
     Section *hymnSection = [Section newOrExistingSectionTitled:@"Hymns of Believers" inBook:book];
 
     // Create the songs.
-    NSArray *songs = [BookParser songsFromFilePath:[[NSBundle mainBundle] pathForResource:@"songs" ofType:@"txt"]];
+    NSArray *songs = [BookParser songsFromFilePath:[[NSBundle mainBundle] pathForResource:@"songs" ofType:@"txt"] intoContext:context];
     Song *song41;
     for (Song *song in songs) {
         song.section = songsSection;
@@ -45,7 +45,7 @@
     }
     
     // Create the Finn Songs
-    NSArray *finnSongs = [BookParser songsFromFilePath:[[NSBundle mainBundle] pathForResource:@"afewfinnsongs" ofType:@"txt"]];
+    NSArray *finnSongs = [BookParser songsFromFilePath:[[NSBundle mainBundle] pathForResource:@"afewfinnsongs" ofType:@"txt"] intoContext:context];
     for (Song *song in finnSongs) {
         song.section = finnSection;
         
@@ -56,7 +56,7 @@
     }
     
     // Create the Hymns
-    NSArray *hymns = [BookParser songsFromFilePath:[[NSBundle mainBundle] pathForResource:@"hymns" ofType:@"txt"]];
+    NSArray *hymns = [BookParser songsFromFilePath:[[NSBundle mainBundle] pathForResource:@"hymns" ofType:@"txt"] intoContext:context];
     for (Song *hymn in hymns) {
         hymn.section = hymnSection;
     }

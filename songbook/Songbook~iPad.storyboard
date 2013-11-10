@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="13A598" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="jrp-vl-Nww">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="13A598" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="Igp-1z-ufN">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
@@ -31,6 +31,7 @@
                         </subviews>
                         <color key="backgroundColor" red="0.78431372549019607" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
+                    <navigationItem key="navigationItem" id="plb-KR-U3l"/>
                     <connections>
                         <outlet property="detailContainer" destination="REn-G0-DO6" id="pgu-KW-nHN"/>
                         <outlet property="masterContainer" destination="Mye-XC-Rdy" id="t94-yy-pgf"/>
@@ -295,6 +296,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0D8-Gk-BsP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-396" y="279"/>
+        </scene>
+        <!--Book Manager View Controller-->
+        <scene sceneID="lGX-rq-shv">
+            <objects>
+                <viewController id="Igp-1z-ufN" customClass="BookManagerViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YFS-7C-uPM">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </view>
+                    <connections>
+                        <segue destination="jrp-vl-Nww" kind="modal" identifier="OpenBook" animates="NO" id="2eP-Qa-BaT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sjY-qD-UkH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2375" y="-920"/>
         </scene>
     </scenes>
     <resources>

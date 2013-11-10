@@ -11,7 +11,7 @@
 
 @interface BookParser : NSObject
 
-+ (NSArray *)songsFromFilePath:(NSString *)path;
++ (NSArray *)songsFromFilePath:(NSString *)path intoContext:(NSManagedObjectContext *)context;
 
 
 @end

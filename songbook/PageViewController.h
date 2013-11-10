@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Song.h"
+#import "Book.h"
 #import "PageServer.h"
 
 @interface PageViewController : UIPageViewController
 
 @property (nonatomic, strong) PageServer *pageServer;
+@property (nonatomic, strong) Book *book;
 
 - (void)showPageForModelObject:(NSManagedObject *)modelObject
                 highlightRange:(NSRange)highlightRange

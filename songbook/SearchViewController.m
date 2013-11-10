@@ -13,6 +13,7 @@
 #import "SmartSearcher.h"
 #import "SearchOperation.h"
 #import "SearchTableDataSource.h"
+#import "TokenizeOperation.h"
 
 NSString * const kPreferredSearchMethodKey = @"PreferredSearchMethodKey";
 
@@ -30,6 +31,9 @@ typedef enum PreferredSearchMethod : NSUInteger {
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (weak, nonatomic) IBOutlet UITextField *searchField;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+
+@property (weak, nonatomic) IBOutlet UILabel *tokenizeProgressLabel;
+@property (nonatomic, strong) id observerToken;
 
 @end
 
@@ -75,6 +79,21 @@ typedef enum PreferredSearchMethod : NSUInteger {
     
     self.searchField.rightView = self.activityIndicator;
     self.searchField.rightViewMode = UITextFieldViewModeAlways;
+    
+    self.observerToken = [[NSNotificationCenter defaultCenter] addObserverForName:kTokenizeProgressNotification
+                                                                           object:nil
+                                                                            queue:[NSOperationQueue mainQueue]
+                                                                       usingBlock:^(NSNotification *note) {
+                                                                           int complete = [note.userInfo[kCompletedSongCountKey] integerValue];
+                                                                           int total = [note.userInfo[kTotalSongCountKey] integerValue];
+                                                                           int percentComplete = (int)floor((float)complete / (float)total * 100);
+                                                                           self.tokenizeProgressLabel.text = [NSString stringWithFormat:@"%d%%", percentComplete];
+                                                                           
+                                                                           if (percentComplete >= 100) {
+                                                                               self.tokenizeProgressLabel.text = @"";
+                                                                               [self searchFieldEditingChanged:self.searchField];
+                                                                           }
+                                                                       }];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -131,6 +150,13 @@ typedef enum PreferredSearchMethod : NSUInteger {
     }
 }
 
+- (void)dealloc
+{
+    if (self.observerToken) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self.observerToken];
+    }
+}
+
 #pragma mark - UISearchBarDelegate
 
 - (IBAction)searchFieldEditingChanged:(UITextField *)sender {
@@ -171,7 +197,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
                 [weakSelf updateDataSourceWithTableModel:tableModel];
                 [weakSelf.tableView reloadData];
                 
-                [weakSelf.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:NSNotFound inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+//                [weakSelf.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:NSNotFound inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
                 
                 [self.activityIndicator stopAnimating];
             });

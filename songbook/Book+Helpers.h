@@ -13,6 +13,6 @@
 
 + (Book *)newOrExistingBookTitled:(NSString *)title inContext:(NSManagedObjectContext *)context;
 + (Book *)bookInContext:(NSManagedObjectContext *)context;
-+ (NSArray *)allBooksInContext:(NSManagedObjectContext *)context;
++ (Book *)bookFromContext:(NSManagedObjectContext *)context;
 
 @end

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="13A598" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="POr-aa-yjp">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="13A598" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="IJS-i7-pDq">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
@@ -91,6 +91,19 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="12p-H6-Z8U">
+                                    <rect key="frame" x="0.0" y="101" width="320" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mIU-UB-beS">
+                                            <rect key="frame" x="20" y="11" width="280" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                </view>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BasicCell" textLabel="Vle-5w-nYj" style="IBUITableViewCellStyleDefault" id="KYi-nl-Rrf">
                                         <rect key="frame" x="0.0" y="22" width="320" height="44"/>
@@ -179,6 +192,7 @@
                         <outlet property="cancelButton" destination="xcf-7d-OfK" id="HUd-yn-yaE"/>
                         <outlet property="searchField" destination="hfi-dn-jY1" id="7gw-0b-oij"/>
                         <outlet property="tableView" destination="u1p-hu-jw2" id="6pz-qS-Rdl"/>
+                        <outlet property="tokenizeProgressLabel" destination="mIU-UB-beS" id="WkU-lU-Cda"/>
                         <outlet property="toolbar" destination="bNw-CF-E5Q" id="yyR-lu-faf"/>
                         <segue destination="Jgd-il-Zoj" kind="unwind" identifier="CancelSearch" unwindAction="searchCancelled:" id="mA3-Y2-tE9"/>
                     </connections>
@@ -187,6 +201,22 @@
                 <exit id="Jgd-il-Zoj" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-297" y="812"/>
+        </scene>
+        <!--Book Manager View Controller-->
+        <scene sceneID="sOI-yA-X9q">
+            <objects>
+                <viewController id="IJS-i7-pDq" customClass="BookManagerViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="FCZ-0B-DnX">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </view>
+                    <connections>
+                        <segue destination="POr-aa-yjp" kind="modal" identifier="OpenBook" animates="NO" id="wWd-2v-8Me"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YnA-el-Ntl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1191" y="812"/>
         </scene>
         <!--Book Page Controller-->
         <scene sceneID="WJe-PV-CjR">

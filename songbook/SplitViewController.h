@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Book.h"
 
 @interface SplitViewController : UIViewController
 
 @property (nonatomic, readonly) UIViewController *master;
 @property (nonatomic, readonly) UIViewController *detail;
 @property (nonatomic) BOOL masterHidden;
+@property (nonatomic, strong) id userData;
 
 @end
 
