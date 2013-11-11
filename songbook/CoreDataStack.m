@@ -33,11 +33,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [self stopSaveNotification];
-}
-
 - (NSManagedObjectContext *)managedObjectContext
 {
     if (_managedObjectContext != nil)
@@ -52,8 +47,6 @@
         [_managedObjectContext setPersistentStoreCoordinator:coordinator];
         _managedObjectContext.undoManager = nil;
     }
-    
-    [self setupSaveNotification];
     
     return _managedObjectContext;
 }
@@ -88,28 +81,6 @@
     }
     
     return _persistentStoreCoordinator;
-}
-
-- (void)setupSaveNotification
-{
-    self.observerToken = [[NSNotificationCenter defaultCenter] addObserverForName:NSManagedObjectContextDidSaveNotification
-                                                                           object:nil
-                                                                            queue:nil
-                                                                       usingBlock:^(NSNotification* note) {
-                                                                           NSManagedObjectContext *moc = self.managedObjectContext;
-                                                                           if (note.object != moc) {
-                                                                               [moc performBlock:^(){
-                                                                                   [moc mergeChangesFromContextDidSaveNotification:note];
-                                                                               }];
-                                                                           }
-                                                                       }];
-}
-
-- (void)stopSaveNotification
-{
-    if (self.observerToken) {
-        [[NSNotificationCenter defaultCenter] removeObserver:self.observerToken];
-    }
 }
 
 @end

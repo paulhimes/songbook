@@ -15,6 +15,7 @@ NSString * const kTokenizeProgressNotification = @"TokenizeProgressNotification"
 NSString * const kBookIDKey = @"BookIDKey";
 NSString * const kCompletedSongCountKey = @"CompletedSongCountKey";
 NSString * const kTotalSongCountKey = @"TotalSongCountKey";
+NSUInteger const kBatchSize = 5;
 
 @interface TokenizeOperation ()
 
@@ -38,88 +39,96 @@ NSString * const kTotalSongCountKey = @"TotalSongCountKey";
 
 - (void)main
 {
-    [self.context performBlockAndWait:^
-    {
-        [self tokenizeBook];
-    }];
+    @autoreleasepool {
+        [self.context performBlockAndWait:^
+         {
+             [self tokenizeBook];
+         }];
+    }
 }
 
 - (void)tokenizeBook
 {
+    NSTimeInterval startTime = [[NSDate date] timeIntervalSince1970];
+    
     NSError *getBookError;
     Book *book = (Book *)[self.context existingObjectWithID:self.bookID error:&getBookError];
     
     if (book) {
-        [self.context performBlockAndWait:^{
-            // Tokenize the songs.
-            NSCache *tokenCache = [[NSCache alloc] init];
-            NSMutableArray *unsavedSongs = [@[] mutableCopy];
-            
-            NSUInteger completedSongCount = 0;
-            NSUInteger totalSongCount = 0;
-            for (Section *section in book.sections) {
-                totalSongCount += [section.songs count];
+        // Tokenize the songs.
+        NSCache *tokenCache = [[NSCache alloc] init];
+        [tokenCache setCountLimit:1000];
+        NSMutableArray *unsavedSongs = [@[] mutableCopy];
+        
+        NSUInteger completedSongCount = 0;
+        NSUInteger totalSongCount = 0;
+        for (Section *section in book.sections) {
+            totalSongCount += [section.songs count];
+        }
+        
+        for (Section *section in book.sections) {
+            if (self.isCancelled) {
+                break;
             }
-            
-            for (Section *section in book.sections) {
+            for (Song *song in section.songs) {
                 if (self.isCancelled) {
                     break;
                 }
-                for (Song *song in section.songs) {
-                    if (self.isCancelled) {
-                        break;
-                    }
+                
+                // Check if the song already has tokens and should therefore, not be tokenized.
+                if ([song.tokenInstances count] == 0) {
                     
+                    // Notify observers that we are about to start/resume tokenization.
                     [[NSNotificationCenter defaultCenter] postNotificationName:kTokenizeProgressNotification
                                                                         object:self
                                                                       userInfo:@{kBookIDKey: book.objectID,
                                                                                  kCompletedSongCountKey: @(completedSongCount),
                                                                                  kTotalSongCountKey: @(totalSongCount)}];
                     
-                    // Check if the song already has tokens and should therefore, not be tokenized.
-                    if ([song.tokenInstances count] == 0) {
-                        @autoreleasepool {
-                            [song generateSearchTokensWithCache:tokenCache];
-                            NSLog(@"Tokenized: %@", [song headerString]);
-                            
-                            [unsavedSongs addObject:song];
-                            
-                            if ([unsavedSongs count] > 5) {
-                                NSError *error;
-                                if (![self.context save:&error]) {
-                                    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-                                }
-                                
-                                for (Song *song in unsavedSongs) {
-                                    // Clear the song (along with all it's tokens and token instances)
-                                    [song clearCachedSong];
-                                }
-                                
-                                [unsavedSongs removeAllObjects];
+                    @autoreleasepool {
+                        [song generateSearchTokensWithCache:tokenCache];
+                        NSLog(@"Tokenized: %@", [song headerString]);
+                        
+                        [unsavedSongs addObject:song];
+                        
+                        if ([unsavedSongs count] >= kBatchSize) {
+                            NSError *error;
+                            if (![self.context save:&error]) {
+                                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
                             }
+                            
+                            for (Song *song in unsavedSongs) {
+                                // Clear the song (along with all it's tokens and token instances)
+                                [song clearCachedSong];
+                            }
+                            
+                            [unsavedSongs removeAllObjects];
                         }
                     }
-                    
-                    completedSongCount++;
                 }
+                
+                completedSongCount++;
             }
-            
-            // One last save.
-            NSError *error;
-            if (![self.context save:&error]) {
-                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            }
-            
-            if (completedSongCount == totalSongCount) {
-                // Notify the observers that the tokenization process has completed.
-                [[NSNotificationCenter defaultCenter] postNotificationName:kTokenizeProgressNotification
-                                                                    object:self
-                                                                  userInfo:@{kBookIDKey: book.objectID,
-                                                                             kCompletedSongCountKey: @(completedSongCount),
-                                                                             kTotalSongCountKey: @(totalSongCount)}];
-            }
-        }];
+        }
+        
+        // One last save.
+        NSError *error;
+        if (![self.context save:&error]) {
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        }
+        
+        if (completedSongCount == totalSongCount) {
+            // Notify the observers that the tokenization process has completed.
+            [[NSNotificationCenter defaultCenter] postNotificationName:kTokenizeProgressNotification
+                                                                object:self
+                                                              userInfo:@{kBookIDKey: book.objectID,
+                                                                         kCompletedSongCountKey: @(completedSongCount),
+                                                                         kTotalSongCountKey: @(totalSongCount)}];
+        }
     }
+    
+    NSTimeInterval endTime = [[NSDate date] timeIntervalSince1970];
+    NSLog(@"Tokenization took %f seconds.", endTime - startTime);
 }
 
 @end
