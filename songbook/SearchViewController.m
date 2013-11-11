@@ -204,12 +204,12 @@ typedef enum PreferredSearchMethod : NSUInteger {
         if (!weakOperation.isCancelled && weakOperation.tableModel) {
             SearchTableModel *tableModel = weakOperation.tableModel;
             
-            dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 NSLog(@"search operation completed");
                 [weakSelf updateDataSourceWithTableModel:tableModel];
                 [weakSelf.tableView reloadData];
                 [weakSelf.activityIndicator stopAnimating];
-            });
+            }];
         }
     }];
     
