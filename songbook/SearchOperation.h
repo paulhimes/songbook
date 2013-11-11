@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "SearchTableModel.h"
+#import "Book.h"
 
 @interface SearchOperation : NSOperation
 
 @property (nonatomic, readonly) SearchTableModel *tableModel;
 
-- initWithSearchString:(NSString *)searchString
-                bookID:(NSManagedObjectID *)bookID
-      storeCoordinator:(NSPersistentStoreCoordinator *)storeCoordinator;
+- (instancetype)initWithSearchString:(NSString *)searchString
+                                book:(Book *)book;
 
 @end

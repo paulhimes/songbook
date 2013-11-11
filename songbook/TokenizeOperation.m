@@ -65,6 +65,7 @@ NSUInteger const kBatchSize = 5;
         for (Section *section in book.sections) {
             totalSongCount += [section.songs count];
         }
+        BOOL aSongWasTokenized = NO;
         
         for (Section *section in book.sections) {
             if (self.isCancelled) {
@@ -77,7 +78,6 @@ NSUInteger const kBatchSize = 5;
                 
                 // Check if the song already has tokens and should therefore, not be tokenized.
                 if ([song.tokenInstances count] == 0) {
-                    
                     // Notify observers that we are about to start/resume tokenization.
                     [[NSNotificationCenter defaultCenter] postNotificationName:kTokenizeProgressNotification
                                                                         object:self
@@ -105,6 +105,8 @@ NSUInteger const kBatchSize = 5;
                             [unsavedSongs removeAllObjects];
                         }
                     }
+                    
+                    aSongWasTokenized = YES;
                 }
                 
                 completedSongCount++;
@@ -117,7 +119,7 @@ NSUInteger const kBatchSize = 5;
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         }
         
-        if (completedSongCount == totalSongCount) {
+        if (completedSongCount == totalSongCount && aSongWasTokenized) {
             // Notify the observers that the tokenization process has completed.
             [[NSNotificationCenter defaultCenter] postNotificationName:kTokenizeProgressNotification
                                                                 object:self

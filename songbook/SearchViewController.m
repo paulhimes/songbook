@@ -33,6 +33,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 
 @property (weak, nonatomic) IBOutlet UILabel *tokenizeProgressLabel;
+@property (nonatomic) NSUInteger latestTokenizePercentComplete;
 @property (nonatomic, strong) id observerToken;
 
 @end
@@ -80,6 +81,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
     self.searchField.rightView = self.activityIndicator;
     self.searchField.rightViewMode = UITextFieldViewModeAlways;
     
+    __weak SearchViewController *weakSelf = self;
     self.observerToken = [[NSNotificationCenter defaultCenter] addObserverForName:kTokenizeProgressNotification
                                                                            object:nil
                                                                             queue:[NSOperationQueue mainQueue]
@@ -87,11 +89,23 @@ typedef enum PreferredSearchMethod : NSUInteger {
                                                                            int complete = [note.userInfo[kCompletedSongCountKey] integerValue];
                                                                            int total = [note.userInfo[kTotalSongCountKey] integerValue];
                                                                            int percentComplete = (int)floor((float)complete / (float)total * 100);
-                                                                           self.tokenizeProgressLabel.text = [NSString stringWithFormat:@"%d%%", percentComplete];
                                                                            
-                                                                           if (percentComplete >= 100) {
-                                                                               self.tokenizeProgressLabel.text = @"";
-                                                                               [self searchFieldEditingChanged:self.searchField];
+                                                                           // Only respond once per whole integer percent value.
+                                                                           if (percentComplete > weakSelf.latestTokenizePercentComplete) {
+                                                                               weakSelf.latestTokenizePercentComplete = percentComplete;
+                                                                               if (percentComplete >= 100) {
+                                                                                   // Clear the progress message.
+                                                                                   weakSelf.tokenizeProgressLabel.text = @"";
+                                                                                   weakSelf.latestTokenizePercentComplete = 0;
+                                                                               } else {
+                                                                                   // Update the progress message.
+                                                                                   weakSelf.tokenizeProgressLabel.text = [NSString stringWithFormat:@"%d%%", percentComplete];
+                                                                               }
+                                                                               
+                                                                               // Refresh the search to see if new matches are available.
+                                                                               if (percentComplete % 5 == 0 || percentComplete >= 100) {
+                                                                                   [weakSelf searchFieldEditingChanged:weakSelf.searchField];
+                                                                               }
                                                                            }
                                                                        }];
 }
@@ -183,12 +197,10 @@ typedef enum PreferredSearchMethod : NSUInteger {
     [userDefaults synchronize];
     
     SearchOperation *operation = [[SearchOperation alloc] initWithSearchString:searchText
-                                                                        bookID:self.currentSong.section.book.objectID
-                                                              storeCoordinator:self.currentSong.managedObjectContext.persistentStoreCoordinator];
+                                                                          book:self.currentSong.section.book];
     __weak SearchOperation *weakOperation = operation;
     __weak SearchViewController *weakSelf = self;
     [operation setCompletionBlock:^{
-        
         if (!weakOperation.isCancelled && weakOperation.tableModel) {
             SearchTableModel *tableModel = weakOperation.tableModel;
             
@@ -196,10 +208,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
                 NSLog(@"search operation completed");
                 [weakSelf updateDataSourceWithTableModel:tableModel];
                 [weakSelf.tableView reloadData];
-                
-//                [weakSelf.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:NSNotFound inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-                
-                [self.activityIndicator stopAnimating];
+                [weakSelf.activityIndicator stopAnimating];
             });
         }
     }];
