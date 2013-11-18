@@ -10,13 +10,21 @@
 #import "Book.h"
 #import "PageServer.h"
 
-@interface PageViewController : UIPageViewController
+@protocol PageViewControllerDelegate;
+
+@interface PageViewController : UIPageViewController <UIViewControllerRestoration>
 
 @property (nonatomic, strong) PageServer *pageServer;
-@property (nonatomic, strong) Book *book;
+@property (nonatomic, weak) id<PageViewControllerDelegate> bookDelegate;
 
 - (void)showPageForModelObject:(NSManagedObject *)modelObject
                 highlightRange:(NSRange)highlightRange
                       animated:(BOOL)animated;
+
+@end
+
+@protocol PageViewControllerDelegate <NSObject>
+
+- (Book *)book;
 
 @end

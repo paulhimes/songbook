@@ -14,7 +14,7 @@
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
     [Crashlytics startWithAPIKey:@"9be265b58168dc66ff492f601ff87ed72389455f"];
@@ -22,10 +22,10 @@
     self.window.tintColor = [Theme redColor];
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{kStandardTextSizeKey: @20}];
-
-    if ([launchOptions objectForKey:UIApplicationLaunchOptionsURLKey]) {
-        [self handoffImportFile:(NSURL *)[launchOptions valueForKey:UIApplicationLaunchOptionsURLKey]];
-    }
+    
+//    if ([launchOptions objectForKey:UIApplicationLaunchOptionsURLKey]) {
+//        [self handoffImportFile:(NSURL *)[launchOptions valueForKey:UIApplicationLaunchOptionsURLKey]];
+//    }
     
     return YES;
 }
@@ -55,6 +55,16 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Saves changes in the application's managed object context before the application terminates.
+}
+
+- (BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder
+{
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder
+{
+    return YES;
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation

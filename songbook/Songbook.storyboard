@@ -7,7 +7,7 @@
         <!--Page View Controller-->
         <scene sceneID="Ld7-ZR-Ec3">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="POr-aa-yjp" customClass="PageViewController" sceneMemberID="viewController">
+                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="POr-aa-yjp" customClass="PageViewController" sceneMemberID="viewController">
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <segue destination="f4X-As-1jE" kind="modal" identifier="Search" modalTransitionStyle="coverVertical" id="asP-vy-M3W"/>
@@ -82,7 +82,7 @@
         <!--Search View Controller-->
         <scene sceneID="yEf-xi-KhH">
             <objects>
-                <viewController id="f4X-As-1jE" customClass="SearchViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SearchViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="f4X-As-1jE" customClass="SearchViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4pJ-jI-2fB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -205,13 +205,25 @@
         <!--Book Manager View Controller-->
         <scene sceneID="sOI-yA-X9q">
             <objects>
-                <viewController id="IJS-i7-pDq" customClass="BookManagerViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BookManager" useStoryboardIdentifierAsRestorationIdentifier="YES" id="IJS-i7-pDq" customClass="BookManagerViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FCZ-0B-DnX">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="kso-gM-LeA">
+                                <rect key="frame" x="137" y="269" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="openBook:" destination="IJS-i7-pDq" eventType="touchUpInside" id="05h-VX-pAI"/>
+                                </connections>
+                            </button>
+                        </subviews>
                     </view>
                     <connections>
-                        <segue destination="POr-aa-yjp" kind="modal" identifier="OpenBook" animates="NO" id="wWd-2v-8Me"/>
+                        <segue destination="POr-aa-yjp" kind="modal" identifier="OpenBook" id="wWd-2v-8Me"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YnA-el-Ntl" userLabel="First Responder" sceneMemberID="firstResponder"/>

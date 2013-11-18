@@ -21,7 +21,7 @@ NSString * const kTemporaryDatabaseDirectoryName = @"temporaryBook";
 NSString * const kMainDatabaseDirectoryName = @"mainBook";
 NSString * const kBookDatabaseFileName = @"book.sqlite";
 
-@interface BookManagerViewController ()
+@interface BookManagerViewController () <PageViewControllerDelegate>
 
 @property (nonatomic, strong) CoreDataStack *mainBookStack;
 @property (nonatomic, strong) NSOperationQueue *tokenizerOperationQueue;
@@ -63,29 +63,31 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
     [super viewDidAppear:animated];
     
     if (self.importFileURL && [self.importFileURL isFileURL]) {
-        [self loadBookFromFileURL:self.importFileURL];
+        [self loadBookFromFileURL:self.importFileURL andCleanup:YES];
     } else {
         [self loadDefaultBookIfNeeded];
     }
     self.importFileURL = nil;
+    
+//    // Check if the main book is ready to open.
+//    Book *book = [Book bookFromContext:self.mainBookStack.managedObjectContext];
+//    if (book) {
+//        [self performSegueWithIdentifier:@"OpenBook" sender:nil];
+//    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"OpenBook"]) {
-        Book *book = [Book bookFromContext:self.mainBookStack.managedObjectContext];
-        
-        // Begin tokenizing any untokenized songs in this book.
-        [self tokenizeBook:book];
         
         if ([segue.destinationViewController isKindOfClass:[PageViewController class]]) {
             // iPhone
             PageViewController *pageViewController = (PageViewController *)segue.destinationViewController;
-            pageViewController.book = book;
+            pageViewController.bookDelegate = self;
         } else if ([segue.destinationViewController isKindOfClass:[SplitViewController class]]) {
             // iPad
-            SplitViewController *splitViewController = (SplitViewController *)segue.destinationViewController;
-            splitViewController.userData = book;
+//            SplitViewController *splitViewController = (SplitViewController *)segue.destinationViewController;
+//            splitViewController.userData = book;
         }
 
     }
@@ -95,10 +97,7 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
 {
     return YES;
 }
-
-#pragma mark - Book management
-
-- (void)openBook
+- (IBAction)openBook:(id)sender
 {
     // Check if the main book is ready to open.
     Book *book = [Book bookFromContext:self.mainBookStack.managedObjectContext];
@@ -107,8 +106,11 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
     }
 }
 
+#pragma mark - Book management
+
 - (void)loadDefaultBookIfNeeded
 {
+    // Create the main book directory if it doesn't already exist.
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if (![fileManager fileExistsAtPath:[self mainBookDirectory].path]) {
         NSError *createError;
@@ -122,13 +124,11 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
     // Load the inital data, if there are no books in the main book file.
     Book *book = [Book bookFromContext:self.mainBookStack.managedObjectContext];
     if (!book) {
-        [self loadBookFromFileURL:[[NSBundle mainBundle] URLForResource:@"Songs & Hymns of Believers" withExtension:@"songbook"]];
-    } else {
-        [self openBook];
+        [self loadBookFromFileURL:[[NSBundle mainBundle] URLForResource:@"Songs & Hymns of Believers" withExtension:@"songbook"] andCleanup:NO];
     }
 }
 
-- (void)loadBookFromFileURL:(NSURL *)fileURL
+- (void)loadBookFromFileURL:(NSURL *)fileURL andCleanup:(BOOL)deleteFile
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if (![fileManager fileExistsAtPath:fileURL.path]) {
@@ -157,10 +157,12 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
     NSManagedObjectContext *temporaryContext = temporaryBookStack.managedObjectContext;
     [BookCodec importBookFromURL:fileURL intoContext:temporaryContext];
     
-    // Delete the import file. It is no longer needed.
-    NSError *deleteError;
-    if (![fileManager removeItemAtURL:fileURL error:&deleteError]) {
-        NSLog(@"Failed to delete the import file: %@", deleteError);
+    if (deleteFile) {
+        // Delete the import file. It is no longer needed.
+        NSError *deleteError;
+        if (![fileManager removeItemAtURL:fileURL error:&deleteError]) {
+            NSLog(@"Failed to delete the import file: %@", deleteError);
+        }
     }
     
     // Replace the main book database directory with the temporary database directory.
@@ -179,9 +181,6 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
         // Delete the temporary directory.
         [self deleteTemporaryDirectory];
     }
-
-    // Open the book.
-    [self openBook];
 }
 
 - (void)tokenizeBook:(Book *)book
@@ -223,6 +222,18 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
             NSLog(@"Deleted temporary directory at: %@", temporaryDirectory);
         }
     }
+}
+
+#pragma mark - PageViewControllerDelegate
+
+- (Book *)book
+{
+    Book *book = [Book bookFromContext:self.mainBookStack.managedObjectContext];
+    
+    // Begin tokenizing any untokenized songs in this book.
+    [self tokenizeBook:book];
+    
+    return book;
 }
 
 @end
