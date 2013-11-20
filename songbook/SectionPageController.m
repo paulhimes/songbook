@@ -11,6 +11,7 @@
 @interface SectionPageController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *searchButton;
+@property (nonatomic, readonly) Section *section;
 
 @end
 
@@ -29,6 +30,17 @@
 - (NSManagedObject *)modelObject
 {
     return self.section;
+}
+
+- (Section *)section
+{
+    Section *section;
+    NSError *getSectionError;
+    NSManagedObject *managedObject = [self.coreDataStack.managedObjectContext existingObjectWithID:self.modelID error:&getSectionError];
+    if ([managedObject isKindOfClass:[Section class]]) {
+        section = (Section *)managedObject;
+    }
+    return section;
 }
 
 - (NSAttributedString *)text

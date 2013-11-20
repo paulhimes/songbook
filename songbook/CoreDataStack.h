@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface CoreDataStack : NSObject
+@interface CoreDataStack : NSObject <UIStateRestoring>
 
 @property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
 

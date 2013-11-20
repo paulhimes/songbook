@@ -11,6 +11,4 @@
 
 @interface BookPageController : TitlePageController
 
-@property (nonatomic, strong) Book *book;
-
 @end

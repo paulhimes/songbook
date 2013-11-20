@@ -12,6 +12,4 @@
 
 @interface SongPageController : PageController
 
-@property (nonatomic, strong) Song *song;
-
 @end

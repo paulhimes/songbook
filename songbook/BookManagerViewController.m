@@ -21,7 +21,7 @@ NSString * const kTemporaryDatabaseDirectoryName = @"temporaryBook";
 NSString * const kMainDatabaseDirectoryName = @"mainBook";
 NSString * const kBookDatabaseFileName = @"book.sqlite";
 
-@interface BookManagerViewController () <PageViewControllerDelegate>
+@interface BookManagerViewController ()
 
 @property (nonatomic, strong) CoreDataStack *mainBookStack;
 @property (nonatomic, strong) NSOperationQueue *tokenizerOperationQueue;
@@ -45,6 +45,7 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
         NSURL *directory = [self mainBookDirectory];
         NSURL *file = [directory URLByAppendingPathComponent:kBookDatabaseFileName];
         _mainBookStack = [[CoreDataStack alloc] initWithFileURL:file concurrencyType:NSMainQueueConcurrencyType];
+        [UIApplication registerObjectForStateRestoration:_mainBookStack restorationIdentifier:@"mainBookStack"];
     }
     return _mainBookStack;
 }
@@ -83,7 +84,7 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
         if ([segue.destinationViewController isKindOfClass:[PageViewController class]]) {
             // iPhone
             PageViewController *pageViewController = (PageViewController *)segue.destinationViewController;
-            pageViewController.bookDelegate = self;
+            pageViewController.coreDataStack = self.mainBookStack;
         } else if ([segue.destinationViewController isKindOfClass:[SplitViewController class]]) {
             // iPad
 //            SplitViewController *splitViewController = (SplitViewController *)segue.destinationViewController;
@@ -91,6 +92,13 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
         }
 
     }
+}
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super encodeRestorableStateWithCoder:coder];
+    
+    [coder encodeObject:self.mainBookStack forKey:@"mainBookStack"];
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -102,6 +110,9 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
     // Check if the main book is ready to open.
     Book *book = [Book bookFromContext:self.mainBookStack.managedObjectContext];
     if (book) {
+        // Begin tokenizing any untokenized songs in this book.
+        [self tokenizeBook:book];
+        
         [self performSegueWithIdentifier:@"OpenBook" sender:nil];
     }
 }
@@ -222,18 +233,6 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
             NSLog(@"Deleted temporary directory at: %@", temporaryDirectory);
         }
     }
-}
-
-#pragma mark - PageViewControllerDelegate
-
-- (Book *)book
-{
-    Book *book = [Book bookFromContext:self.mainBookStack.managedObjectContext];
-    
-    // Begin tokenizing any untokenized songs in this book.
-    [self tokenizeBook:book];
-    
-    return book;
 }
 
 @end

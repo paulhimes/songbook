@@ -11,6 +11,4 @@
 
 @interface SectionPageController : TitlePageController
 
-@property (nonatomic, strong) Section *section;
-
 @end

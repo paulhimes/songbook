@@ -27,13 +27,10 @@
 {
     PageController *before = nil;
     
-    if ([viewController isKindOfClass:[SectionPageController class]]) {
-        Section *section = [(SectionPageController *)viewController section];
-        before = [self pageControllerForModelObject:[section previousObject]
-                                 pageViewController:(UIPageViewController<PageControllerDelegate> *)pageViewController];
-    } else if ([viewController isKindOfClass:[SongPageController class]]) {
-        Song *song = [(SongPageController *)viewController song];
-        before = [self pageControllerForModelObject:[song previousObject]
+    if ([viewController isKindOfClass:[PageController class]]) {
+        PageController *pageController = (PageController *)viewController;
+        id<SongbookModel> songbookModel = pageController.modelObject;
+        before = [self pageControllerForModelObject:[songbookModel previousObject]
                                  pageViewController:(UIPageViewController<PageControllerDelegate> *)pageViewController];
     }
 
@@ -44,17 +41,10 @@
 {
     PageController *after = nil;
     
-    if ([viewController isKindOfClass:[BookPageController class]]) {
-        Book *book = [(BookPageController *)viewController book];
-        after = [self pageControllerForModelObject:[book nextObject]
-                                pageViewController:(UIPageViewController<PageControllerDelegate> *)pageViewController];
-    } else if ([viewController isKindOfClass:[SectionPageController class]]) {
-        Section *section = [(SectionPageController *)viewController section];
-        after = [self pageControllerForModelObject:[section nextObject]
-                                pageViewController:(UIPageViewController<PageControllerDelegate> *)pageViewController];
-    } else if ([viewController isKindOfClass:[SongPageController class]]) {
-        Song *song = [(SongPageController *)viewController song];
-        after = [self pageControllerForModelObject:[song nextObject]
+    if ([viewController isKindOfClass:[PageController class]]) {
+        PageController *pageController = (PageController *)viewController;
+        id<SongbookModel> songbookModel = pageController.modelObject;
+        after = [self pageControllerForModelObject:[songbookModel nextObject]
                                 pageViewController:(UIPageViewController<PageControllerDelegate> *)pageViewController];
     }
 
@@ -69,18 +59,15 @@
     PageController *pageController;
     if ([modelObject isKindOfClass:[Book class]]) {
         pageController = [pageViewController.storyboard instantiateViewControllerWithIdentifier:@"BookPage"];
-        ((BookPageController *)pageController).book = (Book *)modelObject;
     } else if ([modelObject isKindOfClass:[Section class]]) {
         pageController = [pageViewController.storyboard instantiateViewControllerWithIdentifier:@"SectionPage"];
-        ((SectionPageController *)pageController).section = (Section *)modelObject;
     } else if ([modelObject isKindOfClass:[Song class]]) {
         pageController = [pageViewController.storyboard instantiateViewControllerWithIdentifier:@"SongPage"];
-        ((SongPageController *)pageController).song = (Song *)modelObject;
     }
     
-    if ([pageViewController conformsToProtocol:@protocol(PageControllerDelegate)]) {
-        pageController.delegate = pageViewController;
-    }
+    pageController.delegate = pageViewController;
+    pageController.coreDataStack = [pageViewController coreDataStack];
+    pageController.modelID = modelObject.objectID;
     
     return pageController;
 }

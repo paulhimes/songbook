@@ -13,6 +13,7 @@
 @interface BookPageController () <MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) NSURL *temporaryExportFile;
+@property (nonatomic, readonly) Book *book;
 
 @end
 
@@ -32,6 +33,17 @@
     return self.book;
 }
 
+- (Book *)book
+{
+    Book *book;
+    NSError *getBookError;
+    NSManagedObject *managedObject = [self.coreDataStack.managedObjectContext existingObjectWithID:self.modelID error:&getBookError];
+    if ([managedObject isKindOfClass:[Book class]]) {
+        book = (Book *)managedObject;
+    }
+    return book;
+}
+
 - (NSAttributedString *)text
 {
     NSNumber *standardTextSizeNumber = [[NSUserDefaults standardUserDefaults] objectForKey:kStandardTextSizeKey];
@@ -46,7 +58,7 @@
 
 - (IBAction)exportAction:(UIButton *)sender
 {
-    self.temporaryExportFile = [BookCodec exportBookFromContext:self.book.managedObjectContext];
+    self.temporaryExportFile = [BookCodec exportBookFromContext:self.coreDataStack.managedObjectContext];
     NSData *exportData = [NSData dataWithContentsOfURL:self.temporaryExportFile];
     
     // Email the file data.

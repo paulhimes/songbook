@@ -20,12 +20,12 @@
         <!--Song Page Controller-->
         <scene sceneID="7wM-0O-W7s">
             <objects>
-                <viewController storyboardIdentifier="SongPage" id="BLr-Sz-4hc" customClass="SongPageController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SongPage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BLr-Sz-4hc" customClass="SongPageController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8NI-aE-eQr">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" id="q00-Dd-rwV" customClass="SafeTextView">
+                            <textView contentMode="scaleToFill" restorationIdentifier="TextView" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" id="q00-Dd-rwV" customClass="SafeTextView">
                                 <rect key="frame" x="16" y="0.0" width="288" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -233,7 +233,7 @@
         <!--Book Page Controller-->
         <scene sceneID="WJe-PV-CjR">
             <objects>
-                <viewController storyboardIdentifier="BookPage" id="e5b-Wd-exR" customClass="BookPageController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BookPage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="e5b-Wd-exR" customClass="BookPageController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CM7-69-SWi">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -285,12 +285,12 @@
         <!--Section Page Controller-->
         <scene sceneID="2E3-5H-GhD">
             <objects>
-                <viewController storyboardIdentifier="SectionPage" id="JX1-xR-aBA" customClass="SectionPageController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SectionPage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="JX1-xR-aBA" customClass="SectionPageController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Mha-i6-HMs">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" id="MDa-SC-IaW" customClass="SafeTextView">
+                            <textView contentMode="scaleToFill" restorationIdentifier="TextView" bounces="NO" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" id="MDa-SC-IaW" customClass="SafeTextView">
                                 <rect key="frame" x="16" y="0.0" width="288" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>

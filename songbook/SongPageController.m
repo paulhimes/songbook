@@ -12,6 +12,8 @@
 
 @interface SongPageController () <UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UIToolbarDelegate>
 
+@property (nonatomic, readonly) Song *song;
+
 @property (nonatomic, strong) NSArray *relatedSongs;
 
 @property (weak, nonatomic) IBOutlet UIToolbar *topBar;
@@ -35,12 +37,12 @@
 
 @implementation SongPageController
 
-- (void)setSong:(Song *)song
-{
-    _song = song;
-    
-    self.relatedSongs = [self.song.relatedSongs allObjects];
-}
+//- (void)setSong:(Song *)song
+//{
+//    _song = song;
+//    
+//    self.relatedSongs = [self.song.relatedSongs allObjects];
+//}
 
 - (void)viewDidLoad
 {
@@ -83,6 +85,17 @@
 - (NSManagedObject *)modelObject
 {
     return self.song;
+}
+
+- (Song *)song
+{
+    Song *song;
+    NSError *getSongError;
+    NSManagedObject *managedObject = [self.coreDataStack.managedObjectContext existingObjectWithID:self.modelID error:&getSongError];
+    if ([managedObject isKindOfClass:[Song class]]) {
+        song = (Song *)managedObject;
+    }
+    return song;
 }
 
 - (UITableView *)relatedItemsView

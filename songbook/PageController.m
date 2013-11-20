@@ -11,11 +11,16 @@
 
 NSString * const kStandardTextSizeKey = @"StandardTextSize";
 
+static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
+static NSString * const kModelIDURLKey = @"ModelIDURLKey";
+static NSString * const kDelegateKey = @"DelegateKey";
+static NSString * const kHighlightRangeKey = @"HighlightRangeKey";
+
 const float kSuperMaximumStandardTextSize = 60;
 const float kMaximumStandardTextSize = 40;
 const float kMinimumStandardTextSize = 8;
 
-@interface PageController () <UIScrollViewDelegate, UIToolbarDelegate>
+@interface PageController () <UIScrollViewDelegate, UIToolbarDelegate, UIViewControllerRestoration>
 
 @property (nonatomic, strong) UIPinchGestureRecognizer *pinchGestureRecognizer;
 
@@ -37,6 +42,12 @@ const float kMinimumStandardTextSize = 8;
     return _pinchGestureRecognizer;
 }
 
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    self.restorationClass = [self class];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -55,6 +66,50 @@ const float kMinimumStandardTextSize = 8;
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    NSLog(@"Encode PageController");
+
+    if (self.coreDataStack) {
+        [coder encodeObject:self.coreDataStack forKey:kCoreDataStackKey];
+    }
+    
+    if (self.modelID) {
+        [coder encodeObject:[self.modelID URIRepresentation] forKey:kModelIDURLKey];
+    }
+    
+    if (self.delegate) {
+        [coder encodeObject:self.delegate forKey:kDelegateKey];
+    }
+    
+    [coder encodeObject:[NSValue valueWithRange:self.highlightRange] forKey:kHighlightRangeKey];
+    
+    [super encodeRestorableStateWithCoder:coder];
+}
+
++ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
+{
+    PageController *controller;
+    UIStoryboard *storyboard = [coder decodeObjectForKey:UIStateRestorationViewControllerStoryboardKey];
+    CoreDataStack *coreDataStack = [coder decodeObjectForKey:kCoreDataStackKey];
+    NSURL *modelIDURL = [coder decodeObjectForKey:kModelIDURLKey];
+    NSManagedObjectID *modelID = [coreDataStack.managedObjectContext.persistentStoreCoordinator managedObjectIDForURIRepresentation:modelIDURL];
+    id<PageControllerDelegate> delegate = [coder decodeObjectForKey:kDelegateKey];
+    NSRange highlightRange = [[coder decodeObjectForKey:kHighlightRangeKey] rangeValue];
+    
+    if (storyboard && coreDataStack && modelID && delegate) {
+        NSLog(@"Created PageController");
+
+        controller = (PageController *)[storyboard instantiateViewControllerWithIdentifier:[identifierComponents lastObject]];
+        controller.coreDataStack = coreDataStack;
+        controller.modelID = modelID;
+        controller.delegate = delegate;
+        controller.highlightRange = highlightRange;
+    }
+    
+    return controller;
 }
 
 - (void)handleNotification:(NSNotification *)notification

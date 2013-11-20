@@ -8,7 +8,11 @@
 
 #import "CoreDataStack.h"
 
-@interface CoreDataStack()
+//static NSString * const kRestorationIdentifier = @"CoreDataStack";
+static NSString * const kFileURLKey = @"FileURLKey";
+static NSString * const kConcurrencyTypeKey = @"ConcurrencyTypeKey";
+
+@interface CoreDataStack() <UIObjectRestoration>
 
 @property (nonatomic, strong) NSURL *fileURL;
 @property (nonatomic) NSManagedObjectContextConcurrencyType concurrencyType;
@@ -24,9 +28,16 @@
 - (instancetype)initWithFileURL:(NSURL *)fileURL concurrencyType:(NSManagedObjectContextConcurrencyType)concurrencyType;
 {
     self = [super init];
-    if (self) {
+    if (self && fileURL &&
+        ((concurrencyType == NSConfinementConcurrencyType) ||
+		(concurrencyType == NSPrivateQueueConcurrencyType) ||
+		(concurrencyType == NSMainQueueConcurrencyType))) {
+            
         self.fileURL = fileURL;
         self.concurrencyType = concurrencyType;
+            
+    } else {
+        self = nil;
     }
     return self;
 }
@@ -79,6 +90,41 @@
     }
     
     return _persistentStoreCoordinator;
+}
+
+#pragma mark - UIStateRestoring
+
+- (Class<UIObjectRestoration>)objectRestorationClass
+{
+    return [self class];
+}
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    NSLog(@"Encode CoreDataStack");
+    if (self.fileURL) {
+        [coder encodeObject:self.fileURL forKey:kFileURLKey];
+    }
+    
+    [coder encodeObject:@(self.concurrencyType) forKey:kConcurrencyTypeKey];
+}
+
+#pragma mark - UIObjectRestoration
+
++ (id<UIStateRestoring>)objectWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
+{
+    CoreDataStack *coreDataStack;
+    NSURL *fileURL = [coder decodeObjectForKey:kFileURLKey];
+    NSNumber *concurrencyType = [coder decodeObjectForKey:kConcurrencyTypeKey];
+    
+    if (fileURL && concurrencyType) {
+        coreDataStack = [[CoreDataStack alloc] initWithFileURL:fileURL concurrencyType:[concurrencyType unsignedIntegerValue]];
+        NSLog(@"Created CoreDataStack");
+        
+        [UIApplication registerObjectForStateRestoration:coreDataStack restorationIdentifier:[identifierComponents lastObject]];
+    }
+    
+    return coreDataStack;
 }
 
 @end
