@@ -69,7 +69,8 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
     if ([segue.identifier isEqualToString:@"Search"] &&
                [segue.destinationViewController isKindOfClass:[SearchViewController class]]) {
         SearchViewController *searchViewController = ((SearchViewController *)segue.destinationViewController);
-        searchViewController.currentSong = [self closestSong];
+        searchViewController.coreDataStack = self.coreDataStack;
+        searchViewController.closestSongID = [self closestSong].objectID;
     }
 }
 
@@ -116,8 +117,10 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
     if ([segue.sourceViewController isKindOfClass:[SearchViewController class]]) {
         SearchViewController *searchViewController = (SearchViewController *)segue.sourceViewController;
         
-        if (searchViewController.selectedSong) {
-            [self showPageForModelObject:searchViewController.selectedSong
+        if (searchViewController.selectedSongID) {
+            NSError *getSongError;
+            Song *song = (Song *)[self.coreDataStack.managedObjectContext existingObjectWithID:searchViewController.selectedSongID error:&getSongError];
+            [self showPageForModelObject:song
                           highlightRange:searchViewController.selectedRange
                                 animated:NO];
         }
@@ -150,10 +153,12 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
                                                                 pageViewController:self];
     pageController.highlightRange = highlightRange;
     
-    [self setViewControllers:@[pageController]
-                   direction:UIPageViewControllerNavigationDirectionForward
-                    animated:animated
-                  completion:NULL];
+    if (pageController) {
+        [self setViewControllers:@[pageController]
+                       direction:UIPageViewControllerNavigationDirectionForward
+                        animated:animated
+                      completion:NULL];
+    }
 }
 
 #pragma mark - PageControllerDelegate
@@ -168,7 +173,8 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
 {
     if ([self.splitController.master isKindOfClass:[SearchViewController class]]) {
         SearchViewController *searchViewController = (SearchViewController *)self.splitController.master;
-        searchViewController.currentSong = [self closestSong];
+        searchViewController.coreDataStack = self.coreDataStack;
+        searchViewController.closestSongID = [self closestSong].objectID;
         
         self.splitController.masterHidden = !self.splitController.masterHidden;
     } else {

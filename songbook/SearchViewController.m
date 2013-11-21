@@ -15,14 +15,17 @@
 #import "SearchTableDataSource.h"
 #import "TokenizeOperation.h"
 
-NSString * const kPreferredSearchMethodKey = @"PreferredSearchMethodKey";
+static NSString * const kPreferredSearchMethodKey = @"PreferredSearchMethodKey";
+static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
+static NSString * const kClosestSongIDKey = @"ClosestSongIDKey";
+static NSString * const kSearchStringKey = @"SearchStringKey";
 
 typedef enum PreferredSearchMethod : NSUInteger {
     PreferredSearchMethodNumbers,
     PreferredSearchMethodLetters
 } PreferredSearchMethod;
 
-@interface SearchViewController () <UITableViewDelegate, UIToolbarDelegate>
+@interface SearchViewController () <UITableViewDelegate, UIToolbarDelegate, UIViewControllerRestoration>
 
 @property (nonatomic, strong) SearchTableDataSource *dataSource;
 @property (nonatomic, strong) NSOperationQueue *searchQueue;
@@ -35,6 +38,8 @@ typedef enum PreferredSearchMethod : NSUInteger {
 @property (weak, nonatomic) IBOutlet UILabel *tokenizeProgressLabel;
 @property (nonatomic) NSUInteger latestTokenizePercentComplete;
 @property (nonatomic, strong) id observerToken;
+
+@property (nonatomic, readonly) Song *closestSong;
 
 @end
 
@@ -57,19 +62,26 @@ typedef enum PreferredSearchMethod : NSUInteger {
     return _activityIndicator;
 }
 
+- (Song *)closestSong
+{
+    NSError *getSongError;
+    Song *song = (Song *)[self.coreDataStack.managedObjectContext existingObjectWithID:self.closestSongID error:&getSongError];
+    return song;
+}
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    self.restorationClass = [self class];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     self.tableView.contentInset = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
     self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
-    
-    [self updateDataSourceWithTableModel:[SmartSearcher buildModelForSearchString:@""
-                                                                           inBook:self.currentSong.section.book
-                                                                   shouldContinue:^BOOL{
-                                                                       return YES;
-                                                                   }]];
-    
+
     self.toolbar.delegate = self;
     
     self.searchField.layer.cornerRadius = 5;
@@ -114,8 +126,8 @@ typedef enum PreferredSearchMethod : NSUInteger {
 {
     [super viewWillAppear:animated];
     
-    [self updateDataSourceWithTableModel:[SmartSearcher buildModelForSearchString:@""
-                                                                           inBook:self.currentSong.section.book
+    [self updateDataSourceWithTableModel:[SmartSearcher buildModelForSearchString:self.searchField.text
+                                                                           inBook:self.closestSong.section.book
                                                                    shouldContinue:^BOOL{
                                                                        return YES;
                                                                    }]];
@@ -149,16 +161,10 @@ typedef enum PreferredSearchMethod : NSUInteger {
         NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
         
         // Get the selected song.
-        NSManagedObjectID *songID = [self.dataSource songIDAtIndexPath:selectedIndexPath];
-        if (songID) {
-            Song *song = (Song *)[self.currentSong.managedObjectContext existingObjectWithID:songID error:NULL];
-            
-            // Maintain a reference to the selected song.
-            self.selectedSong = song;
-            
-            // Remember which location in the song was selected.
-            self.selectedRange = [self.dataSource songRangeAtIndexPath:selectedIndexPath];
-        }
+        self.selectedSongID = [self.dataSource songIDAtIndexPath:selectedIndexPath];
+        
+        // Remember which location in the song was selected.
+        self.selectedRange = [self.dataSource songRangeAtIndexPath:selectedIndexPath];
         
         [self.searchField resignFirstResponder];
     }
@@ -168,6 +174,52 @@ typedef enum PreferredSearchMethod : NSUInteger {
 {
     if (self.observerToken) {
         [[NSNotificationCenter defaultCenter] removeObserver:self.observerToken];
+    }
+}
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    NSLog(@"Encode SearchViewController");
+    
+    if (self.coreDataStack) {
+        [coder encodeObject:self.coreDataStack forKey:kCoreDataStackKey];
+    }
+    
+    if (self.closestSongID) {
+        [coder encodeObject:[self.closestSongID URIRepresentation] forKey:kClosestSongIDKey];
+    }
+    
+    [coder encodeObject:self.searchField.text forKey:kSearchStringKey];
+    
+    [super encodeRestorableStateWithCoder:coder];
+}
+
++ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
+{
+    SearchViewController *controller;
+    UIStoryboard *storyboard = [coder decodeObjectForKey:UIStateRestorationViewControllerStoryboardKey];
+    CoreDataStack *coreDataStack = [coder decodeObjectForKey:kCoreDataStackKey];
+    NSURL *closestSongIDURL = [coder decodeObjectForKey:kClosestSongIDKey];
+    NSManagedObjectID *closestSongID = [coreDataStack.managedObjectContext.persistentStoreCoordinator managedObjectIDForURIRepresentation:closestSongIDURL];
+    
+    if (storyboard && coreDataStack && closestSongID) {
+        NSLog(@"Created SearchViewController");
+        
+        controller = (SearchViewController *)[storyboard instantiateViewControllerWithIdentifier:[identifierComponents lastObject]];
+        controller.coreDataStack = coreDataStack;
+        controller.closestSongID = closestSongID;
+    }
+    
+    return controller;
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super decodeRestorableStateWithCoder:coder];
+    
+    NSString *searchString = [coder decodeObjectForKey:kSearchStringKey];
+    if (searchString) {
+        self.searchField.text = searchString;
     }
 }
 
@@ -197,7 +249,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
     [userDefaults synchronize];
     
     SearchOperation *operation = [[SearchOperation alloc] initWithSearchString:searchText
-                                                                          book:self.currentSong.section.book];
+                                                                          book:self.closestSong.section.book];
     __weak SearchOperation *weakOperation = operation;
     __weak SearchViewController *weakSelf = self;
     [operation setCompletionBlock:^{
@@ -235,7 +287,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
 
 - (void)scrollToCurrentSong
 {
-    NSIndexPath *currentSongIndexPath = [self.dataSource indexPathForSongID:self.currentSong.objectID];
+    NSIndexPath *currentSongIndexPath = [self.dataSource indexPathForSongID:self.closestSongID];
     
     if (currentSongIndexPath) {
         [self.tableView scrollToRowAtIndexPath:currentSongIndexPath

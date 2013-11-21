@@ -7,18 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CoreDataStack.h"
 #import "Song.h"
-
-@protocol SearchViewControllerDelegate;
 
 @interface SearchViewController : UIViewController
 
-@property (nonatomic, strong) Song *currentSong;
-@property (nonatomic, strong) Song *selectedSong;
+@property (nonatomic, strong) CoreDataStack *coreDataStack;
+@property (nonatomic, strong) NSManagedObjectID *closestSongID;
+@property (nonatomic, strong) NSManagedObjectID *selectedSongID;
 @property (nonatomic) NSRange selectedRange;
-
-@end
-
-@protocol SearchViewControllerDelegate <NSObject>
 
 @end
