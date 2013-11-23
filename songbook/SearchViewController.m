@@ -126,14 +126,6 @@ typedef enum PreferredSearchMethod : NSUInteger {
 {
     [super viewWillAppear:animated];
     
-    [self updateDataSourceWithTableModel:[SmartSearcher buildModelForSearchString:self.searchField.text
-                                                                           inBook:self.closestSong.section.book
-                                                                   shouldContinue:^BOOL{
-                                                                       return YES;
-                                                                   }]];
-    [self.tableView reloadData];
-    [self scrollToCurrentSong];
-    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSNumber *preferredSearchMethodNumber = [userDefaults objectForKey:kPreferredSearchMethodKey];
     if (preferredSearchMethodNumber) {
@@ -145,6 +137,8 @@ typedef enum PreferredSearchMethod : NSUInteger {
         }
     }
     [self.searchField becomeFirstResponder];
+    
+    [self searchFieldEditingChanged:self.searchField];
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -261,6 +255,10 @@ typedef enum PreferredSearchMethod : NSUInteger {
                 [weakSelf updateDataSourceWithTableModel:tableModel];
                 [weakSelf.tableView reloadData];
                 [weakSelf.activityIndicator stopAnimating];
+                
+                if ([searchText length] == 0) {
+                    [weakSelf scrollToCurrentSong];
+                }
             }];
         }
     }];

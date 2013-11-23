@@ -51,11 +51,6 @@
                                                             return weakSelf && !weakSelf.isCancelled;
                                                         }];
             
-//            NSLog(@"%d sections", [self.tableModel.sectionModels count]);
-//            for (SearchSectionModel *section in self.tableModel.sectionModels) {
-//                NSLog(@"%d cells in section %@", [section.cellModels count], section.title);
-//            }
-            
             NSTimeInterval endTime = [[NSDate date] timeIntervalSince1970];
             
             if (self.isCancelled) {
