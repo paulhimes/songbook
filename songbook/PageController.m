@@ -70,6 +70,8 @@ const float kMinimumStandardTextSize = 8;
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
+    [super encodeRestorableStateWithCoder:coder];
+
     NSLog(@"Encode PageController");
 
     if (self.coreDataStack) {
@@ -85,8 +87,6 @@ const float kMinimumStandardTextSize = 8;
     }
     
     [coder encodeObject:[NSValue valueWithRange:self.highlightRange] forKey:kHighlightRangeKey];
-    
-    [super encodeRestorableStateWithCoder:coder];
 }
 
 + (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder

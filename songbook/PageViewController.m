@@ -35,14 +35,6 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor greenColor];
     self.dataSource = self.pageServer;
-    
-    
-//    if (!self.book) {
-//        self.book = self.splitController.userData;
-//    }
-    
-
-    
     [self.view setDebugColor:[UIColor purpleColor]];
 }
 

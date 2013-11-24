@@ -26,6 +26,7 @@
 //    if ([launchOptions objectForKey:UIApplicationLaunchOptionsURLKey]) {
 //        [self handoffImportFile:(NSURL *)[launchOptions valueForKey:UIApplicationLaunchOptionsURLKey]];
 //    }
+    [self.window makeKeyAndVisible];
     
     return YES;
 }

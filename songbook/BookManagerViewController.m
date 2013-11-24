@@ -17,9 +17,11 @@
 #import "Book+Helpers.h"
 #import "TokenizeOperation.h"
 
-NSString * const kTemporaryDatabaseDirectoryName = @"temporaryBook";
-NSString * const kMainDatabaseDirectoryName = @"mainBook";
-NSString * const kBookDatabaseFileName = @"book.sqlite";
+static NSString * const kTemporaryDatabaseDirectoryName = @"temporaryBook";
+static NSString * const kMainDatabaseDirectoryName = @"mainBook";
+static NSString * const kBookDatabaseFileName = @"book.sqlite";
+
+static NSString * const kMainBookStackKey = @"mainBookStack";
 
 @interface BookManagerViewController ()
 
@@ -45,7 +47,7 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
         NSURL *directory = [self mainBookDirectory];
         NSURL *file = [directory URLByAppendingPathComponent:kBookDatabaseFileName];
         _mainBookStack = [[CoreDataStack alloc] initWithFileURL:file concurrencyType:NSMainQueueConcurrencyType];
-        [UIApplication registerObjectForStateRestoration:_mainBookStack restorationIdentifier:@"mainBookStack"];
+        [UIApplication registerObjectForStateRestoration:_mainBookStack restorationIdentifier:kMainBookStackKey];
     }
     return _mainBookStack;
 }
@@ -98,13 +100,24 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
 {
     [super encodeRestorableStateWithCoder:coder];
     
-    [coder encodeObject:self.mainBookStack forKey:@"mainBookStack"];
+    [coder encodeObject:self.mainBookStack forKey:kMainBookStackKey];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super decodeRestorableStateWithCoder:coder];
+    
+    if ([coder containsValueForKey:kMainBookStackKey]) {
+        CoreDataStack *mainBookStack = [coder decodeObjectForKey:kMainBookStackKey];
+        self.mainBookStack = mainBookStack;
+    }
 }
 
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
 }
+
 - (IBAction)openBook:(id)sender
 {
     // Check if the main book is ready to open.
