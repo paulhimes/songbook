@@ -76,8 +76,6 @@ static NSString * const kSearchViewControllerKey = @"SearchViewControllerKey";
 {
     [super decodeRestorableStateWithCoder:coder];
     self.coreDataStack = [coder decodeObjectForKey:kCoreDataStackKey];
-//    self.pageViewController = [coder decodeObjectForKey:kPageViewControllerKey];
-//    self.searchViewController = [coder decodeObjectForKey:kSearchViewControllerKey];
 }
 
 - (IBAction)searchCancelled:(UIStoryboardSegue *)segue

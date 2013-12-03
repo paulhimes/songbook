@@ -17,12 +17,13 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <connections>
-                                    <segue destination="POr-aa-yjp" kind="embed" identifier="EmbedDetail" id="LNa-o6-fot"/>
+                                    <segue destination="POr-aa-yjp" kind="embed" identifier="EmbedPageViewController" id="LNa-o6-fot"/>
                                 </connections>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <segue destination="f4X-As-1jE" kind="modal" identifier="Search" id="gWg-ME-xV2"/>
                     </connections>
@@ -242,15 +243,18 @@
                                 </state>
                                 <connections>
                                     <action selector="openBook:" destination="IJS-i7-pDq" eventType="touchUpInside" id="05h-VX-pAI"/>
-                                    <segue destination="V7H-QJ-amo" kind="modal" identifier="OpenBook" id="M8V-HY-ica"/>
                                 </connections>
                             </button>
                         </subviews>
                     </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <segue destination="V7H-QJ-amo" kind="modal" identifier="OpenBook" animates="NO" id="ySq-T0-1dt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YnA-el-Ntl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1759" y="812"/>
+            <point key="canvasLocation" x="-1756" y="812"/>
         </scene>
         <!--Book Page Controller-->
         <scene sceneID="WJe-PV-CjR">

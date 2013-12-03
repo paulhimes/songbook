@@ -79,7 +79,6 @@ static NSString * const kPageViewControllerKey = @"PageViewControllerKey";
     [super decodeRestorableStateWithCoder:coder];
     
     self.coreDataStack = [coder decodeObjectForKey:kCoreDataStackKey];
-//    self.pageViewController = [coder decodeObjectForKey:kPageViewControllerKey];
 }
 
 #pragma mark - PageViewControllerDelegate

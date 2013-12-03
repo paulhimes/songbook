@@ -15,7 +15,7 @@ static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
 static NSString * const kDelegateKey = @"DelegateKey";
 static NSString * const kViewControllerKey = @"ViewControllerKey";
 
-@interface PageViewController () <PageControllerDelegate, UIViewControllerRestoration>
+@interface PageViewController () <PageControllerDelegate>
 
 @end
 
@@ -27,12 +27,6 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
         _pageServer = [[PageServer alloc] init];
     }
     return _pageServer;
-}
-
-- (void)awakeFromNib
-{
-    [super awakeFromNib];
-    self.restorationClass = [self class];
 }
 
 - (void)viewDidLoad
@@ -66,6 +60,8 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
 {
     [super encodeRestorableStateWithCoder:coder];
     
+    NSLog(@"Encoding PageViewController");
+    
     // Save the core data stack.
     if (self.coreDataStack) {
         [coder encodeObject:self.coreDataStack forKey:kCoreDataStackKey];
@@ -83,32 +79,20 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
     }
 }
 
-+ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents
-                                                            coder:(NSCoder *)coder
-{
-    PageViewController *controller;
-    UIStoryboard *storyboard = [coder decodeObjectForKey:UIStateRestorationViewControllerStoryboardKey];
-    UIViewController *viewController = [coder decodeObjectForKey:kViewControllerKey];
-    
-    if (storyboard && viewController) {
-        NSLog(@"Created SingleViewController");
-        
-        controller = (PageViewController *)[storyboard instantiateViewControllerWithIdentifier:[identifierComponents lastObject]];
-        [controller setViewControllers:@[viewController]
-                             direction:UIPageViewControllerNavigationDirectionForward
-                              animated:NO
-                            completion:NULL];
-    }
-    
-    return controller;
-}
-
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder
 {
     [super decodeRestorableStateWithCoder:coder];
     
     self.coreDataStack = [coder decodeObjectForKey:kCoreDataStackKey];
     self.pageViewControllerDelegate = [coder decodeObjectForKey:kDelegateKey];
+    
+    UIViewController *viewController = [coder decodeObjectForKey:kViewControllerKey];
+    if (viewController) {
+        [self setViewControllers:@[viewController]
+                       direction:UIPageViewControllerNavigationDirectionForward
+                        animated:NO
+                      completion:NULL];
+    }
 }
 
 - (BOOL)prefersStatusBarHidden
