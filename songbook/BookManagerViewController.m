@@ -16,6 +16,7 @@
 #import "TokenizeOperation.h"
 #import "SplitViewController.h"
 #import "SingleViewController.h"
+#import "GradientView.h"
 
 static NSString * const kTemporaryDatabaseDirectoryName = @"temporaryBook";
 static NSString * const kMainDatabaseDirectoryName = @"mainBook";
@@ -57,8 +58,10 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    self.view.backgroundColor = [Theme redColor];
+    
+    GradientView *gradientView = [[GradientView alloc] initWithFrame:CGRectMake(-self.view.bounds.size.width, 0, 2 * self.view.bounds.size.width, self.view.bounds.size.height)];
+    gradientView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.view insertSubview:gradientView atIndex:0];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -72,11 +75,14 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
     }
     self.importFileURL = nil;
     
-//    // Check if the main book is ready to open.
-//    Book *book = [Book bookFromContext:self.mainBookStack.managedObjectContext];
-//    if (book) {
-//        [self performSegueWithIdentifier:@"OpenBook" sender:nil];
-//    }
+    // Check if the main book is ready to open.
+    Book *book = [Book bookFromContext:self.mainBookStack.managedObjectContext];
+    if (book) {
+        // Begin tokenizing any untokenized songs in this book.
+        [self tokenizeBook:book];
+        
+        [self performSegueWithIdentifier:@"OpenBook" sender:nil];
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -108,18 +114,6 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
-}
-
-- (IBAction)openBook:(id)sender
-{
-    // Check if the main book is ready to open.
-    Book *book = [Book bookFromContext:self.mainBookStack.managedObjectContext];
-    if (book) {
-        // Begin tokenizing any untokenized songs in this book.
-//        [self tokenizeBook:book];
-        
-        [self performSegueWithIdentifier:@"OpenBook" sender:nil];
-    }
 }
 
 #pragma mark - Book management

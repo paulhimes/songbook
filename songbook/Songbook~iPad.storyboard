@@ -330,18 +330,6 @@
                     <view key="view" contentMode="scaleToFill" id="YFS-7C-uPM">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="TtF-a9-YpT">
-                                <rect key="frame" x="361" y="497" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="openBook:" destination="Igp-1z-ufN" eventType="touchUpInside" id="oBn-kJ-c1G"/>
-                                </connections>
-                            </button>
-                        </subviews>
                     </view>
                     <connections>
                         <segue destination="jrp-vl-Nww" kind="modal" identifier="OpenBook" animates="NO" id="2eP-Qa-BaT"/>
