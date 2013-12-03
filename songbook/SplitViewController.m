@@ -6,17 +6,21 @@
 //  Copyright (c) 2013 Paul Himes. All rights reserved.
 //
 
-#import <objc/runtime.h>
-
 #import "SplitViewController.h"
+#import "PageViewController.h"
+#import "SearchViewController.h"
 
-@interface SplitViewController ()
+static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
+static NSString * const kPageViewControllerKey = @"PageViewControllerKey";
+static NSString * const kSearchViewControllerKey = @"SearchViewControllerKey";
 
-@property (nonatomic, strong) UIViewController *master;
-@property (nonatomic, strong) UIViewController *detail;
+@interface SplitViewController () <PageViewControllerDelegate>
 
-@property (weak, nonatomic) IBOutlet UIView *masterContainer;
-@property (weak, nonatomic) IBOutlet UIView *detailContainer;
+@property (nonatomic, strong) SearchViewController *searchViewController;
+@property (nonatomic, strong) PageViewController *pageViewController;
+
+@property (weak, nonatomic) IBOutlet UIView *searchViewContrlllerContainer;
+@property (weak, nonatomic) IBOutlet UIView *pageViewControllerContainer;
 
 @end
 
@@ -26,7 +30,7 @@
 {
     [super viewDidLoad];
     
-    self.masterHidden = YES;
+    self.searchHidden = YES;
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -36,77 +40,103 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"EmbedMaster"]) {
-        self.master = segue.destinationViewController;
-        self.master.splitController = self;
-    } else if ([segue.identifier isEqualToString:@"EmbedDetail"]) {
-        self.detail = segue.destinationViewController;
-        self.detail.splitController = self;
+    if ([segue.identifier isEqualToString:@"EmbedSearchViewController"] && [segue.destinationViewController isKindOfClass:[SearchViewController class]]) {
+        SearchViewController *searchViewController = (SearchViewController *)segue.destinationViewController;
+        searchViewController.coreDataStack = self.coreDataStack;
+        self.searchViewController = searchViewController;
+    } else if ([segue.identifier isEqualToString:@"EmbedPageViewController"] && [segue.destinationViewController isKindOfClass:[PageViewController class]]) {
+        PageViewController *pageViewController = (PageViewController *)segue.destinationViewController;
+        pageViewController.pageViewControllerDelegate = self;
+        pageViewController.coreDataStack = self.coreDataStack;
+        self.pageViewController = pageViewController;
     }
 }
 
-- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
-    if ([identifier isEqualToString:@"EmbedMaster"]) {
-        return NO;
+    [super encodeRestorableStateWithCoder:coder];
+    
+    // Save the core data stack.
+    if (self.coreDataStack) {
+        [coder encodeObject:self.coreDataStack forKey:kCoreDataStackKey];
     }
     
-    return YES;
-}
-
-- (UIViewController *)master
-{
-    if (!_master) {
-        [self performSegueWithIdentifier:@"EmbedMaster" sender:self];
+    // Save the page view controller.
+    if (self.pageViewController) {
+        [coder encodeObject:self.pageViewController forKey:kPageViewControllerKey];
     }
-    return _master;
+    
+    // Save the search view controller.
+    if (self.searchViewController) {
+        [coder encodeObject:self.searchViewController forKey:kSearchViewControllerKey];
+    }
 }
 
-- (void)setMasterHidden:(BOOL)masterHidden
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
 {
-    if (_master) {
+    [super decodeRestorableStateWithCoder:coder];
+    self.coreDataStack = [coder decodeObjectForKey:kCoreDataStackKey];
+//    self.pageViewController = [coder decodeObjectForKey:kPageViewControllerKey];
+//    self.searchViewController = [coder decodeObjectForKey:kSearchViewControllerKey];
+}
+
+- (IBAction)searchCancelled:(UIStoryboardSegue *)segue
+{
+}
+
+- (IBAction)songSelected:(UIStoryboardSegue *)segue
+{
+    if ([segue.sourceViewController isKindOfClass:[SearchViewController class]]) {
+        SearchViewController *searchViewController = (SearchViewController *)segue.sourceViewController;
+        
+        if (searchViewController.selectedSongID) {
+            NSError *getSongError;
+            Song *song = (Song *)[self.coreDataStack.managedObjectContext existingObjectWithID:searchViewController.selectedSongID error:&getSongError];
+            [self.pageViewController showPageForModelObject:song
+                                             highlightRange:searchViewController.selectedRange
+                                                   animated:NO];
+        }
+    }
+}
+
+- (void)setSearchHidden:(BOOL)searchHidden
+{
+    if (_searchHidden) {
         [UIView animateWithDuration:0.5 animations:^{
-            if (_masterHidden && !masterHidden) {
-                // Show master.
-                [self.master viewWillAppear:YES];
-                [self.masterContainer setOriginX:0];
-                CGFloat detailOriginX = self.masterContainer.frame.size.width + 0.5;
-                self.detailContainer.frame = CGRectMake(detailOriginX, 0, self.view.bounds.size.width - detailOriginX, self.view.bounds.size.height);
-            } else if (!_masterHidden && masterHidden) {
-                // Hide master.
-                [self.master viewWillDisappear:YES];
-                [self.masterContainer setOriginX:-self.masterContainer.frame.size.width];
+            if (_searchHidden && !searchHidden) {
+                // Show search.
+                [self.searchViewController viewWillAppear:YES];
+                [self.searchViewContrlllerContainer setOriginX:0];
+                CGFloat detailOriginX = self.searchViewContrlllerContainer.frame.size.width + 0.5;
+                self.pageViewControllerContainer.frame = CGRectMake(detailOriginX, 0, self.view.bounds.size.width - detailOriginX, self.view.bounds.size.height);
+            } else if (!_searchHidden && searchHidden) {
+                // Hide search.
+                [self.searchViewController viewWillDisappear:YES];
+                [self.searchViewContrlllerContainer setOriginX:-self.searchViewContrlllerContainer.frame.size.width];
                 CGFloat detailOriginX = 0;
-                self.detailContainer.frame = CGRectMake(detailOriginX, 0, self.view.bounds.size.width - detailOriginX, self.view.bounds.size.height);
+                self.pageViewControllerContainer.frame = CGRectMake(detailOriginX, 0, self.view.bounds.size.width - detailOriginX, self.view.bounds.size.height);
             }
         } completion:^(BOOL finished) {
-            if (_masterHidden && !masterHidden) {
-                // Show master.
-                [self.master viewDidAppear:YES];
-            } else if (!_masterHidden && masterHidden) {
-                // Hide master.
-                [self.master viewDidDisappear:YES];
+            if (_searchHidden && !searchHidden) {
+                // Show search.
+                [self.searchViewController viewDidAppear:YES];
+            } else if (!_searchHidden && searchHidden) {
+                // Hide search.
+                [self.pageViewController viewDidDisappear:YES];
             }
         }];
     }
     
-    _masterHidden = masterHidden;
+    _searchHidden = searchHidden;
 }
 
-@end
+#pragma mark - PageViewControllerDelegate
 
-@implementation UIViewController (SplitViewController)
-
-static char const * const splitControllerKey = "splitControllerKey";
-
-- (SplitViewController *)splitController
+- (void)search
 {
-    return objc_getAssociatedObject(self, splitControllerKey);
-}
-
-- (void)setSplitController:(SplitViewController *)splitController
-{
-    objc_setAssociatedObject(self, splitControllerKey, splitController, OBJC_ASSOCIATION_ASSIGN);
+    self.searchViewController.coreDataStack = self.coreDataStack;
+    self.searchViewController.closestSongID = self.pageViewController.closestSongID;
+    self.searchHidden = NO;
 }
 
 @end

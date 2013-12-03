@@ -4,14 +4,38 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <scenes>
+        <!--Single View Controller-->
+        <scene sceneID="ybK-Uc-lWE">
+            <objects>
+                <viewController storyboardIdentifier="SingleViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="V7H-QJ-amo" customClass="SingleViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="kIM-zc-2bf">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <containerView contentMode="scaleToFill" id="5Ey-ad-7q1">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <connections>
+                                    <segue destination="POr-aa-yjp" kind="embed" identifier="EmbedDetail" id="LNa-o6-fot"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <segue destination="f4X-As-1jE" kind="modal" identifier="Search" id="gWg-ME-xV2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UE2-s0-nhb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1280" y="812"/>
+        </scene>
         <!--Page View Controller-->
         <scene sceneID="Ld7-ZR-Ec3">
             <objects>
                 <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="POr-aa-yjp" customClass="PageViewController" sceneMemberID="viewController">
                     <nil key="simulatedStatusBarMetrics"/>
-                    <connections>
-                        <segue destination="f4X-As-1jE" kind="modal" identifier="Search" modalTransitionStyle="coverVertical" id="asP-vy-M3W"/>
-                    </connections>
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nnk-Mh-1s7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -200,7 +224,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="csr-1h-0Xt" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Jgd-il-Zoj" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-297" y="812"/>
+            <point key="canvasLocation" x="-745" y="118"/>
         </scene>
         <!--Book Manager View Controller-->
         <scene sceneID="sOI-yA-X9q">
@@ -218,17 +242,15 @@
                                 </state>
                                 <connections>
                                     <action selector="openBook:" destination="IJS-i7-pDq" eventType="touchUpInside" id="05h-VX-pAI"/>
+                                    <segue destination="V7H-QJ-amo" kind="modal" identifier="OpenBook" id="M8V-HY-ica"/>
                                 </connections>
                             </button>
                         </subviews>
                     </view>
-                    <connections>
-                        <segue destination="POr-aa-yjp" kind="modal" identifier="OpenBook" id="wWd-2v-8Me"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YnA-el-Ntl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1191" y="812"/>
+            <point key="canvasLocation" x="-1759" y="812"/>
         </scene>
         <!--Book Page Controller-->
         <scene sceneID="WJe-PV-CjR">
@@ -238,7 +260,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" indicatorStyle="white" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" id="83D-ol-4TM" customClass="SafeTextView">
+                            <textView contentMode="scaleToFill" restorationIdentifier="TextView" bounces="NO" showsHorizontalScrollIndicator="NO" indicatorStyle="white" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" id="83D-ol-4TM" customClass="SafeTextView">
                                 <rect key="frame" x="16" y="0.0" width="288" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

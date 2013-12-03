@@ -10,12 +10,12 @@
 #import "SongbookModel.h"
 #import "Book+Helpers.h"
 #import "SearchViewController.h"
-#import "SplitViewController.h"
 
 static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
+static NSString * const kDelegateKey = @"DelegateKey";
 static NSString * const kViewControllerKey = @"ViewControllerKey";
 
-@interface PageViewController () <PageControllerDelegate>
+@interface PageViewController () <PageControllerDelegate, UIViewControllerRestoration>
 
 @end
 
@@ -27,6 +27,12 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
         _pageServer = [[PageServer alloc] init];
     }
     return _pageServer;
+}
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    self.restorationClass = [self class];
 }
 
 - (void)viewDidLoad
@@ -56,67 +62,53 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
     }
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"Search"] &&
-               [segue.destinationViewController isKindOfClass:[SearchViewController class]]) {
-        SearchViewController *searchViewController = ((SearchViewController *)segue.destinationViewController);
-        searchViewController.coreDataStack = self.coreDataStack;
-        searchViewController.closestSongID = [self closestSong].objectID;
-    }
-}
-
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
-    NSLog(@"Encode PageViewController");
+    [super encodeRestorableStateWithCoder:coder];
+    
     // Save the core data stack.
     if (self.coreDataStack) {
         [coder encodeObject:self.coreDataStack forKey:kCoreDataStackKey];
     }
-
+    
+    // Save the delegate
+    if (self.pageViewControllerDelegate) {
+        [coder encodeObject:self.pageViewControllerDelegate forKey:kDelegateKey];
+    }
+    
     // Save the view controllers.
     if ([self.viewControllers count] > 0) {
         UIViewController *viewController = self.viewControllers[0];
         [coder encodeObject:viewController forKey:kViewControllerKey];
     }
+}
 
-    [super encodeRestorableStateWithCoder:coder];
++ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents
+                                                            coder:(NSCoder *)coder
+{
+    PageViewController *controller;
+    UIStoryboard *storyboard = [coder decodeObjectForKey:UIStateRestorationViewControllerStoryboardKey];
+    UIViewController *viewController = [coder decodeObjectForKey:kViewControllerKey];
+    
+    if (storyboard && viewController) {
+        NSLog(@"Created SingleViewController");
+        
+        controller = (PageViewController *)[storyboard instantiateViewControllerWithIdentifier:[identifierComponents lastObject]];
+        [controller setViewControllers:@[viewController]
+                             direction:UIPageViewControllerNavigationDirectionForward
+                              animated:NO
+                            completion:NULL];
+    }
+    
+    return controller;
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder
 {
     [super decodeRestorableStateWithCoder:coder];
     
-    CoreDataStack *coreDataStack = [coder decodeObjectForKey:kCoreDataStackKey];
-    UIViewController *viewController = [coder decodeObjectForKey:kViewControllerKey];
-    NSLog(@"Decode PageViewController");
-
-    if (coreDataStack && viewController) {
-        self.coreDataStack = coreDataStack;
-        [self setViewControllers:@[viewController]
-                       direction:UIPageViewControllerNavigationDirectionForward
-                        animated:NO
-                      completion:NULL];
-    }
-}
-
-- (IBAction)searchCancelled:(UIStoryboardSegue *)segue
-{
-}
-
-- (IBAction)songSelected:(UIStoryboardSegue *)segue
-{
-    if ([segue.sourceViewController isKindOfClass:[SearchViewController class]]) {
-        SearchViewController *searchViewController = (SearchViewController *)segue.sourceViewController;
-        
-        if (searchViewController.selectedSongID) {
-            NSError *getSongError;
-            Song *song = (Song *)[self.coreDataStack.managedObjectContext existingObjectWithID:searchViewController.selectedSongID error:&getSongError];
-            [self showPageForModelObject:song
-                          highlightRange:searchViewController.selectedRange
-                                animated:NO];
-        }
-    }
+    self.coreDataStack = [coder decodeObjectForKey:kCoreDataStackKey];
+    self.pageViewControllerDelegate = [coder decodeObjectForKey:kDelegateKey];
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -124,14 +116,14 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
     return YES;
 }
 
-- (Song *)closestSong
+- (NSManagedObjectID *)closestSongID
 {
     PageController *currentController = self.viewControllers[0];
     NSManagedObject *modelObject = currentController.modelObject;
     
     if ([modelObject conformsToProtocol:@protocol(SongbookModel)]) {
         id<SongbookModel> songbookModel = (id<SongbookModel>)modelObject;
-        return songbookModel.closestSong;
+        return songbookModel.closestSong.objectID;
     } else {
         return nil;
     }
@@ -163,15 +155,7 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
 
 - (void)search
 {
-    if ([self.splitController.master isKindOfClass:[SearchViewController class]]) {
-        SearchViewController *searchViewController = (SearchViewController *)self.splitController.master;
-        searchViewController.coreDataStack = self.coreDataStack;
-        searchViewController.closestSongID = [self closestSong].objectID;
-        
-        self.splitController.masterHidden = !self.splitController.masterHidden;
-    } else {
-        [self performSegueWithIdentifier:@"Search" sender:nil];
-    }
+    [self.pageViewControllerDelegate search];
 }
 
 @end

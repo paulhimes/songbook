@@ -76,6 +76,7 @@
 		8BB54D5F17A4C79300FD2914 /* SongPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB54D5E17A4C79300FD2914 /* SongPageController.m */; };
 		8BC674C717B9E1D8001E71B1 /* SongTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C617B9E1D8001E71B1 /* SongTitleView.m */; };
 		8BC674CA17BC912C001E71B1 /* NSMutableAttributedString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */; };
+		8BCA006F18457F9B00600947 /* SingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BCA006E18457F9B00600947 /* SingleViewController.m */; };
 		8BE5A65217CD2356002028E5 /* FilteredSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE5A65117CD2356002028E5 /* FilteredSearcher.m */; };
 		8BE5A65517CD8FA2002028E5 /* SmartSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE5A65417CD8FA2002028E5 /* SmartSearcher.m */; };
 		8BEB2A2817DE8994006F118C /* songs.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8BEB2A2717DE8994006F118C /* songs.txt */; };
@@ -215,6 +216,8 @@
 		8BC674C617B9E1D8001E71B1 /* SongTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongTitleView.m; sourceTree = "<group>"; };
 		8BC674C817BC912C001E71B1 /* NSMutableAttributedString+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+Helpers.h"; sourceTree = "<group>"; };
 		8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableAttributedString+Helpers.m"; sourceTree = "<group>"; };
+		8BCA006D18457F9B00600947 /* SingleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleViewController.h; sourceTree = "<group>"; };
+		8BCA006E18457F9B00600947 /* SingleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleViewController.m; sourceTree = "<group>"; };
 		8BE5A65017CD2356002028E5 /* FilteredSearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilteredSearcher.h; sourceTree = "<group>"; };
 		8BE5A65117CD2356002028E5 /* FilteredSearcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilteredSearcher.m; sourceTree = "<group>"; };
 		8BE5A65317CD8FA2002028E5 /* SmartSearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartSearcher.h; sourceTree = "<group>"; };
@@ -385,12 +388,14 @@
 				8BA3061E17A0BE2B00A2ABDE /* Songbook~iPad.storyboard */,
 				8BAF3601182344DD00D6A93E /* BookManagerViewController.h */,
 				8BAF3602182344DD00D6A93E /* BookManagerViewController.m */,
-				8BAF3612182B3EDA00D6A93E /* TokenizeOperation.h */,
 				8BAF3613182B3EDA00D6A93E /* TokenizeOperation.m */,
+				8BAF3612182B3EDA00D6A93E /* TokenizeOperation.h */,
 				8BAF36061824C41700D6A93E /* CoreDataStack.h */,
 				8BAF36071824C41700D6A93E /* CoreDataStack.m */,
 				8B191A9A180A4E290071DF4D /* SplitViewController.h */,
 				8B191A9B180A4E290071DF4D /* SplitViewController.m */,
+				8BCA006D18457F9B00600947 /* SingleViewController.h */,
+				8BCA006E18457F9B00600947 /* SingleViewController.m */,
 				8BA3061F17A1640B00A2ABDE /* PageViewController.h */,
 				8BA3062017A1640B00A2ABDE /* PageViewController.m */,
 				8BB54D5A17A4C60700FD2914 /* PageServer.h */,
@@ -711,6 +716,7 @@
 				8BE5A65217CD2356002028E5 /* FilteredSearcher.m in Sources */,
 				8BB54D5C17A4C60700FD2914 /* PageServer.m in Sources */,
 				8B42031017E7CAED00019A80 /* Song.m in Sources */,
+				8BCA006F18457F9B00600947 /* SingleViewController.m in Sources */,
 				8B94532217A5F3E500327479 /* Verse+Helpers.m in Sources */,
 				8BAF35FA181F285400D6A93E /* unzip.c in Sources */,
 				8BAF3614182B3EDA00D6A93E /* TokenizeOperation.m in Sources */,

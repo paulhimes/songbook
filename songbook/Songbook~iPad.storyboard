@@ -7,7 +7,7 @@
         <!--Split View Controller-->
         <scene sceneID="Y7v-sZ-4si">
             <objects>
-                <viewController id="jrp-vl-Nww" customClass="SplitViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SplitViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jrp-vl-Nww" customClass="SplitViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="b78-bx-XMb">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -17,7 +17,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <connections>
-                                    <segue destination="Ib0-7i-B1o" kind="embed" identifier="EmbedMaster" id="byV-7g-eIC"/>
+                                    <segue destination="Ib0-7i-B1o" kind="embed" identifier="EmbedSearchViewController" id="byV-7g-eIC"/>
                                 </connections>
                             </containerView>
                             <containerView contentMode="scaleToFill" id="REn-G0-DO6">
@@ -25,7 +25,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <connections>
-                                    <segue destination="PL7-pw-XwR" kind="embed" identifier="EmbedDetail" id="XCt-oo-bhp"/>
+                                    <segue destination="PL7-pw-XwR" kind="embed" identifier="EmbedPageViewController" id="XCt-oo-bhp"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -33,8 +33,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="plb-KR-U3l"/>
                     <connections>
-                        <outlet property="detailContainer" destination="REn-G0-DO6" id="pgu-KW-nHN"/>
-                        <outlet property="masterContainer" destination="Mye-XC-Rdy" id="t94-yy-pgf"/>
+                        <outlet property="pageViewControllerContainer" destination="REn-G0-DO6" id="VYx-ZK-uM0"/>
+                        <outlet property="searchViewContrlllerContainer" destination="Mye-XC-Rdy" id="ruX-wT-PbD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="97R-C6-6gg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -44,7 +44,7 @@
         <!--Page View Controller-->
         <scene sceneID="zNy-hm-Zrn">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="PL7-pw-XwR" customClass="PageViewController" sceneMemberID="viewController"/>
+                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="PL7-pw-XwR" customClass="PageViewController" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xlN-d0-dhz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-396" y="-920"/>
@@ -52,7 +52,7 @@
         <!--Search View Controller-->
         <scene sceneID="Wfi-Ox-MOX">
             <objects>
-                <viewController id="Ib0-7i-B1o" customClass="SearchViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SearchViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ib0-7i-B1o" customClass="SearchViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3FY-Km-tpd">
                         <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -164,12 +164,12 @@
         <!--Song Page Controller-->
         <scene sceneID="S4c-1X-Y4Q">
             <objects>
-                <viewController storyboardIdentifier="SongPage" id="C58-AL-puc" customClass="SongPageController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SongPage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="C58-AL-puc" customClass="SongPageController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Djm-xK-PQ2">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" editable="NO" usesAttributedText="YES" id="8y5-ta-sLh" customClass="SafeTextView">
+                            <textView multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="TextView" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" editable="NO" usesAttributedText="YES" id="8y5-ta-sLh" customClass="SafeTextView">
                                 <rect key="frame" x="32" y="0.0" width="704" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -234,12 +234,12 @@
         <!--Book Page Controller-->
         <scene sceneID="Qo6-IO-HE4">
             <objects>
-                <viewController storyboardIdentifier="BookPage" id="xRO-Bd-g44" customClass="BookPageController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BookPage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="xRO-Bd-g44" customClass="BookPageController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kPh-5a-MkV">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" id="Qhk-Vi-Vi9" customClass="SafeTextView">
+                            <textView contentMode="scaleToFill" restorationIdentifier="TextView" bounces="NO" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" id="Qhk-Vi-Vi9" customClass="SafeTextView">
                                 <rect key="frame" x="32" y="0.0" width="704" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -285,12 +285,12 @@
         <!--Section Page Controller-->
         <scene sceneID="ggZ-VD-sch">
             <objects>
-                <viewController storyboardIdentifier="SectionPage" id="qBS-d5-2mh" customClass="SectionPageController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SectionPage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qBS-d5-2mh" customClass="SectionPageController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jvZ-lB-Ez3">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" id="ZPS-WZ-eZB" customClass="SafeTextView">
+                            <textView contentMode="scaleToFill" restorationIdentifier="TextView" bounces="NO" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" id="ZPS-WZ-eZB" customClass="SafeTextView">
                                 <rect key="frame" x="32" y="0.0" width="704" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -326,10 +326,22 @@
         <!--Book Manager View Controller-->
         <scene sceneID="lGX-rq-shv">
             <objects>
-                <viewController id="Igp-1z-ufN" customClass="BookManagerViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BookManager" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Igp-1z-ufN" customClass="BookManagerViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YFS-7C-uPM">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="TtF-a9-YpT">
+                                <rect key="frame" x="361" y="497" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="openBook:" destination="Igp-1z-ufN" eventType="touchUpInside" id="oBn-kJ-c1G"/>
+                                </connections>
+                            </button>
+                        </subviews>
                     </view>
                     <connections>
                         <segue destination="jrp-vl-Nww" kind="modal" identifier="OpenBook" animates="NO" id="2eP-Qa-BaT"/>

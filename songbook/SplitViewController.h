@@ -8,18 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "Book.h"
+#import "CoreDataStack.h"
+#import "PageViewController.h"
 
-@interface SplitViewController : UIViewController
+@interface SplitViewController : UIViewController <PageViewControllerDelegate>
 
-@property (nonatomic, readonly) UIViewController *master;
-@property (nonatomic, readonly) UIViewController *detail;
-@property (nonatomic) BOOL masterHidden;
-@property (nonatomic, strong) id userData;
-
-@end
-
-@interface UIViewController (SplitViewController)
-
-@property (nonatomic, weak) SplitViewController *splitController;
+@property (nonatomic) BOOL searchHidden;
+@property (nonatomic, strong) CoreDataStack *coreDataStack;
 
 @end

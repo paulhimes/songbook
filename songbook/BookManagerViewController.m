@@ -7,15 +7,15 @@
 //
 
 #import "BookManagerViewController.h"
-#import "PageViewController.h"
 #import "DataModelTests.h"
 #import "BookCodec.h"
 #import "CoreDataStack.h"
-#import "SplitViewController.h"
 #import "Section.h"
 #import "Song+Helpers.h"
 #import "Book+Helpers.h"
 #import "TokenizeOperation.h"
+#import "SplitViewController.h"
+#import "SingleViewController.h"
 
 static NSString * const kTemporaryDatabaseDirectoryName = @"temporaryBook";
 static NSString * const kMainDatabaseDirectoryName = @"mainBook";
@@ -82,17 +82,9 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"OpenBook"]) {
-        
-        if ([segue.destinationViewController isKindOfClass:[PageViewController class]]) {
-            // iPhone
-            PageViewController *pageViewController = (PageViewController *)segue.destinationViewController;
-            pageViewController.coreDataStack = self.mainBookStack;
-        } else if ([segue.destinationViewController isKindOfClass:[SplitViewController class]]) {
-            // iPad
-//            SplitViewController *splitViewController = (SplitViewController *)segue.destinationViewController;
-//            splitViewController.userData = book;
+        if ([segue.destinationViewController respondsToSelector:@selector(setCoreDataStack:)]) {
+            [segue.destinationViewController setCoreDataStack:self.mainBookStack];
         }
-
     }
 }
 
@@ -124,7 +116,7 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
     Book *book = [Book bookFromContext:self.mainBookStack.managedObjectContext];
     if (book) {
         // Begin tokenizing any untokenized songs in this book.
-        [self tokenizeBook:book];
+//        [self tokenizeBook:book];
         
         [self performSegueWithIdentifier:@"OpenBook" sender:nil];
     }

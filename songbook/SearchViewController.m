@@ -65,7 +65,10 @@ typedef enum PreferredSearchMethod : NSUInteger {
 - (Song *)closestSong
 {
     NSError *getSongError;
-    Song *song = (Song *)[self.coreDataStack.managedObjectContext existingObjectWithID:self.closestSongID error:&getSongError];
+    Song *song;
+    if (self.closestSongID) {
+        song = (Song *)[self.coreDataStack.managedObjectContext existingObjectWithID:self.closestSongID error:&getSongError];
+    }
     return song;
 }
 
@@ -136,7 +139,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
             self.searchField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
         }
     }
-    [self.searchField becomeFirstResponder];
+//    [self.searchField becomeFirstResponder];
     
     [self searchFieldEditingChanged:self.searchField];
 }
@@ -196,7 +199,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
     NSURL *closestSongIDURL = [coder decodeObjectForKey:kClosestSongIDKey];
     NSManagedObjectID *closestSongID = [coreDataStack.managedObjectContext.persistentStoreCoordinator managedObjectIDForURIRepresentation:closestSongIDURL];
     
-    if (storyboard && coreDataStack && closestSongID) {
+    if (storyboard && coreDataStack) {
         NSLog(@"Created SearchViewController");
         
         controller = (SearchViewController *)[storyboard instantiateViewControllerWithIdentifier:[identifierComponents lastObject]];
@@ -214,6 +217,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
     NSString *searchString = [coder decodeObjectForKey:kSearchStringKey];
     if (searchString) {
         self.searchField.text = searchString;
+        [self searchFieldEditingChanged:self.searchField];
     }
 }
 
