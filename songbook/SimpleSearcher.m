@@ -44,7 +44,7 @@
         [sectionModels addObject:[[SearchSectionModel alloc] initWithTitle:section.title cellModels:cellModels]];
     }
     
-    SearchTableModel *table = [[SearchTableModel alloc] initWithSectionModels:[sectionModels copy]];
+    SearchTableModel *table = [[SearchTableModel alloc] initWithSectionModels:[sectionModels copy] persistentStoreCoordinator:book.managedObjectContext.persistentStoreCoordinator];
     
     return table;
 }

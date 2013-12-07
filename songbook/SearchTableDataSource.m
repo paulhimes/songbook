@@ -26,7 +26,7 @@
     if (self) {
         self.tableModel = tableModel;
         if (!self.tableModel || [self.tableModel.sectionModels count] < 1) {
-            self.tableModel = [[SearchTableModel alloc] initWithSectionModels:@[[[SearchSectionModel alloc] initWithTitle:@"No Results" cellModels:@[]]]];
+            self.tableModel = [[SearchTableModel alloc] initWithSectionModels:@[[[SearchSectionModel alloc] initWithTitle:@"No Results" cellModels:@[]]] persistentStoreCoordinator:nil];
         }
     }
     return self;
@@ -52,14 +52,14 @@
     return cell;
 }
 
-- (NSIndexPath *)indexPathForSongID:(NSManagedObjectID *)songID
+- (NSIndexPath *)indexPathForSongID:(NSManagedObjectID *)songID andRange:(NSRange)range
 {
     for (NSUInteger sectionIndex = 0; sectionIndex < [self.tableModel.sectionModels count]; sectionIndex++) {
         SearchSectionModel *section = self.tableModel.sectionModels[sectionIndex];
         for (NSInteger row = 0; row < [section.cellModels count]; row++) {
             SearchCellModel *cell = section.cellModels[row];
             
-            if ([cell.songID isEqual:songID]) {
+            if ([cell.songID isEqual:songID] && NSEqualRanges(cell.range, range)) {
                 return [NSIndexPath indexPathForRow:row inSection:sectionIndex];
             }
         }
@@ -133,6 +133,34 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - UIDataSourceModelAssociation
+
+- (NSString *)modelIdentifierForElementAtIndexPath:(NSIndexPath *)idx inView:(UIView *)view
+{
+    NSManagedObjectID *songId = [self songIDAtIndexPath:idx];
+    NSRange range = [self songRangeAtIndexPath:idx];
+    
+    NSURL *url = [songId URIRepresentation];
+    url = [url URLByAppendingPathComponent:[NSString stringWithFormat:@"%d", range.location]];
+    url = [url URLByAppendingPathComponent:[NSString stringWithFormat:@"%d", range.length]];
+    return [url absoluteString];
+}
+
+- (NSIndexPath *)indexPathForElementWithModelIdentifier:(NSString *)identifier inView:(UIView *)view
+{
+    NSURL *url =  [NSURL URLWithString:identifier];
+    NSInteger length = [[url lastPathComponent] integerValue];
+    url = [url URLByDeletingLastPathComponent];
+    NSInteger location = [[url lastPathComponent] integerValue];
+    url = [url URLByDeletingLastPathComponent];
+    
+    NSRange range = NSMakeRange(location, length);
+    NSManagedObjectID *songId = [self.tableModel.coordinator managedObjectIDForURIRepresentation:url];
+    
+    NSIndexPath *indexPath = [self indexPathForSongID:songId andRange:range];
+    return indexPath;
 }
 
 @end

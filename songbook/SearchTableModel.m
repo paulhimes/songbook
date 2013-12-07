@@ -8,13 +8,21 @@
 
 #import "SearchTableModel.h"
 
+@interface SearchTableModel()
+
+@property (nonatomic, strong) NSPersistentStoreCoordinator *coordinator;
+
+@end
+
 @implementation SearchTableModel
 
 - (instancetype)initWithSectionModels:(NSArray *)sectionModels
+           persistentStoreCoordinator:(NSPersistentStoreCoordinator *)coordinator
 {
     self = [super init];
     if (self) {
         _sectionModels = [sectionModels copy];
+        _coordinator = coordinator;
     }
     return self;
 }

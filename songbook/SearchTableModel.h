@@ -11,7 +11,9 @@
 @interface SearchTableModel : NSObject
 
 @property (nonatomic, readonly) NSArray *sectionModels;
+@property (nonatomic, readonly) NSPersistentStoreCoordinator *coordinator;
 
-- (instancetype)initWithSectionModels:(NSArray *)sectionModels;
+- (instancetype)initWithSectionModels:(NSArray *)sectionModels
+           persistentStoreCoordinator:(NSPersistentStoreCoordinator *)coordinator;
 
 @end

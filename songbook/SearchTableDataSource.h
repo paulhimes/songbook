@@ -9,12 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "SearchTableModel.h"
 
-@interface SearchTableDataSource : NSObject <UITableViewDataSource, UITableViewDelegate>
+@interface SearchTableDataSource : NSObject <UITableViewDataSource, UITableViewDelegate, UIDataSourceModelAssociation>
 
 - (instancetype)initWithTableModel:(SearchTableModel *)tableModel;
+
 - (NSManagedObjectID *)songIDAtIndexPath:(NSIndexPath *)indexPath;
 - (NSRange)songRangeAtIndexPath:(NSIndexPath *)indexPath;
-- (NSIndexPath *)indexPathForSongID:(NSManagedObjectID *)songID;
+- (NSIndexPath *)indexPathForSongID:(NSManagedObjectID *)songID andRange:(NSRange)range;
+
 
 
 @end
