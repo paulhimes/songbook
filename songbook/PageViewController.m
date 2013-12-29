@@ -59,7 +59,7 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
 {
     [super encodeRestorableStateWithCoder:coder];
     
-    NSLog(@"Encoding PageViewController");
+    NSLog(@"Encode PageViewController");
     
     // Save the core data stack.
     if (self.coreDataStack) {

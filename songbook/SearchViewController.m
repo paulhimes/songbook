@@ -253,7 +253,6 @@ typedef enum PreferredSearchMethod : NSUInteger {
     [operation setCompletionBlock:^{
         if (!weakOperation.isCancelled && weakOperation.tableModel) {
             SearchTableModel *tableModel = weakOperation.tableModel;
-            
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 NSLog(@"search operation completed");
                 [weakSelf updateDataSourceWithTableModel:tableModel];
