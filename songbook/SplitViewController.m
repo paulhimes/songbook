@@ -10,27 +10,54 @@
 #import "PageViewController.h"
 #import "SearchViewController.h"
 
+static NSString * const kSearchIsVisibleKey = @"SearchIsVisibleKey";
 static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
 static NSString * const kPageViewControllerKey = @"PageViewControllerKey";
 static NSString * const kSearchViewControllerKey = @"SearchViewControllerKey";
 
-@interface SplitViewController () <PageViewControllerDelegate>
+@interface SplitViewController () <PageViewControllerDelegate, SearchViewControllerDelegate>
 
 @property (nonatomic, strong) SearchViewController *searchViewController;
 @property (nonatomic, strong) PageViewController *pageViewController;
 
-@property (weak, nonatomic) IBOutlet UIView *searchViewContrlllerContainer;
+@property (weak, nonatomic) IBOutlet UIView *searchViewControllerContainer;
 @property (weak, nonatomic) IBOutlet UIView *pageViewControllerContainer;
+
+@property (nonatomic) BOOL searchIsVisible;
 
 @end
 
 @implementation SplitViewController
 
+- (SearchViewController *)searchViewController
+{
+    if (!_searchViewController) {
+        _searchViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"SearchViewController"];
+        _searchViewController.coreDataStack = self.coreDataStack;
+        _searchViewController.delegate = self;
+    }
+    return _searchViewController;
+}
+
+- (PageViewController *)pageViewController
+{
+    if (!_pageViewController) {
+        _pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"PageViewController"];
+        _pageViewController.coreDataStack = self.coreDataStack;
+        _pageViewController.pageViewControllerDelegate = self;
+    }
+    return _pageViewController;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.searchHidden = YES;
+    // Add the PageViewController.
+    [self addChildViewController:self.pageViewController];
+    self.pageViewController.view.frame = CGRectMake(0, 0, self.pageViewControllerContainer.frame.size.width, self.pageViewControllerContainer.frame.size.height);
+    [self.pageViewControllerContainer addSubview:self.pageViewController.view];
+    [self.pageViewController didMoveToParentViewController:self];
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -38,37 +65,22 @@ static NSString * const kSearchViewControllerKey = @"SearchViewControllerKey";
     return YES;
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"EmbedSearchViewController"] && [segue.destinationViewController isKindOfClass:[SearchViewController class]]) {
-        SearchViewController *searchViewController = (SearchViewController *)segue.destinationViewController;
-        searchViewController.coreDataStack = self.coreDataStack;
-        self.searchViewController = searchViewController;
-    } else if ([segue.identifier isEqualToString:@"EmbedPageViewController"] && [segue.destinationViewController isKindOfClass:[PageViewController class]]) {
-        PageViewController *pageViewController = (PageViewController *)segue.destinationViewController;
-        pageViewController.pageViewControllerDelegate = self;
-        pageViewController.coreDataStack = self.coreDataStack;
-        self.pageViewController = pageViewController;
-    }
-}
-
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
     [super encodeRestorableStateWithCoder:coder];
     
+    // Save the search visibility state
+    [coder encodeBool:self.searchIsVisible forKey:kSearchIsVisibleKey];
+    
     // Save the core data stack.
-    if (self.coreDataStack) {
-        [coder encodeObject:self.coreDataStack forKey:kCoreDataStackKey];
-    }
+    [coder encodeObject:self.coreDataStack forKey:kCoreDataStackKey];
     
     // Save the page view controller.
-    if (self.pageViewController) {
-        [coder encodeObject:self.pageViewController forKey:kPageViewControllerKey];
-    }
+    [coder encodeObject:self.pageViewController forKey:kPageViewControllerKey];
     
     // Save the search view controller.
-    if (self.searchViewController) {
-        [coder encodeObject:self.searchViewController forKey:kSearchViewControllerKey];
+    if (_searchViewController) {
+        [coder encodeObject:_searchViewController forKey:kSearchViewControllerKey];
     }
 }
 
@@ -76,65 +88,83 @@ static NSString * const kSearchViewControllerKey = @"SearchViewControllerKey";
 {
     [super decodeRestorableStateWithCoder:coder];
     self.coreDataStack = [coder decodeObjectForKey:kCoreDataStackKey];
-}
-
-- (IBAction)searchCancelled:(UIStoryboardSegue *)segue
-{
-}
-
-- (IBAction)songSelected:(UIStoryboardSegue *)segue
-{
-    if ([segue.sourceViewController isKindOfClass:[SearchViewController class]]) {
-        SearchViewController *searchViewController = (SearchViewController *)segue.sourceViewController;
-        
-        if (searchViewController.selectedSongID) {
-            NSError *getSongError;
-            Song *song = (Song *)[self.coreDataStack.managedObjectContext existingObjectWithID:searchViewController.selectedSongID error:&getSongError];
-            [self.pageViewController showPageForModelObject:song
-                                             highlightRange:searchViewController.selectedRange
-                                                   animated:NO];
-        }
-    }
-}
-
-- (void)setSearchHidden:(BOOL)searchHidden
-{
-    if (_searchHidden) {
-        [UIView animateWithDuration:0.5 animations:^{
-            if (_searchHidden && !searchHidden) {
-                // Show search.
-                [self.searchViewController viewWillAppear:YES];
-                [self.searchViewContrlllerContainer setOriginX:0];
-                CGFloat detailOriginX = self.searchViewContrlllerContainer.frame.size.width + 0.5;
-                self.pageViewControllerContainer.frame = CGRectMake(detailOriginX, 0, self.view.bounds.size.width - detailOriginX, self.view.bounds.size.height);
-            } else if (!_searchHidden && searchHidden) {
-                // Hide search.
-                [self.searchViewController viewWillDisappear:YES];
-                [self.searchViewContrlllerContainer setOriginX:-self.searchViewContrlllerContainer.frame.size.width];
-                CGFloat detailOriginX = 0;
-                self.pageViewControllerContainer.frame = CGRectMake(detailOriginX, 0, self.view.bounds.size.width - detailOriginX, self.view.bounds.size.height);
-            }
-        } completion:^(BOOL finished) {
-            if (_searchHidden && !searchHidden) {
-                // Show search.
-                [self.searchViewController viewDidAppear:YES];
-            } else if (!_searchHidden && searchHidden) {
-                // Hide search.
-                [self.pageViewController viewDidDisappear:YES];
-            }
-        }];
-    }
     
-    _searchHidden = searchHidden;
+    self.searchViewController = [coder decodeObjectForKey:kSearchViewControllerKey];
+    self.coreDataStack = [coder decodeObjectForKey:kCoreDataStackKey];
+
+    BOOL searchIsVisible = [coder decodeBoolForKey:kSearchIsVisibleKey];
+    if (searchIsVisible) {
+        [self showSearch];
+    }
+}
+
+- (void)showSearch
+{
+    self.searchIsVisible = YES;
+    
+    [self addChildViewController:self.searchViewController];
+    self.searchViewController.view.frame = CGRectMake(0, 0, self.searchViewControllerContainer.frame.size.width, self.searchViewControllerContainer.frame.size.height);
+    [self.searchViewControllerContainer addSubview:self.searchViewController.view];
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        // Show search.
+        [self.searchViewControllerContainer setOriginX:0];
+        CGFloat detailOriginX = self.searchViewControllerContainer.frame.size.width + 0.5;
+        self.pageViewControllerContainer.frame = CGRectMake(detailOriginX, 0, self.view.bounds.size.width - detailOriginX, self.view.bounds.size.height);
+    } completion:^(BOOL finished) {
+        [self.searchViewController didMoveToParentViewController:self];
+    }];
+}
+
+- (void)hideSearch
+{
+    self.searchIsVisible = NO;
+    
+    [self.searchViewController willMoveToParentViewController:nil];
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        // Hide search.
+        [self.searchViewControllerContainer setOriginX:-self.searchViewControllerContainer.frame.size.width];
+        CGFloat detailOriginX = 0;
+        self.pageViewControllerContainer.frame = CGRectMake(detailOriginX, 0, self.view.bounds.size.width - detailOriginX, self.view.bounds.size.height);
+    } completion:^(BOOL finished) {
+        [self.searchViewController.view removeFromSuperview];
+        [self.searchViewController removeFromParentViewController];
+    }];
 }
 
 #pragma mark - PageViewControllerDelegate
 
 - (void)search
 {
-    self.searchViewController.coreDataStack = self.coreDataStack;
-    self.searchViewController.closestSongID = self.pageViewController.closestSongID;
-    self.searchHidden = NO;
+    if (self.searchIsVisible) {
+        // Hide search.
+        [self hideSearch];
+    } else {
+        self.searchViewController.closestSongID = self.pageViewController.closestSongID;
+        // Show search.
+        [self showSearch];
+    }
+}
+
+#pragma mark - SearchViewControllerDelegate
+
+- (void)searchCancelled:(SearchViewController *)searchViewController
+{
+    [self hideSearch];
+}
+
+- (void)searchViewController:(SearchViewController *)searchViewController
+                selectedSong:(NSManagedObjectID *)selectedSongID
+                   withRange:(NSRange)range
+{
+    if (selectedSongID) {
+        NSError *getSongError;
+        Song *song = (Song *)[self.coreDataStack.managedObjectContext existingObjectWithID:selectedSongID error:&getSongError];
+        [self.pageViewController showPageForModelObject:song
+                                         highlightRange:range
+                                               animated:NO];
+    }
 }
 
 @end

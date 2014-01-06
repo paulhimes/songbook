@@ -65,7 +65,9 @@
 
 - (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder
 {
-    return YES;
+    // Only restore state if the device type hasn't changed.
+    NSNumber *idiom = [coder decodeObjectForKey:UIApplicationStateRestorationUserInterfaceIdiomKey];
+    return [idiom integerValue] == [[UIDevice currentDevice] userInterfaceIdiom];
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation

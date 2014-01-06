@@ -9,7 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "SearchTableModel.h"
 
+@protocol SearchTableDataSourceDelegate;
+
 @interface SearchTableDataSource : NSObject <UITableViewDataSource, UITableViewDelegate, UIDataSourceModelAssociation>
+
+@property (nonatomic, weak) id<SearchTableDataSourceDelegate> delegate;
 
 - (instancetype)initWithTableModel:(SearchTableModel *)tableModel;
 
@@ -17,6 +21,10 @@
 - (NSRange)songRangeAtIndexPath:(NSIndexPath *)indexPath;
 - (NSIndexPath *)indexPathForSongID:(NSManagedObjectID *)songID andRange:(NSRange)range;
 
+@end
 
+@protocol SearchTableDataSourceDelegate <NSObject>
+
+- (void)selectedSong:(NSManagedObjectID *)selectedSongID withRange:(NSRange)range;
 
 @end

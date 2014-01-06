@@ -132,6 +132,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // Get the selected song.
+    NSManagedObjectID *selectedSongID = [self songIDAtIndexPath:indexPath];
+    
+    // Which location in the song was selected.
+    NSRange selectedRange = [self songRangeAtIndexPath:indexPath];
+    
+    [self.delegate selectedSong:selectedSongID withRange:selectedRange];
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

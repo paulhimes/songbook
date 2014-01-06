@@ -13,7 +13,6 @@
 
 @interface SplitViewController : UIViewController <PageViewControllerDelegate>
 
-@property (nonatomic) BOOL searchHidden;
 @property (nonatomic, strong) CoreDataStack *coreDataStack;
 
 @end

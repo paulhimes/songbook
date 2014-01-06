@@ -74,13 +74,9 @@ const float kMinimumStandardTextSize = 8;
 
     NSLog(@"Encode PageController");
 
-    if (self.coreDataStack) {
-        [coder encodeObject:self.coreDataStack forKey:kCoreDataStackKey];
-    }
+    [coder encodeObject:self.coreDataStack forKey:kCoreDataStackKey];
     
-    if (self.modelID) {
-        [coder encodeObject:[self.modelID URIRepresentation] forKey:kModelIDURLKey];
-    }
+    [coder encodeObject:[self.modelID URIRepresentation] forKey:kModelIDURLKey];
     
     if (self.delegate) {
         [coder encodeObject:self.delegate forKey:kDelegateKey];

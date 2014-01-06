@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="13A598" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="Igp-1z-ufN">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="13B42" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="Igp-1z-ufN">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
@@ -12,29 +12,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <containerView contentMode="scaleToFill" id="Mye-XC-Rdy">
+                            <view contentMode="scaleToFill" id="EhB-BJ-hYL">
                                 <rect key="frame" x="-320" y="0.0" width="320" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <connections>
-                                    <segue destination="Ib0-7i-B1o" kind="embed" identifier="EmbedSearchViewController" id="byV-7g-eIC"/>
-                                </connections>
-                            </containerView>
-                            <containerView contentMode="scaleToFill" id="REn-G0-DO6">
+                            </view>
+                            <view contentMode="scaleToFill" id="h7t-x4-jkX">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <connections>
-                                    <segue destination="PL7-pw-XwR" kind="embed" identifier="EmbedPageViewController" id="XCt-oo-bhp"/>
-                                </connections>
-                            </containerView>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.78431372549019607" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="plb-KR-U3l"/>
                     <connections>
-                        <outlet property="pageViewControllerContainer" destination="REn-G0-DO6" id="VYx-ZK-uM0"/>
-                        <outlet property="searchViewContrlllerContainer" destination="Mye-XC-Rdy" id="ruX-wT-PbD"/>
+                        <outlet property="pageViewControllerContainer" destination="h7t-x4-jkX" id="0N9-AL-4Ep"/>
+                        <outlet property="searchViewControllerContainer" destination="EhB-BJ-hYL" id="y5H-Um-l4A"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="97R-C6-6gg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -92,9 +86,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="3kv-So-Xvb" kind="unwind" identifier="SelectSong" unwindAction="songSelected:" id="7ie-1P-x1F"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ContextCell" textLabel="6Jk-hQ-G8k" rowHeight="35" style="IBUITableViewCellStyleDefault" id="quM-KW-aGq">
                                         <rect key="frame" x="0.0" y="66" width="540" height="35"/>
@@ -112,9 +103,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="3kv-So-Xvb" kind="unwind" identifier="SelectSong" unwindAction="songSelected:" id="rS6-YU-l0Q"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -131,7 +119,7 @@
                                         <items/>
                                     </toolbar>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search" minimumFontSize="17" id="hr1-Se-d29" userLabel="Search Field">
-                                        <rect key="frame" x="7" y="7" width="526" height="30"/>
+                                        <rect key="frame" x="7" y="7" width="466" height="30"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -140,6 +128,17 @@
                                             <action selector="searchFieldEditingChanged:" destination="Ib0-7i-B1o" eventType="editingChanged" id="ZIS-ew-etT"/>
                                         </connections>
                                     </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="saf-gl-yej">
+                                        <rect key="frame" x="475" y="5" width="65" height="34"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
+                                        <state key="normal" title="Cancel">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="searchCancelled:" destination="Ib0-7i-B1o" eventType="touchUpInside" id="k5Q-FC-oHJ"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
@@ -153,11 +152,9 @@
                         <outlet property="tableView" destination="Cgg-se-M4E" id="nJ9-G6-oFw"/>
                         <outlet property="tokenizeProgressLabel" destination="DE4-lg-BJU" id="7EU-ge-xbN"/>
                         <outlet property="toolbar" destination="94X-qz-xle" id="Nzt-VN-d7L"/>
-                        <segue destination="3kv-So-Xvb" kind="unwind" identifier="CancelSearch" unwindAction="searchCancelled:" id="0Fu-SH-tlP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xAE-LL-Jth" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="3kv-So-Xvb" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-396" y="-1720"/>
         </scene>

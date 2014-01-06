@@ -12,7 +12,7 @@
 static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
 static NSString * const kPageViewControllerKey = @"PageViewControllerKey";
 
-@interface SingleViewController ()
+@interface SingleViewController () <SearchViewControllerDelegate>
 
 @property (nonatomic, strong) PageViewController *pageViewController;
 
@@ -25,6 +25,7 @@ static NSString * const kPageViewControllerKey = @"PageViewControllerKey";
     if ([segue.identifier isEqualToString:@"Search"] &&
         [segue.destinationViewController isKindOfClass:[SearchViewController class]]) {
         SearchViewController *searchViewController = ((SearchViewController *)segue.destinationViewController);
+        searchViewController.delegate = self;
         searchViewController.coreDataStack = self.coreDataStack;
         searchViewController.closestSongID = self.pageViewController.closestSongID;
     } else if ([segue.identifier isEqualToString:@"EmbedPageViewController"] &&
@@ -32,25 +33,6 @@ static NSString * const kPageViewControllerKey = @"PageViewControllerKey";
         self.pageViewController = segue.destinationViewController;
         self.pageViewController.pageViewControllerDelegate = self;
         self.pageViewController.coreDataStack = self.coreDataStack;
-    }
-}
-
-- (IBAction)searchCancelled:(UIStoryboardSegue *)segue
-{
-}
-
-- (IBAction)songSelected:(UIStoryboardSegue *)segue
-{
-    if ([segue.sourceViewController isKindOfClass:[SearchViewController class]]) {
-        SearchViewController *searchViewController = (SearchViewController *)segue.sourceViewController;
-        
-        if (searchViewController.selectedSongID) {
-            NSError *getSongError;
-            Song *song = (Song *)[self.coreDataStack.managedObjectContext existingObjectWithID:searchViewController.selectedSongID error:&getSongError];
-            [self.pageViewController showPageForModelObject:song
-                                             highlightRange:searchViewController.selectedRange
-                                                   animated:NO];
-        }
     }
 }
 
@@ -86,6 +68,27 @@ static NSString * const kPageViewControllerKey = @"PageViewControllerKey";
 - (void)search
 {
     [self performSegueWithIdentifier:@"Search" sender:nil];
+}
+
+#pragma mark - SearchViewControllerDelegate
+
+- (void)searchCancelled:(SearchViewController *)searchViewController
+{
+    [self dismissViewControllerAnimated:YES completion:^{}];
+}
+
+- (void)searchViewController:(SearchViewController *)searchViewController
+                selectedSong:(NSManagedObjectID *)selectedSongID
+                   withRange:(NSRange)range
+{
+    if (selectedSongID) {
+        NSError *getSongError;
+        Song *song = (Song *)[self.coreDataStack.managedObjectContext existingObjectWithID:selectedSongID error:&getSongError];
+        [self.pageViewController showPageForModelObject:song
+                                         highlightRange:range
+                                               animated:NO];
+    }
+    [self dismissViewControllerAnimated:YES completion:^{}];
 }
 
 @end

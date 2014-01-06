@@ -10,11 +10,20 @@
 #import "CoreDataStack.h"
 #import "Song.h"
 
+@protocol SearchViewControllerDelegate;
+
 @interface SearchViewController : UIViewController
 
 @property (nonatomic, strong) CoreDataStack *coreDataStack;
 @property (nonatomic, strong) NSManagedObjectID *closestSongID;
-@property (nonatomic, strong) NSManagedObjectID *selectedSongID;
-@property (nonatomic) NSRange selectedRange;
+
+@property (nonatomic, weak) id<SearchViewControllerDelegate> delegate;
+
+@end
+
+@protocol SearchViewControllerDelegate <NSObject>
+
+- (void)searchCancelled:(SearchViewController *)searchViewController;
+- (void)searchViewController:(SearchViewController *)searchViewController selectedSong:(NSManagedObjectID *)selectedSongID withRange:(NSRange)range;
 
 @end

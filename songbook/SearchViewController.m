@@ -19,13 +19,14 @@ static NSString * const kPreferredSearchMethodKey = @"PreferredSearchMethodKey";
 static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
 static NSString * const kClosestSongIDKey = @"ClosestSongIDKey";
 static NSString * const kSearchStringKey = @"SearchStringKey";
+static NSString * const kDelegateKey = @"DelegateKey";
 
 typedef enum PreferredSearchMethod : NSUInteger {
     PreferredSearchMethodNumbers,
     PreferredSearchMethodLetters
 } PreferredSearchMethod;
 
-@interface SearchViewController () <UITableViewDelegate, UIToolbarDelegate, UIViewControllerRestoration>
+@interface SearchViewController () <UITableViewDelegate, UIToolbarDelegate, SearchTableDataSourceDelegate>
 
 @property (nonatomic, strong) SearchTableDataSource *dataSource;
 @property (nonatomic, strong) NSOperationQueue *searchQueue;
@@ -70,12 +71,6 @@ typedef enum PreferredSearchMethod : NSUInteger {
         song = (Song *)[self.coreDataStack.managedObjectContext existingObjectWithID:self.closestSongID error:&getSongError];
     }
     return song;
-}
-
-- (void)awakeFromNib
-{
-    [super awakeFromNib];
-    self.restorationClass = [self class];
 }
 
 - (void)viewDidLoad
@@ -149,24 +144,6 @@ typedef enum PreferredSearchMethod : NSUInteger {
     return YES;
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"SelectSong"] &&
-        [sender isKindOfClass:[UITableViewCell class]]) {
-        
-        // Get the selected indexPath
-        NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
-        
-        // Get the selected song.
-        self.selectedSongID = [self.dataSource songIDAtIndexPath:selectedIndexPath];
-        
-        // Remember which location in the song was selected.
-        self.selectedRange = [self.dataSource songRangeAtIndexPath:selectedIndexPath];
-        
-        [self.searchField resignFirstResponder];
-    }
-}
-
 - (void)dealloc
 {
     if (self.observerToken) {
@@ -178,9 +155,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
 {
     NSLog(@"Encode SearchViewController");
     
-    if (self.coreDataStack) {
-        [coder encodeObject:self.coreDataStack forKey:kCoreDataStackKey];
-    }
+    [coder encodeObject:self.coreDataStack forKey:kCoreDataStackKey];
     
     if (self.closestSongID) {
         [coder encodeObject:[self.closestSongID URIRepresentation] forKey:kClosestSongIDKey];
@@ -188,37 +163,34 @@ typedef enum PreferredSearchMethod : NSUInteger {
     
     [coder encodeObject:self.searchField.text forKey:kSearchStringKey];
     
-    [super encodeRestorableStateWithCoder:coder];
-}
-
-+ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
-{
-    SearchViewController *controller;
-    UIStoryboard *storyboard = [coder decodeObjectForKey:UIStateRestorationViewControllerStoryboardKey];
-    CoreDataStack *coreDataStack = [coder decodeObjectForKey:kCoreDataStackKey];
-    NSURL *closestSongIDURL = [coder decodeObjectForKey:kClosestSongIDKey];
-    NSManagedObjectID *closestSongID = [coreDataStack.managedObjectContext.persistentStoreCoordinator managedObjectIDForURIRepresentation:closestSongIDURL];
-    
-    if (storyboard && coreDataStack) {
-        NSLog(@"Created SearchViewController");
-        
-        controller = (SearchViewController *)[storyboard instantiateViewControllerWithIdentifier:[identifierComponents lastObject]];
-        controller.coreDataStack = coreDataStack;
-        controller.closestSongID = closestSongID;
+    // Save the delegate
+    if (self.delegate) {
+        [coder encodeObject:self.delegate forKey:kDelegateKey];
     }
     
-    return controller;
+    [super encodeRestorableStateWithCoder:coder];
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder
 {
     [super decodeRestorableStateWithCoder:coder];
     
+    self.delegate = [coder decodeObjectForKey:kDelegateKey];
+    
+    self.coreDataStack = [coder decodeObjectForKey:kCoreDataStackKey];
+    NSURL *closestSongIDURL = [coder decodeObjectForKey:kClosestSongIDKey];
+    self.closestSongID = [self.coreDataStack.managedObjectContext.persistentStoreCoordinator managedObjectIDForURIRepresentation:closestSongIDURL];
+    
     NSString *searchString = [coder decodeObjectForKey:kSearchStringKey];
     if (searchString) {
         self.searchField.text = searchString;
         [self searchFieldEditingChanged:self.searchField];
     }
+}
+
+- (IBAction)searchCancelled:(id)sender
+{
+    [self.delegate searchCancelled:self];
 }
 
 #pragma mark - UISearchBarDelegate
@@ -277,11 +249,20 @@ typedef enum PreferredSearchMethod : NSUInteger {
     return UIBarPositionAny;
 }
 
+#pragma mark - SearchTableDataSourceDelegate
+
+- (void)selectedSong:(NSManagedObjectID *)selectedSongID withRange:(NSRange)range
+{
+    [self.delegate searchViewController:self selectedSong:selectedSongID withRange:range];
+    [self.searchField resignFirstResponder];
+}
+
 #pragma mark - Helper Methods
 
 - (void)updateDataSourceWithTableModel:(SearchTableModel *)tableModel
 {
     self.dataSource = [[SearchTableDataSource alloc] initWithTableModel:tableModel];
+    self.dataSource.delegate = self;
     self.tableView.dataSource = self.dataSource;
     self.tableView.delegate = self.dataSource;
 }
