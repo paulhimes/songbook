@@ -10,6 +10,8 @@
 #import "Verse.h"
 #import "SongTitleView.h"
 
+static const float kTextScaleThreshold = 1;
+
 @interface SongPageController () <UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UIToolbarDelegate>
 
 @property (nonatomic, readonly) Song *song;
@@ -33,6 +35,11 @@
 
 @property (nonatomic) BOOL hasAutoScrolledToHighlight;
 
+// Caching for speed optimization.
+@property (nonatomic, strong) NSParagraphStyle *numberAndTitleParagraphStyle;
+@property (nonatomic, strong) NSParagraphStyle *subtitleParagraphStyle;
+@property (nonatomic, strong) NSDictionary *songComponentRanges;
+
 @end
 
 @implementation SongPageController
@@ -43,6 +50,32 @@
 //    
 //    self.relatedSongs = [self.song.relatedSongs allObjects];
 //}
+
+- (NSParagraphStyle *)numberAndTitleParagraphStyle
+{
+    if (!_numberAndTitleParagraphStyle) {
+        _numberAndTitleParagraphStyle = [self paragraphStyleFirstLineIndent:0
+                                                            andNormalIndent:self.titleView.titleOriginX];
+    }
+    return _numberAndTitleParagraphStyle;
+}
+
+- (NSParagraphStyle *)subtitleParagraphStyle
+{
+    if (!_subtitleParagraphStyle) {
+        _subtitleParagraphStyle = [self paragraphStyleFirstLineIndent:self.titleView.titleOriginX
+                                                      andNormalIndent:self.titleView.titleOriginX];
+    }
+    return _subtitleParagraphStyle;
+}
+
+- (NSDictionary *)songComponentRanges
+{
+    if (!_songComponentRanges) {
+        _songComponentRanges = [self.song stringComponentRanges];
+    }
+    return _songComponentRanges;
+}
 
 - (void)viewDidLoad
 {
@@ -121,23 +154,19 @@
     NSMutableDictionary *normalAttributes = [@{} mutableCopy];
     normalAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion" size:standardTextSize];
     
-    NSParagraphStyle *numberAndTitleParagraphStyle = [self paragraphStyleFirstLineIndent:0
-                                                                         andNormalIndent:self.titleView.titleOriginX];
-    
     NSMutableDictionary *numberAttributes = [normalAttributes mutableCopy];
     numberAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion-Bold" size:kTitleNumberFontSize];
-    numberAttributes[NSParagraphStyleAttributeName] = numberAndTitleParagraphStyle;
+    numberAttributes[NSParagraphStyleAttributeName] = self.numberAndTitleParagraphStyle;
 
     NSMutableDictionary *titleAttributes = [normalAttributes mutableCopy];
     titleAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion" size:kTitleFontSize];
-    titleAttributes[NSParagraphStyleAttributeName] = numberAndTitleParagraphStyle;
+    titleAttributes[NSParagraphStyleAttributeName] = self.numberAndTitleParagraphStyle;
 
     NSMutableDictionary *ghostAttributes = [normalAttributes mutableCopy];
     ghostAttributes[NSForegroundColorAttributeName] = [UIColor grayColor];
     
     NSMutableDictionary *subtitleAttributes = [normalAttributes mutableCopy];
-    subtitleAttributes[NSParagraphStyleAttributeName] = [self paragraphStyleFirstLineIndent:self.titleView.titleOriginX
-                                                                            andNormalIndent:self.titleView.titleOriginX];
+    subtitleAttributes[NSParagraphStyleAttributeName] = self.subtitleParagraphStyle;
     subtitleAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion" size:kSubtitleFontSize];
     
     NSMutableDictionary *verseTitleAttributes = [normalAttributes mutableCopy];
@@ -157,16 +186,16 @@
     footerAttributes[NSParagraphStyleAttributeName] = footerParagraphStyle;
     
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[self.song string]];
-    NSDictionary *songComponentRanges = [self.song stringComponentRanges];
     
-    [self applyAttributes:normalAttributes toRanges:songComponentRanges[kNormalRangesKey] ofString:attributedString];
-    [self applyAttributes:numberAttributes toRanges:songComponentRanges[kSongNumberRangesKey] ofString:attributedString];
-    [self applyAttributes:titleAttributes toRanges:songComponentRanges[kTitleRangesKey] ofString:attributedString];
-    [self applyAttributes:subtitleAttributes toRanges:songComponentRanges[kSubtitleRangesKey] ofString:attributedString];
-    [self applyAttributes:verseTitleAttributes toRanges:songComponentRanges[kVerseTitleRangesKey] ofString:attributedString];
-    [self applyAttributes:chorusAttributes toRanges:songComponentRanges[kChorusRangesKey] ofString:attributedString];
-    [self applyAttributes:ghostAttributes toRanges:songComponentRanges[kGhostRangesKey] ofString:attributedString];
-    [self applyAttributes:footerAttributes toRanges:songComponentRanges[kFooterRangesKey] ofString:attributedString];
+    [attributedString addAttributes:normalAttributes range:NSMakeRange(0, attributedString.length)];
+    
+    [self applyAttributes:numberAttributes toRanges:self.songComponentRanges[kSongNumberRangesKey] ofString:attributedString];
+    [self applyAttributes:titleAttributes toRanges:self.songComponentRanges[kTitleRangesKey] ofString:attributedString];
+    [self applyAttributes:subtitleAttributes toRanges:self.songComponentRanges[kSubtitleRangesKey] ofString:attributedString];
+    [self applyAttributes:verseTitleAttributes toRanges:self.songComponentRanges[kVerseTitleRangesKey] ofString:attributedString];
+    [self applyAttributes:chorusAttributes toRanges:self.songComponentRanges[kChorusRangesKey] ofString:attributedString];
+    [self applyAttributes:ghostAttributes toRanges:self.songComponentRanges[kGhostRangesKey] ofString:attributedString];
+    [self applyAttributes:footerAttributes toRanges:self.songComponentRanges[kFooterRangesKey] ofString:attributedString];
     
     // Highlight a portion of the text.
     [attributedString addAttributes:@{NSForegroundColorAttributeName:[Theme redColor],
@@ -371,16 +400,22 @@
     // Limit the scaled size to sane bounds.
     float scaledAndLimitedSize = MIN(maximumFontSize, MAX(minimumFontSize, scaledSize));
     
-    CGFloat touchPointVerticalShift = touchPoint.y - self.touchStartPoint.y;
-    self.glyphYCoordinateInMainView = self.glyphOriginalYCoordinateInMainView + touchPointVerticalShift;
+    // Only update the text scale if the change is significant enough.
+    NSNumber *currentTextSize = [[NSUserDefaults standardUserDefaults] objectForKey:kStandardTextSizeKey];
+    if (fabsf([currentTextSize floatValue] - scaledAndLimitedSize) > kTextScaleThreshold) {
+        
+        CGFloat touchPointVerticalShift = touchPoint.y - self.touchStartPoint.y;
+        self.glyphYCoordinateInMainView = self.glyphOriginalYCoordinateInMainView + touchPointVerticalShift;
+        
+        [[NSUserDefaults standardUserDefaults] setObject:@(scaledAndLimitedSize) forKey:kStandardTextSizeKey];
+        
+        CGFloat currentYCoordinateOfGlyphInMainView = [self yCoordinateInMainViewOfGlyphAtIndex:self.glyphIndex];
+        CGFloat glyphVerticalError = self.glyphYCoordinateInMainView - currentYCoordinateOfGlyphInMainView;
+        CGFloat contentOffsetY = self.textView.contentOffset.y - glyphVerticalError;
+        
+        [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
+    }
     
-    [[NSUserDefaults standardUserDefaults] setObject:@(scaledAndLimitedSize) forKey:kStandardTextSizeKey];
-    
-    CGFloat currentYCoordinateOfGlyphInMainView = [self yCoordinateInMainViewOfGlyphAtIndex:self.glyphIndex];
-    CGFloat glyphVerticalError = self.glyphYCoordinateInMainView - currentYCoordinateOfGlyphInMainView;
-    CGFloat contentOffsetY = self.textView.contentOffset.y - glyphVerticalError;
-    
-    [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
 }
 
 - (void)scrollToCharacterAtIndex:(NSUInteger)characterIndex
