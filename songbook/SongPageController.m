@@ -22,7 +22,6 @@ static const float kTextScaleThreshold = 1;
 @property (weak, nonatomic) IBOutlet UIToolbar *bottomBar;
 @property (weak, nonatomic) IBOutlet SafeTextView *textView;
 @property (weak, nonatomic) IBOutlet SongTitleView *titleView;
-@property (weak, nonatomic) IBOutlet UIButton *searchButton;
 
 @property (nonatomic, strong) UITableView *relatedItemsView;
 
@@ -91,11 +90,6 @@ static const float kTextScaleThreshold = 1;
     
     self.topBar.delegate = self;
     self.bottomBar.delegate = self;
-
-    UIImage *searchButtonImage = [[self.searchButton imageForState:UIControlStateNormal] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    UIImage *searchButtonHighlightedImage = [[self.searchButton imageForState:UIControlStateHighlighted] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    [self.searchButton setImage:searchButtonImage forState:UIControlStateNormal];
-    [self.searchButton setImage:searchButtonHighlightedImage forState:UIControlStateHighlighted];
 
     [super viewDidLoad];
     

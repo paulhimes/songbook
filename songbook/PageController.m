@@ -8,6 +8,7 @@
 
 #import "PageController.h"
 #import "BookCodec.h"
+#import "BookProvider.h"
 
 NSString * const kStandardTextSizeKey = @"StandardTextSize";
 
@@ -126,9 +127,31 @@ const float kMinimumStandardTextSize = 8;
 }
 
 #pragma mark - Action Methods
-- (IBAction)searchAction:(UIButton *)sender
+
+- (IBAction)searchAction:(id)sender
 {
     [self.delegate search];
+}
+
+- (IBAction)exportAction:(id)sender
+{
+    CoreDataStack *coreDataStack = self.coreDataStack;
+    NSArray *activityItems = @[[[BookProvider alloc] initWithCoreDataStack:coreDataStack]];
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems
+                                                                                         applicationActivities:nil];
+    activityViewController.excludedActivityTypes = @[UIActivityTypeMessage];
+    activityViewController.completionHandler = ^(NSString *activityType, BOOL completed) {
+        // Delete the temporary file.
+        NSURL *fileURL = [BookCodec fileURLForExportingFromContext:coreDataStack.managedObjectContext];
+        if (fileURL) {
+            NSError *deleteError;
+            if (![[NSFileManager defaultManager] removeItemAtURL:fileURL error:&deleteError]) {
+                NSLog(@"Failed to delete temporary export file: %@", deleteError);
+            }
+        }
+    };
+    
+    [self presentViewController:activityViewController animated:YES completion:nil];
 }
 
 @end

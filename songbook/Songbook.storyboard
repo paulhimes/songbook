@@ -65,19 +65,20 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="7Z9-uC-sit" userLabel="Bottom Toolbar">
                                 <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <items/>
+                                <items>
+                                    <barButtonItem systemItem="search" id="WUh-qr-l10">
+                                        <connections>
+                                            <action selector="searchAction:" destination="BLr-Sz-4hc" id="5jR-KJ-9rD"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Fo1-rD-kV8"/>
+                                    <barButtonItem systemItem="action" id="SDL-hj-HEh">
+                                        <connections>
+                                            <action selector="exportAction:" destination="BLr-Sz-4hc" id="q4x-yT-cWd"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
                             </toolbar>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="zjS-2a-tzd">
-                                <rect key="frame" x="80" y="524" width="160" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <state key="normal" image="MagnifyingGlassBarIcon">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted" image="MagnifyingGlassBarIconHighlighted"/>
-                                <connections>
-                                    <action selector="searchAction:" destination="BLr-Sz-4hc" eventType="touchUpInside" id="aUh-dN-gAZ"/>
-                                </connections>
-                            </button>
                             <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="UyO-Ke-5E4" userLabel="Top Toolbar">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -94,7 +95,6 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="bottomBar" destination="7Z9-uC-sit" id="Vlm-fq-mqL"/>
-                        <outlet property="searchButton" destination="zjS-2a-tzd" id="yCl-Gd-2E0"/>
                         <outlet property="textView" destination="q00-Dd-rwV" id="9sm-AZ-kx8"/>
                         <outlet property="titleView" destination="Pea-vZ-suQ" id="kPJ-BB-CA6"/>
                         <outlet property="topBar" destination="UyO-Ke-5E4" id="J4c-oS-9Jw"/>
@@ -253,36 +253,31 @@
                                 <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="usO-Fl-pzz">
-                                <rect key="frame" x="80" y="524" width="160" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <state key="normal" image="MagnifyingGlassBarIcon">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted" image="MagnifyingGlassBarIconHighlighted"/>
-                                <connections>
-                                    <action selector="searchAction:" destination="BLr-Sz-4hc" eventType="touchUpInside" id="1rO-fk-eJX"/>
-                                    <action selector="searchAction:" destination="e5b-Wd-exR" eventType="touchUpInside" id="M99-fo-OFB"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Ets-vj-iW5">
-                                <rect key="frame" x="248" y="531" width="72" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="YwN-3A-Ahs">
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem systemItem="search" id="Jis-vO-tNv">
+                                        <connections>
+                                            <action selector="searchAction:" destination="e5b-Wd-exR" id="yCq-jU-IoZ"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="ozh-JA-HQn"/>
+                                    <barButtonItem systemItem="action" id="4II-VE-9Ik">
+                                        <connections>
+                                            <action selector="exportAction:" destination="e5b-Wd-exR" id="7bM-zN-O1J"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Export">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="exportAction:" destination="e5b-Wd-exR" eventType="touchUpInside" id="qA1-ZV-nke"/>
-                                </connections>
-                            </button>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="textView" destination="83D-ol-4TM" id="kZo-cf-p9A"/>
+                        <outlet property="toolbar" destination="YwN-3A-Ahs" id="tHG-YJ-0gI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IPb-bN-9UO" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -306,25 +301,30 @@
                                 <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="aIe-PM-Dto">
-                                <rect key="frame" x="80" y="524" width="160" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <state key="normal" image="MagnifyingGlassBarIcon">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted" image="MagnifyingGlassBarIconHighlighted"/>
-                                <connections>
-                                    <action selector="searchAction:" destination="BLr-Sz-4hc" eventType="touchUpInside" id="PEd-pv-kLg"/>
-                                    <action selector="searchAction:" destination="JX1-xR-aBA" eventType="touchUpInside" id="sm4-E9-dy6"/>
-                                </connections>
-                            </button>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="DxV-Wx-01N">
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem systemItem="search" id="Cmy-JK-5bz">
+                                        <connections>
+                                            <action selector="searchAction:" destination="JX1-xR-aBA" id="eoE-hX-YdC"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="HpY-CU-kDR"/>
+                                    <barButtonItem systemItem="action" id="2mA-cQ-rYT">
+                                        <connections>
+                                            <action selector="exportAction:" destination="JX1-xR-aBA" id="mMX-iG-x6c"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <outlet property="searchButton" destination="aIe-PM-Dto" id="sLx-q1-0Y6"/>
                         <outlet property="textView" destination="MDa-SC-IaW" id="sg9-Jp-Bid"/>
+                        <outlet property="toolbar" destination="DxV-Wx-01N" id="6VV-hT-hx8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="de2-5d-fJK" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -332,10 +332,6 @@
             <point key="canvasLocation" x="-297" y="1551"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="MagnifyingGlassBarIcon" width="44" height="44"/>
-        <image name="MagnifyingGlassBarIconHighlighted" width="44" height="44"/>
-    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

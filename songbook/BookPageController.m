@@ -10,10 +10,10 @@
 #import "GradientView.h"
 #import "BookCodec.h"
 
-@interface BookPageController () <MFMailComposeViewControllerDelegate>
+@interface BookPageController () <UIToolbarDelegate>
 
-@property (nonatomic, strong) NSURL *temporaryExportFile;
 @property (nonatomic, readonly) Book *book;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 
 @end
 
@@ -26,6 +26,9 @@
     GradientView *gradientView = [[GradientView alloc] initWithFrame:CGRectMake(-self.view.bounds.size.width, 0, 2 * self.view.bounds.size.width, self.view.bounds.size.height)];
     gradientView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view insertSubview:gradientView atIndex:0];
+    
+    [self.toolbar setBackgroundImage:[[UIImage alloc] init] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    self.toolbar.delegate = self;
 }
 
 - (NSManagedObject *)modelObject
@@ -56,36 +59,11 @@
                                                         }];
 }
 
-- (IBAction)exportAction:(UIButton *)sender
-{
-    self.temporaryExportFile = [BookCodec exportBookFromContext:self.coreDataStack.managedObjectContext];
-    NSData *exportData = [NSData dataWithContentsOfURL:self.temporaryExportFile];
-    
-    // Email the file data.
-    MFMailComposeViewController *mailController = [[MFMailComposeViewController alloc] init];
-    mailController.mailComposeDelegate = self;
-    [mailController setSubject:[[self.temporaryExportFile lastPathComponent] stringByDeletingPathExtension]];
-    [mailController addAttachmentData:exportData
-                             mimeType:@"application/vnd.paulhimes.songbook.songbook"
-                             fileName:[self.temporaryExportFile lastPathComponent]];
-    [self presentViewController:mailController animated:YES completion:^{}];
-}
+#pragma mark - UIBarPositioningDelegate
 
-#pragma mark - MFMailComposeViewControllerDelegate
-
-- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
 {
-    [self dismissViewControllerAnimated:YES completion:^{}];
-    
-    // Delete the temporary file.
-    if (self.temporaryExportFile) {
-        NSError *deleteError;
-        if (![[NSFileManager defaultManager] removeItemAtURL:self.temporaryExportFile error:&deleteError]) {
-            NSLog(@"Failed to delete temporary export file: %@", deleteError);
-        }
-    }
-    self.temporaryExportFile = nil;
-    
+    return UIBarPositionTop;
 }
 
 @end

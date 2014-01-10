@@ -47,11 +47,11 @@ NSString * const kBookFileName = @"book.json";
 
 @implementation BookCodec
 
-+ (NSURL *)exportBookFromContext:(NSManagedObjectContext *)context
++ (void)exportBookFromContext:(NSManagedObjectContext *)context intoURL:(NSURL *)url;
 {
     Book *book = [Book bookFromContext:context];
     if (!book) {
-        return nil;
+        return;
     }
     
     NSData *bookData = [self encodeBook:book];
@@ -74,9 +74,41 @@ NSString * const kBookFileName = @"book.json";
     [bookFileHandle writeData:bookData];
     // Close the book.
     [bookFileHandle closeFile];
+
+    // Delete the old file if it exists.
+    if ([[NSFileManager defaultManager] fileExistsAtPath:url.path]) {
+        NSError *error;
+        if (![[NSFileManager defaultManager] removeItemAtURL:url error:&error]) {
+            NSLog(@"Failed to delete the old zip file: %@", error);
+            return;
+        }
+    }
     
+    ZipArchive *zipArchive = [[ZipArchive alloc] init];
     
-    
+    BOOL createResult = [zipArchive createZipFile:url.path];
+    if (!createResult) {
+        NSLog(@"Create zip file failed");
+        return;
+    }
+    BOOL addResult = [zipArchive addFileToZip:bookFile.path newname:kBookFileName];
+    if (!addResult) {
+        NSLog(@"Add file to zip file failed");
+        return;
+    }
+    BOOL closeResult = [zipArchive closeZipFile];
+    if (!closeResult) {
+        NSLog(@"Close zip file failed");
+        return;
+    }
+}
+
++ (NSURL *)fileURLForExportingFromContext:(NSManagedObjectContext *)context
+{
+    Book *book = [Book bookFromContext:context];
+    if (!book) {
+        return nil;
+    }
     
     NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>"];
     NSString *safeFileName = [[book.title componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
@@ -89,36 +121,9 @@ NSString * const kBookFileName = @"book.json";
     NSString *fullFileName = [NSString stringWithFormat:@"%@.songbook", safeFileName];
     
     // Create the path to the temporary file.
-    NSURL *zipFile = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:fullFileName]];
+    NSURL *fileURLForExporting = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:fullFileName]];
     
-    // Delete the old file if it exists.
-    if ([[NSFileManager defaultManager] fileExistsAtPath:zipFile.path]) {
-        NSError *error;
-        if (![[NSFileManager defaultManager] removeItemAtURL:zipFile error:&error]) {
-            NSLog(@"Failed to delete the old zip file: %@", error);
-            return nil;
-        }
-    }
-    
-    ZipArchive *zipArchive = [[ZipArchive alloc] init];
-    
-    BOOL createResult = [zipArchive createZipFile:zipFile.path];
-    if (!createResult) {
-        NSLog(@"Create zip file failed");
-        return nil;
-    }
-    BOOL addResult = [zipArchive addFileToZip:bookFile.path newname:kBookFileName];
-    if (!addResult) {
-        NSLog(@"Add file to zip file failed");
-        return nil;
-    }
-    BOOL closeResult = [zipArchive closeZipFile];
-    if (!closeResult) {
-        NSLog(@"Close zip file failed");
-        return nil;
-    }
-
-    return zipFile;
+    return fileURLForExporting;
 }
 
 + (NSData *)encodeBook:(Book *)book

@@ -8,9 +8,9 @@
 
 #import "SectionPageController.h"
 
-@interface SectionPageController ()
+@interface SectionPageController () <UIToolbarDelegate>
 
-@property (weak, nonatomic) IBOutlet UIButton *searchButton;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (nonatomic, readonly) Section *section;
 
 @end
@@ -21,10 +21,8 @@
 {
     [super viewDidLoad];
     
-    UIImage *searchButtonImage = [[self.searchButton imageForState:UIControlStateNormal] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    UIImage *searchButtonHighlightedImage = [[self.searchButton imageForState:UIControlStateHighlighted] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    [self.searchButton setImage:searchButtonImage forState:UIControlStateNormal];
-    [self.searchButton setImage:searchButtonHighlightedImage forState:UIControlStateHighlighted];
+    [self.toolbar setBackgroundImage:[[UIImage alloc] init] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    self.toolbar.delegate = self;
 }
 
 - (NSManagedObject *)modelObject
@@ -50,6 +48,13 @@
     
     return [[NSAttributedString alloc] initWithString:self.section.title
                                            attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:standardTextSize * 1.75]}];
+}
+
+#pragma mark - UIBarPositioningDelegate
+
+- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
+{
+    return UIBarPositionTop;
 }
 
 @end
