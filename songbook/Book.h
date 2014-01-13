@@ -2,8 +2,8 @@
 //  Book.h
 //  songbook
 //
-//  Created by Paul Himes on 7/28/13.
-//  Copyright (c) 2013 Paul Himes. All rights reserved.
+//  Created by Paul Himes on 1/12/14.
+//  Copyright (c) 2014 Paul Himes. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -14,6 +14,9 @@
 @interface Book : NSManagedObject
 
 @property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSString * contactEmail;
+@property (nonatomic, retain) NSNumber * version;
+@property (nonatomic, retain) NSString * updateURL;
 @property (nonatomic, retain) NSOrderedSet *sections;
 @end
 

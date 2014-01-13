@@ -14,6 +14,9 @@
 
 // Book keys
 NSString * const kBookTitleKey = @"bookTitle";
+NSString * const kContactEmailKey = @"contactEmail";
+NSString * const kVersionKey = @"version";
+NSString * const kUpdateURLKey = @"updateURL";
 NSString * const kSectionsKey = @"sections";
 
 // Section keys
@@ -143,6 +146,13 @@ NSString * const kBookFileName = @"book.json";
 {
     OrderedDictionary *bookDictionary = [[OrderedDictionary alloc] init];
     bookDictionary[kBookTitleKey] = book.title;
+    if ([book.contactEmail length]) {
+        bookDictionary[kContactEmailKey] = book.contactEmail;
+    }
+    bookDictionary[kVersionKey] = book.version;
+    if ([book.updateURL length]) {
+        bookDictionary[kUpdateURLKey] = book.updateURL;
+    }
     
     NSMutableArray *sectionArray = [@[] mutableCopy];
     [bookDictionary setObject:sectionArray forKey:kSectionsKey];
@@ -271,6 +281,16 @@ NSString * const kBookFileName = @"book.json";
 {
     // Create a directory to unzip to.
     NSURL *unzippedDirectory = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unzipped"]];
+    
+    // Delete the unzip directory if it already exists.
+    NSError *deleteError;    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:unzippedDirectory.path]) {
+        [[NSFileManager defaultManager] removeItemAtURL:unzippedDirectory error:&deleteError];
+        if (deleteError) {
+            NSLog(@"Delete Error: %@", deleteError);
+        }
+    }
+    
     NSError *createDirectoryError;
     if (![[NSFileManager defaultManager] createDirectoryAtURL:unzippedDirectory
                                   withIntermediateDirectories:NO
@@ -302,6 +322,12 @@ NSString * const kBookFileName = @"book.json";
     NSURL *bookFile = [unzippedDirectory URLByAppendingPathComponent:kBookFileName];
     NSData *bookData = [NSData dataWithContentsOfURL:bookFile];
     
+    // Make sure the book data is not nil.
+    if (!bookData) {
+        NSLog(@"Book json file did not exist in the zip file.");
+        return nil;
+    }
+    
     // Parse the book data.
     NSError *parseError;
     id JSONObject = [NSJSONSerialization JSONObjectWithData:bookData options:0 error:&parseError];
@@ -320,7 +346,6 @@ NSString * const kBookFileName = @"book.json";
     }
     
     // Delete the temporary unzip directory.
-    NSError *deleteError;
     [[NSFileManager defaultManager] removeItemAtURL:unzippedDirectory error:&deleteError];
     if (deleteError) {
         NSLog(@"Delete Error: %@", deleteError);
@@ -331,91 +356,100 @@ NSString * const kBookFileName = @"book.json";
 
 + (Book *)bookFromBookDictionary:(NSDictionary *)bookDictionary inContext:(NSManagedObjectContext *)context
 {
-    Book *book = [Book bookInContext:context];
+    Book *book;
     
-    NSString *bookTitle = bookDictionary[kBookTitleKey];
-    if ([bookTitle length] == 0) {
-        bookTitle = @"Untitled";
-    }
-    book.title = bookTitle;
-    
-    NSMutableArray *relatedSongRelationshipArray = [@[] mutableCopy];
-    
-    NSArray *sectionArray = bookDictionary[kSectionsKey];
-    for (NSDictionary *sectionDictionary in sectionArray) {
+    if (bookDictionary && context) {
+        book = [Book bookInContext:context];
         
-        Section *section = [Section sectionInContext:context];
-        
-        NSString *sectionTitle = sectionDictionary[kSectionTitleKey];
-        if ([sectionTitle length] == 0) {
-            sectionTitle = @"Untitled";
+        NSString *bookTitle = bookDictionary[kBookTitleKey];
+        if ([bookTitle length] == 0) {
+            bookTitle = @"Untitled";
         }
-        section.title = sectionTitle;
+        book.title = bookTitle;
+        book.contactEmail = bookDictionary[kContactEmailKey];
+        book.version = bookDictionary[kVersionKey];
+        book.updateURL = bookDictionary[kUpdateURLKey];
         
-        NSArray *songArray = sectionDictionary[kSongsKey];
-        for (NSDictionary *songDictionary in songArray) {
+        NSMutableArray *relatedSongRelationshipArray = [@[] mutableCopy];
+        
+        NSArray *sectionArray = bookDictionary[kSectionsKey];
+        for (NSDictionary *sectionDictionary in sectionArray) {
             
-            Song *song = [Song songInContext:context];
+            Section *section = [Section sectionInContext:context];
             
-            song.number = songDictionary[kSongNumberKey];
-            song.title = songDictionary[kSongTitleKey];
-            song.subtitle = songDictionary[kSongSubtitleKey];
-            song.author = songDictionary[kSongAuthorKey];
-            song.year = songDictionary[kSongYearKey];
+            NSString *sectionTitle = sectionDictionary[kSectionTitleKey];
+            if ([sectionTitle length] == 0) {
+                sectionTitle = @"Untitled";
+            }
+            section.title = sectionTitle;
             
-            NSArray *verseArray = songDictionary[kVersesKey];
-            for (NSDictionary *verseDictionary in verseArray) {
+            NSArray *songArray = sectionDictionary[kSongsKey];
+            for (NSDictionary *songDictionary in songArray) {
                 
-                Verse *verse = [Verse verseInContext:context];
+                Song *song = [Song songInContext:context];
                 
-                verse.title = verseDictionary[kVerseTitleKey];
-                verse.isChorus = verseDictionary[kVerseIsChorusKey];
-                verse.number = verseDictionary[kVerseNumberKey];
-                verse.text = verseDictionary[kVerseTextKey];
-                verse.repeatText = verseDictionary[kVerseRepeatTextKey];
+                song.number = songDictionary[kSongNumberKey];
+                song.title = songDictionary[kSongTitleKey];
+                song.subtitle = songDictionary[kSongSubtitleKey];
+                song.author = songDictionary[kSongAuthorKey];
+                song.year = songDictionary[kSongYearKey];
                 
-                NSNumber *verseChorusIndex = verseDictionary[kVerseChorusIndexKey];
-                if (verseChorusIndex) {
-                    NSUInteger verseChorusIndexInteger = [verseChorusIndex unsignedIntegerValue];
-                    if (verseChorusIndexInteger < [song.verses count]) {
-                        verse.chorus = song.verses[verseChorusIndexInteger];
+                NSArray *verseArray = songDictionary[kVersesKey];
+                for (NSDictionary *verseDictionary in verseArray) {
+                    
+                    Verse *verse = [Verse verseInContext:context];
+                    
+                    verse.title = verseDictionary[kVerseTitleKey];
+                    if (verseDictionary[kVerseIsChorusKey]) {
+                        verse.isChorus = verseDictionary[kVerseIsChorusKey];
+                    }
+                    verse.number = verseDictionary[kVerseNumberKey];
+                    verse.text = verseDictionary[kVerseTextKey];
+                    verse.repeatText = verseDictionary[kVerseRepeatTextKey];
+                    
+                    NSNumber *verseChorusIndex = verseDictionary[kVerseChorusIndexKey];
+                    if (verseChorusIndex) {
+                        NSUInteger verseChorusIndexInteger = [verseChorusIndex unsignedIntegerValue];
+                        if (verseChorusIndexInteger < [song.verses count]) {
+                            verse.chorus = song.verses[verseChorusIndexInteger];
+                        }
+                    }
+                    
+                    verse.song = song;
+                }
+                
+                NSArray *relatedSongArray = songDictionary[kRelatedSongsKey];
+                for (NSDictionary *relatedSongDictionary in relatedSongArray) {
+                    
+                    NSNumber *relatedSongSectionIndex = relatedSongDictionary[kRelatedSongSectionIndexKey];
+                    NSNumber *relatedSongIndex = relatedSongDictionary[kRelatedSongIndexKey];
+                    
+                    if (relatedSongSectionIndex && relatedSongIndex) {
+                        [relatedSongRelationshipArray addObject:@{kRelatedSongSongKey: song,
+                                                                  kRelatedSongSectionIndexKey: relatedSongSectionIndex,
+                                                                  kRelatedSongIndexKey: relatedSongIndex}];
                     }
                 }
                 
-                verse.song = song;
+                song.section = section;
             }
             
-            NSArray *relatedSongArray = songDictionary[kRelatedSongsKey];
-            for (NSDictionary *relatedSongDictionary in relatedSongArray) {
-                
-                NSNumber *relatedSongSectionIndex = relatedSongDictionary[kRelatedSongSectionIndexKey];
-                NSNumber *relatedSongIndex = relatedSongDictionary[kRelatedSongIndexKey];
-                
-                if (relatedSongSectionIndex && relatedSongIndex) {
-                    [relatedSongRelationshipArray addObject:@{kRelatedSongSongKey: song,
-                                                              kRelatedSongSectionIndexKey: relatedSongSectionIndex,
-                                                              kRelatedSongIndexKey: relatedSongIndex}];
-                }
-            }
-            
-            song.section = section;
+            section.book = book;
         }
         
-        section.book = book;
-    }
-    
-    // Attach the related songs.
-    for (NSDictionary *relatedSongRelationship in relatedSongRelationshipArray) {
-        
-        Song *song = relatedSongRelationship[kRelatedSongSongKey];
-        NSUInteger relatedSongSectionIndex = [relatedSongRelationship[kRelatedSongSectionIndexKey] unsignedIntegerValue];
-        NSUInteger relatedSongIndex = [relatedSongRelationship[kRelatedSongIndexKey] unsignedIntegerValue];
-        
-        if (relatedSongSectionIndex < [book.sections count]) {
-            Section *section = book.sections[relatedSongSectionIndex];
-            if (relatedSongIndex < [section.songs count]) {
-                Song *relatedSong = section.songs[relatedSongIndex];
-                [song addRelatedSongsObject:relatedSong];
+        // Attach the related songs.
+        for (NSDictionary *relatedSongRelationship in relatedSongRelationshipArray) {
+            
+            Song *song = relatedSongRelationship[kRelatedSongSongKey];
+            NSUInteger relatedSongSectionIndex = [relatedSongRelationship[kRelatedSongSectionIndexKey] unsignedIntegerValue];
+            NSUInteger relatedSongIndex = [relatedSongRelationship[kRelatedSongIndexKey] unsignedIntegerValue];
+            
+            if (relatedSongSectionIndex < [book.sections count]) {
+                Section *section = book.sections[relatedSongSectionIndex];
+                if (relatedSongIndex < [section.songs count]) {
+                    Song *relatedSong = section.songs[relatedSongIndex];
+                    [song addRelatedSongsObject:relatedSong];
+                }
             }
         }
     }
