@@ -9,10 +9,13 @@
 #import "SongPageController.h"
 #import "Verse.h"
 #import "SongTitleView.h"
+#import "Book+Helpers.h"
+#import "BookCodec.h"
+#import "Section+Helpers.h"
 
 static const float kTextScaleThreshold = 1;
 
-@interface SongPageController () <UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UIToolbarDelegate>
+@interface SongPageController () <UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UIToolbarDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, readonly) Song *song;
 
@@ -94,6 +97,17 @@ static const float kTextScaleThreshold = 1;
     [super viewDidLoad];
     
     [self.textView setDebugColor:[UIColor redColor]];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    // Add custom menu items (for text views).
+    [UIMenuController sharedMenuController].menuItems = @[[[UIMenuItem alloc] initWithTitle:@"Share…"
+                                                                                     action:@selector(shareSelection:)],
+                                                          [[UIMenuItem alloc] initWithTitle:@"Report Problem"
+                                                                                     action:@selector(reportError:)]];
 }
 
 - (void)viewDidLayoutSubviews
@@ -435,6 +449,107 @@ static const float kTextScaleThreshold = 1;
     
     
     [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
+}
+
+#pragma mark - Menu actions.
+
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
+{
+    if (action == @selector(reportError:)) {
+        return [self.song.section.book.contactEmail length];
+    } else {
+        return [super canPerformAction:action withSender:sender];
+    }
+}
+
+- (void)shareSelection:(id)sender
+{
+    NSArray *activityItems = @[[self.textView.text substringWithRange:self.textView.selectedRange]];
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems
+                                                                                         applicationActivities:nil];
+    activityViewController.excludedActivityTypes = @[UIActivityTypeMessage];
+    [self presentViewController:activityViewController animated:YES completion:nil];
+}
+
+- (void)reportError:(id)sender
+{
+    NSLog(@"Report error");
+    // Could not open the file.
+    UIAlertView *reportAlertView = [[UIAlertView alloc] initWithTitle:@"Report Problem"
+                                                              message:@"Would you like to report an error in this song?"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"No"
+                                                    otherButtonTitles:@"Report", nil];
+    [reportAlertView show];
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0:
+            // Cancel
+            break;
+        case 1:
+            // Report
+            [self sendEmailProblemReport];
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)sendEmailProblemReport
+{
+    // Email the file data.
+    MFMailComposeViewController *mailController = [[MFMailComposeViewController alloc] init];
+    mailController.mailComposeDelegate = self;
+    
+    Book *book = self.song.section.book;
+    
+    NSString *sectionTitle = self.song.section.title;
+    
+    NSMutableString *songID = [@"" mutableCopy];
+    if (self.song.number) {
+        [songID appendString:[self.song.number stringValue]];
+    }
+    if ([self.song.title length]) {
+        if ([songID length]) {
+            [songID appendString:@" "];
+        }
+        [songID appendString:self.song.title];
+    }
+
+    [mailController setSubject:[NSString stringWithFormat:@"Songbook Problem Report: %@ - Version %@ - %@ - %@ - %lu", book.title, book.version, sectionTitle, songID, (unsigned long)self.textView.selectedRange.location]];
+    
+    if ([book.contactEmail length]) {
+        [mailController setToRecipients:@[book.contactEmail]];
+    }
+    
+    [mailController setMessageBody:[NSString stringWithFormat:@"…%@…", [self.textView.text substringWithRange:self.textView.selectedRange]] isHTML:NO];
+    
+    NSURL *fileURL = [BookCodec fileURLForExportingFromContext:self.coreDataStack.managedObjectContext];
+    [BookCodec exportBookFromContext:self.coreDataStack.managedObjectContext intoURL:fileURL];
+    NSData *exportData = [NSData dataWithContentsOfURL:fileURL];
+    NSError *deleteError;
+    if (![[NSFileManager defaultManager] removeItemAtURL:fileURL error:&deleteError]) {
+        NSLog(@"Failed to delete temporary export file: %@", deleteError);
+    }
+    [mailController addAttachmentData:exportData
+                             mimeType:@"application/vnd.paulhimes.songbook.songbook"
+                             fileName:[fileURL lastPathComponent]];
+    
+    [self presentViewController:mailController animated:YES completion:^{}];
+}
+
+#pragma mark - MFMailComposeViewControllerDelegate
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller
+          didFinishWithResult:(MFMailComposeResult)result
+                        error:(NSError *)error
+{
+    [self dismissViewControllerAnimated:YES completion:^{}];
 }
 
 @end
