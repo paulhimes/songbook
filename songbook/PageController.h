@@ -10,6 +10,7 @@
 #import "SafeTextView.h"
 #import "CoreDataStack.h"
 #import "SongbookModel.h"
+#import "NoStatusActivityViewController.h"
 
 extern NSString * const kStandardTextSizeKey;
 extern const float kSuperMaximumStandardTextSize;

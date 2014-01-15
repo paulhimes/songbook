@@ -77,6 +77,7 @@
 		8BC7D645187E62AA008F2289 /* BookProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7D644187E62AA008F2289 /* BookProvider.m */; };
 		8BC7D648188344DD008F2289 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7D647188344DD008F2289 /* Book.m */; };
 		8BC7D64C18834F03008F2289 /* Songs & Hymns of Believers.songbook in Resources */ = {isa = PBXBuildFile; fileRef = 8BC7D64B18834F03008F2289 /* Songs & Hymns of Believers.songbook */; };
+		8BC7D64F18860ECA008F2289 /* NoStatusActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7D64E18860ECA008F2289 /* NoStatusActivityViewController.m */; };
 		8BCA006F18457F9B00600947 /* SingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BCA006E18457F9B00600947 /* SingleViewController.m */; };
 		8BE5A65217CD2356002028E5 /* FilteredSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE5A65117CD2356002028E5 /* FilteredSearcher.m */; };
 		8BE5A65517CD8FA2002028E5 /* SmartSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE5A65417CD8FA2002028E5 /* SmartSearcher.m */; };
@@ -219,6 +220,8 @@
 		8BC7D646188344DD008F2289 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
 		8BC7D647188344DD008F2289 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
 		8BC7D64B18834F03008F2289 /* Songs & Hymns of Believers.songbook */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Songs & Hymns of Believers.songbook"; sourceTree = "<group>"; };
+		8BC7D64D18860ECA008F2289 /* NoStatusActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoStatusActivityViewController.h; sourceTree = "<group>"; };
+		8BC7D64E18860ECA008F2289 /* NoStatusActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoStatusActivityViewController.m; sourceTree = "<group>"; };
 		8BCA006D18457F9B00600947 /* SingleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleViewController.h; sourceTree = "<group>"; };
 		8BCA006E18457F9B00600947 /* SingleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleViewController.m; sourceTree = "<group>"; };
 		8BE5A65017CD2356002028E5 /* FilteredSearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilteredSearcher.h; sourceTree = "<group>"; };
@@ -443,6 +446,8 @@
 				8BAF6ADD180E3C6B00BFC813 /* Theme.m */,
 				8BEB2A2917DE8E30006F118C /* BookParser.h */,
 				8BEB2A2A17DE8E30006F118C /* BookParser.m */,
+				8BC7D64D18860ECA008F2289 /* NoStatusActivityViewController.h */,
+				8BC7D64E18860ECA008F2289 /* NoStatusActivityViewController.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -683,6 +688,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8BC7D64F18860ECA008F2289 /* NoStatusActivityViewController.m in Sources */,
 				8BC674CA17BC912C001E71B1 /* NSMutableAttributedString+Helpers.m in Sources */,
 				8B14432217F141770000A898 /* SearchSectionModel.m in Sources */,
 				8BAF35F9181F285400D6A93E /* mztools.c in Sources */,

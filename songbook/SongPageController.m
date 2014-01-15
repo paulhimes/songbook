@@ -465,8 +465,8 @@ static const float kTextScaleThreshold = 1;
 - (void)shareSelection:(id)sender
 {
     NSArray *activityItems = @[[self.textView.text substringWithRange:self.textView.selectedRange]];
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems
-                                                                                         applicationActivities:nil];
+    UIActivityViewController *activityViewController = [[NoStatusActivityViewController alloc] initWithActivityItems:activityItems
+                                                                                               applicationActivities:nil];
     activityViewController.excludedActivityTypes = @[UIActivityTypeMessage];
     [self presentViewController:activityViewController animated:YES completion:nil];
 }

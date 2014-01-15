@@ -137,13 +137,13 @@ const float kMinimumStandardTextSize = 8;
 {
     CoreDataStack *coreDataStack = self.coreDataStack;
     NSArray *activityItems = @[[[BookProvider alloc] initWithCoreDataStack:coreDataStack]];
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems
-                                                                                         applicationActivities:nil];
+    UIActivityViewController *activityViewController = [[NoStatusActivityViewController alloc] initWithActivityItems:activityItems
+                                                                                               applicationActivities:nil];
     activityViewController.excludedActivityTypes = @[UIActivityTypeMessage];
     activityViewController.completionHandler = ^(NSString *activityType, BOOL completed) {
         // Delete the temporary file.
         NSURL *fileURL = [BookCodec fileURLForExportingFromContext:coreDataStack.managedObjectContext];
-        if (fileURL) {
+        if (fileURL && [[NSFileManager defaultManager] fileExistsAtPath:fileURL.path]) {
             NSError *deleteError;
             if (![[NSFileManager defaultManager] removeItemAtURL:fileURL error:&deleteError]) {
                 NSLog(@"Failed to delete temporary export file: %@", deleteError);
