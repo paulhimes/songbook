@@ -59,6 +59,8 @@ typedef enum PreferredSearchMethod : NSUInteger {
 {
     if (!_activityIndicator) {
         _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        CGRect frame = _activityIndicator.frame;
+        _activityIndicator.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width + 10, frame.size.height);
     }
     return _activityIndicator;
 }
@@ -83,6 +85,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
     self.toolbar.delegate = self;
     
     self.searchField.layer.cornerRadius = 5;
+    self.searchField.backgroundColor = [[Theme grayTrimColor] colorWithAlphaComponent:0.1];
     self.searchField.leftViewMode = UITextFieldViewModeAlways;
     UIImageView *searchImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MagnifyingGlass"]];
     searchImage.frame = CGRectMake(0, 0, 30, 30);

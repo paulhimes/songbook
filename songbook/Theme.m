@@ -15,4 +15,9 @@
     return [UIColor colorWithRed:0.93 green:0.08 blue:0.19 alpha:1.0];
 }
 
++ (UIColor *)grayTrimColor
+{
+    return [UIColor colorWithRed:0.78 green:0.78 blue:0.8 alpha:1.0];
+}
+
 @end
