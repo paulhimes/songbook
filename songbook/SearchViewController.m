@@ -19,6 +19,7 @@ static NSString * const kPreferredSearchMethodKey = @"PreferredSearchMethodKey";
 static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
 static NSString * const kClosestSongIDKey = @"ClosestSongIDKey";
 static NSString * const kSearchStringKey = @"SearchStringKey";
+static NSString * const kSearchTimestampKey = @"SearchTimestampKey";
 static NSString * const kDelegateKey = @"DelegateKey";
 
 typedef enum PreferredSearchMethod : NSUInteger {
@@ -137,9 +138,31 @@ typedef enum PreferredSearchMethod : NSUInteger {
             self.searchField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
         }
     }
-//    [self.searchField becomeFirstResponder];
     
+    NSDate *searchTimestamp = [userDefaults objectForKey:kSearchTimestampKey];
+    NSTimeInterval searchAge = [searchTimestamp timeIntervalSinceNow];
+    if (searchAge > -60) {
+        NSString *searchString = [userDefaults stringForKey:kSearchStringKey];
+        self.searchField.text = searchString;
+    }
     [self searchFieldEditingChanged:self.searchField];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.searchField becomeFirstResponder];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    // Save the search string and timestamp.
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:self.searchField.text forKey:kSearchStringKey];
+    [userDefaults setObject:[NSDate date] forKey:kSearchTimestampKey];
+    [userDefaults synchronize];
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -210,6 +233,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
     NSString *decimalDigitOnlyString = [searchText stringLimitedToCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    // Save the preferred search method.
     if ([letterOnlyString length] > 0) {
         // Letter Search
         [userDefaults setObject:[NSNumber numberWithUnsignedInteger:PreferredSearchMethodLetters]
