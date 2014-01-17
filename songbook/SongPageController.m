@@ -106,7 +106,7 @@ static const float kTextScaleThreshold = 1;
     // Add custom menu items (for text views).
     [UIMenuController sharedMenuController].menuItems = @[[[UIMenuItem alloc] initWithTitle:@"Share…"
                                                                                      action:@selector(shareSelection:)],
-                                                          [[UIMenuItem alloc] initWithTitle:@"Report Problem"
+                                                          [[UIMenuItem alloc] initWithTitle:@"Report Problem…"
                                                                                      action:@selector(reportError:)]];
 }
 
