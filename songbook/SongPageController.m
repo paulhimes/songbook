@@ -26,7 +26,7 @@ static const float kTextScaleThreshold = 1;
 @property (weak, nonatomic) IBOutlet SafeTextView *textView;
 @property (weak, nonatomic) IBOutlet SongTitleView *titleView;
 
-@property (nonatomic, strong) UITableView *relatedItemsView;
+//@property (nonatomic, strong) UITableView *relatedItemsView;
 
 @property (nonatomic, strong) NSNumber *gestureStartTextSize;
 @property (nonatomic) NSUInteger glyphIndex;
@@ -81,8 +81,8 @@ static const float kTextScaleThreshold = 1;
 
 - (void)viewDidLoad
 {
-    [self.relatedItemsView setHeight:self.relatedItemsView.contentHeight];
-    [self.textView addSubview:self.relatedItemsView];
+//    [self.relatedItemsView setHeight:self.relatedItemsView.contentHeight];
+//    [self.textView addSubview:self.relatedItemsView];
     
     self.titleView.number = self.song.number;
     self.titleView.title = self.song.title;
@@ -139,20 +139,20 @@ static const float kTextScaleThreshold = 1;
     return song;
 }
 
-- (UITableView *)relatedItemsView
-{
-    if (!_relatedItemsView) {
-        _relatedItemsView = [[UITableView alloc] init];
-        _relatedItemsView.dataSource = self;
-        _relatedItemsView.delegate = self;
-        _relatedItemsView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        _relatedItemsView.scrollEnabled = NO;
-        _relatedItemsView.separatorInset = UIEdgeInsetsZero;
-        _relatedItemsView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        [_relatedItemsView setDebugColor:[UIColor purpleColor]];
-    }
-    return _relatedItemsView;
-}
+//- (UITableView *)relatedItemsView
+//{
+//    if (!_relatedItemsView) {
+//        _relatedItemsView = [[UITableView alloc] init];
+//        _relatedItemsView.dataSource = self;
+//        _relatedItemsView.delegate = self;
+//        _relatedItemsView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+//        _relatedItemsView.scrollEnabled = NO;
+//        _relatedItemsView.separatorInset = UIEdgeInsetsZero;
+//        _relatedItemsView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//        [_relatedItemsView setDebugColor:[UIColor purpleColor]];
+//    }
+//    return _relatedItemsView;
+//}
 
 - (NSAttributedString *)text
 {
@@ -285,16 +285,26 @@ static const float kTextScaleThreshold = 1;
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    BOOL shouldShowScrollIndicator = YES;
+    
     CGFloat offsetY = scrollView.contentOffset.y;
+    
     if (offsetY <= 0) {
         self.topBar.hidden = YES;
         self.titleView.hidden = YES;
-        self.textView.showsVerticalScrollIndicator = NO;
+        shouldShowScrollIndicator = NO;
     } else {
         self.topBar.hidden = NO;
         self.titleView.hidden = NO;
-        self.textView.showsVerticalScrollIndicator = YES;
-    }    
+    }
+    if (offsetY + scrollView.frame.size.height - (scrollView.contentInset.top + scrollView.contentInset.bottom) >= scrollView.contentSize.height) {
+        shouldShowScrollIndicator = NO;
+        [self.bottomBar setBackgroundImage:[[UIImage alloc] init] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    } else {
+        [self.bottomBar setBackgroundImage:nil forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    }
+    
+    self.textView.showsVerticalScrollIndicator = shouldShowScrollIndicator;
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView
@@ -361,7 +371,7 @@ static const float kTextScaleThreshold = 1;
         
         // Limit the content offset to the actual content size.
         CGFloat minimumContentOffset = 0;
-        CGFloat maximumContentOffset = MAX(self.textView.contentSize.height - (self.textView.frame.size.height - self.textView.contentInset.bottom), 0);
+        CGFloat maximumContentOffset = MAX(self.textView.contentSize.height - (self.textView.frame.size.height - self.textView.contentInset.bottom - self.textView.contentInset.top), 0);
         CGFloat contentOffsetY = self.textView.contentOffset.y;
         contentOffsetY = MIN(maximumContentOffset, MAX(minimumContentOffset, contentOffsetY));
         [self.textView setContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
@@ -436,18 +446,7 @@ static const float kTextScaleThreshold = 1;
     CGFloat glyphVerticalError = targetYCoordinate - currentYCoordinateOfGlyphInMainView;
     CGFloat currentContentOffsetY = self.textView.contentOffset.y;
     CGFloat contentOffsetY = currentContentOffsetY - glyphVerticalError;
-    
-//    // Limit the content offset to the actual content size.
-//    CGFloat minimumContentOffset = 0;
-//    
-//    CGFloat textViewContentHeight = self.textView.contentSize.height;
-//    CGFloat textViewFrameHeight = self.textView.frame.size.height;
-//    CGFloat textViewBottomInset = self.textView.contentInset.bottom;
-//    CGFloat maximumContentOffset = MAX(textViewContentHeight - (textViewFrameHeight - textViewBottomInset), 0);
-//    contentOffsetY = MIN(maximumContentOffset, MAX(minimumContentOffset, contentOffsetY));
-//    contentOffsetY = MAX(contentOffsetY, 0);
-    
-    
+
     [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
 }
 
