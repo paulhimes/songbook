@@ -9,6 +9,7 @@
 #import "SearchTableDataSource.h"
 #import "SearchSectionModel.h"
 #import "SearchCellModel.h"
+#import "SearchHeaderFooterView.h"
 
 @interface SearchTableDataSource()
 
@@ -98,10 +99,12 @@
     return [self.tableModel.sectionModels count];
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+    UITableViewHeaderFooterView *headerFooterView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:kSearchHeaderFooterFiewIdentifier];
     SearchSectionModel *sectionModel = self.tableModel.sectionModels[section];
-    return sectionModel.title;
+    headerFooterView.textLabel.text = sectionModel.title;
+    return headerFooterView;
 }
 
 #pragma mark - UITableViewDelegate

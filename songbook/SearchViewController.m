@@ -14,6 +14,7 @@
 #import "SearchOperation.h"
 #import "SearchTableDataSource.h"
 #import "TokenizeOperation.h"
+#import "SearchHeaderFooterView.h"
 
 static NSString * const kPreferredSearchMethodKey = @"PreferredSearchMethodKey";
 static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
@@ -83,6 +84,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
     
     self.tableView.contentInset = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
     self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
+    [self.tableView registerClass:[SearchHeaderFooterView class] forHeaderFooterViewReuseIdentifier:kSearchHeaderFooterFiewIdentifier];
 
     self.toolbar.delegate = self;
     
