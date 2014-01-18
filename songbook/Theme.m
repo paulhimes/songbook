@@ -20,4 +20,9 @@
     return [UIColor colorWithRed:0.78 green:0.78 blue:0.8 alpha:1.0];
 }
 
++ (UIColor *)darkerGrayColor
+{
+    return [UIColor colorWithRed:0.72 green:0.72 blue:0.72 alpha:1.0];
+}
+
 @end

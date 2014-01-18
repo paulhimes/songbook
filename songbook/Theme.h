@@ -12,5 +12,6 @@
 
 + (UIColor *)redColor;
 + (UIColor *)grayTrimColor;
++ (UIColor *)darkerGrayColor;
 
 @end

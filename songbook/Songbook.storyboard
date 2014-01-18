@@ -120,12 +120,18 @@
                                     <rect key="frame" x="0.0" y="101" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mIU-UB-beS">
-                                            <rect key="frame" x="20" y="11" width="280" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Indexing new songbook…" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mIU-UB-beS">
+                                            <rect key="frame" x="88" y="20" width="145" height="15"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" red="0.71764705882352942" green="0.71764705882352942" blue="0.71764705882352942" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" id="UnU-vG-TMp">
+                                            <rect key="frame" x="20" y="13" width="280" height="2"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                            <color key="trackTintColor" red="0.7843137255" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                                        </progressView>
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 </view>
@@ -181,7 +187,7 @@
                                     </toolbar>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="SearchField" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search" minimumFontSize="17" id="hfi-dn-jY1" userLabel="Search Field">
                                         <rect key="frame" x="7" y="7" width="246" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
@@ -210,8 +216,9 @@
                     <connections>
                         <outlet property="cancelButton" destination="xcf-7d-OfK" id="HUd-yn-yaE"/>
                         <outlet property="searchField" destination="hfi-dn-jY1" id="7gw-0b-oij"/>
+                        <outlet property="tableFooterView" destination="12p-H6-Z8U" id="1f4-Gd-uje"/>
                         <outlet property="tableView" destination="u1p-hu-jw2" id="6pz-qS-Rdl"/>
-                        <outlet property="tokenizeProgressLabel" destination="mIU-UB-beS" id="WkU-lU-Cda"/>
+                        <outlet property="tokenizeProgressView" destination="UnU-vG-TMp" id="RnZ-it-sdX"/>
                         <outlet property="toolbar" destination="bNw-CF-E5Q" id="yyR-lu-faf"/>
                     </connections>
                 </viewController>

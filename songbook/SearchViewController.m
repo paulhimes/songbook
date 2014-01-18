@@ -39,7 +39,8 @@ typedef enum PreferredSearchMethod : NSUInteger {
 @property (weak, nonatomic) IBOutlet UITextField *searchField;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 
-@property (weak, nonatomic) IBOutlet UILabel *tokenizeProgressLabel;
+@property (strong, nonatomic) IBOutlet UIView *tableFooterView;
+@property (weak, nonatomic) IBOutlet UIProgressView *tokenizeProgressView;
 @property (nonatomic) NSUInteger latestTokenizePercentComplete;
 @property (nonatomic, strong) id observerToken;
 
@@ -82,6 +83,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
 {
     [super viewDidLoad];
     
+    self.tableView.tableFooterView = nil;
     self.tableView.contentInset = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
     self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
     [self.tableView registerClass:[SearchHeaderFooterView class] forHeaderFooterViewReuseIdentifier:kSearchHeaderFooterFiewIdentifier];
@@ -105,20 +107,31 @@ typedef enum PreferredSearchMethod : NSUInteger {
                                                                        usingBlock:^(NSNotification *note) {
                                                                            int complete = [note.userInfo[kCompletedSongCountKey] integerValue];
                                                                            int total = [note.userInfo[kTotalSongCountKey] integerValue];
-                                                                           int percentComplete = (int)floor((float)complete / (float)total * 100);
+                                                                           
+                                                                           if (complete >= total) {
+                                                                               // Clear the progress message.
+                                                                               weakSelf.tableView.tableFooterView = nil;
+                                                                               [weakSelf.tokenizeProgressView setProgress:0];
+                                                                               weakSelf.latestTokenizePercentComplete = 0;
+                                                                           } else {
+                                                                               // If this is a custom search, show the progress view and activity indicator.
+                                                                               if ([weakSelf.searchField.text length]) {
+                                                                                   if (weakSelf.tableView.tableFooterView != weakSelf.tableFooterView) {
+                                                                                       weakSelf.tableView.tableFooterView = weakSelf.tableFooterView;
+                                                                                   }
+                                                                                   if (!weakSelf.activityIndicator.isAnimating) {
+                                                                                       [weakSelf.activityIndicator startAnimating];
+                                                                                   }
+                                                                               }
+                                                                               // Update the progress view.
+                                                                               [weakSelf.tokenizeProgressView setProgress:(float)complete/(float)total animated:YES];
+                                                                           }
                                                                            
                                                                            // Only respond once per whole integer percent value.
+                                                                           int percentComplete = (int)floor((float)complete / (float)total * 100);
                                                                            if (percentComplete > weakSelf.latestTokenizePercentComplete) {
                                                                                weakSelf.latestTokenizePercentComplete = percentComplete;
-                                                                               if (percentComplete >= 100) {
-                                                                                   // Clear the progress message.
-                                                                                   weakSelf.tokenizeProgressLabel.text = @"";
-                                                                                   weakSelf.latestTokenizePercentComplete = 0;
-                                                                               } else {
-                                                                                   // Update the progress message.
-                                                                                   weakSelf.tokenizeProgressLabel.text = [NSString stringWithFormat:@"%d%%", percentComplete];
-                                                                               }
-                                                                               
+
                                                                                // Refresh the search to see if new matches are available.
                                                                                if (percentComplete % 5 == 0 || percentComplete >= 100) {
                                                                                    [weakSelf searchFieldEditingChanged:weakSelf.searchField];
@@ -259,7 +272,10 @@ typedef enum PreferredSearchMethod : NSUInteger {
                 NSLog(@"search operation completed");
                 [weakSelf updateDataSourceWithTableModel:tableModel];
                 [weakSelf.tableView reloadData];
-                [weakSelf.activityIndicator stopAnimating];
+                if (weakSelf.tableView.tableFooterView != weakSelf.tableFooterView) {
+                    // Only stop animating if the tokenization process has finished.
+                    [weakSelf.activityIndicator stopAnimating];
+                }
                 
                 if ((!weakSelf.lastSearchString || [weakSelf.lastSearchString length]) && [searchText length] == 0) {
                     // If the search is blank, scroll to the current song.
