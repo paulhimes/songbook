@@ -32,6 +32,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
 @property (nonatomic, strong) SearchTableDataSource *dataSource;
 @property (nonatomic, strong) NSOperationQueue *searchQueue;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) NSString *lastSearchString;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (weak, nonatomic) IBOutlet UITextField *searchField;
@@ -258,9 +259,16 @@ typedef enum PreferredSearchMethod : NSUInteger {
                 [weakSelf.tableView reloadData];
                 [weakSelf.activityIndicator stopAnimating];
                 
-                if ([searchText length] == 0) {
+                if ((!weakSelf.lastSearchString || [weakSelf.lastSearchString length]) && [searchText length] == 0) {
+                    // If the search is blank, scroll to the current song.
                     [weakSelf scrollToCurrentSong];
+                } else if ((!weakSelf.lastSearchString && searchText) ||
+                           (weakSelf.lastSearchString && !searchText) ||
+                           [weakSelf.lastSearchString caseInsensitiveCompare:searchText] != NSOrderedSame) {
+                    // If the search text changed (i.e. this was a manual search), Scroll to the top.
+                    [weakSelf scrollToTop];
                 }
+                weakSelf.lastSearchString = searchText;
             }];
         }
     }];
@@ -303,6 +311,11 @@ typedef enum PreferredSearchMethod : NSUInteger {
                               atScrollPosition:UITableViewScrollPositionTop
                                       animated:NO];
     }
+}
+
+- (void)scrollToTop
+{
+    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
 }
 
 @end
