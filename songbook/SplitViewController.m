@@ -110,9 +110,10 @@ static NSString * const kSearchViewControllerKey = @"SearchViewControllerKey";
         // Show search.
         [self.searchViewControllerContainer setOriginX:0];
         CGFloat detailOriginX = self.searchViewControllerContainer.frame.size.width + 1;
-        self.pageViewControllerContainer.frame = CGRectMake(detailOriginX, 0, self.view.bounds.size.width - detailOriginX, self.view.bounds.size.height);
+        [self.pageViewControllerContainer setOriginX:detailOriginX];
     } completion:^(BOOL finished) {
         [self.searchViewController didMoveToParentViewController:self];
+        [self.pageViewControllerContainer setWidth:self.view.bounds.size.width - self.pageViewControllerContainer.frame.origin.x];
     }];
 }
 
