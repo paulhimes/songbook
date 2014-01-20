@@ -109,7 +109,7 @@ static NSString * const kSearchViewControllerKey = @"SearchViewControllerKey";
     [UIView animateWithDuration:0.5 animations:^{
         // Show search.
         [self.searchViewControllerContainer setOriginX:0];
-        CGFloat detailOriginX = self.searchViewControllerContainer.frame.size.width + 0.5;
+        CGFloat detailOriginX = self.searchViewControllerContainer.frame.size.width + 1;
         self.pageViewControllerContainer.frame = CGRectMake(detailOriginX, 0, self.view.bounds.size.width - detailOriginX, self.view.bounds.size.height);
     } completion:^(BOOL finished) {
         [self.searchViewController didMoveToParentViewController:self];
@@ -125,8 +125,7 @@ static NSString * const kSearchViewControllerKey = @"SearchViewControllerKey";
     [UIView animateWithDuration:0.5 animations:^{
         // Hide search.
         [self.searchViewControllerContainer setOriginX:-self.searchViewControllerContainer.frame.size.width];
-        CGFloat detailOriginX = 0;
-        self.pageViewControllerContainer.frame = CGRectMake(detailOriginX, 0, self.view.bounds.size.width - detailOriginX, self.view.bounds.size.height);
+        self.pageViewControllerContainer.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     } completion:^(BOOL finished) {
         [self.searchViewController.view removeFromSuperview];
         [self.searchViewController removeFromParentViewController];
