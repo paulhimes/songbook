@@ -21,7 +21,6 @@
 {
     [super viewDidLoad];
     
-    self.textView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     self.textView.textContainerInset = UIEdgeInsetsMake(0, 0, 0, 5);
 }
 

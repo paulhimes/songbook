@@ -89,7 +89,7 @@ static const float kTextScaleThreshold = 1;
     
     CGFloat titleContentOriginY = self.titleView.contentOriginY;
     //    NSLog(@"titleContentOriginY %f", titleContentOriginY);
-    self.textView.textContainerInset = UIEdgeInsetsMake(titleContentOriginY, 0, 0, 0);
+    self.textView.textContainerInset = UIEdgeInsetsMake(titleContentOriginY, 0, 44, 0);
     
     self.topBar.delegate = self;
     self.bottomBar.delegate = self;
@@ -297,14 +297,25 @@ static const float kTextScaleThreshold = 1;
         self.topBar.hidden = NO;
         self.titleView.hidden = NO;
     }
-    if (offsetY + scrollView.frame.size.height - (scrollView.contentInset.top + scrollView.contentInset.bottom) >= scrollView.contentSize.height) {
-        shouldShowScrollIndicator = NO;
-        [self.bottomBar setBackgroundImage:[[UIImage alloc] init] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
-    } else {
-        [self.bottomBar setBackgroundImage:nil forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    
+    if ([scrollView isKindOfClass:[UITextView class]]) {
+        UITextView *textView = (UITextView *)scrollView;
+
+        CGFloat textViewHeight = textView.frame.size.height;
+        CGFloat textViewTopContainerInset = textView.textContainerInset.top;
+        CGFloat textViewBottomContainerInset = textView.textContainerInset.bottom;
+        CGRect textViewContentRect = [textView.layoutManager usedRectForTextContainer:textView.textContainer];
+        CGFloat textViewTextKitHeight = textViewContentRect.size.height + textViewTopContainerInset + textViewBottomContainerInset;
+        
+        if (offsetY + textViewHeight >= textViewTextKitHeight) {
+            shouldShowScrollIndicator = NO;
+            [self.bottomBar setBackgroundImage:[[UIImage alloc] init] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+        } else {
+            [self.bottomBar setBackgroundImage:nil forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+        }
     }
     
-    self.textView.showsVerticalScrollIndicator = shouldShowScrollIndicator;
+    scrollView.showsVerticalScrollIndicator = shouldShowScrollIndicator;
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView
@@ -371,7 +382,7 @@ static const float kTextScaleThreshold = 1;
         
         // Limit the content offset to the actual content size.
         CGFloat minimumContentOffset = 0;
-        CGFloat maximumContentOffset = MAX(self.textView.contentSize.height - (self.textView.frame.size.height - self.textView.contentInset.bottom - self.textView.contentInset.top), 0);
+        CGFloat maximumContentOffset = MAX(self.textView.contentSize.height - (self.textView.frame.size.height - self.textView.textContainerInset.bottom - self.textView.textContainerInset.top), 0);
         CGFloat contentOffsetY = self.textView.contentOffset.y;
         contentOffsetY = MIN(maximumContentOffset, MAX(minimumContentOffset, contentOffsetY));
         [self.textView setContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
