@@ -61,7 +61,9 @@ const float kMinimumStandardTextSize = 8;
     
     self.textView.clipsToBounds = NO;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotification:) name:NSUserDefaultsDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userDefaultsChanged:)
+                                                 name:NSUserDefaultsDidChangeNotification object:nil];
 }
 
 - (void)dealloc
@@ -109,7 +111,7 @@ const float kMinimumStandardTextSize = 8;
     return controller;
 }
 
-- (void)handleNotification:(NSNotification *)notification
+- (void)userDefaultsChanged:(NSNotification *)notification
 {
     if ([[notification name] isEqualToString:NSUserDefaultsDidChangeNotification]) {
         [self textContentChanged];

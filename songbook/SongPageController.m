@@ -15,7 +15,7 @@
 
 static const float kTextScaleThreshold = 1;
 
-@interface SongPageController () <UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UIToolbarDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
+@interface SongPageController () <UITextViewDelegate, UIToolbarDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, readonly) Song *song;
 
@@ -230,56 +230,56 @@ static const float kTextScaleThreshold = 1;
     return paragraphStyle;
 }
 
-#pragma mark - UITableViewDataSource
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [self.relatedSongs count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
-    }
-    
-    Song *relatedSong = self.relatedSongs[indexPath.row];
-    
-    NSMutableDictionary *numberAttributes = [@{} mutableCopy];
-    numberAttributes[NSFontAttributeName] = [UIFont boldSystemFontOfSize:18];
-    NSMutableDictionary *titleAttributes = [@{} mutableCopy];
-    titleAttributes[NSFontAttributeName] = [UIFont systemFontOfSize:18];
-    
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@""
-                                                                                         attributes:nil];
-    if (relatedSong.number) {
-        [attributedString appendString:[NSString stringWithFormat:@"%d", [relatedSong.number integerValue]]attributes:numberAttributes];
-        [attributedString appendString:@" " attributes:titleAttributes];
-    }
-    
-    [attributedString appendString:relatedSong.title attributes:titleAttributes];
-    
-    cell.textLabel.attributedText = attributedString;
-
-    
-    return cell;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return [self.relatedSongs count] > 0 ? 1 : 0;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    return @"Related Songs";
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self.delegate pageController:self selectedModelObject:self.relatedSongs[indexPath.row]];
-}
+//#pragma mark - UITableViewDataSource
+//
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+//{
+//    return [self.relatedSongs count];
+//}
+//
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+//    if (!cell) {
+//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
+//    }
+//    
+//    Song *relatedSong = self.relatedSongs[indexPath.row];
+//    
+//    NSMutableDictionary *numberAttributes = [@{} mutableCopy];
+//    numberAttributes[NSFontAttributeName] = [UIFont boldSystemFontOfSize:18];
+//    NSMutableDictionary *titleAttributes = [@{} mutableCopy];
+//    titleAttributes[NSFontAttributeName] = [UIFont systemFontOfSize:18];
+//    
+//    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@""
+//                                                                                         attributes:nil];
+//    if (relatedSong.number) {
+//        [attributedString appendString:[NSString stringWithFormat:@"%d", [relatedSong.number integerValue]]attributes:numberAttributes];
+//        [attributedString appendString:@" " attributes:titleAttributes];
+//    }
+//    
+//    [attributedString appendString:relatedSong.title attributes:titleAttributes];
+//    
+//    cell.textLabel.attributedText = attributedString;
+//
+//    
+//    return cell;
+//}
+//
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+//{
+//    return [self.relatedSongs count] > 0 ? 1 : 0;
+//}
+//
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+//{
+//    return @"Related Songs";
+//}
+//
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    [self.delegate pageController:self selectedModelObject:self.relatedSongs[indexPath.row]];
+//}
 
 #pragma mark - UITextViewDelegate
 
