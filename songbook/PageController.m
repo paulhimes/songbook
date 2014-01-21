@@ -56,6 +56,7 @@ const float kMinimumStandardTextSize = 8;
     self.textView.textContainer.lineFragmentPadding = 0;
     self.textView.attributedText = self.text;
     self.textView.layoutManager.allowsNonContiguousLayout = NO;
+    self.textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     
     [self.view addGestureRecognizer:self.pinchGestureRecognizer];
     
