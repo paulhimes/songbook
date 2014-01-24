@@ -97,6 +97,7 @@ static const float kTextScaleThreshold = 1;
     [super viewDidLoad];
     
     [self.textView setDebugColor:[UIColor redColor]];
+    self.textView.contentOffsetCallsAllowed = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -120,7 +121,12 @@ static const float kTextScaleThreshold = 1;
     if (!self.hasAutoScrolledToHighlight) {
         self.hasAutoScrolledToHighlight = YES;
         [self scrollToCharacterAtIndex:self.highlightRange.location];
+    } else {
+        [self scrollCharacterAtIndex:self.bookmarkedCharacterIndex toYCoordinate:self.bookmarkedCharacterYOffset];
+//        NSLog(@"Restored: %@ [%f]", [self.textView.text substringWithRange:NSMakeRange(self.bookmarkedCharacterIndex, 20)], self.bookmarkedCharacterYOffset);
     }
+    
+    [self updateBarVisibility];
 }
 
 - (NSManagedObject *)modelObject
@@ -285,9 +291,14 @@ static const float kTextScaleThreshold = 1;
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    [self updateBarVisibility];
+}
+
+- (void)updateBarVisibility
+{
     BOOL shouldShowScrollIndicator = YES;
     
-    CGFloat offsetY = scrollView.contentOffset.y;
+    CGFloat offsetY = self.textView.contentOffset.y;
     
     if (offsetY <= 0) {
         self.topBar.hidden = YES;
@@ -298,24 +309,21 @@ static const float kTextScaleThreshold = 1;
         self.titleView.hidden = NO;
     }
     
-    if ([scrollView isKindOfClass:[UITextView class]]) {
-        UITextView *textView = (UITextView *)scrollView;
-
-        CGFloat textViewHeight = textView.frame.size.height;
-        CGFloat textViewTopContainerInset = textView.textContainerInset.top;
-        CGFloat textViewBottomContainerInset = textView.textContainerInset.bottom;
-        CGRect textViewContentRect = [textView.layoutManager usedRectForTextContainer:textView.textContainer];
-        CGFloat textViewTextKitHeight = textViewContentRect.size.height + textViewTopContainerInset + textViewBottomContainerInset;
-        
-        if (offsetY + textViewHeight >= textViewTextKitHeight) {
-            shouldShowScrollIndicator = NO;
-            [self.bottomBar setBackgroundImage:[[UIImage alloc] init] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
-        } else {
-            [self.bottomBar setBackgroundImage:nil forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
-        }
+    CGFloat textViewHeight = self.textView.frame.size.height;
+    
+    if (offsetY + textViewHeight >= [self.textView contentHeight]) {
+        shouldShowScrollIndicator = NO;
+        [self.bottomBar setBackgroundImage:[[UIImage alloc] init] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    } else {
+        [self.bottomBar setBackgroundImage:nil forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     }
     
-    scrollView.showsVerticalScrollIndicator = shouldShowScrollIndicator;
+    self.textView.showsVerticalScrollIndicator = shouldShowScrollIndicator;
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    self.textView.contentOffsetCallsAllowed = YES;
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView
@@ -325,6 +333,52 @@ static const float kTextScaleThreshold = 1;
     if (ABS(targetContentOffset->y) <= 1) {
         targetContentOffset->y = 0;
     }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if (!decelerate) {
+        // Update the bookmark.
+        self.textView.contentOffsetCallsAllowed = NO;
+        [self updateBookmark];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    // Update the bookmark.
+    self.textView.contentOffsetCallsAllowed = NO;
+    [self updateBookmark];
+}
+
+- (void)updateBookmark
+{
+    // Save the glyph index of the glyph closest to 0,0 of the textView's frame.
+    CGPoint topLeftVisibleCornerOfTextView = [self.textView convertPoint:self.textView.frame.origin fromView:self.view];
+
+    // Convert to the text container's coordinate space.
+    topLeftVisibleCornerOfTextView.x -= self.textView.textContainerInset.left;
+    topLeftVisibleCornerOfTextView.y -= self.textView.textContainerInset.top;
+
+    // Get the glyph index.
+    NSUInteger glyphIndex = [self.textView.layoutManager glyphIndexForPoint:topLeftVisibleCornerOfTextView
+                                                            inTextContainer:self.textView.textContainer
+                                             fractionOfDistanceThroughGlyph:NULL];
+
+    // Convert to character index.
+    self.bookmarkedCharacterIndex = [self.textView.layoutManager characterIndexForGlyphAtIndex:glyphIndex];
+    
+    // Get the character's location relative to the main view.
+    CGPoint glyphLocationInMainView = [self locationInMainViewOfGlyphAtIndex:glyphIndex];
+    
+    // Get the character's location relative to the frame origin of the text view.
+    CGPoint glyphLocationRelativeToTextViewFrameOrigin = CGPointMake(glyphLocationInMainView.x - self.textView.frame.origin.x,
+                                                                     glyphLocationInMainView.y - self.textView.frame.origin.y);
+    
+    // Save the y offset of the character relative to the frame origin of the text view.
+    self.bookmarkedCharacterYOffset = glyphLocationRelativeToTextViewFrameOrigin.y;
+
+    NSLog(@"Bookmarked: %@ [%f]", [self.textView.text substringWithRange:NSMakeRange(self.bookmarkedCharacterIndex, 20)], self.bookmarkedCharacterYOffset);
 }
 
 #pragma mark - UIBarPositioningDelegate
@@ -355,12 +409,10 @@ static const float kTextScaleThreshold = 1;
         
         self.glyphIndex = [self.textView.layoutManager glyphIndexForPoint:gesturePoint inTextContainer:self.textView.textContainer fractionOfDistanceThroughGlyph:NULL];
         
-        self.glyphOriginalYCoordinateInMainView = [self yCoordinateInMainViewOfGlyphAtIndex:self.glyphIndex];
+        self.glyphOriginalYCoordinateInMainView = [self locationInMainViewOfGlyphAtIndex:self.glyphIndex].y;
         
         self.touchStartPoint = [sender locationInView:self.view];
         self.latestTouchPoint = self.touchStartPoint;
-        
-        self.textView.contentOffsetCallsDisabled = YES;
         
     } else if (sender.state == UIGestureRecognizerStateEnded ||
                sender.state == UIGestureRecognizerStateCancelled ||
@@ -378,15 +430,15 @@ static const float kTextScaleThreshold = 1;
         self.touchStartPoint = CGPointZero;
         self.latestTouchPoint = CGPointZero;
         
-        self.textView.contentOffsetCallsDisabled = NO;
-        
         // Limit the content offset to the actual content size.
         CGFloat minimumContentOffset = 0;
-        CGFloat maximumContentOffset = MAX(self.textView.contentSize.height - (self.textView.frame.size.height - self.textView.textContainerInset.bottom - self.textView.textContainerInset.top), 0);
+        CGFloat maximumContentOffset = MAX([self.textView contentHeight] - self.textView.frame.size.height, 0);
         CGFloat contentOffsetY = self.textView.contentOffset.y;
         contentOffsetY = MIN(maximumContentOffset, MAX(minimumContentOffset, contentOffsetY));
-        [self.textView setContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
-
+        
+        [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
+        [self updateBookmark];
+        
     } else {
         
         CGPoint updatedTouchPoint = [sender locationInView:self.view];
@@ -399,22 +451,14 @@ static const float kTextScaleThreshold = 1;
     }
 }
 
-- (CGFloat)yCoordinateInMainViewOfGlyphAtIndex:(NSUInteger)glyphIndex
+- (CGPoint)locationInMainViewOfGlyphAtIndex:(NSUInteger)glyphIndex
 {
-    CGRect fragmentRect = [self.textView.layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex effectiveRange:NULL];
-    CGPoint glyphLocation = [self.textView.layoutManager locationForGlyphAtIndex:glyphIndex];
-    
-    glyphLocation.x += CGRectGetMinX(fragmentRect);
-    glyphLocation.y += CGRectGetMinY(fragmentRect);
-    
-    // Convert to the text view's coordinate space.
-    glyphLocation.x += self.textView.textContainerInset.left;
-    glyphLocation.y += self.textView.textContainerInset.top;
+    CGPoint glyphLocationInTextView = [self.textView locationForGlyphAtIndex:glyphIndex];
     
     // Convert to the main view's coordinate space.
-    CGPoint glyphLocationInMainView = [self.view convertPoint:glyphLocation fromView:self.textView];
+    CGPoint glyphLocationInMainView = [self.view convertPoint:glyphLocationInTextView fromView:self.textView];
     
-    return glyphLocationInMainView.y;
+    return glyphLocationInMainView;
 }
 
 - (void)scaleTextWithScale:(CGFloat)scale
@@ -438,27 +482,38 @@ static const float kTextScaleThreshold = 1;
         
         [[NSUserDefaults standardUserDefaults] setObject:@(scaledAndLimitedSize) forKey:kStandardTextSizeKey];
         
-        CGFloat currentYCoordinateOfGlyphInMainView = [self yCoordinateInMainViewOfGlyphAtIndex:self.glyphIndex];
+        CGFloat currentYCoordinateOfGlyphInMainView = [self locationInMainViewOfGlyphAtIndex:self.glyphIndex].y;
         CGFloat glyphVerticalError = self.glyphYCoordinateInMainView - currentYCoordinateOfGlyphInMainView;
         CGFloat contentOffsetY = self.textView.contentOffset.y - glyphVerticalError;
         
         [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
+        [self updateBookmark];
     }
     
 }
 
 - (void)scrollToCharacterAtIndex:(NSUInteger)characterIndex
 {
-    CGFloat viewHeight = self.view.bounds.size.height;
+    CGFloat viewHeight = self.textView.frame.size.height;
     CGFloat targetYCoordinate = viewHeight - (viewHeight / M_PHI);
-    
+    [self scrollCharacterAtIndex:characterIndex toYCoordinate:targetYCoordinate];
+}
+
+- (void)scrollCharacterAtIndex:(NSUInteger)characterIndex toYCoordinate:(CGFloat)yCoordinate
+{
     NSUInteger glyphIndex = [self.textView.layoutManager glyphIndexForCharacterAtIndex:characterIndex];
-    CGFloat currentYCoordinateOfGlyphInMainView = [self yCoordinateInMainViewOfGlyphAtIndex:glyphIndex];
-    CGFloat glyphVerticalError = targetYCoordinate - currentYCoordinateOfGlyphInMainView;
+    CGFloat currentYCoordinateOfGlyphInMainView = [self locationInMainViewOfGlyphAtIndex:glyphIndex].y;
+    CGFloat glyphVerticalError = yCoordinate - currentYCoordinateOfGlyphInMainView;
     CGFloat currentContentOffsetY = self.textView.contentOffset.y;
     CGFloat contentOffsetY = currentContentOffsetY - glyphVerticalError;
 
+    // Limit the content offset to the actual content size.
+    CGFloat minimumContentOffset = 0;
+    CGFloat maximumContentOffset = MAX([self.textView contentHeight] - self.textView.frame.size.height, 0);
+    contentOffsetY = MIN(maximumContentOffset, MAX(minimumContentOffset, contentOffsetY));
+    
     [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
+    [self updateBookmark];
 }
 
 #pragma mark - Menu actions.

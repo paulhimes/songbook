@@ -10,8 +10,10 @@
 
 @interface SafeTextView : UITextView
 
-@property (nonatomic) BOOL contentOffsetCallsDisabled;
+@property (nonatomic) BOOL contentOffsetCallsAllowed;
 
 - (void)forceContentOffset:(CGPoint)contentOffset;
+- (CGPoint)locationForGlyphAtIndex:(NSUInteger)glyphIndex;
+- (CGFloat)contentHeight;
 
 @end

@@ -16,6 +16,8 @@ static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
 static NSString * const kModelIDURLKey = @"ModelIDURLKey";
 static NSString * const kDelegateKey = @"DelegateKey";
 static NSString * const kHighlightRangeKey = @"HighlightRangeKey";
+static NSString * const kBookmarkedCharacterIndexKey = @"BookmarkedCharacterIndexKey";
+static NSString * const kBookmarkedCharacterYOffsetKey = @"BookmarkedCharacterYOffsetKey";
 
 const float kSuperMaximumStandardTextSize = 60;
 const float kMaximumStandardTextSize = 40;
@@ -87,6 +89,9 @@ const float kMinimumStandardTextSize = 8;
     }
     
     [coder encodeObject:[NSValue valueWithRange:self.highlightRange] forKey:kHighlightRangeKey];
+    
+    [coder encodeObject:@(self.bookmarkedCharacterIndex) forKey:kBookmarkedCharacterIndexKey];
+    [coder encodeDouble:self.bookmarkedCharacterYOffset forKey:kBookmarkedCharacterYOffsetKey];
 }
 
 + (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
@@ -98,6 +103,8 @@ const float kMinimumStandardTextSize = 8;
     NSManagedObjectID *modelID = [coreDataStack.managedObjectContext.persistentStoreCoordinator managedObjectIDForURIRepresentation:modelIDURL];
     id<PageControllerDelegate> delegate = [coder decodeObjectForKey:kDelegateKey];
     NSRange highlightRange = [[coder decodeObjectForKey:kHighlightRangeKey] rangeValue];
+    NSUInteger bookmarkedCharacterIndex = [[coder decodeObjectForKey:kBookmarkedCharacterIndexKey] unsignedIntegerValue];
+    CGFloat bookmarkedCharacterYOffset = [coder decodeDoubleForKey:kBookmarkedCharacterYOffsetKey];
     
     if (storyboard && coreDataStack && modelID && delegate) {
         NSLog(@"Created PageController");
@@ -107,6 +114,8 @@ const float kMinimumStandardTextSize = 8;
         controller.modelID = modelID;
         controller.delegate = delegate;
         controller.highlightRange = highlightRange;
+        controller.bookmarkedCharacterIndex = bookmarkedCharacterIndex;
+        controller.bookmarkedCharacterYOffset = bookmarkedCharacterYOffset;
     }
     
     return controller;
