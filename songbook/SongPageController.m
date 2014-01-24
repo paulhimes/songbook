@@ -473,23 +473,20 @@ static const float kTextScaleThreshold = 1;
     // Limit the scaled size to sane bounds.
     float scaledAndLimitedSize = MIN(maximumFontSize, MAX(minimumFontSize, scaledSize));
     
+    CGFloat touchPointVerticalShift = touchPoint.y - self.touchStartPoint.y;
+    self.glyphYCoordinateInMainView = self.glyphOriginalYCoordinateInMainView + touchPointVerticalShift;
+    
     // Only update the text scale if the change is significant enough.
     NSNumber *currentTextSize = [[NSUserDefaults standardUserDefaults] objectForKey:kStandardTextSizeKey];
     if (fabsf([currentTextSize floatValue] - scaledAndLimitedSize) > kTextScaleThreshold) {
-        
-        CGFloat touchPointVerticalShift = touchPoint.y - self.touchStartPoint.y;
-        self.glyphYCoordinateInMainView = self.glyphOriginalYCoordinateInMainView + touchPointVerticalShift;
-        
         [[NSUserDefaults standardUserDefaults] setObject:@(scaledAndLimitedSize) forKey:kStandardTextSizeKey];
-        
-        CGFloat currentYCoordinateOfGlyphInMainView = [self locationInMainViewOfGlyphAtIndex:self.glyphIndex].y;
-        CGFloat glyphVerticalError = self.glyphYCoordinateInMainView - currentYCoordinateOfGlyphInMainView;
-        CGFloat contentOffsetY = self.textView.contentOffset.y - glyphVerticalError;
-        
-        [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
-        [self updateBookmark];
     }
     
+    CGFloat currentYCoordinateOfGlyphInMainView = [self locationInMainViewOfGlyphAtIndex:self.glyphIndex].y;
+    CGFloat glyphVerticalError = self.glyphYCoordinateInMainView - currentYCoordinateOfGlyphInMainView;
+    CGFloat contentOffsetY = self.textView.contentOffset.y - glyphVerticalError;
+    
+    [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
 }
 
 - (void)scrollToCharacterAtIndex:(NSUInteger)characterIndex
