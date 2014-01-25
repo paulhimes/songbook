@@ -63,6 +63,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
 {
     if (!_activityIndicator) {
         _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        _activityIndicator.hidesWhenStopped = YES;
         CGRect frame = _activityIndicator.frame;
         _activityIndicator.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width + 10, frame.size.height);
     }
@@ -91,7 +92,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
     self.toolbar.delegate = self;
     
     self.searchField.layer.cornerRadius = 5;
-    self.searchField.backgroundColor = [[Theme grayTrimColor] colorWithAlphaComponent:0.1];
+    self.searchField.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.1];
     self.searchField.leftViewMode = UITextFieldViewModeAlways;
     UIImageView *searchImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MagnifyingGlass"]];
     searchImage.frame = CGRectMake(0, 0, 30, 30);
@@ -120,6 +121,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
                                                                                        weakSelf.tableView.tableFooterView = weakSelf.tableFooterView;
                                                                                    }
                                                                                    if (!weakSelf.activityIndicator.isAnimating) {
+                                                                                       self.searchField.rightView = self.activityIndicator;
                                                                                        [weakSelf.activityIndicator startAnimating];
                                                                                    }
                                                                                }
@@ -240,6 +242,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
 - (IBAction)searchFieldEditingChanged:(UITextField *)sender {
 
     if (!self.activityIndicator.isAnimating) {
+        self.searchField.rightView = self.activityIndicator;
         [self.activityIndicator startAnimating];
     }
     
@@ -275,6 +278,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
                 if (weakSelf.tableView.tableFooterView != weakSelf.tableFooterView) {
                     // Only stop animating if the tokenization process has finished.
                     [weakSelf.activityIndicator stopAnimating];
+                    self.searchField.rightView = nil;
                 }
                 
                 if ((!weakSelf.lastSearchString || [weakSelf.lastSearchString length]) && [searchText length] == 0) {
