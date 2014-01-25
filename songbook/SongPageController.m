@@ -530,7 +530,34 @@ static const float kTextScaleThreshold = 1;
     UIActivityViewController *activityViewController = [[NoStatusActivityViewController alloc] initWithActivityItems:activityItems
                                                                                                applicationActivities:nil];
     activityViewController.excludedActivityTypes = @[UIActivityTypeMessage];
-    [self presentViewController:activityViewController animated:YES completion:nil];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        //iPhone, present activity view controller as is
+        [self presentViewController:activityViewController animated:YES completion:nil];
+    }
+    else
+    {
+        //iPad, present the view controller inside a popover
+        if (![self.activityPopover isPopoverVisible]) {
+            self.activityPopover = [[UIPopoverController alloc] initWithContentViewController:activityViewController];
+            CGRect selectionBoundingRect;
+            NSArray *selectionRects = [self.textView selectionRectsForRange:self.textView.selectedTextRange];
+            for (int i = 0; i < [selectionRects count]; i++) {
+                CGRect selectionRect = ((UITextSelectionRect *)selectionRects[i]).rect;
+                if (i == 0) {
+                    selectionBoundingRect = selectionRect;
+                } else {
+                    selectionBoundingRect = CGRectUnion(selectionBoundingRect, selectionRect);
+                }
+            }
+            [self.activityPopover presentPopoverFromRect:selectionBoundingRect inView:self.textView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        }
+        else
+        {
+            //Dismiss if the button is tapped while pop over is visible
+            [self.activityPopover dismissPopoverAnimated:YES];
+        }
+    }
 }
 
 - (void)reportError:(id)sender

@@ -30,6 +30,7 @@ extern const float kMinimumStandardTextSize;
 @property (nonatomic) NSRange highlightRange;
 @property (nonatomic) NSUInteger bookmarkedCharacterIndex;
 @property (nonatomic) CGFloat bookmarkedCharacterYOffset;
+@property (strong, nonatomic) UIPopoverController *activityPopover;
 
 - (void)handleGesture:(UIPinchGestureRecognizer *)sender;
 - (void)textContentChanged;

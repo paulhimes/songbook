@@ -163,7 +163,24 @@ const float kMinimumStandardTextSize = 8;
         }
     };
     
-    [self presentViewController:activityViewController animated:YES completion:nil];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        //iPhone, present activity view controller as is
+        [self presentViewController:activityViewController animated:YES completion:nil];
+    }
+    else
+    {
+        //iPad, present the view controller inside a popover
+        if (![self.activityPopover isPopoverVisible]) {
+            self.activityPopover = [[UIPopoverController alloc] initWithContentViewController:activityViewController];
+            [self.activityPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        }
+        else
+        {
+            //Dismiss if the button is tapped while pop over is visible
+            [self.activityPopover dismissPopoverAnimated:YES];
+        }
+    }
 }
 
 @end
