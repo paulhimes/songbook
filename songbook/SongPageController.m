@@ -526,7 +526,7 @@ static const float kTextScaleThreshold = 1;
 
 - (void)shareSelection:(id)sender
 {
-    NSArray *activityItems = @[[self.textView.text substringWithRange:self.textView.selectedRange]];
+    NSArray *activityItems = @[[self buildSharingString]];
     UIActivityViewController *activityViewController = [[NoStatusActivityViewController alloc] initWithActivityItems:activityItems
                                                                                                applicationActivities:nil];
     activityViewController.excludedActivityTypes = @[UIActivityTypeMessage];
@@ -570,6 +570,14 @@ static const float kTextScaleThreshold = 1;
                                                     cancelButtonTitle:@"No"
                                                     otherButtonTitles:@"Report", nil];
     [reportAlertView show];
+}
+
+- (NSString *)buildSharingString
+{
+    NSString *mainContent = [self.textView.text substringWithRange:self.textView.selectedRange];
+    NSString *prefix = self.textView.selectedRange.location ? @"…" : @"";
+    NSString *suffix = self.textView.selectedRange.location + self.textView.selectedRange.length < [self.textView.text length] ? @"…" : @"";
+    return [NSString stringWithFormat:@"%@%@%@", prefix, mainContent, suffix];
 }
 
 #pragma mark - UIAlertViewDelegate
@@ -616,7 +624,7 @@ static const float kTextScaleThreshold = 1;
         [mailController setToRecipients:@[book.contactEmail]];
     }
     
-    [mailController setMessageBody:[NSString stringWithFormat:@"…%@…", [self.textView.text substringWithRange:self.textView.selectedRange]] isHTML:NO];
+    [mailController setMessageBody:[self buildSharingString] isHTML:NO];
     
     NSURL *fileURL = [BookCodec fileURLForExportingFromContext:self.coreDataStack.managedObjectContext];
     [BookCodec exportBookFromContext:self.coreDataStack.managedObjectContext intoURL:fileURL];
