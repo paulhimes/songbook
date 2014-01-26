@@ -92,7 +92,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
     self.toolbar.delegate = self;
     
     self.searchField.layer.cornerRadius = 5;
-    self.searchField.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.1];
+    self.searchField.backgroundColor = [Theme searchFieldBackgroundColor];
     self.searchField.leftViewMode = UITextFieldViewModeAlways;
     UIImageView *searchImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MagnifyingGlass"]];
     searchImage.frame = CGRectMake(0, 0, 30, 30);

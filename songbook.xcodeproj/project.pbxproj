@@ -71,13 +71,13 @@
 		8BB18AD917A5DB76006E257C /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB18AD817A5DB76006E257C /* Section.m */; };
 		8BB18ADF17A5DB77006E257C /* Verse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB18ADE17A5DB77006E257C /* Verse.m */; };
 		8BB18AE517A5EA57006E257C /* DataModelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB18AE417A5EA57006E257C /* DataModelTests.m */; };
+		8BB4CBE918959EA0009F0FA1 /* default.songbook in Resources */ = {isa = PBXBuildFile; fileRef = 8BB4CBE818959EA0009F0FA1 /* default.songbook */; };
 		8BB54D5C17A4C60700FD2914 /* PageServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB54D5B17A4C60700FD2914 /* PageServer.m */; };
 		8BB54D5F17A4C79300FD2914 /* SongPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB54D5E17A4C79300FD2914 /* SongPageController.m */; };
 		8BC674C717B9E1D8001E71B1 /* SongTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C617B9E1D8001E71B1 /* SongTitleView.m */; };
 		8BC674CA17BC912C001E71B1 /* NSMutableAttributedString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */; };
 		8BC7D645187E62AA008F2289 /* BookProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7D644187E62AA008F2289 /* BookProvider.m */; };
 		8BC7D648188344DD008F2289 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7D647188344DD008F2289 /* Book.m */; };
-		8BC7D64C18834F03008F2289 /* Songs & Hymns of Believers.songbook in Resources */ = {isa = PBXBuildFile; fileRef = 8BC7D64B18834F03008F2289 /* Songs & Hymns of Believers.songbook */; };
 		8BC7D64F18860ECA008F2289 /* NoStatusActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7D64E18860ECA008F2289 /* NoStatusActivityViewController.m */; };
 		8BCA006F18457F9B00600947 /* SingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BCA006E18457F9B00600947 /* SingleViewController.m */; };
 		8BE5A65217CD2356002028E5 /* FilteredSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE5A65117CD2356002028E5 /* FilteredSearcher.m */; };
@@ -210,6 +210,7 @@
 		8BB18ADE17A5DB77006E257C /* Verse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Verse.m; path = ../Verse.m; sourceTree = "<group>"; };
 		8BB18AE317A5EA57006E257C /* DataModelTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataModelTests.h; sourceTree = "<group>"; };
 		8BB18AE417A5EA57006E257C /* DataModelTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataModelTests.m; sourceTree = "<group>"; };
+		8BB4CBE818959EA0009F0FA1 /* default.songbook */ = {isa = PBXFileReference; lastKnownFileType = file; path = default.songbook; sourceTree = "<group>"; };
 		8BB54D5A17A4C60700FD2914 /* PageServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PageServer.h; path = ../PageServer.h; sourceTree = "<group>"; };
 		8BB54D5B17A4C60700FD2914 /* PageServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PageServer.m; path = ../PageServer.m; sourceTree = "<group>"; };
 		8BB54D5D17A4C79300FD2914 /* SongPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongPageController.h; sourceTree = "<group>"; };
@@ -222,7 +223,6 @@
 		8BC7D644187E62AA008F2289 /* BookProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookProvider.m; sourceTree = "<group>"; };
 		8BC7D646188344DD008F2289 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
 		8BC7D647188344DD008F2289 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
-		8BC7D64B18834F03008F2289 /* Songs & Hymns of Believers.songbook */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Songs & Hymns of Believers.songbook"; sourceTree = "<group>"; };
 		8BC7D64D18860ECA008F2289 /* NoStatusActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoStatusActivityViewController.h; sourceTree = "<group>"; };
 		8BC7D64E18860ECA008F2289 /* NoStatusActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoStatusActivityViewController.m; sourceTree = "<group>"; };
 		8BCA006D18457F9B00600947 /* SingleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleViewController.h; sourceTree = "<group>"; };
@@ -426,7 +426,7 @@
 				8BEB2A2717DE8994006F118C /* songs.txt */,
 				8B983C0717FFC62D00D1A4C7 /* hymns.txt */,
 				8B983C0917FFD16800D1A4C7 /* afewfinnsongs.txt */,
-				8BC7D64B18834F03008F2289 /* Songs & Hymns of Believers.songbook */,
+				8BB4CBE818959EA0009F0FA1 /* default.songbook */,
 				8BA305F617A0BCF200A2ABDE /* AppDelegate.h */,
 				8BA305F717A0BCF200A2ABDE /* AppDelegate.m */,
 				8BA305EF17A0BCF200A2ABDE /* songbook-Info.plist */,
@@ -649,7 +649,7 @@
 				8BA3061B17A0BDAD00A2ABDE /* Songbook.storyboard in Resources */,
 				8B983C0817FFC62D00D1A4C7 /* hymns.txt in Resources */,
 				8BAF35FC181F285400D6A93E /* README.md in Resources */,
-				8BC7D64C18834F03008F2289 /* Songs & Hymns of Believers.songbook in Resources */,
+				8BB4CBE918959EA0009F0FA1 /* default.songbook in Resources */,
 				8BA305FD17A0BCF200A2ABDE /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

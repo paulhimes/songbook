@@ -142,7 +142,7 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
     }
     
     // Copy the built-in book file to a temporary directory.
-    NSURL *builtInBookURL = [[NSBundle mainBundle] URLForResource:@"Songs & Hymns of Believers" withExtension:@"songbook"];
+    NSURL *builtInBookURL = [[NSBundle mainBundle] URLForResource:@"default" withExtension:@"songbook"];
     NSURL *temporaryURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:[builtInBookURL lastPathComponent]];
     NSError *copyError;
     if (![fileManager copyItemAtURL:builtInBookURL toURL:temporaryURL error:&copyError]) {

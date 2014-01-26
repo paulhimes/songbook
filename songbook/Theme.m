@@ -25,4 +25,9 @@
     return [UIColor colorWithRed:0.72 green:0.72 blue:0.72 alpha:1.0];
 }
 
++ (UIColor *)searchFieldBackgroundColor
+{
+    return [UIColor colorWithRed:0 green:0 blue:0.3 alpha:0.1];
+}
+
 @end

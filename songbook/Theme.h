@@ -13,5 +13,6 @@
 + (UIColor *)redColor;
 + (UIColor *)grayTrimColor;
 + (UIColor *)darkerGrayColor;
++ (UIColor *)searchFieldBackgroundColor;
 
 @end
