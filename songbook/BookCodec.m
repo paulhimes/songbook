@@ -188,7 +188,7 @@ NSString * const kBookFileName = @"book.json";
                 if (verse.number) {
                     [verseDictionary setObject:verse.number forKey:kVerseNumberKey];
                 }
-                if (verse.isChorus) {
+                if ([verse.isChorus boolValue]) {
                     [verseDictionary setObject:verse.isChorus forKey:kVerseIsChorusKey];
                 }
                 [verseDictionary setObject:verse.text forKey:kVerseTextKey];
