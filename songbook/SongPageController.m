@@ -307,8 +307,10 @@ static const float kTextScaleThreshold = 1;
     }
     
     CGFloat textViewHeight = self.textView.frame.size.height;
+    CGFloat textViewContentHeight = [self.textView contentHeight];
+    CGFloat textViewOldSchoolContentHeight = self.textView.contentSize.height;
     
-    if (offsetY + textViewHeight >= [self.textView contentHeight]) {
+    if (offsetY + textViewHeight >= MAX(textViewContentHeight, textViewOldSchoolContentHeight)) {
         shouldShowScrollIndicator = NO;
         [self.bottomBar setBackgroundImage:[[UIImage alloc] init] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     } else {
