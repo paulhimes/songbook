@@ -88,7 +88,6 @@ static const float kTextScaleThreshold = 1;
     self.titleView.title = self.song.title;
     
     CGFloat titleContentOriginY = self.titleView.contentOriginY;
-    //    NSLog(@"titleContentOriginY %f", titleContentOriginY);
     self.textView.textContainerInset = UIEdgeInsetsMake(titleContentOriginY, 0, 44, 0);
     
     self.topBar.delegate = self;
@@ -123,7 +122,6 @@ static const float kTextScaleThreshold = 1;
         [self scrollToCharacterAtIndex:self.highlightRange.location];
     } else {
         [self scrollCharacterAtIndex:self.bookmarkedCharacterIndex toYCoordinate:self.bookmarkedCharacterYOffset];
-//        NSLog(@"Restored: %@ [%f]", [self.textView.text substringWithRange:NSMakeRange(self.bookmarkedCharacterIndex, 20)], self.bookmarkedCharacterYOffset);
     }
     
     [self updateBarVisibility];
@@ -137,8 +135,7 @@ static const float kTextScaleThreshold = 1;
 - (Song *)song
 {
     Song *song;
-    NSError *getSongError;
-    NSManagedObject *managedObject = [self.coreDataStack.managedObjectContext existingObjectWithID:self.modelID error:&getSongError];
+    NSManagedObject *managedObject = [self.coreDataStack.managedObjectContext existingObjectWithID:self.modelID error:NULL];
     if ([managedObject isKindOfClass:[Song class]]) {
         song = (Song *)managedObject;
     }
@@ -377,8 +374,6 @@ static const float kTextScaleThreshold = 1;
     
     // Save the y offset of the character relative to the frame origin of the text view.
     self.bookmarkedCharacterYOffset = glyphLocationRelativeToTextViewFrameOrigin.y;
-
-    NSLog(@"Bookmarked: %@ [%f]", [self.textView.text substringWithRange:NSMakeRange(self.bookmarkedCharacterIndex, 20)], self.bookmarkedCharacterYOffset);
 }
 
 #pragma mark - UIBarPositioningDelegate
@@ -540,7 +535,7 @@ static const float kTextScaleThreshold = 1;
         //iPad, present the view controller inside a popover
         if (![self.activityPopover isPopoverVisible]) {
             self.activityPopover = [[UIPopoverController alloc] initWithContentViewController:activityViewController];
-            CGRect selectionBoundingRect;
+            CGRect selectionBoundingRect = CGRectNull;
             NSArray *selectionRects = [self.textView selectionRectsForRange:self.textView.selectedTextRange];
             for (int i = 0; i < [selectionRects count]; i++) {
                 CGRect selectionRect = ((UITextSelectionRect *)selectionRects[i]).rect;
@@ -562,7 +557,6 @@ static const float kTextScaleThreshold = 1;
 
 - (void)reportError:(id)sender
 {
-    NSLog(@"Report error");
     // Could not open the file.
     UIAlertView *reportAlertView = [[UIAlertView alloc] initWithTitle:@"Report Problem"
                                                               message:@"Would you like to report an error in this song?"

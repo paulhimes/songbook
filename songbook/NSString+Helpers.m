@@ -17,15 +17,11 @@
     NSRange searchRange = NSMakeRange(0, [self length]);
     
     while (searchRange.location != NSNotFound) {
-        //        NSLog(@"Searching %@ of %@ for %@", NSStringFromRange(searchRange), [string substringToIndex:5], substring);
-        
         NSRange matchingRange = [self rangeOfString:substring
                                             options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch | NSWidthInsensitiveSearch
                                               range:searchRange];
         
         if (matchingRange.location != NSNotFound) {
-            //            NSLog(@"Found %@ at %@", substring, NSStringFromRange(matchingRange));
-            
             [ranges addObject:[NSValue valueWithRange:matchingRange]];
         }
         

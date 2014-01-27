@@ -58,9 +58,7 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
     [super encodeRestorableStateWithCoder:coder];
-    
-    NSLog(@"Encode PageViewController");
-    
+        
     // Save the core data stack.
     if (self.coreDataStack) {
         [coder encodeObject:self.coreDataStack forKey:kCoreDataStackKey];

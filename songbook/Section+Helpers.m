@@ -14,14 +14,12 @@
 
 + (Section *)newOrExistingSectionTitled:(NSString *)title inBook:(Book *)book
 {
-    NSError *fetchError;
-    
     // Build the fetch request.
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Section"];
     fetchRequest.predicate = [NSPredicate predicateWithFormat:@"title == %@ AND book == %@", title, book];
     
     // Fetch the results.
-    NSArray *results = [book.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+    NSArray *results = [book.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
     
     Section *section;
     if ([results count] > 0) {

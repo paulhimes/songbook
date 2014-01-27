@@ -40,9 +40,6 @@
 {
     @autoreleasepool {
         [self.context performBlockAndWait:^{
-            NSLog(@"Searching for %@", self.searchString);
-            NSTimeInterval startTime = [[NSDate date] timeIntervalSince1970];
-            
             Book *book = (Book *)[self.context objectWithID:self.bookID];
             __weak SearchOperation *weakSelf = self;
             self.tableModel = [SmartSearcher buildModelForSearchString:self.searchString
@@ -50,14 +47,6 @@
                                                         shouldContinue:^BOOL{
                                                             return weakSelf && !weakSelf.isCancelled;
                                                         }];
-            
-            NSTimeInterval endTime = [[NSDate date] timeIntervalSince1970];
-            
-            if (self.isCancelled) {
-                NSLog(@"Finished Cancelled Search for %@ in %f seconds", self.searchString, endTime - startTime);
-            } else {
-                NSLog(@"Finished Search for %@ in %f seconds", self.searchString, endTime - startTime);
-            }
         }];
     }
 }

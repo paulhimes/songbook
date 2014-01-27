@@ -78,8 +78,6 @@ const float kMinimumStandardTextSize = 8;
 {
     [super encodeRestorableStateWithCoder:coder];
 
-    NSLog(@"Encode PageController");
-
     [coder encodeObject:self.coreDataStack forKey:kCoreDataStackKey];
     
     [coder encodeObject:[self.modelID URIRepresentation] forKey:kModelIDURLKey];
@@ -107,8 +105,6 @@ const float kMinimumStandardTextSize = 8;
     CGFloat bookmarkedCharacterYOffset = [coder decodeDoubleForKey:kBookmarkedCharacterYOffsetKey];
     
     if (storyboard && coreDataStack && modelID && delegate) {
-        NSLog(@"Created PageController");
-
         controller = (PageController *)[storyboard instantiateViewControllerWithIdentifier:[identifierComponents lastObject]];
         controller.coreDataStack = coreDataStack;
         controller.modelID = modelID;

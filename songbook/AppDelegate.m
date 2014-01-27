@@ -62,11 +62,10 @@
     // Delete all inbox files other than this one.
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSURL *inbox = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"Inbox" isDirectory:YES];
-    NSError *contentsError;
     NSArray *directoryContents = [fileManager contentsOfDirectoryAtURL:inbox
                                             includingPropertiesForKeys:nil
                                                                options:0
-                                                                 error:&contentsError];
+                                                                 error:NULL];
     for (NSURL *item in directoryContents) {
         if (![item isEqual:url]) {
             NSError *deleteError;

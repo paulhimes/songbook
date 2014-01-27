@@ -39,8 +39,7 @@
 - (Book *)book
 {
     Book *book;
-    NSError *getBookError;
-    NSManagedObject *managedObject = [self.coreDataStack.managedObjectContext existingObjectWithID:self.modelID error:&getBookError];
+    NSManagedObject *managedObject = [self.coreDataStack.managedObjectContext existingObjectWithID:self.modelID error:NULL];
     if ([managedObject isKindOfClass:[Book class]]) {
         book = (Book *)managedObject;
     }
@@ -54,8 +53,7 @@
     
     return [[NSAttributedString alloc] initWithString:self.book.title
                                            attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:standardTextSize * 2],
-                                                        NSForegroundColorAttributeName: [UIColor whiteColor],
-//                                                        NSTextEffectAttributeName: NSTextEffectLetterpressStyle
+                                                        NSForegroundColorAttributeName: [UIColor whiteColor]
                                                         }];
 }
 

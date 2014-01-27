@@ -70,14 +70,9 @@ static const CGFloat kSongComponentPadding = 8;
 
 - (CGSize)sizeForWidth:(CGFloat)width
 {
-//    NSLog(@"sizeForWidth for %@ %f", self.title, width);
-    
     CGRect textRect = [self placedTextRectForWidth:width];
     CGFloat titleLowestBaseline = CGRectGetMaxY(textRect) + self.titleFont.descender;
     CGSize size = CGSizeMake(width, titleLowestBaseline + kSongComponentPadding);
-    
-//    NSLog(@"final %@ size %@", self.title, NSStringFromCGSize(size));
-    
     return size;
 }
 
@@ -91,17 +86,10 @@ static const CGFloat kSongComponentPadding = 8;
 
 - (CGRect)placedTextRectForWidth:(CGFloat)width
 {
-//    NSLog(@"content width for %@ %f", self.title, width);
-    
     CGRect textRect = [self textRectForWidth:width];
     CGFloat titleLowestBaseline = CGRectGetMaxY(textRect) + self.titleFont.descender;
     CGFloat proposedBottom = kTopMargin + titleLowestBaseline + kSongComponentPadding;
     CGFloat additionalTopMargin = MAX(kMinimumTitleViewHeight - proposedBottom, 0);
-    
-//    NSLog(@"original rect for %@ %@", self.title, NSStringFromCGRect(textRect));
-    
-//    NSLog(@"additional top margin for %@ %f", self.title, additionalTopMargin);
-
     
     CGRect placedRect = CGRectMake(0, additionalTopMargin + kTopMargin, textRect.size.width, textRect.size.height);
     return placedRect;
@@ -113,15 +101,8 @@ static const CGFloat kSongComponentPadding = 8;
     [[UIColor blackColor] setFill];
     [[UIColor blackColor] setStroke];
     
-//    NSLog(@"bounds width for %@ %f", self.title, self.bounds.size.width);
-
-    
     CGRect drawingRect = [self placedTextRectForWidth:self.bounds.size.width];
-//    NSLog(@"drawing rect for %@ %@", self.title, NSStringFromCGRect(drawingRect));
     [[self text] drawWithRect:drawingRect options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading | NSStringDrawingTruncatesLastVisibleLine context:nil];
-    
-//    [[UIColor colorWithWhite:0 alpha:0.5] setStroke];
-//    [[UIBezierPath bezierPathWithRect:drawingRect] stroke];
 }
 
 - (NSAttributedString *)numberText
@@ -146,9 +127,6 @@ static const CGFloat kSongComponentPadding = 8;
     
     [attributedString addAttributes:@{NSParagraphStyleAttributeName: [self paragraphStyleFirstLineIndent:0 andNormalIndent:self.titleOriginX]}
                               range:NSMakeRange(0, attributedString.length)];
-    
-    
-//    NSLog(@"%@", attributedString);
     
     return [attributedString copy];
 }

@@ -65,8 +65,7 @@ NSString * const kBookFileName = @"book.json";
     NSURL *bookFile = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:kBookFileName]];
     // Delete the old file if it exists.
     if ([fileManager fileExistsAtPath:bookFile.path]) {
-        NSError *error;
-        [fileManager removeItemAtURL:bookFile error:&error];
+        [fileManager removeItemAtURL:bookFile error:NULL];
     }
     // Create the temporary file.
     [fileManager createFileAtPath:bookFile.path contents:nil attributes:nil];
@@ -133,7 +132,7 @@ NSString * const kBookFileName = @"book.json";
 {
     NSDictionary *bookDictionary = [BookCodec bookDictionaryFromBook:book];
     
-    NSError *error = nil;
+    NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:bookDictionary options:NSJSONWritingPrettyPrinted error:&error];
     if (error) {
         NSLog(@"JSON Encode Error: %@", error);
@@ -243,8 +242,7 @@ NSString * const kBookFileName = @"book.json";
 {
     // Delete the old file if it exists.
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-        NSError *error;
-        [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
+        [[NSFileManager defaultManager] removeItemAtPath:filePath error:NULL];
     }
     // Create the temporary file.
     [[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:nil];
@@ -259,12 +257,9 @@ NSString * const kBookFileName = @"book.json";
               intoContext:(NSManagedObjectContext *)context
 {
     [context performBlockAndWait:^{
-        NSLog(@"About to import book.");
-        
         // Build the new book.
         NSDictionary *bookDictionary = [BookCodec bookDictionaryFromFileURL:file];
         Book *book = [BookCodec bookFromBookDictionary:bookDictionary inContext:context];
-        NSLog(@"Built the new book");
         
         // Save the new book.
         if (book) {
@@ -272,7 +267,6 @@ NSString * const kBookFileName = @"book.json";
             if (![context save:&error]) {
                 NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             }
-            NSLog(@"Saved the new book");
         }
     }];
 }

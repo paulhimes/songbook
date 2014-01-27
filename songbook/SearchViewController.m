@@ -72,10 +72,9 @@ typedef enum PreferredSearchMethod : NSUInteger {
 
 - (Song *)closestSong
 {
-    NSError *getSongError;
     Song *song;
     if (self.closestSongID) {
-        song = (Song *)[self.coreDataStack.managedObjectContext existingObjectWithID:self.closestSongID error:&getSongError];
+        song = (Song *)[self.coreDataStack.managedObjectContext existingObjectWithID:self.closestSongID error:NULL];
     }
     return song;
 }
@@ -197,8 +196,6 @@ typedef enum PreferredSearchMethod : NSUInteger {
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
-    NSLog(@"Encode SearchViewController");
-    
     [coder encodeObject:self.coreDataStack forKey:kCoreDataStackKey];
     
     if (self.closestSongID) {
@@ -272,7 +269,6 @@ typedef enum PreferredSearchMethod : NSUInteger {
         if (!weakOperation.isCancelled && weakOperation.tableModel) {
             SearchTableModel *tableModel = weakOperation.tableModel;
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                NSLog(@"search operation completed");
                 [weakSelf updateDataSourceWithTableModel:tableModel];
                 [weakSelf.tableView reloadData];
                 if (weakSelf.tableView.tableFooterView != weakSelf.tableFooterView) {
@@ -286,7 +282,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
                     [weakSelf scrollToCurrentSong];
                 } else if ((!weakSelf.lastSearchString && searchText) ||
                            (weakSelf.lastSearchString && !searchText) ||
-                           [weakSelf.lastSearchString caseInsensitiveCompare:searchText] != NSOrderedSame) {
+                           [weakSelf.lastSearchString caseInsensitiveCompare:searchText ? searchText : @""] != NSOrderedSame) {
                     // If the search text changed (i.e. this was a manual search), Scroll to the top.
                     [weakSelf scrollToTop];
                 }

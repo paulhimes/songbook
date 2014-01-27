@@ -48,11 +48,8 @@ NSUInteger const kBatchSize = 5;
 }
 
 - (void)tokenizeBook
-{
-    NSTimeInterval startTime = [[NSDate date] timeIntervalSince1970];
-    
-    NSError *getBookError;
-    Book *book = (Book *)[self.context existingObjectWithID:self.bookID error:&getBookError];
+{    
+    Book *book = (Book *)[self.context existingObjectWithID:self.bookID error:NULL];
     
     if (book) {
         // Tokenize the songs.
@@ -87,7 +84,6 @@ NSUInteger const kBatchSize = 5;
                     
                     @autoreleasepool {
                         [song generateSearchTokensWithCache:tokenCache];
-                        NSLog(@"Tokenized: %@", [song headerString]);
                         
                         [unsavedSongs addObject:song];
                         
@@ -128,9 +124,6 @@ NSUInteger const kBatchSize = 5;
                                                                          kTotalSongCountKey: @(totalSongCount)}];
         }
     }
-    
-    NSTimeInterval endTime = [[NSDate date] timeIntervalSince1970];
-    NSLog(@"Tokenization took %f seconds.", endTime - startTime);
 }
 
 @end

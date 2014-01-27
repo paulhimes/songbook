@@ -152,19 +152,6 @@ static const NSString * const kRangeKey = @"RangeKey";
                 [titleString appendString:@" " attributes:[FilteredSearcher titleAttributes]];
             }
             [titleString appendString:song.title attributes:[FilteredSearcher titleAttributes]];
-
-            //            NSArray *titleTokens = [titleString.string tokens];
-            //
-            //            // Make the matching text bold.
-            //            NSArray *titleRangeLists = [StringToken rangeListsMatchingTokens:searchStringTokens inTokens:titleTokens];
-            //            for (NSArray *rangeList in titleRangeLists) {
-            //                for (NSValue *rangeValue in rangeList) {
-            //                    NSRange range = [rangeValue rangeValue];
-            //
-            //                    // Make matching text black and bold.
-            //                    [titleString setAttributes:self.matchingTitleAttributes range:NSMakeRange(range.location, range.length)];
-            //                }
-            //}
             
             [cellModels addObject:[[SearchCellModel alloc] initWithSongID:songID
                                                                   content:titleString

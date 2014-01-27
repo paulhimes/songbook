@@ -33,8 +33,7 @@
 - (Section *)section
 {
     Section *section;
-    NSError *getSectionError;
-    NSManagedObject *managedObject = [self.coreDataStack.managedObjectContext existingObjectWithID:self.modelID error:&getSectionError];
+    NSManagedObject *managedObject = [self.coreDataStack.managedObjectContext existingObjectWithID:self.modelID error:NULL];
     if ([managedObject isKindOfClass:[Section class]]) {
         section = (Section *)managedObject;
     }

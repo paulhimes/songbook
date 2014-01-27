@@ -93,14 +93,12 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
     [super encodeRestorableStateWithCoder:coder];
-    NSLog(@"Encode BookManagerViewController");
     [coder encodeObject:self.mainBookStack forKey:kMainBookStackKey];
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder
 {
     [super decodeRestorableStateWithCoder:coder];
-    
     if ([coder containsValueForKey:kMainBookStackKey]) {
         CoreDataStack *mainBookStack = [coder decodeObjectForKey:kMainBookStackKey];
         self.mainBookStack = mainBookStack;
@@ -259,8 +257,6 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
         if (![fileManager removeItemAtURL:temporaryDirectory error:&error]) {
             NSLog(@"Failed to delete temporary database directory: %@", error);
             return;
-        } else {
-            NSLog(@"Deleted temporary directory at: %@", temporaryDirectory);
         }
     }
 }

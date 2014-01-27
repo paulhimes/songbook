@@ -159,11 +159,12 @@ static NSString * const kSearchViewControllerKey = @"SearchViewControllerKey";
                    withRange:(NSRange)range
 {
     if (selectedSongID) {
-        NSError *getSongError;
-        Song *song = (Song *)[self.coreDataStack.managedObjectContext existingObjectWithID:selectedSongID error:&getSongError];
-        [self.pageViewController showPageForModelObject:song
-                                         highlightRange:range
-                                               animated:NO];
+        Song *song = (Song *)[self.coreDataStack.managedObjectContext existingObjectWithID:selectedSongID error:NULL];
+        if (song) {
+            [self.pageViewController showPageForModelObject:song
+                                             highlightRange:range
+                                                   animated:NO];
+        }
     }
 }
 

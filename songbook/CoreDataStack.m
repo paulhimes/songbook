@@ -8,7 +8,6 @@
 
 #import "CoreDataStack.h"
 
-//static NSString * const kRestorationIdentifier = @"CoreDataStack";
 static NSString * const kFileURLKey = @"FileURLKey";
 static NSString * const kConcurrencyTypeKey = @"ConcurrencyTypeKey";
 
@@ -101,7 +100,6 @@ static NSString * const kConcurrencyTypeKey = @"ConcurrencyTypeKey";
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
-    NSLog(@"Encode CoreDataStack");
     if (self.fileURL) {
         [coder encodeObject:self.fileURL forKey:kFileURLKey];
     }
@@ -119,8 +117,6 @@ static NSString * const kConcurrencyTypeKey = @"ConcurrencyTypeKey";
     
     if (fileURL && concurrencyType) {
         coreDataStack = [[CoreDataStack alloc] initWithFileURL:fileURL concurrencyType:[concurrencyType unsignedIntegerValue]];
-        NSLog(@"Created CoreDataStack");
-        
         [UIApplication registerObjectForStateRestoration:coreDataStack restorationIdentifier:[identifierComponents lastObject]];
     }
     

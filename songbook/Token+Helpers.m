@@ -20,15 +20,13 @@
 + (Token *)newOrExistingTokenWithText:(NSString *)text
                             inContext:(NSManagedObjectContext *)context;
 {
-    NSError *fetchError;
-    
     // Build the fetch request.
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Token"];
     fetchRequest.predicate = [NSPredicate predicateWithFormat:@"text == %@", text];
     fetchRequest.fetchLimit = 1;
     
     // Fetch the results.
-    NSArray *results = [context executeFetchRequest:fetchRequest error:&fetchError];
+    NSArray *results = [context executeFetchRequest:fetchRequest error:NULL];
     
     Token *token;
     if ([results count] > 0) {
@@ -45,14 +43,12 @@
 
 + (NSArray *)existingTokensStartingWithText:(NSString *)text inContext:(NSManagedObjectContext *)context
 {
-    NSError *fetchError;
-    
     // Build the fetch request.
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Token"];
     fetchRequest.predicate = [NSPredicate predicateWithFormat:@"text BEGINSWITH %@", text];
     
     // Fetch the results.
-    NSArray *results = [context executeFetchRequest:fetchRequest error:&fetchError];
+    NSArray *results = [context executeFetchRequest:fetchRequest error:NULL];
     
     return results;
 }

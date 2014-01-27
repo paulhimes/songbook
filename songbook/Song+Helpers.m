@@ -26,14 +26,12 @@ NSString * const kFooterRangesKey = @"FooterRanges";
 
 + (Song *)newOrExistingSongTitled:(NSString *)title inSection:(Section *)section
 {
-    NSError *fetchError;
-    
     // Build the fetch request.
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Song"];
     fetchRequest.predicate = [NSPredicate predicateWithFormat:@"title == %@ AND section == %@", title, section];
     
     // Fetch the results.
-    NSArray *results = [section.managedObjectContext executeFetchRequest:fetchRequest error:&fetchError];
+    NSArray *results = [section.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
     
     Song *song;
     if ([results count] > 0) {
@@ -287,19 +285,9 @@ NSString * const kFooterRangesKey = @"FooterRanges";
 
 - (void)clearCachedSong
 {
-//    NSMutableArray *uniqueTokens = [@[] mutableCopy];
-
     for (TokenInstance *tokenInstance in self.tokenInstances) {
-//        if (![uniqueTokens containsObject:tokenInstance.token]) {
-//            [uniqueTokens addObject:tokenInstance.token];
-//        }
         [self.managedObjectContext refreshObject:tokenInstance mergeChanges:NO];
     }
-    
-//    for (Token *token in uniqueTokens) {
-//        [self.managedObjectContext refreshObject:token mergeChanges:NO];
-//    }
-    
     [self.managedObjectContext refreshObject:self mergeChanges:NO];
 }
 

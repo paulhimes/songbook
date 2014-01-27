@@ -14,14 +14,12 @@
 
 + (Book *)newOrExistingBookTitled:(NSString *)title inContext:(NSManagedObjectContext *)context
 {
-    NSError *fetchError;
-    
     // Build the fetch request.
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Book"];
     fetchRequest.predicate = [NSPredicate predicateWithFormat:@"title == %@", title];
     
     // Fetch the results.
-    NSArray *results = [context executeFetchRequest:fetchRequest error:&fetchError];
+    NSArray *results = [context executeFetchRequest:fetchRequest error:NULL];
     
     Book *book;
     if ([results count] > 0) {
@@ -45,13 +43,11 @@
 
 + (Book *)bookFromContext:(NSManagedObjectContext *)context
 {
-    NSError *fetchError;
-    
     // Build the fetch request.
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Book"];
     
     // Fetch the results.
-    NSArray *results = [context executeFetchRequest:fetchRequest error:&fetchError];
+    NSArray *results = [context executeFetchRequest:fetchRequest error:NULL];
     
     //  Get the first book.
     Book *book = [results firstObject];
