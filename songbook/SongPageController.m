@@ -284,6 +284,12 @@ static const float kTextScaleThreshold = 1;
 //    [self.delegate pageController:self selectedModelObject:self.relatedSongs[indexPath.row]];
 //}
 
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self updateBarVisibility];
+}
+
 #pragma mark - UITextViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
