@@ -12,7 +12,20 @@
 
 + (UIColor *)redColor
 {
-    return [UIColor colorWithRed:0.93 green:0.08 blue:0.19 alpha:1.0];
+    // Red Bright
+    return [UIColor colorWithRed:190/255.0 green:25/255.0 blue:49/255.0 alpha:1.0];
+}
+
++ (UIColor *)coverColorOne
+{
+    // Red Duller
+    return [UIColor colorWithRed:126/255.0 green:25/255.0 blue:40/255.0 alpha:1.0];
+}
+
++ (UIColor *)coverColorTwo
+{
+    // Red Dullish
+    return [UIColor colorWithRed:124/255.0 green:16/255.0 blue:32/255.0 alpha:1.0];
 }
 
 + (UIColor *)grayTrimColor

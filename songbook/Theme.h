@@ -11,6 +11,8 @@
 @interface Theme : NSObject
 
 + (UIColor *)redColor;
++ (UIColor *)coverColorOne;
++ (UIColor *)coverColorTwo;
 + (UIColor *)grayTrimColor;
 + (UIColor *)darkerGrayColor;
 + (UIColor *)searchFieldBackgroundColor;
