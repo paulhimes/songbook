@@ -98,6 +98,11 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
     if ([coder containsValueForKey:kMainBookStackKey]) {
         CoreDataStack *mainBookStack = [coder decodeObjectForKey:kMainBookStackKey];
         self.mainBookStack = mainBookStack;
+        Book *book = [Book bookFromContext:self.mainBookStack.managedObjectContext];
+        if (book) {
+            // Begin tokenizing any untokenized songs in this book.
+            [self tokenizeBook:book];
+        }
     }
 }
 
