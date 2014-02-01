@@ -29,8 +29,6 @@
 		8B94532517A5F44000327479 /* Section+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94532417A5F43800327479 /* Section+Helpers.m */; };
 		8B94532817A5F4C900327479 /* Book+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94532717A5F4C900327479 /* Book+Helpers.m */; };
 		8B983C0617FE636900D1A4C7 /* Songbook~iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BA3061E17A0BE2B00A2ABDE /* Songbook~iPad.storyboard */; };
-		8B983C0817FFC62D00D1A4C7 /* hymns.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8B983C0717FFC62D00D1A4C7 /* hymns.txt */; };
-		8B983C0A17FFD16800D1A4C7 /* afewfinnsongs.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8B983C0917FFD16800D1A4C7 /* afewfinnsongs.txt */; };
 		8BA305E617A0BCF200A2ABDE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305E517A0BCF200A2ABDE /* Foundation.framework */; };
 		8BA305E817A0BCF200A2ABDE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305E717A0BCF200A2ABDE /* CoreGraphics.framework */; };
 		8BA305EA17A0BCF200A2ABDE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305E917A0BCF200A2ABDE /* UIKit.framework */; };
@@ -70,7 +68,6 @@
 		8BB02AE217CB97BE001CCB6C /* SimpleSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB02AE117CB97BE001CCB6C /* SimpleSearcher.m */; };
 		8BB18AD917A5DB76006E257C /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB18AD817A5DB76006E257C /* Section.m */; };
 		8BB18ADF17A5DB77006E257C /* Verse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB18ADE17A5DB77006E257C /* Verse.m */; };
-		8BB18AE517A5EA57006E257C /* DataModelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB18AE417A5EA57006E257C /* DataModelTests.m */; };
 		8BB4CBE918959EA0009F0FA1 /* default.songbook in Resources */ = {isa = PBXBuildFile; fileRef = 8BB4CBE818959EA0009F0FA1 /* default.songbook */; };
 		8BB54D5C17A4C60700FD2914 /* PageServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB54D5B17A4C60700FD2914 /* PageServer.m */; };
 		8BB54D5F17A4C79300FD2914 /* SongPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB54D5E17A4C79300FD2914 /* SongPageController.m */; };
@@ -82,8 +79,6 @@
 		8BCA006F18457F9B00600947 /* SingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BCA006E18457F9B00600947 /* SingleViewController.m */; };
 		8BE5A65217CD2356002028E5 /* FilteredSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE5A65117CD2356002028E5 /* FilteredSearcher.m */; };
 		8BE5A65517CD8FA2002028E5 /* SmartSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE5A65417CD8FA2002028E5 /* SmartSearcher.m */; };
-		8BEB2A2817DE8994006F118C /* songs.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8BEB2A2717DE8994006F118C /* songs.txt */; };
-		8BEB2A2B17DE8E30006F118C /* BookParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEB2A2A17DE8E30006F118C /* BookParser.m */; };
 		8BED9F0D17C91E9A00D834BE /* TitlePageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BED9F0C17C91E9A00D834BE /* TitlePageController.m */; };
 		8BED9F1017C9418400D834BE /* GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BED9F0F17C9418400D834BE /* GradientView.m */; };
 /* End PBXBuildFile section */
@@ -140,8 +135,6 @@
 		8B94532417A5F43800327479 /* Section+Helpers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Section+Helpers.m"; sourceTree = "<group>"; };
 		8B94532617A5F4C900327479 /* Book+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Book+Helpers.h"; sourceTree = "<group>"; };
 		8B94532717A5F4C900327479 /* Book+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Book+Helpers.m"; sourceTree = "<group>"; };
-		8B983C0717FFC62D00D1A4C7 /* hymns.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = hymns.txt; sourceTree = "<group>"; };
-		8B983C0917FFD16800D1A4C7 /* afewfinnsongs.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = afewfinnsongs.txt; sourceTree = "<group>"; };
 		8BA305E217A0BCF200A2ABDE /* songbook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = songbook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BA305E517A0BCF200A2ABDE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8BA305E717A0BCF200A2ABDE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -208,8 +201,6 @@
 		8BB18AD817A5DB76006E257C /* Section.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Section.m; path = ../Section.m; sourceTree = "<group>"; };
 		8BB18ADD17A5DB77006E257C /* Verse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Verse.h; path = ../Verse.h; sourceTree = "<group>"; };
 		8BB18ADE17A5DB77006E257C /* Verse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Verse.m; path = ../Verse.m; sourceTree = "<group>"; };
-		8BB18AE317A5EA57006E257C /* DataModelTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataModelTests.h; sourceTree = "<group>"; };
-		8BB18AE417A5EA57006E257C /* DataModelTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataModelTests.m; sourceTree = "<group>"; };
 		8BB4CBE818959EA0009F0FA1 /* default.songbook */ = {isa = PBXFileReference; lastKnownFileType = file; path = default.songbook; sourceTree = "<group>"; };
 		8BB54D5A17A4C60700FD2914 /* PageServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PageServer.h; path = ../PageServer.h; sourceTree = "<group>"; };
 		8BB54D5B17A4C60700FD2914 /* PageServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PageServer.m; path = ../PageServer.m; sourceTree = "<group>"; };
@@ -231,9 +222,6 @@
 		8BE5A65117CD2356002028E5 /* FilteredSearcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilteredSearcher.m; sourceTree = "<group>"; };
 		8BE5A65317CD8FA2002028E5 /* SmartSearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartSearcher.h; sourceTree = "<group>"; };
 		8BE5A65417CD8FA2002028E5 /* SmartSearcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartSearcher.m; sourceTree = "<group>"; };
-		8BEB2A2717DE8994006F118C /* songs.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = songs.txt; sourceTree = "<group>"; };
-		8BEB2A2917DE8E30006F118C /* BookParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookParser.h; sourceTree = "<group>"; };
-		8BEB2A2A17DE8E30006F118C /* BookParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookParser.m; sourceTree = "<group>"; };
 		8BED9F0B17C91E9A00D834BE /* TitlePageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitlePageController.h; sourceTree = "<group>"; };
 		8BED9F0C17C91E9A00D834BE /* TitlePageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitlePageController.m; sourceTree = "<group>"; };
 		8BED9F0E17C9418400D834BE /* GradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientView.h; sourceTree = "<group>"; };
@@ -423,9 +411,6 @@
 			isa = PBXGroup;
 			children = (
 				8BAF35EA181F285400D6A93E /* ZipArchive */,
-				8BEB2A2717DE8994006F118C /* songs.txt */,
-				8B983C0717FFC62D00D1A4C7 /* hymns.txt */,
-				8B983C0917FFD16800D1A4C7 /* afewfinnsongs.txt */,
 				8BB4CBE818959EA0009F0FA1 /* default.songbook */,
 				8BA305F617A0BCF200A2ABDE /* AppDelegate.h */,
 				8BA305F717A0BCF200A2ABDE /* AppDelegate.m */,
@@ -447,8 +432,6 @@
 				8B191A041809CEB50071DF4D /* SafeTextView.m */,
 				8BAF6ADC180E3C6B00BFC813 /* Theme.h */,
 				8BAF6ADD180E3C6B00BFC813 /* Theme.m */,
-				8BEB2A2917DE8E30006F118C /* BookParser.h */,
-				8BEB2A2A17DE8E30006F118C /* BookParser.m */,
 				8BC7D64D18860ECA008F2289 /* NoStatusActivityViewController.h */,
 				8BC7D64E18860ECA008F2289 /* NoStatusActivityViewController.m */,
 			);
@@ -525,8 +508,6 @@
 			children = (
 				8B42031417E7CCC700019A80 /* Generated */,
 				8BA305F917A0BCF200A2ABDE /* songbook.xcdatamodeld */,
-				8BB18AE317A5EA57006E257C /* DataModelTests.h */,
-				8BB18AE417A5EA57006E257C /* DataModelTests.m */,
 				8B94531D17A5F15D00327479 /* Song+Helpers.h */,
 				8B94531E17A5F15D00327479 /* Song+Helpers.m */,
 				8B94532017A5F3E500327479 /* Verse+Helpers.h */,
@@ -644,10 +625,7 @@
 			files = (
 				8B983C0617FE636900D1A4C7 /* Songbook~iPad.storyboard in Resources */,
 				8BA305F217A0BCF200A2ABDE /* InfoPlist.strings in Resources */,
-				8BEB2A2817DE8994006F118C /* songs.txt in Resources */,
-				8B983C0A17FFD16800D1A4C7 /* afewfinnsongs.txt in Resources */,
 				8BA3061B17A0BDAD00A2ABDE /* Songbook.storyboard in Resources */,
-				8B983C0817FFC62D00D1A4C7 /* hymns.txt in Resources */,
 				8BAF35FC181F285400D6A93E /* README.md in Resources */,
 				8BB4CBE918959EA0009F0FA1 /* default.songbook in Resources */,
 				8BA305FD17A0BCF200A2ABDE /* Images.xcassets in Resources */,
@@ -692,7 +670,6 @@
 				8BAA50D5188B0781009B162B /* SearchHeaderFooterView.m in Sources */,
 				8BC674C717B9E1D8001E71B1 /* SongTitleView.m in Sources */,
 				8BAF6ADE180E3C6B00BFC813 /* Theme.m in Sources */,
-				8BB18AE517A5EA57006E257C /* DataModelTests.m in Sources */,
 				8BA785B317D5864D00BEF4D9 /* NSString+Helpers.m in Sources */,
 				8BAF3603182344DD00D6A93E /* BookManagerViewController.m in Sources */,
 				8BED9F0D17C91E9A00D834BE /* TitlePageController.m in Sources */,
@@ -734,7 +711,6 @@
 				8BAF36081824C41700D6A93E /* CoreDataStack.m in Sources */,
 				8B6F1BFD17ACBC4C00F72C3D /* SectionPageController.m in Sources */,
 				8B94532817A5F4C900327479 /* Book+Helpers.m in Sources */,
-				8BEB2A2B17DE8E30006F118C /* BookParser.m in Sources */,
 				8BAF35F8181F285400D6A93E /* ioapi.c in Sources */,
 				8BAF35FB181F285400D6A93E /* zip.c in Sources */,
 				8B94531F17A5F15D00327479 /* Song+Helpers.m in Sources */,

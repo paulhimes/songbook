@@ -7,7 +7,6 @@
 //
 
 #import "BookManagerViewController.h"
-#import "DataModelTests.h"
 #import "BookCodec.h"
 #import "CoreDataStack.h"
 #import "Section.h"
