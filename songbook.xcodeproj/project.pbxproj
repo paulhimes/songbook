@@ -325,6 +325,9 @@
 				8B6F1BEE17ACB67D00F72C3D /* PageController.m */,
 				8BED9F0B17C91E9A00D834BE /* TitlePageController.h */,
 				8BED9F0C17C91E9A00D834BE /* TitlePageController.m */,
+				8B6F1BF017ACBBCA00F72C3D /* Book Pages */,
+				8B6F1BF117ACBBD100F72C3D /* Section Pages */,
+				8B6F1BEC17ACB4E100F72C3D /* Song Pages */,
 			);
 			name = Pages;
 			sourceTree = "<group>";
@@ -377,18 +380,11 @@
 			children = (
 				8BAE5B4E17B1F7DC004631CA /* Search */,
 				8B6F1BFE17AD519300F72C3D /* Pages */,
-				8B6F1BF117ACBBD100F72C3D /* Section Pages */,
-				8B6F1BF017ACBBCA00F72C3D /* Book Pages */,
-				8B6F1BEC17ACB4E100F72C3D /* Song Pages */,
 				8BA305FC17A0BCF200A2ABDE /* Images.xcassets */,
 				8BA3061A17A0BDAD00A2ABDE /* Songbook.storyboard */,
 				8BA3061E17A0BE2B00A2ABDE /* Songbook~iPad.storyboard */,
 				8BAF3601182344DD00D6A93E /* BookManagerViewController.h */,
 				8BAF3602182344DD00D6A93E /* BookManagerViewController.m */,
-				8BAF3612182B3EDA00D6A93E /* TokenizeOperation.h */,
-				8BAF3613182B3EDA00D6A93E /* TokenizeOperation.m */,
-				8BAF36061824C41700D6A93E /* CoreDataStack.h */,
-				8BAF36071824C41700D6A93E /* CoreDataStack.m */,
 				8B191A9A180A4E290071DF4D /* SplitViewController.h */,
 				8B191A9B180A4E290071DF4D /* SplitViewController.m */,
 				8BCA006D18457F9B00600947 /* SingleViewController.h */,
@@ -510,6 +506,8 @@
 			children = (
 				8B42031417E7CCC700019A80 /* Generated */,
 				8BA305F917A0BCF200A2ABDE /* songbook.xcdatamodeld */,
+				8BAF36061824C41700D6A93E /* CoreDataStack.h */,
+				8BAF36071824C41700D6A93E /* CoreDataStack.m */,
 				8B94531D17A5F15D00327479 /* Song+Helpers.h */,
 				8B94531E17A5F15D00327479 /* Song+Helpers.m */,
 				8B94532017A5F3E500327479 /* Verse+Helpers.h */,
@@ -525,6 +523,8 @@
 				8B42031617E7D51C00019A80 /* TokenInstance+Helpers.m */,
 				8BAF6AE21816196200BFC813 /* BookCodec.h */,
 				8BAF6AE31816196200BFC813 /* BookCodec.m */,
+				8BAF3612182B3EDA00D6A93E /* TokenizeOperation.h */,
+				8BAF3613182B3EDA00D6A93E /* TokenizeOperation.m */,
 			);
 			name = "Data Model";
 			sourceTree = "<group>";

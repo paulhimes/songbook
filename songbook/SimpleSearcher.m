@@ -41,7 +41,10 @@
             [cellModels addObject:[[SearchCellModel alloc] initWithSongID:song.objectID content:attributedString range:NSMakeRange(0, 0) asTitleCell:YES]];
         }
         
-        [sectionModels addObject:[[SearchSectionModel alloc] initWithTitle:section.title cellModels:cellModels]];
+        // Only show the section if it contains cells.
+        if ([cellModels count]) {
+            [sectionModels addObject:[[SearchSectionModel alloc] initWithTitle:section.title cellModels:cellModels]];
+        }
     }
     
     SearchTableModel *table = [[SearchTableModel alloc] initWithSectionModels:[sectionModels copy] persistentStoreCoordinator:book.managedObjectContext.persistentStoreCoordinator];
