@@ -37,7 +37,7 @@
 - (NSArray *)locations
 {
     NSNumber *stopOne = [NSNumber numberWithFloat:0.0];
-    NSNumber *stopTwo = [NSNumber numberWithFloat:0.5];
+    NSNumber *stopTwo = [NSNumber numberWithFloat:1.0];
     
     return @[stopOne, stopTwo];
 }
