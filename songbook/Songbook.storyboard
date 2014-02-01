@@ -57,6 +57,7 @@
                                 <inset key="scrollIndicatorInsets" minX="0.0" minY="44" maxX="-16" maxY="44"/>
                                 <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
                                 <connections>
                                     <outlet property="delegate" destination="BLr-Sz-4hc" id="A4z-20-kRB"/>
                                 </connections>
@@ -257,6 +258,7 @@
                                 <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="-16" maxY="0.0"/>
                                 <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="YwN-3A-Ahs">
                                 <rect key="frame" x="0.0" y="524" width="320" height="44"/>
@@ -304,6 +306,7 @@
                                 <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="-16" maxY="0.0"/>
                                 <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="DxV-Wx-01N">
                                 <rect key="frame" x="0.0" y="524" width="320" height="44"/>

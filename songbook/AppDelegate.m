@@ -20,7 +20,7 @@
     [Crashlytics startWithAPIKey:@"9be265b58168dc66ff492f601ff87ed72389455f"];
     
     // Setup the default user defaults.
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{kStandardTextSizeKey: @20}];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{kStandardTextSizeKey: @18}];
     
     // Setup the window.
     self.window.tintColor = [Theme redColor];
