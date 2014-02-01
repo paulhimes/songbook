@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "PageController.h"
-#import "Song.h"
 
 @interface PageServer : NSObject <UIPageViewControllerDelegate, UIPageViewControllerDataSource>
 

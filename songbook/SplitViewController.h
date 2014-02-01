@@ -7,8 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Book.h"
-#import "CoreDataStack.h"
 #import "PageViewController.h"
 
 @interface SplitViewController : UIViewController <PageViewControllerDelegate>

@@ -7,7 +7,6 @@
 //
 
 #import "Song.h"
-#import "Verse.h"
 #import "SongbookModel.h"
 
 extern NSString * const kSongNumberRangesKey;

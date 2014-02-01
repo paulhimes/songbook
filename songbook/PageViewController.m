@@ -7,9 +7,7 @@
 //
 
 #import "PageViewController.h"
-#import "SongbookModel.h"
 #import "Book+Helpers.h"
-#import "SearchViewController.h"
 
 static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
 static NSString * const kDelegateKey = @"DelegateKey";

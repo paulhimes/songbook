@@ -8,14 +8,11 @@
 
 #import "BookManagerViewController.h"
 #import "BookCodec.h"
-#import "CoreDataStack.h"
-#import "Section.h"
-#import "Song+Helpers.h"
-#import "Book+Helpers.h"
 #import "TokenizeOperation.h"
+#import "CoreDataStack.h"
 #import "SplitViewController.h"
-#import "SingleViewController.h"
 #import "GradientView.h"
+#import "Book+Helpers.h"
 
 static NSString * const kTemporaryDatabaseDirectoryName = @"temporaryBook";
 static NSString * const kMainDatabaseDirectoryName = @"mainBook";

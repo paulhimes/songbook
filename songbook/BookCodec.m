@@ -11,6 +11,7 @@
 #import "Song+Helpers.h"
 #import "Verse+Helpers.h"
 #import "OrderedDictionary.h"
+#import "Book+Helpers.h"
 
 // Book keys
 NSString * const kBookTitleKey = @"bookTitle";

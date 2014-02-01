@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "Searcher.h"
-#import "SearchTableModel.h"
 
 @interface FilteredSearcher : NSObject <Searcher>
 

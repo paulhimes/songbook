@@ -7,6 +7,7 @@
 //
 
 #import "SectionPageController.h"
+#import "Section.h"
 
 @interface SectionPageController () <UIToolbarDelegate>
 

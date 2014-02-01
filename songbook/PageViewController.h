@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Book.h"
 #import "PageServer.h"
 
 @protocol PageViewControllerDelegate;

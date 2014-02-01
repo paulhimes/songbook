@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Book+Helpers.h"
 
 @interface BookCodec : NSObject
 

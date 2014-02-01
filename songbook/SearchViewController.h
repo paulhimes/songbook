@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "CoreDataStack.h"
-#import "Song.h"
 
 @protocol SearchViewControllerDelegate;
 

@@ -8,8 +8,7 @@
 
 #import "SearchViewController.h"
 #import "Section.h"
-#import "Book.h"
-#import "Song+Helpers.h"
+#import "Song.h"
 #import "SmartSearcher.h"
 #import "SearchOperation.h"
 #import "SearchTableDataSource.h"

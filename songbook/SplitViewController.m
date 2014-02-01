@@ -7,7 +7,6 @@
 //
 
 #import "SplitViewController.h"
-#import "PageViewController.h"
 #import "SearchViewController.h"
 
 static NSString * const kSearchIsVisibleKey = @"SearchIsVisibleKey";

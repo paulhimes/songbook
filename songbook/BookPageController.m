@@ -8,7 +8,7 @@
 
 #import "BookPageController.h"
 #import "GradientView.h"
-#import "BookCodec.h"
+#import "Book.h"
 
 @interface BookPageController () <UIToolbarDelegate>
 

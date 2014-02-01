@@ -9,19 +9,14 @@
 /* Begin PBXBuildFile section */
 		8B088FC217C867440043341D /* UIView+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B088FC117C867440043341D /* UIView+Helpers.m */; };
 		8B14431917EFDAB60000A898 /* Token.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42031217E7CAEE00019A80 /* Token.m */; };
-		8B14431C17F10E560000A898 /* SearchOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B14431B17F10E560000A898 /* SearchOperation.m */; };
 		8B14431F17F140420000A898 /* SearchCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B14431E17F140420000A898 /* SearchCellModel.m */; };
 		8B14432217F141770000A898 /* SearchSectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B14432117F141770000A898 /* SearchSectionModel.m */; };
 		8B14432617F142190000A898 /* SearchTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B14432517F142190000A898 /* SearchTableModel.m */; };
-		8B14432917F68CDA0000A898 /* SearchTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B14432817F68CDA0000A898 /* SearchTableDataSource.m */; };
 		8B191A051809CEB50071DF4D /* SafeTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B191A041809CEB50071DF4D /* SafeTextView.m */; };
 		8B191A9C180A4E290071DF4D /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B191A9B180A4E290071DF4D /* SplitViewController.m */; };
 		8B42030D17E7CAED00019A80 /* TokenInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42030C17E7CAED00019A80 /* TokenInstance.m */; };
 		8B42031017E7CAED00019A80 /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42030F17E7CAED00019A80 /* Song.m */; };
 		8B42031717E7D51C00019A80 /* TokenInstance+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42031617E7D51C00019A80 /* TokenInstance+Helpers.m */; };
-		8B6F1BEF17ACB67D00F72C3D /* PageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B6F1BEE17ACB67D00F72C3D /* PageController.m */; };
-		8B6F1BF417ACBBFB00F72C3D /* BookPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B6F1BF317ACBBFB00F72C3D /* BookPageController.m */; };
-		8B6F1BFD17ACBC4C00F72C3D /* SectionPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B6F1BFC17ACBC4C00F72C3D /* SectionPageController.m */; };
 		8B6FC947181C88F900BACCCB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B6FC946181C88F900BACCCB /* MessageUI.framework */; };
 		8B810A5517D9519A00F339CE /* Token+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B810A5417D9519A00F339CE /* Token+Helpers.m */; };
 		8B94531F17A5F15D00327479 /* Song+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94531E17A5F15D00327479 /* Song+Helpers.m */; };
@@ -49,8 +44,6 @@
 		8BA5142917ADA275009E960D /* UIView+Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5142817ADA275009E960D /* UIView+Debug.m */; };
 		8BA5E1D017DB702600858741 /* UITableView+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5E1CF17DB702600858741 /* UITableView+Helpers.m */; };
 		8BA785B317D5864D00BEF4D9 /* NSString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA785B217D5864D00BEF4D9 /* NSString+Helpers.m */; };
-		8BAA50D5188B0781009B162B /* SearchHeaderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAA50D4188B0781009B162B /* SearchHeaderFooterView.m */; };
-		8BAE5B4D17B1F7C5004631CA /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAE5B4C17B1F7C5004631CA /* SearchViewController.m */; };
 		8BAF35D7181E274200D6A93E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BAF35D6181E274200D6A93E /* libz.dylib */; };
 		8BAF35F8181F285400D6A93E /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF35ED181F285400D6A93E /* ioapi.c */; };
 		8BAF35F9181F285400D6A93E /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF35EF181F285400D6A93E /* mztools.c */; };
@@ -58,28 +51,35 @@
 		8BAF35FB181F285400D6A93E /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF35F3181F285400D6A93E /* zip.c */; };
 		8BAF35FC181F285400D6A93E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 8BAF35F5181F285400D6A93E /* README.md */; };
 		8BAF35FD181F285400D6A93E /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF35F7181F285400D6A93E /* ZipArchive.mm */; };
-		8BAF3603182344DD00D6A93E /* BookManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF3602182344DD00D6A93E /* BookManagerViewController.m */; };
 		8BAF36081824C41700D6A93E /* CoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF36071824C41700D6A93E /* CoreDataStack.m */; };
 		8BAF36111824D95200D6A93E /* OrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF36101824D95200D6A93E /* OrderedDictionary.m */; };
-		8BAF3614182B3EDA00D6A93E /* TokenizeOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF3613182B3EDA00D6A93E /* TokenizeOperation.m */; };
 		8BAF6ADE180E3C6B00BFC813 /* Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF6ADD180E3C6B00BFC813 /* Theme.m */; };
 		8BAF6AE11816046A00BFC813 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BAF6AE01816046A00BFC813 /* Crashlytics.framework */; };
 		8BAF6AE41816196200BFC813 /* BookCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF6AE31816196200BFC813 /* BookCodec.m */; };
-		8BB02AE217CB97BE001CCB6C /* SimpleSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB02AE117CB97BE001CCB6C /* SimpleSearcher.m */; };
+		8BB0F584189CBC1D004D6377 /* SmartSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE5A65417CD8FA2002028E5 /* SmartSearcher.m */; };
+		8BB0F585189CBC27004D6377 /* FilteredSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE5A65117CD2356002028E5 /* FilteredSearcher.m */; };
+		8BB0F586189CBC32004D6377 /* SimpleSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB02AE117CB97BE001CCB6C /* SimpleSearcher.m */; };
+		8BB0F587189CBC3F004D6377 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAE5B4C17B1F7C5004631CA /* SearchViewController.m */; };
+		8BB0F588189CBC49004D6377 /* SearchOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B14431B17F10E560000A898 /* SearchOperation.m */; };
+		8BB0F589189CBC50004D6377 /* SearchTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B14432817F68CDA0000A898 /* SearchTableDataSource.m */; };
+		8BB0F58A189CBC57004D6377 /* SearchHeaderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAA50D4188B0781009B162B /* SearchHeaderFooterView.m */; };
+		8BB0F58B189CBC5E004D6377 /* PageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B6F1BEE17ACB67D00F72C3D /* PageController.m */; };
+		8BB0F58C189CBC64004D6377 /* TitlePageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BED9F0C17C91E9A00D834BE /* TitlePageController.m */; };
+		8BB0F58E189CBCE4004D6377 /* SectionPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B6F1BFC17ACBC4C00F72C3D /* SectionPageController.m */; };
+		8BB0F58F189CBCFC004D6377 /* BookPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B6F1BF317ACBBFB00F72C3D /* BookPageController.m */; };
+		8BB0F590189CBD06004D6377 /* SongPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB54D5E17A4C79300FD2914 /* SongPageController.m */; };
+		8BB0F591189CBD0C004D6377 /* SongTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C617B9E1D8001E71B1 /* SongTitleView.m */; };
+		8BB0F592189CBD1E004D6377 /* BookManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF3602182344DD00D6A93E /* BookManagerViewController.m */; };
+		8BB0F593189CBD2C004D6377 /* TokenizeOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF3613182B3EDA00D6A93E /* TokenizeOperation.m */; };
 		8BB18AD917A5DB76006E257C /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB18AD817A5DB76006E257C /* Section.m */; };
 		8BB18ADF17A5DB77006E257C /* Verse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB18ADE17A5DB77006E257C /* Verse.m */; };
 		8BB4CBE918959EA0009F0FA1 /* default.songbook in Resources */ = {isa = PBXBuildFile; fileRef = 8BB4CBE818959EA0009F0FA1 /* default.songbook */; };
 		8BB54D5C17A4C60700FD2914 /* PageServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB54D5B17A4C60700FD2914 /* PageServer.m */; };
-		8BB54D5F17A4C79300FD2914 /* SongPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB54D5E17A4C79300FD2914 /* SongPageController.m */; };
-		8BC674C717B9E1D8001E71B1 /* SongTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C617B9E1D8001E71B1 /* SongTitleView.m */; };
 		8BC674CA17BC912C001E71B1 /* NSMutableAttributedString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */; };
 		8BC7D645187E62AA008F2289 /* BookProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7D644187E62AA008F2289 /* BookProvider.m */; };
 		8BC7D648188344DD008F2289 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7D647188344DD008F2289 /* Book.m */; };
 		8BC7D64F18860ECA008F2289 /* NoStatusActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7D64E18860ECA008F2289 /* NoStatusActivityViewController.m */; };
 		8BCA006F18457F9B00600947 /* SingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BCA006E18457F9B00600947 /* SingleViewController.m */; };
-		8BE5A65217CD2356002028E5 /* FilteredSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE5A65117CD2356002028E5 /* FilteredSearcher.m */; };
-		8BE5A65517CD8FA2002028E5 /* SmartSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE5A65417CD8FA2002028E5 /* SmartSearcher.m */; };
-		8BED9F0D17C91E9A00D834BE /* TitlePageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BED9F0C17C91E9A00D834BE /* TitlePageController.m */; };
 		8BED9F1017C9418400D834BE /* GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BED9F0F17C9418400D834BE /* GradientView.m */; };
 /* End PBXBuildFile section */
 
@@ -385,8 +385,8 @@
 				8BA3061E17A0BE2B00A2ABDE /* Songbook~iPad.storyboard */,
 				8BAF3601182344DD00D6A93E /* BookManagerViewController.h */,
 				8BAF3602182344DD00D6A93E /* BookManagerViewController.m */,
-				8BAF3613182B3EDA00D6A93E /* TokenizeOperation.m */,
 				8BAF3612182B3EDA00D6A93E /* TokenizeOperation.h */,
+				8BAF3613182B3EDA00D6A93E /* TokenizeOperation.m */,
 				8BAF36061824C41700D6A93E /* CoreDataStack.h */,
 				8BAF36071824C41700D6A93E /* CoreDataStack.m */,
 				8B191A9A180A4E290071DF4D /* SplitViewController.h */,
@@ -399,8 +399,6 @@
 				8BB54D5B17A4C60700FD2914 /* PageServer.m */,
 				8BC7D643187E62AA008F2289 /* BookProvider.h */,
 				8BC7D644187E62AA008F2289 /* BookProvider.m */,
-				8BED9F0E17C9418400D834BE /* GradientView.h */,
-				8BED9F0F17C9418400D834BE /* GradientView.m */,
 				8BB18AD617A5DAD2006E257C /* Data Model */,
 				8BA305EE17A0BCF200A2ABDE /* Supporting Files */,
 			);
@@ -434,6 +432,10 @@
 				8BAF6ADD180E3C6B00BFC813 /* Theme.m */,
 				8BC7D64D18860ECA008F2289 /* NoStatusActivityViewController.h */,
 				8BC7D64E18860ECA008F2289 /* NoStatusActivityViewController.m */,
+				8BAF360F1824D95200D6A93E /* OrderedDictionary.h */,
+				8BAF36101824D95200D6A93E /* OrderedDictionary.m */,
+				8BED9F0E17C9418400D834BE /* GradientView.h */,
+				8BED9F0F17C9418400D834BE /* GradientView.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -523,8 +525,6 @@
 				8B42031617E7D51C00019A80 /* TokenInstance+Helpers.m */,
 				8BAF6AE21816196200BFC813 /* BookCodec.h */,
 				8BAF6AE31816196200BFC813 /* BookCodec.m */,
-				8BAF360F1824D95200D6A93E /* OrderedDictionary.h */,
-				8BAF36101824D95200D6A93E /* OrderedDictionary.m */,
 			);
 			name = "Data Model";
 			sourceTree = "<group>";
@@ -666,57 +666,57 @@
 				8BC7D64F18860ECA008F2289 /* NoStatusActivityViewController.m in Sources */,
 				8BC674CA17BC912C001E71B1 /* NSMutableAttributedString+Helpers.m in Sources */,
 				8B14432217F141770000A898 /* SearchSectionModel.m in Sources */,
+				8BB0F58F189CBCFC004D6377 /* BookPageController.m in Sources */,
 				8BAF35F9181F285400D6A93E /* mztools.c in Sources */,
-				8BAA50D5188B0781009B162B /* SearchHeaderFooterView.m in Sources */,
-				8BC674C717B9E1D8001E71B1 /* SongTitleView.m in Sources */,
 				8BAF6ADE180E3C6B00BFC813 /* Theme.m in Sources */,
 				8BA785B317D5864D00BEF4D9 /* NSString+Helpers.m in Sources */,
-				8BAF3603182344DD00D6A93E /* BookManagerViewController.m in Sources */,
-				8BED9F0D17C91E9A00D834BE /* TitlePageController.m in Sources */,
+				8BB0F58A189CBC57004D6377 /* SearchHeaderFooterView.m in Sources */,
 				8BAF36111824D95200D6A93E /* OrderedDictionary.m in Sources */,
-				8B14432917F68CDA0000A898 /* SearchTableDataSource.m in Sources */,
-				8BAE5B4D17B1F7C5004631CA /* SearchViewController.m in Sources */,
-				8B6F1BEF17ACB67D00F72C3D /* PageController.m in Sources */,
+				8BB0F584189CBC1D004D6377 /* SmartSearcher.m in Sources */,
 				8BA5142917ADA275009E960D /* UIView+Debug.m in Sources */,
 				8B191A9C180A4E290071DF4D /* SplitViewController.m in Sources */,
 				8BC7D648188344DD008F2289 /* Book.m in Sources */,
+				8BB0F58B189CBC5E004D6377 /* PageController.m in Sources */,
 				8BA305F817A0BCF200A2ABDE /* AppDelegate.m in Sources */,
+				8BB0F590189CBD06004D6377 /* SongPageController.m in Sources */,
+				8BB0F592189CBD1E004D6377 /* BookManagerViewController.m in Sources */,
 				8BA5E1D017DB702600858741 /* UITableView+Helpers.m in Sources */,
 				8BED9F1017C9418400D834BE /* GradientView.m in Sources */,
+				8BB0F586189CBC32004D6377 /* SimpleSearcher.m in Sources */,
 				8B42030D17E7CAED00019A80 /* TokenInstance.m in Sources */,
 				8BA305FB17A0BCF200A2ABDE /* songbook.xcdatamodeld in Sources */,
 				8B14432617F142190000A898 /* SearchTableModel.m in Sources */,
+				8BB0F588189CBC49004D6377 /* SearchOperation.m in Sources */,
 				8BAF6AE41816196200BFC813 /* BookCodec.m in Sources */,
 				8B94532517A5F44000327479 /* Section+Helpers.m in Sources */,
 				8BB18ADF17A5DB77006E257C /* Verse.m in Sources */,
-				8BE5A65517CD8FA2002028E5 /* SmartSearcher.m in Sources */,
-				8BB02AE217CB97BE001CCB6C /* SimpleSearcher.m in Sources */,
-				8B14431C17F10E560000A898 /* SearchOperation.m in Sources */,
 				8BA305F417A0BCF200A2ABDE /* main.m in Sources */,
 				8B191A051809CEB50071DF4D /* SafeTextView.m in Sources */,
 				8BAF35FD181F285400D6A93E /* ZipArchive.mm in Sources */,
 				8BC7D645187E62AA008F2289 /* BookProvider.m in Sources */,
 				8B088FC217C867440043341D /* UIView+Helpers.m in Sources */,
-				8BB54D5F17A4C79300FD2914 /* SongPageController.m in Sources */,
 				8B810A5517D9519A00F339CE /* Token+Helpers.m in Sources */,
+				8BB0F58E189CBCE4004D6377 /* SectionPageController.m in Sources */,
 				8BB18AD917A5DB76006E257C /* Section.m in Sources */,
-				8BE5A65217CD2356002028E5 /* FilteredSearcher.m in Sources */,
 				8BB54D5C17A4C60700FD2914 /* PageServer.m in Sources */,
 				8B42031017E7CAED00019A80 /* Song.m in Sources */,
+				8BB0F593189CBD2C004D6377 /* TokenizeOperation.m in Sources */,
 				8BCA006F18457F9B00600947 /* SingleViewController.m in Sources */,
+				8BB0F585189CBC27004D6377 /* FilteredSearcher.m in Sources */,
 				8B94532217A5F3E500327479 /* Verse+Helpers.m in Sources */,
+				8BB0F589189CBC50004D6377 /* SearchTableDataSource.m in Sources */,
 				8BAF35FA181F285400D6A93E /* unzip.c in Sources */,
-				8BAF3614182B3EDA00D6A93E /* TokenizeOperation.m in Sources */,
+				8BB0F58C189CBC64004D6377 /* TitlePageController.m in Sources */,
 				8B14431917EFDAB60000A898 /* Token.m in Sources */,
 				8BAF36081824C41700D6A93E /* CoreDataStack.m in Sources */,
-				8B6F1BFD17ACBC4C00F72C3D /* SectionPageController.m in Sources */,
 				8B94532817A5F4C900327479 /* Book+Helpers.m in Sources */,
+				8BB0F591189CBD0C004D6377 /* SongTitleView.m in Sources */,
 				8BAF35F8181F285400D6A93E /* ioapi.c in Sources */,
 				8BAF35FB181F285400D6A93E /* zip.c in Sources */,
 				8B94531F17A5F15D00327479 /* Song+Helpers.m in Sources */,
 				8BA3062117A1656B00A2ABDE /* PageViewController.m in Sources */,
 				8B14431F17F140420000A898 /* SearchCellModel.m in Sources */,
-				8B6F1BF417ACBBFB00F72C3D /* BookPageController.m in Sources */,
+				8BB0F587189CBC3F004D6377 /* SearchViewController.m in Sources */,
 				8B42031717E7D51C00019A80 /* TokenInstance+Helpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -7,11 +7,10 @@
 //
 
 #import "SongPageController.h"
-#import "Verse.h"
 #import "SongTitleView.h"
-#import "Book+Helpers.h"
 #import "BookCodec.h"
 #import "Section+Helpers.h"
+#import "Song+Helpers.h"
 
 static const float kTextScaleThreshold = 1;
 

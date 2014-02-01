@@ -7,7 +7,6 @@
 //
 
 #import "SongTitleView.h"
-#import "PageController.h"
 
 const CGFloat kMinimumTitleViewHeight = 44;
 const CGFloat kTitleNumberFontSize = 30;

@@ -9,7 +9,6 @@
 #import <Crashlytics/Crashlytics.h>
 #import "AppDelegate.h"
 #import "PageController.h"
-#import "BookCodec.h"
 #import "BookManagerViewController.h"
 
 @implementation AppDelegate

@@ -7,7 +7,6 @@
 //
 
 #import "TitlePageController.h"
-#import "Book.h"
 
 @interface BookPageController : TitlePageController
 

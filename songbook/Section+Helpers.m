@@ -7,8 +7,6 @@
 //
 
 #import "Section+Helpers.h"
-#import "Book+Helpers.h"
-#import "Song.h"
 
 @implementation Section (Helpers)
 

@@ -7,7 +7,6 @@
 //
 
 #import "TitlePageController.h"
-#import "Section.h"
 
 @interface SectionPageController : TitlePageController
 
