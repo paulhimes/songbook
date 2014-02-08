@@ -242,7 +242,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
         [self.activityIndicator startAnimating];
     }
     
-    NSString *searchText = sender.text;
+    NSString *searchText = self.searchField.text;
     
     NSString *letterOnlyString = [searchText stringLimitedToCharacterSet:[NSCharacterSet letterCharacterSet]];
     NSString *decimalDigitOnlyString = [searchText stringLimitedToCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
@@ -253,10 +253,16 @@ typedef enum PreferredSearchMethod : NSUInteger {
         // Letter Search
         [userDefaults setObject:[NSNumber numberWithUnsignedInteger:PreferredSearchMethodLetters]
                          forKey:kPreferredSearchMethodKey];
+        self.searchField.keyboardType = UIKeyboardTypeDefault;
+        [self.searchField resignFirstResponder];
+        [self.searchField becomeFirstResponder];
     } else if ([decimalDigitOnlyString length] > 0) {
         // Number Search
         [userDefaults setObject:[NSNumber numberWithUnsignedInteger:PreferredSearchMethodNumbers]
                          forKey:kPreferredSearchMethodKey];
+        self.searchField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+        [self.searchField resignFirstResponder];
+        [self.searchField becomeFirstResponder];
     }
     [userDefaults synchronize];
     
@@ -273,7 +279,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
                 if (weakSelf.tableView.tableFooterView != weakSelf.tableFooterView) {
                     // Only stop animating if the tokenization process has finished.
                     [weakSelf.activityIndicator stopAnimating];
-                    self.searchField.rightView = nil;
+                    weakSelf.searchField.rightView = nil;
                 }
                 
                 if ((!weakSelf.lastSearchString || [weakSelf.lastSearchString length]) && [searchText length] == 0) {
