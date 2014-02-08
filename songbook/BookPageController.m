@@ -14,6 +14,7 @@
 
 @property (nonatomic, readonly) Book *book;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *versionButton;
 
 @end
 
@@ -30,6 +31,8 @@
     [self.toolbar setBackgroundImage:[[UIImage alloc] init] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     self.toolbar.delegate = self;
     self.toolbar.tintColor = [Theme paperColor];
+    
+    self.versionButton.title = [NSString stringWithFormat:@"Version %@", self.book.version];
 }
 
 - (NSManagedObject *)modelObject

@@ -266,6 +266,8 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="ozh-JA-HQn"/>
+                                    <barButtonItem enabled="NO" id="aKK-ee-51J"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="CfN-fd-mfU"/>
                                     <barButtonItem systemItem="action" id="4II-VE-9Ik">
                                         <connections>
                                             <action selector="exportAction:" destination="e5b-Wd-exR" id="7bM-zN-O1J"/>
@@ -279,6 +281,7 @@
                     <connections>
                         <outlet property="textView" destination="83D-ol-4TM" id="kZo-cf-p9A"/>
                         <outlet property="toolbar" destination="YwN-3A-Ahs" id="tHG-YJ-0gI"/>
+                        <outlet property="versionButton" destination="aKK-ee-51J" id="whb-sS-Ndl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IPb-bN-9UO" userLabel="First Responder" sceneMemberID="firstResponder"/>
