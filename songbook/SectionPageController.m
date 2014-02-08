@@ -24,6 +24,9 @@
     
     [self.toolbar setBackgroundImage:[[UIImage alloc] init] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     self.toolbar.delegate = self;
+    
+    self.view.backgroundColor = [Theme paperColor];
+    self.textView.backgroundColor = [Theme paperColor];
 }
 
 - (NSManagedObject *)modelObject

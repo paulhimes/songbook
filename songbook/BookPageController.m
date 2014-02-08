@@ -29,6 +29,7 @@
     
     [self.toolbar setBackgroundImage:[[UIImage alloc] init] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     self.toolbar.delegate = self;
+    self.toolbar.tintColor = [Theme paperColor];
 }
 
 - (NSManagedObject *)modelObject
@@ -53,7 +54,7 @@
     
     return [[NSAttributedString alloc] initWithString:self.book.title
                                            attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:standardTextSize * 2],
-                                                        NSForegroundColorAttributeName: [UIColor whiteColor]
+                                                        NSForegroundColorAttributeName: [Theme paperColor]
                                                         }];
 }
 

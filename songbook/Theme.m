@@ -43,4 +43,9 @@
     return [UIColor colorWithRed:0 green:0 blue:0.3 alpha:0.1];
 }
 
++ (UIColor *)paperColor
+{
+    return [UIColor colorWithRed:255/255.0 green:250/255.0 blue:244/255.0 alpha:1.0];
+}
+
 @end

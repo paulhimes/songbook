@@ -89,6 +89,7 @@
         cell = [tableView dequeueReusableCellWithIdentifier:@"ContextCell" forIndexPath:indexPath];
     }
     
+    cell.backgroundColor = [Theme paperColor];
     cell.textLabel.attributedText = cellModel.content;
     
     return cell;

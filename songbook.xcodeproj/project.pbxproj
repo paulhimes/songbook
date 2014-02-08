@@ -321,6 +321,10 @@
 		8B6F1BFE17AD519300F72C3D /* Pages */ = {
 			isa = PBXGroup;
 			children = (
+				8BA3061F17A1640B00A2ABDE /* PageViewController.h */,
+				8BA3062017A1640B00A2ABDE /* PageViewController.m */,
+				8BB54D5A17A4C60700FD2914 /* PageServer.h */,
+				8BB54D5B17A4C60700FD2914 /* PageServer.m */,
 				8B6F1BED17ACB67D00F72C3D /* PageController.h */,
 				8B6F1BEE17ACB67D00F72C3D /* PageController.m */,
 				8BED9F0B17C91E9A00D834BE /* TitlePageController.h */,
@@ -389,10 +393,6 @@
 				8B191A9B180A4E290071DF4D /* SplitViewController.m */,
 				8BCA006D18457F9B00600947 /* SingleViewController.h */,
 				8BCA006E18457F9B00600947 /* SingleViewController.m */,
-				8BA3061F17A1640B00A2ABDE /* PageViewController.h */,
-				8BA3062017A1640B00A2ABDE /* PageViewController.m */,
-				8BB54D5A17A4C60700FD2914 /* PageServer.h */,
-				8BB54D5B17A4C60700FD2914 /* PageServer.m */,
 				8BC7D643187E62AA008F2289 /* BookProvider.h */,
 				8BC7D644187E62AA008F2289 /* BookProvider.m */,
 				8BB18AD617A5DAD2006E257C /* Data Model */,

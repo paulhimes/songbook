@@ -96,6 +96,12 @@ static const float kTextScaleThreshold = 1;
     
     [self.textView setDebugColor:[UIColor redColor]];
     self.textView.contentOffsetCallsAllowed = NO;
+    
+    self.view.backgroundColor = [Theme paperColor];
+    self.textView.backgroundColor = [Theme paperColor];
+    
+    self.topBar.barTintColor = [Theme paperColor];
+    self.bottomBar.barTintColor = [Theme paperColor];
 }
 
 - (void)viewWillAppear:(BOOL)animated

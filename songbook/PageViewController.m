@@ -33,6 +33,8 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
 	// Do any additional setup after loading the view.
     self.dataSource = self.pageServer;
     [self.view setDebugColor:[UIColor purpleColor]];
+    
+    self.view.backgroundColor = [Theme paperColor];
 }
 
 - (void)viewWillAppear:(BOOL)animated

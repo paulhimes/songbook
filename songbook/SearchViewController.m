@@ -85,9 +85,11 @@ typedef enum PreferredSearchMethod : NSUInteger {
     self.tableView.tableFooterView = nil;
     self.tableView.contentInset = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
     self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
+    self.tableView.backgroundColor = [Theme paperColor];
     [self.tableView registerClass:[SearchHeaderFooterView class] forHeaderFooterViewReuseIdentifier:kSearchHeaderFooterFiewIdentifier];
 
     self.toolbar.delegate = self;
+    self.toolbar.barTintColor = [Theme paperColor];
     
     self.searchField.layer.cornerRadius = 5;
     self.searchField.backgroundColor = [Theme searchFieldBackgroundColor];

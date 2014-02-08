@@ -32,7 +32,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundView = self.toolbar;
-        self.textLabel.textColor = [UIColor whiteColor];
+        self.textLabel.textColor = [Theme paperColor];
     }
     return self;
 }
