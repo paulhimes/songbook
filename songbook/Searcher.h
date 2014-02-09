@@ -10,7 +10,8 @@
 #import "Book.h"
 #import "SearchTableModel.h"
 #import "SearchSectionModel.h"
-#import "SearchCellModel.h"
+#import "SearchTitleCellModel.h"
+#import "SearchContextCellModel.h"
 
 @protocol Searcher <NSObject>
 

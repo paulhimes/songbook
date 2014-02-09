@@ -42,21 +42,6 @@ static const NSString * const kRangeKey = @"RangeKey";
     return [matchingFragmentAttributes copy];
 }
 
-+ (NSDictionary *)numberAttributes
-{
-    return @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18]};
-}
-
-+ (NSDictionary *)titleAttributes
-{
-    return @{NSFontAttributeName: [UIFont systemFontOfSize:18]};
-}
-
-+ (NSDictionary *)matchingTitleAttributes
-{
-    return @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18]};
-}
-
 + (NSDictionary *)matchingSongFragmentsBySongIDForSearchString:(NSString *)searchString
                                                         inBook:(Book *)book
                                                 shouldContinue:(BOOL (^)(void))shouldContinue
@@ -145,28 +130,18 @@ static const NSString * const kRangeKey = @"RangeKey";
             NSArray *songFragments = matchingSongFragmentsBySongID[songID];
 
             // Add the song title cell.
-            NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] initWithString:@""
-                                                                                            attributes:nil];
-            if (song.number) {
-                [titleString appendString:[NSString stringWithFormat:@"%d", [song.number integerValue]]attributes:[FilteredSearcher numberAttributes]];
-                [titleString appendString:@" " attributes:[FilteredSearcher titleAttributes]];
-            }
-            [titleString appendString:song.title attributes:[FilteredSearcher titleAttributes]];
-            
-            [cellModels addObject:[[SearchCellModel alloc] initWithSongID:songID
-                                                                  content:titleString
-                                                                    range:NSMakeRange(0, 0)
-                                                              asTitleCell:YES]];
+            [cellModels addObject:[[SearchTitleCellModel alloc] initWithSongID:songID
+                                                                        number:[song.number unsignedIntegerValue]
+                                                                         title:song.title]];
             
             for (NSDictionary *songFragment in songFragments) {
                 NSAttributedString *fragment = songFragment[kFragmentKey];
                 NSRange range = [songFragment[kRangeKey] rangeValue];
                 
                 if (range.location >= [songHeaderString length]) {
-                    SearchCellModel *cellModel = [[SearchCellModel alloc] initWithSongID:songID
-                                                                                 content:fragment
-                                                                                   range:range
-                                                                             asTitleCell:NO];
+                    SearchContextCellModel *cellModel = [[SearchContextCellModel alloc] initWithSongID:songID
+                                                                                               content:fragment
+                                                                                                 range:range];
                     [cellModels addObject:cellModel];
                 }
             }

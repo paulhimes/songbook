@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		8B088FC217C867440043341D /* UIView+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B088FC117C867440043341D /* UIView+Helpers.m */; };
 		8B14431917EFDAB60000A898 /* Token.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42031217E7CAEE00019A80 /* Token.m */; };
-		8B14431F17F140420000A898 /* SearchCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B14431E17F140420000A898 /* SearchCellModel.m */; };
 		8B14432217F141770000A898 /* SearchSectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B14432117F141770000A898 /* SearchSectionModel.m */; };
 		8B14432617F142190000A898 /* SearchTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B14432517F142190000A898 /* SearchTableModel.m */; };
 		8B191A051809CEB50071DF4D /* SafeTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B191A041809CEB50071DF4D /* SafeTextView.m */; };
@@ -80,6 +79,9 @@
 		8BC7D648188344DD008F2289 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7D647188344DD008F2289 /* Book.m */; };
 		8BC7D64F18860ECA008F2289 /* NoStatusActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7D64E18860ECA008F2289 /* NoStatusActivityViewController.m */; };
 		8BCA006F18457F9B00600947 /* SingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BCA006E18457F9B00600947 /* SingleViewController.m */; };
+		8BD5141018A7F912002DC6B1 /* BasicCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5140F18A7F912002DC6B1 /* BasicCell.m */; };
+		8BD5141318A7FAC1002DC6B1 /* SearchTitleCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5141218A7FAC1002DC6B1 /* SearchTitleCellModel.m */; };
+		8BD5141618A7FB3C002DC6B1 /* SearchContextCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5141518A7FB3C002DC6B1 /* SearchContextCellModel.m */; };
 		8BED9F1017C9418400D834BE /* GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BED9F0F17C9418400D834BE /* GradientView.m */; };
 /* End PBXBuildFile section */
 
@@ -99,7 +101,6 @@
 		8B14431A17F10E560000A898 /* SearchOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchOperation.h; sourceTree = "<group>"; };
 		8B14431B17F10E560000A898 /* SearchOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchOperation.m; sourceTree = "<group>"; };
 		8B14431D17F140420000A898 /* SearchCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchCellModel.h; sourceTree = "<group>"; };
-		8B14431E17F140420000A898 /* SearchCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchCellModel.m; sourceTree = "<group>"; };
 		8B14432017F141770000A898 /* SearchSectionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchSectionModel.h; sourceTree = "<group>"; };
 		8B14432117F141770000A898 /* SearchSectionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchSectionModel.m; sourceTree = "<group>"; };
 		8B14432417F142190000A898 /* SearchTableModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableModel.h; sourceTree = "<group>"; };
@@ -218,6 +219,12 @@
 		8BC7D64E18860ECA008F2289 /* NoStatusActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoStatusActivityViewController.m; sourceTree = "<group>"; };
 		8BCA006D18457F9B00600947 /* SingleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleViewController.h; sourceTree = "<group>"; };
 		8BCA006E18457F9B00600947 /* SingleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleViewController.m; sourceTree = "<group>"; };
+		8BD5140E18A7F912002DC6B1 /* BasicCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicCell.h; sourceTree = "<group>"; };
+		8BD5140F18A7F912002DC6B1 /* BasicCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicCell.m; sourceTree = "<group>"; };
+		8BD5141118A7FAC1002DC6B1 /* SearchTitleCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTitleCellModel.h; sourceTree = "<group>"; };
+		8BD5141218A7FAC1002DC6B1 /* SearchTitleCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTitleCellModel.m; sourceTree = "<group>"; };
+		8BD5141418A7FB3C002DC6B1 /* SearchContextCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchContextCellModel.h; sourceTree = "<group>"; };
+		8BD5141518A7FB3C002DC6B1 /* SearchContextCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchContextCellModel.m; sourceTree = "<group>"; };
 		8BE5A65017CD2356002028E5 /* FilteredSearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilteredSearcher.h; sourceTree = "<group>"; };
 		8BE5A65117CD2356002028E5 /* FilteredSearcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilteredSearcher.m; sourceTree = "<group>"; };
 		8BE5A65317CD8FA2002028E5 /* SmartSearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartSearcher.h; sourceTree = "<group>"; };
@@ -261,11 +268,14 @@
 			isa = PBXGroup;
 			children = (
 				8B14431D17F140420000A898 /* SearchCellModel.h */,
-				8B14431E17F140420000A898 /* SearchCellModel.m */,
 				8B14432017F141770000A898 /* SearchSectionModel.h */,
 				8B14432117F141770000A898 /* SearchSectionModel.m */,
 				8B14432417F142190000A898 /* SearchTableModel.h */,
 				8B14432517F142190000A898 /* SearchTableModel.m */,
+				8BD5141118A7FAC1002DC6B1 /* SearchTitleCellModel.h */,
+				8BD5141218A7FAC1002DC6B1 /* SearchTitleCellModel.m */,
+				8BD5141418A7FB3C002DC6B1 /* SearchContextCellModel.h */,
+				8BD5141518A7FB3C002DC6B1 /* SearchContextCellModel.m */,
 			);
 			name = "Search Models";
 			sourceTree = "<group>";
@@ -470,6 +480,8 @@
 				8B14432817F68CDA0000A898 /* SearchTableDataSource.m */,
 				8BAA50D3188B0781009B162B /* SearchHeaderFooterView.h */,
 				8BAA50D4188B0781009B162B /* SearchHeaderFooterView.m */,
+				8BD5140E18A7F912002DC6B1 /* BasicCell.h */,
+				8BD5140F18A7F912002DC6B1 /* BasicCell.m */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -681,6 +693,7 @@
 				8BC7D648188344DD008F2289 /* Book.m in Sources */,
 				8BB0F58B189CBC5E004D6377 /* PageController.m in Sources */,
 				8BA305F817A0BCF200A2ABDE /* AppDelegate.m in Sources */,
+				8BD5141618A7FB3C002DC6B1 /* SearchContextCellModel.m in Sources */,
 				8BB0F590189CBD06004D6377 /* SongPageController.m in Sources */,
 				8BB0F592189CBD1E004D6377 /* BookManagerViewController.m in Sources */,
 				8BA5E1D017DB702600858741 /* UITableView+Helpers.m in Sources */,
@@ -706,11 +719,13 @@
 				8BB0F593189CBD2C004D6377 /* TokenizeOperation.m in Sources */,
 				8BCA006F18457F9B00600947 /* SingleViewController.m in Sources */,
 				8BB0F585189CBC27004D6377 /* FilteredSearcher.m in Sources */,
+				8BD5141018A7F912002DC6B1 /* BasicCell.m in Sources */,
 				8B94532217A5F3E500327479 /* Verse+Helpers.m in Sources */,
 				8BB0F589189CBC50004D6377 /* SearchTableDataSource.m in Sources */,
 				8BAF35FA181F285400D6A93E /* unzip.c in Sources */,
 				8BB0F58C189CBC64004D6377 /* TitlePageController.m in Sources */,
 				8B14431917EFDAB60000A898 /* Token.m in Sources */,
+				8BD5141318A7FAC1002DC6B1 /* SearchTitleCellModel.m in Sources */,
 				8BAF36081824C41700D6A93E /* CoreDataStack.m in Sources */,
 				8B94532817A5F4C900327479 /* Book+Helpers.m in Sources */,
 				8BB0F591189CBD0C004D6377 /* SongTitleView.m in Sources */,
@@ -718,7 +733,6 @@
 				8BAF35FB181F285400D6A93E /* zip.c in Sources */,
 				8B94531F17A5F15D00327479 /* Song+Helpers.m in Sources */,
 				8BA3062117A1656B00A2ABDE /* PageViewController.m in Sources */,
-				8B14431F17F140420000A898 /* SearchCellModel.m in Sources */,
 				8BB0F587189CBC3F004D6377 /* SearchViewController.m in Sources */,
 				8B42031717E7D51C00019A80 /* TokenInstance+Helpers.m in Sources */,
 			);

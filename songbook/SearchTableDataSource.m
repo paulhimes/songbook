@@ -8,8 +8,10 @@
 
 #import "SearchTableDataSource.h"
 #import "SearchSectionModel.h"
-#import "SearchCellModel.h"
+#import "SearchTitleCellModel.h"
+#import "SearchContextCellModel.h"
 #import "SearchHeaderFooterView.h"
+#import "BasicCell.h"
 
 @interface SearchTableDataSource()
 
@@ -35,20 +37,20 @@
 
 - (NSManagedObjectID *)songIDAtIndexPath:(NSIndexPath *)indexPath
 {
-    SearchCellModel *cell = [self cellModelAtIndexPath:indexPath];
+    id<SearchCellModel> cell = [self cellModelAtIndexPath:indexPath];
     return cell.songID;
 }
 
 - (NSRange)songRangeAtIndexPath:(NSIndexPath *)indexPath
 {
-    SearchCellModel *cell = [self cellModelAtIndexPath:indexPath];
+    id<SearchCellModel> cell = [self cellModelAtIndexPath:indexPath];
     return cell.range;
 }
 
-- (SearchCellModel *)cellModelAtIndexPath:(NSIndexPath *)indexPath
+- (id<SearchCellModel>)cellModelAtIndexPath:(NSIndexPath *)indexPath
 {
     SearchSectionModel *section = indexPath.section < [self.tableModel.sectionModels count] ? self.tableModel.sectionModels[indexPath.section] : nil;
-    SearchCellModel *cell = indexPath.row < [section.cellModels count] ? section.cellModels[indexPath.row] : nil;
+    id<SearchCellModel> cell = indexPath.row < [section.cellModels count] ? section.cellModels[indexPath.row] : nil;
     
     return cell;
 }
@@ -58,7 +60,7 @@
     for (NSUInteger sectionIndex = 0; sectionIndex < [self.tableModel.sectionModels count]; sectionIndex++) {
         SearchSectionModel *section = self.tableModel.sectionModels[sectionIndex];
         for (NSInteger row = 0; row < [section.cellModels count]; row++) {
-            SearchCellModel *cell = section.cellModels[row];
+            id<SearchCellModel> cell = section.cellModels[row];
             
             if ([cell.songID isEqual:songID] && NSEqualRanges(cell.range, range)) {
                 return [NSIndexPath indexPathForRow:row inSection:sectionIndex];
@@ -71,6 +73,23 @@
 
 #pragma mark - UITableViewDataSource
 
+//- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+//{
+//    NSMutableArray *sectionIndexTitles = [@[] mutableCopy];
+//    [self.tableModel.sectionModels enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+//        SearchSectionModel *section = (SearchSectionModel *)obj;
+//        NSString *title = [section.title substringToIndex:MIN(5, [section.title length])];
+//        [sectionIndexTitles addObject:title];
+//    }];
+//    
+//    return [sectionIndexTitles copy];
+//}
+//
+//- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+//{
+//    return index;
+//}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     SearchSectionModel *sectionModel = self.tableModel.sectionModels[section];
@@ -80,18 +99,28 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SearchSectionModel *sectionModel = self.tableModel.sectionModels[indexPath.section];
-    SearchCellModel *cellModel = sectionModel.cellModels[indexPath.row];
+    id<SearchCellModel> cellModel = sectionModel.cellModels[indexPath.row];
     
     UITableViewCell *cell;
-    if (cellModel.titleCell) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"BasicCell" forIndexPath:indexPath];
-    } else {
+    if ([cellModel isKindOfClass:[SearchTitleCellModel class]]) {
+        SearchTitleCellModel *searchTitleCellModel = (SearchTitleCellModel *)cellModel;
+        BasicCell *basicCell = [tableView dequeueReusableCellWithIdentifier:@"BasicCell" forIndexPath:indexPath];
+        
+        if (searchTitleCellModel.number > 0) {
+            basicCell.numberLabel.text = [NSString stringWithFormat:@"%d", searchTitleCellModel.number];
+        } else {
+            basicCell.numberLabel.text = @"";
+        }
+        
+        basicCell.titleLabel.text = searchTitleCellModel.title;
+        cell = basicCell;
+    } else if ([cellModel isKindOfClass:[SearchContextCellModel class]]) {
+        SearchContextCellModel *searchContextCellModel = (SearchContextCellModel *)cellModel;
         cell = [tableView dequeueReusableCellWithIdentifier:@"ContextCell" forIndexPath:indexPath];
+        cell.textLabel.attributedText = searchContextCellModel.content;
     }
     
     cell.backgroundColor = [Theme paperColor];
-    cell.textLabel.attributedText = cellModel.content;
-    
     return cell;
 }
 
@@ -122,10 +151,10 @@
     }
     
     SearchSectionModel *sectionModel = self.tableModel.sectionModels[indexPath.section];
-    SearchCellModel *cellModel = sectionModel.cellModels[indexPath.row];
+    id<SearchCellModel> cellModel = sectionModel.cellModels[indexPath.row];
     
     CGFloat cellHeight;
-    if (cellModel.titleCell) {
+    if ([cellModel isKindOfClass:[SearchTitleCellModel class]]) {
         cellHeight = self.basicHeight;
     } else {
         cellHeight = self.contextHeight;

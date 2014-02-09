@@ -1,26 +1,24 @@
 //
-//  SearchCellModel.m
+//  SearchContextCellModel.m
 //  songbook
 //
-//  Created by Paul Himes on 9/23/13.
-//  Copyright (c) 2013 Paul Himes. All rights reserved.
+//  Created by Paul Himes on 2/9/14.
+//  Copyright (c) 2014 Paul Himes. All rights reserved.
 //
 
-#import "SearchCellModel.h"
+#import "SearchContextCellModel.h"
 
-@implementation SearchCellModel
+@implementation SearchContextCellModel
 
 - (instancetype)initWithSongID:(NSManagedObjectID *)songID
                        content:(NSAttributedString *)content
                          range:(NSRange)range
-                   asTitleCell:(BOOL)titleCell
 {
     self = [super init];
     if (self) {
         _songID = songID;
         _content = content;
         _range = range;
-        _titleCell = titleCell;
     }
     return self;
 }

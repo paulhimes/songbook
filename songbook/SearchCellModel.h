@@ -8,16 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SearchCellModel : NSObject
+@protocol SearchCellModel <NSObject>
 
 @property (nonatomic, readonly) NSManagedObjectID *songID;
-@property (nonatomic, readonly) NSAttributedString *content;
 @property (nonatomic, readonly) NSRange range;
-@property (nonatomic, readonly) BOOL titleCell;
-
-- (instancetype)initWithSongID:(NSManagedObjectID *)songID
-                       content:(NSAttributedString *)content
-                         range:(NSRange)range
-                   asTitleCell:(BOOL)titleCell;
 
 @end

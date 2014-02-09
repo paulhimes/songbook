@@ -16,29 +16,26 @@
                                          inBook:(Book *)book
                                  shouldContinue:(BOOL (^)(void))shouldContinue
 {
-    NSMutableDictionary *numberAttributes = [@{} mutableCopy];
-    numberAttributes[NSFontAttributeName] = [UIFont boldSystemFontOfSize:18];
-    NSMutableDictionary *titleAttributes = [@{} mutableCopy];
-    titleAttributes[NSFontAttributeName] = [UIFont systemFontOfSize:18];
-    
     NSMutableArray *sectionModels = [@[] mutableCopy];
     
     for (Section *section in book.sections) {
         
         NSMutableArray *cellModels = [@[] mutableCopy];
         
-        for (Song *song in section.songs) {
+        NSArray *songs = [section.songs array];
+        
+//        songs = [songs sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+//            Song *song1 = (Song *)obj1;
+//            Song *song2 = (Song *)obj2;
+//            return [song1.title compare:song2.title options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch | NSWidthInsensitiveSearch];
+//        }];
+        
+        for (Song *song in songs) {
+            SearchTitleCellModel *cellModel = [[SearchTitleCellModel alloc] initWithSongID:song.objectID
+                                                                                    number:[song.number unsignedIntegerValue]
+                                                                                     title:song.title];
             
-            NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@""
-                                                                                                 attributes:nil];
-            if (song.number) {
-                [attributedString appendString:[NSString stringWithFormat:@"%d", [song.number integerValue]]attributes:numberAttributes];
-                [attributedString appendString:@" " attributes:titleAttributes];
-            }
-            
-            [attributedString appendString:song.title attributes:titleAttributes];
-            
-            [cellModels addObject:[[SearchCellModel alloc] initWithSongID:song.objectID content:attributedString range:NSMakeRange(0, 0) asTitleCell:YES]];
+            [cellModels addObject:cellModel];
         }
         
         // Only show the section if it contains cells.
