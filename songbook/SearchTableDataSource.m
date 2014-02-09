@@ -12,6 +12,7 @@
 #import "SearchContextCellModel.h"
 #import "SearchHeaderFooterView.h"
 #import "BasicCell.h"
+#import "ContextCell.h"
 
 @interface SearchTableDataSource()
 
@@ -116,8 +117,9 @@
         cell = basicCell;
     } else if ([cellModel isKindOfClass:[SearchContextCellModel class]]) {
         SearchContextCellModel *searchContextCellModel = (SearchContextCellModel *)cellModel;
-        cell = [tableView dequeueReusableCellWithIdentifier:@"ContextCell" forIndexPath:indexPath];
-        cell.textLabel.attributedText = searchContextCellModel.content;
+        ContextCell *contextCell = [tableView dequeueReusableCellWithIdentifier:@"ContextCell" forIndexPath:indexPath];
+        contextCell.contentLabel.attributedText = searchContextCellModel.content;
+        cell = contextCell;
     }
     
     cell.backgroundColor = [Theme paperColor];

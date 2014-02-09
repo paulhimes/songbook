@@ -82,6 +82,7 @@
 		8BD5141018A7F912002DC6B1 /* BasicCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5140F18A7F912002DC6B1 /* BasicCell.m */; };
 		8BD5141318A7FAC1002DC6B1 /* SearchTitleCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5141218A7FAC1002DC6B1 /* SearchTitleCellModel.m */; };
 		8BD5141618A7FB3C002DC6B1 /* SearchContextCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5141518A7FB3C002DC6B1 /* SearchContextCellModel.m */; };
+		8BD5141918A83E50002DC6B1 /* ContextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5141818A83E50002DC6B1 /* ContextCell.m */; };
 		8BED9F1017C9418400D834BE /* GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BED9F0F17C9418400D834BE /* GradientView.m */; };
 /* End PBXBuildFile section */
 
@@ -225,6 +226,8 @@
 		8BD5141218A7FAC1002DC6B1 /* SearchTitleCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTitleCellModel.m; sourceTree = "<group>"; };
 		8BD5141418A7FB3C002DC6B1 /* SearchContextCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchContextCellModel.h; sourceTree = "<group>"; };
 		8BD5141518A7FB3C002DC6B1 /* SearchContextCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchContextCellModel.m; sourceTree = "<group>"; };
+		8BD5141718A83E50002DC6B1 /* ContextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContextCell.h; sourceTree = "<group>"; };
+		8BD5141818A83E50002DC6B1 /* ContextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContextCell.m; sourceTree = "<group>"; };
 		8BE5A65017CD2356002028E5 /* FilteredSearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilteredSearcher.h; sourceTree = "<group>"; };
 		8BE5A65117CD2356002028E5 /* FilteredSearcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilteredSearcher.m; sourceTree = "<group>"; };
 		8BE5A65317CD8FA2002028E5 /* SmartSearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartSearcher.h; sourceTree = "<group>"; };
@@ -482,6 +485,8 @@
 				8BAA50D4188B0781009B162B /* SearchHeaderFooterView.m */,
 				8BD5140E18A7F912002DC6B1 /* BasicCell.h */,
 				8BD5140F18A7F912002DC6B1 /* BasicCell.m */,
+				8BD5141718A83E50002DC6B1 /* ContextCell.h */,
+				8BD5141818A83E50002DC6B1 /* ContextCell.m */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -679,6 +684,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8BC7D64F18860ECA008F2289 /* NoStatusActivityViewController.m in Sources */,
+				8BD5141918A83E50002DC6B1 /* ContextCell.m in Sources */,
 				8BC674CA17BC912C001E71B1 /* NSMutableAttributedString+Helpers.m in Sources */,
 				8B14432217F141770000A898 /* SearchSectionModel.m in Sources */,
 				8BB0F58F189CBCFC004D6377 /* BookPageController.m in Sources */,
