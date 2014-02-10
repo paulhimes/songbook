@@ -94,6 +94,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
     
     self.searchField.layer.cornerRadius = 5;
     self.searchField.backgroundColor = [Theme searchFieldBackgroundColor];
+    self.searchField.textColor = [Theme textColor];
     self.searchField.leftViewMode = UITextFieldViewModeAlways;
     UIImageView *searchImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MagnifyingGlass"]];
     searchImage.frame = CGRectMake(0, 0, 30, 30);

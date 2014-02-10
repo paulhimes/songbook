@@ -30,7 +30,7 @@ static const NSString * const kRangeKey = @"RangeKey";
 {
     NSMutableDictionary *normalFragmentAttributes = [[FilteredSearcher defaultAttributes] mutableCopy];
     normalFragmentAttributes[NSFontAttributeName] = [UIFont systemFontOfSize:16];
-    normalFragmentAttributes[NSForegroundColorAttributeName] = [UIColor darkGrayColor];
+    normalFragmentAttributes[NSForegroundColorAttributeName] = [Theme darkerGrayColor];
     return [normalFragmentAttributes copy];
 }
 
@@ -38,7 +38,7 @@ static const NSString * const kRangeKey = @"RangeKey";
 {
     NSMutableDictionary *matchingFragmentAttributes = [[FilteredSearcher defaultAttributes] mutableCopy];
     matchingFragmentAttributes[NSFontAttributeName] = [UIFont boldSystemFontOfSize:16];
-    matchingFragmentAttributes[NSForegroundColorAttributeName] = [UIColor blackColor];
+    matchingFragmentAttributes[NSForegroundColorAttributeName] = [Theme redColor];
     return [matchingFragmentAttributes copy];
 }
 

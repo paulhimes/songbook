@@ -19,6 +19,7 @@ static const CGFloat kSongComponentPadding = 8;
 @interface SongTitleView()
 
 @property (nonatomic, strong) UIFont *numberFont;
+@property (nonatomic, strong) NSDictionary *numberAttributes;
 @property (nonatomic, strong) UIFont *titleFont;
 @property (nonatomic, strong) NSDictionary *titleAttributes;
 
@@ -34,6 +35,14 @@ static const CGFloat kSongComponentPadding = 8;
     return _numberFont;
 }
 
+- (NSDictionary *)numberAttributes
+{
+    if (!_numberAttributes) {
+        _numberAttributes = @{NSFontAttributeName: self.numberFont, NSForegroundColorAttributeName: [Theme textColor]};
+    }
+    return _numberAttributes;
+}
+
 - (UIFont *)titleFont
 {
     if (!_titleFont) {
@@ -45,7 +54,7 @@ static const CGFloat kSongComponentPadding = 8;
 - (NSDictionary *)titleAttributes
 {
     if (!_titleAttributes) {
-        _titleAttributes = @{NSFontAttributeName: self.titleFont};
+        _titleAttributes = @{NSFontAttributeName: self.titleFont, NSForegroundColorAttributeName: [Theme textColor]};
     }
     return _titleAttributes;
 }
@@ -96,10 +105,6 @@ static const CGFloat kSongComponentPadding = 8;
 
 - (void)drawRect:(CGRect)rect
 {
-    // Drawing code
-    [[UIColor blackColor] setFill];
-    [[UIColor blackColor] setStroke];
-    
     CGRect drawingRect = [self placedTextRectForWidth:self.bounds.size.width];
     [[self text] drawWithRect:drawingRect options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading | NSStringDrawingTruncatesLastVisibleLine context:nil];
 }
@@ -109,8 +114,8 @@ static const CGFloat kSongComponentPadding = 8;
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@""];
     
     if (self.number) {
-        [attributedString appendString:[self.number stringValue] attributes:@{NSFontAttributeName: self.numberFont}];
-        [attributedString appendString:@" " attributes:@{NSFontAttributeName: self.titleFont}];
+        [attributedString appendString:[self.number stringValue] attributes:self.numberAttributes];
+        [attributedString appendString:@" " attributes:self.titleAttributes];
     }
     
     return [attributedString copy];

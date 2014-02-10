@@ -107,12 +107,14 @@
         SearchTitleCellModel *searchTitleCellModel = (SearchTitleCellModel *)cellModel;
         BasicCell *basicCell = [tableView dequeueReusableCellWithIdentifier:@"BasicCell" forIndexPath:indexPath];
         
+        basicCell.numberLabel.textColor = [Theme textColor];
         if (searchTitleCellModel.number > 0) {
             basicCell.numberLabel.text = [NSString stringWithFormat:@"%d", searchTitleCellModel.number];
         } else {
             basicCell.numberLabel.text = @"";
         }
         
+        basicCell.titleLabel.textColor = [Theme textColor];
         basicCell.titleLabel.text = searchTitleCellModel.title;
         cell = basicCell;
     } else if ([cellModel isKindOfClass:[SearchContextCellModel class]]) {

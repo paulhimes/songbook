@@ -94,7 +94,6 @@ static const float kTextScaleThreshold = 1;
 
     [super viewDidLoad];
     
-    [self.textView setDebugColor:[UIColor redColor]];
     self.textView.contentOffsetCallsAllowed = NO;
     
     self.view.backgroundColor = [Theme paperColor];
@@ -157,7 +156,6 @@ static const float kTextScaleThreshold = 1;
 //        _relatedItemsView.scrollEnabled = NO;
 //        _relatedItemsView.separatorInset = UIEdgeInsetsZero;
 //        _relatedItemsView.separatorStyle = UITableViewCellSeparatorStyleNone;
-//        [_relatedItemsView setDebugColor:[UIColor purpleColor]];
 //    }
 //    return _relatedItemsView;
 //}
@@ -169,6 +167,7 @@ static const float kTextScaleThreshold = 1;
     
     NSMutableDictionary *normalAttributes = [@{} mutableCopy];
     normalAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion" size:standardTextSize];
+    normalAttributes[NSForegroundColorAttributeName] = [Theme textColor];
     
     NSMutableDictionary *numberAttributes = [normalAttributes mutableCopy];
     numberAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion-Bold" size:kTitleNumberFontSize];
@@ -179,7 +178,7 @@ static const float kTextScaleThreshold = 1;
     titleAttributes[NSParagraphStyleAttributeName] = self.numberAndTitleParagraphStyle;
 
     NSMutableDictionary *ghostAttributes = [normalAttributes mutableCopy];
-    ghostAttributes[NSForegroundColorAttributeName] = [UIColor grayColor];
+    ghostAttributes[NSForegroundColorAttributeName] = [Theme darkerGrayColor];
     
     NSMutableDictionary *subtitleAttributes = [normalAttributes mutableCopy];
     subtitleAttributes[NSParagraphStyleAttributeName] = self.subtitleParagraphStyle;

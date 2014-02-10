@@ -33,9 +33,7 @@
 - (void)textContentChanged
 {
     [super textContentChanged];
-    
-    [self.textView setDebugColor:[UIColor greenColor]];
-    
+        
     // Vertically center the title at the golden ratio. Shift up if the title overflows the container.
     CGFloat desiredVerticalCenter = self.view.bounds.size.height / M_PHI;
     

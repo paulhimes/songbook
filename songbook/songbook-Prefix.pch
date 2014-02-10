@@ -21,6 +21,7 @@
     #import "NSString+Helpers.h"
     #import "UITableView+Helpers.h"
     #import "Theme.h"
+    #import "UIColor+Helpers.h"
     #import "ZipArchive.h"
 
     #define M_PHI 1.61803399

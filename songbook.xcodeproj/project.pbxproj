@@ -83,6 +83,7 @@
 		8BD5141318A7FAC1002DC6B1 /* SearchTitleCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5141218A7FAC1002DC6B1 /* SearchTitleCellModel.m */; };
 		8BD5141618A7FB3C002DC6B1 /* SearchContextCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5141518A7FB3C002DC6B1 /* SearchContextCellModel.m */; };
 		8BD5141918A83E50002DC6B1 /* ContextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5141818A83E50002DC6B1 /* ContextCell.m */; };
+		8BD5141C18A856E7002DC6B1 /* UIColor+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5141B18A856E7002DC6B1 /* UIColor+Helpers.m */; };
 		8BED9F1017C9418400D834BE /* GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BED9F0F17C9418400D834BE /* GradientView.m */; };
 /* End PBXBuildFile section */
 
@@ -228,6 +229,8 @@
 		8BD5141518A7FB3C002DC6B1 /* SearchContextCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchContextCellModel.m; sourceTree = "<group>"; };
 		8BD5141718A83E50002DC6B1 /* ContextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContextCell.h; sourceTree = "<group>"; };
 		8BD5141818A83E50002DC6B1 /* ContextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContextCell.m; sourceTree = "<group>"; };
+		8BD5141A18A856E7002DC6B1 /* UIColor+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Helpers.h"; sourceTree = "<group>"; };
+		8BD5141B18A856E7002DC6B1 /* UIColor+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Helpers.m"; sourceTree = "<group>"; };
 		8BE5A65017CD2356002028E5 /* FilteredSearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilteredSearcher.h; sourceTree = "<group>"; };
 		8BE5A65117CD2356002028E5 /* FilteredSearcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilteredSearcher.m; sourceTree = "<group>"; };
 		8BE5A65317CD8FA2002028E5 /* SmartSearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartSearcher.h; sourceTree = "<group>"; };
@@ -445,6 +448,8 @@
 				8BAF36101824D95200D6A93E /* OrderedDictionary.m */,
 				8BED9F0E17C9418400D834BE /* GradientView.h */,
 				8BED9F0F17C9418400D834BE /* GradientView.m */,
+				8BD5141A18A856E7002DC6B1 /* UIColor+Helpers.h */,
+				8BD5141B18A856E7002DC6B1 /* UIColor+Helpers.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -732,6 +737,7 @@
 				8BB0F58C189CBC64004D6377 /* TitlePageController.m in Sources */,
 				8B14431917EFDAB60000A898 /* Token.m in Sources */,
 				8BD5141318A7FAC1002DC6B1 /* SearchTitleCellModel.m in Sources */,
+				8BD5141C18A856E7002DC6B1 /* UIColor+Helpers.m in Sources */,
 				8BAF36081824C41700D6A93E /* CoreDataStack.m in Sources */,
 				8B94532817A5F4C900327479 /* Book+Helpers.m in Sources */,
 				8BB0F591189CBD0C004D6377 /* SongTitleView.m in Sources */,

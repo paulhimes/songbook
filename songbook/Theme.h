@@ -17,5 +17,6 @@
 + (UIColor *)darkerGrayColor;
 + (UIColor *)searchFieldBackgroundColor;
 + (UIColor *)paperColor;
++ (UIColor *)textColor;
 
 @end

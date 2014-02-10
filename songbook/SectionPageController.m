@@ -50,7 +50,9 @@
     CGFloat standardTextSize = [standardTextSizeNumber floatValue];
     
     return [[NSAttributedString alloc] initWithString:self.section.title
-                                           attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:standardTextSize * 1.75]}];
+                                           attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:standardTextSize * 1.75],
+                                                        NSForegroundColorAttributeName: [Theme textColor]
+                                                        }];
 }
 
 #pragma mark - UIBarPositioningDelegate
