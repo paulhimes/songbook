@@ -74,22 +74,22 @@
 
 #pragma mark - UITableViewDataSource
 
-//- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
-//{
-//    NSMutableArray *sectionIndexTitles = [@[] mutableCopy];
-//    [self.tableModel.sectionModels enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-//        SearchSectionModel *section = (SearchSectionModel *)obj;
-//        NSString *title = [section.title substringToIndex:MIN(5, [section.title length])];
-//        [sectionIndexTitles addObject:title];
-//    }];
-//    
-//    return [sectionIndexTitles copy];
-//}
-//
-//- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
-//{
-//    return index;
-//}
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    NSMutableArray *sectionIndexTitles = [@[] mutableCopy];
+    [self.tableModel.sectionModels enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        SearchSectionModel *section = (SearchSectionModel *)obj;
+        NSString *title = [section.title substringToIndex:MIN(1, [section.title length])];
+        [sectionIndexTitles addObject:title];
+    }];
+    
+    return [sectionIndexTitles copy];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+{
+    return index;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
