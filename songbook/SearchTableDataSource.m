@@ -8,11 +8,16 @@
 
 #import "SearchTableDataSource.h"
 #import "SearchSectionModel.h"
+#import "SearchCellModel.h"
 #import "SearchTitleCellModel.h"
 #import "SearchContextCellModel.h"
 #import "SearchHeaderFooterView.h"
 #import "BasicCell.h"
 #import "ContextCell.h"
+
+static NSUInteger const kIndexTitleSpacing = 4;
+static NSUInteger const kIndexTitleSectionWeight = 200;
+static NSString * const kIndexTitle = @"";
 
 @interface SearchTableDataSource()
 
@@ -76,19 +81,59 @@
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
-    NSMutableArray *sectionIndexTitles = [@[] mutableCopy];
-    [self.tableModel.sectionModels enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        SearchSectionModel *section = (SearchSectionModel *)obj;
-        NSString *title = [section.title substringToIndex:MIN(1, [section.title length])];
-        [sectionIndexTitles addObject:title];
+    NSMutableArray *indexTitles = [@[] mutableCopy];
+    [self.tableModel.sectionModels enumerateObjectsUsingBlock:^(SearchSectionModel *section, NSUInteger index, BOOL *stop) {
+        
+        for (int i = 0; i < kIndexTitleSectionWeight; i++) {
+            [indexTitles addObject:kIndexTitle];
+        }
+
+        [section.cellModels enumerateObjectsUsingBlock:^(id<SearchCellModel> cell, NSUInteger index, BOOL *stop) {
+            [indexTitles addObject:kIndexTitle];
+        }];
+        
     }];
     
-    return [sectionIndexTitles copy];
+    return [indexTitles copy];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
 {
-    return index;
+    [self.delegate usedSectionIndexBar];
+
+    // Determine whether or not this index corresponds to a section.
+    NSInteger sectionIndex = -1;
+    NSInteger rowIndex = -1;
+    [self indexTitleIndex:index toSectionIndex:&sectionIndex andRowIndex:&rowIndex];
+    
+    if (rowIndex >= 0) {
+        [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:rowIndex inSection:sectionIndex]
+                         atScrollPosition:UITableViewScrollPositionTop
+                                 animated:NO];
+        return -1;
+    } else {
+        return sectionIndex;
+    }
+}
+
+- (void)indexTitleIndex:(NSInteger)indexTitleIndex toSectionIndex:(NSInteger *)sectionIndex andRowIndex:(NSInteger *)rowIndex
+{
+    __block NSInteger itemIndex = -1;
+    [self.tableModel.sectionModels enumerateObjectsUsingBlock:^(SearchSectionModel *section, NSUInteger idx, BOOL *stop) {
+        itemIndex = itemIndex + kIndexTitleSectionWeight;
+        
+        if (itemIndex >= indexTitleIndex) {
+            *rowIndex = -1;
+            *sectionIndex = idx;
+            *stop = YES;
+        } else if (itemIndex + [section.cellModels count] >= indexTitleIndex) {
+            *rowIndex = indexTitleIndex - (itemIndex + 1);
+            *sectionIndex = idx;
+            *stop = YES;
+        } else {
+            itemIndex += [section.cellModels count];
+        }
+    }];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

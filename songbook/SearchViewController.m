@@ -27,7 +27,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
     PreferredSearchMethodLetters
 } PreferredSearchMethod;
 
-@interface SearchViewController () <UITableViewDelegate, UIToolbarDelegate, SearchTableDataSourceDelegate>
+@interface SearchViewController () <UITableViewDelegate, UIToolbarDelegate, SearchTableDataSourceDelegate, UITextFieldDelegate>
 
 @property (nonatomic, strong) SearchTableDataSource *dataSource;
 @property (nonatomic, strong) NSOperationQueue *searchQueue;
@@ -87,8 +87,9 @@ typedef enum PreferredSearchMethod : NSUInteger {
     self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
     self.tableView.backgroundColor = [Theme paperColor];
     self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
-    self.tableView.sectionIndexTrackingBackgroundColor = [Theme searchFieldBackgroundColor];
+    self.tableView.sectionIndexTrackingBackgroundColor = [Theme grayTrimColor];
     self.tableView.sectionIndexColor = [Theme darkerGrayColor];
+    self.tableView.sectionIndexMinimumDisplayRowCount = 100;
     [self.tableView registerClass:[SearchHeaderFooterView class] forHeaderFooterViewReuseIdentifier:kSearchHeaderFooterFiewIdentifier];
 
     self.toolbar.delegate = self;
@@ -104,6 +105,8 @@ typedef enum PreferredSearchMethod : NSUInteger {
     
     self.searchField.rightView = self.activityIndicator;
     self.searchField.rightViewMode = UITextFieldViewModeAlways;
+    
+    self.searchField.delegate = self;
     
     __weak SearchViewController *weakSelf = self;
     self.observerToken = [[NSNotificationCenter defaultCenter] addObserverForName:kTokenizeProgressNotification
@@ -306,6 +309,14 @@ typedef enum PreferredSearchMethod : NSUInteger {
     [self.searchQueue addOperation:operation];
 }
 
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
+
 #pragma mark - UIToolbarDelegate
 
 - (UIBarPosition)positionForBar:(id <UIBarPositioning>)bar
@@ -318,6 +329,11 @@ typedef enum PreferredSearchMethod : NSUInteger {
 - (void)selectedSong:(NSManagedObjectID *)selectedSongID withRange:(NSRange)range
 {
     [self.delegate searchViewController:self selectedSong:selectedSongID withRange:range];
+    [self.searchField resignFirstResponder];
+}
+
+- (void)usedSectionIndexBar
+{
     [self.searchField resignFirstResponder];
 }
 

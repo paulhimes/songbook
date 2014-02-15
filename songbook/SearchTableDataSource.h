@@ -26,5 +26,6 @@
 @protocol SearchTableDataSourceDelegate <NSObject>
 
 - (void)selectedSong:(NSManagedObjectID *)selectedSongID withRange:(NSRange)range;
+- (void)usedSectionIndexBar;
 
 @end
