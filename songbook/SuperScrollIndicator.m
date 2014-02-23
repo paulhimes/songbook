@@ -112,7 +112,6 @@ static const NSUInteger kIndicatorMargin = 4;
         CGFloat yLocation = [touch locationInView:self].y;
         CGFloat percentScrolled = [self percentAcrossTouchRange:yLocation];
         [self.delegate superScrollIndicator:self didScrollToPercent:percentScrolled];
-        
         self.highlighted = YES;
         [self setNeedsDisplay];
     } else {

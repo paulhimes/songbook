@@ -30,27 +30,29 @@
 
 + (UIColor *)grayTrimColor
 {
-    return [UIColor colorWithR:199 G:199 B:204 A:255];
+    return [UIColor colorWithR:199 G:191 B:182 A:255];
 }
 
 + (UIColor *)darkerGrayColor
 {
-    return [UIColor colorWithR:127 G:127 B:127 A:255];
+    return [UIColor colorWithR:127 G:122 B:116 A:255];
 }
 
 + (UIColor *)searchFieldBackgroundColor
 {
-    return [UIColor colorWithR:0 G:0 B:77 A:25];
+    return [UIColor colorWithR:0 G:0 B:0 A:25];
 }
 
 + (UIColor *)paperColor
 {
-    return [UIColor colorWithR:255 G:250 B:244 A:255];
+//    return [UIColor colorWithR:255 G:241 B:224 A:255]; // Halogen
+    return [UIColor colorWithR:255 G:245 B:234 A:255];
+//    return [UIColor colorWithR:255 G:250 B:244 A:255]; // Carbon Arc
 }
 
 + (UIColor *)textColor
 {
-    return [UIColor colorWithR:26 G:10 B:0 A:255];
+    return [UIColor colorWithR:0 G:0 B:0 A:255];
 }
 
 @end
