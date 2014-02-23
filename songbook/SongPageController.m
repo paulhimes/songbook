@@ -34,8 +34,6 @@ static const float kTextScaleThreshold = 1;
 @property (nonatomic) CGPoint touchStartPoint;
 @property (nonatomic) CGPoint latestTouchPoint;
 
-@property (nonatomic) BOOL hasAutoScrolledToHighlight;
-
 // Caching for speed optimization.
 @property (nonatomic, strong) NSParagraphStyle *numberAndTitleParagraphStyle;
 @property (nonatomic, strong) NSParagraphStyle *subtitleParagraphStyle;
@@ -120,9 +118,8 @@ static const float kTextScaleThreshold = 1;
     
     [self.titleView setNeedsDisplay];
     
-    // Auto scroll the first time only.
-    if (!self.hasAutoScrolledToHighlight) {
-        self.hasAutoScrolledToHighlight = YES;
+    // Auto scroll to the highlight if there is no bookmark.
+    if (self.bookmarkedCharacterIndex == 0 && self.bookmarkedCharacterYOffset == 0) {
         [self scrollToCharacterAtIndex:self.highlightRange.location];
     } else {
         [self scrollCharacterAtIndex:self.bookmarkedCharacterIndex toYCoordinate:self.bookmarkedCharacterYOffset];
