@@ -15,6 +15,7 @@
     red = MIN(255, MAX(0, red));
     green = MIN(255, MAX(0, green));
     blue = MIN(255, MAX(0, blue));
+    alpha = MIN(255, MAX(0, alpha));
     
     return [UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:alpha/255.0];
 }

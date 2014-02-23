@@ -14,6 +14,7 @@
 #import "SearchTableDataSource.h"
 #import "TokenizeOperation.h"
 #import "SearchHeaderFooterView.h"
+#import "SuperScrollIndicator.h"
 
 static NSString * const kPreferredSearchMethodKey = @"PreferredSearchMethodKey";
 static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
@@ -27,7 +28,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
     PreferredSearchMethodLetters
 } PreferredSearchMethod;
 
-@interface SearchViewController () <UITableViewDelegate, UIToolbarDelegate, SearchTableDataSourceDelegate, UITextFieldDelegate>
+@interface SearchViewController () <UITableViewDelegate, UIToolbarDelegate, SearchTableDataSourceDelegate, UITextFieldDelegate, SuperScrollIndicatorDelegate>
 
 @property (nonatomic, strong) SearchTableDataSource *dataSource;
 @property (nonatomic, strong) NSOperationQueue *searchQueue;
@@ -37,6 +38,8 @@ typedef enum PreferredSearchMethod : NSUInteger {
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (weak, nonatomic) IBOutlet UITextField *searchField;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+
+@property (weak, nonatomic) IBOutlet SuperScrollIndicator *scrollIndicator;
 
 @property (strong, nonatomic) IBOutlet UIView *tableFooterView;
 @property (weak, nonatomic) IBOutlet UIProgressView *tokenizeProgressView;
@@ -84,12 +87,10 @@ typedef enum PreferredSearchMethod : NSUInteger {
     
     self.tableView.tableFooterView = nil;
     self.tableView.contentInset = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
-    self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
+    UIEdgeInsets separatorInset = self.tableView.separatorInset;
+    separatorInset.right = separatorInset.left;
+    self.tableView.separatorInset = separatorInset;
     self.tableView.backgroundColor = [Theme paperColor];
-    self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
-    self.tableView.sectionIndexTrackingBackgroundColor = [Theme grayTrimColor];
-    self.tableView.sectionIndexColor = [Theme darkerGrayColor];
-    self.tableView.sectionIndexMinimumDisplayRowCount = 100;
     [self.tableView registerClass:[SearchHeaderFooterView class] forHeaderFooterViewReuseIdentifier:kSearchHeaderFooterFiewIdentifier];
 
     self.toolbar.delegate = self;
@@ -107,6 +108,8 @@ typedef enum PreferredSearchMethod : NSUInteger {
     self.searchField.rightViewMode = UITextFieldViewModeAlways;
     
     self.searchField.delegate = self;
+    
+    self.scrollIndicator.delegate = self;
     
     __weak SearchViewController *weakSelf = self;
     self.observerToken = [[NSNotificationCenter defaultCenter] addObserverForName:kTokenizeProgressNotification
@@ -285,6 +288,8 @@ typedef enum PreferredSearchMethod : NSUInteger {
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 [weakSelf updateDataSourceWithTableModel:tableModel];
                 [weakSelf.tableView reloadData];
+                [weakSelf.scrollIndicator setScrollViewContentHeight:weakSelf.tableView.contentSize.height
+                                                      andFrameHeight:weakSelf.tableView.frame.size.height];
                 if (weakSelf.tableView.tableFooterView != weakSelf.tableFooterView) {
                     // Only stop animating if the tokenization process has finished.
                     [weakSelf.activityIndicator stopAnimating];
@@ -332,8 +337,25 @@ typedef enum PreferredSearchMethod : NSUInteger {
     [self.searchField resignFirstResponder];
 }
 
-- (void)usedSectionIndexBar
+- (void)tableViewScrolled
 {
+    CGFloat offset = self.tableView.contentOffset.y + self.tableView.contentInset.top;
+    CGFloat maxOffset = self.tableView.contentSize.height - self.tableView.frame.size.height + self.tableView.contentInset.top;
+    
+    offset = MIN(maxOffset, MAX(0, offset));
+    CGFloat percent = offset / maxOffset;
+        
+    [self.scrollIndicator scrollToPercent:percent];
+}
+
+#pragma mark - SuperScrollIndicatorDelegate
+
+- (void)superScrollIndicator:(SuperScrollIndicator *)superScrollIndicator didScrollToPercent:(CGFloat)percent
+{
+    CGFloat maxOffset = self.tableView.contentSize.height - self.tableView.frame.size.height + self.tableView.contentInset.top;
+    CGFloat targetOffset = maxOffset * percent;
+    targetOffset -= self.tableView.contentInset.top;
+    [self.tableView setContentOffset:CGPointMake(0, targetOffset) animated:NO];
     [self.searchField resignFirstResponder];
 }
 

@@ -110,7 +110,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="TableView" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="u1p-hu-jw2">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="TableView" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="u1p-hu-jw2">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -186,6 +186,10 @@
                                     <outlet property="delegate" destination="f4X-As-1jE" id="FEM-pk-Is9"/>
                                 </connections>
                             </tableView>
+                            <view opaque="NO" contentMode="redraw" id="slh-z3-w9i" customClass="SuperScrollIndicator">
+                                <rect key="frame" x="305" y="44" width="15" height="524"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
+                            </view>
                             <view contentMode="scaleToFill" id="zpH-HV-y2I">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -225,6 +229,7 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="cancelButton" destination="xcf-7d-OfK" id="HUd-yn-yaE"/>
+                        <outlet property="scrollIndicator" destination="slh-z3-w9i" id="zcC-A9-xoD"/>
                         <outlet property="searchField" destination="hfi-dn-jY1" id="7gw-0b-oij"/>
                         <outlet property="tableFooterView" destination="12p-H6-Z8U" id="1f4-Gd-uje"/>
                         <outlet property="tableView" destination="u1p-hu-jw2" id="6pz-qS-Rdl"/>

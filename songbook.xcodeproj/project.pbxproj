@@ -84,6 +84,7 @@
 		8BD5141618A7FB3C002DC6B1 /* SearchContextCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5141518A7FB3C002DC6B1 /* SearchContextCellModel.m */; };
 		8BD5141918A83E50002DC6B1 /* ContextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5141818A83E50002DC6B1 /* ContextCell.m */; };
 		8BD5141C18A856E7002DC6B1 /* UIColor+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5141B18A856E7002DC6B1 /* UIColor+Helpers.m */; };
+		8BD5141F18B1B638002DC6B1 /* SuperScrollIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5141E18B1B638002DC6B1 /* SuperScrollIndicator.m */; };
 		8BED9F1017C9418400D834BE /* GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BED9F0F17C9418400D834BE /* GradientView.m */; };
 /* End PBXBuildFile section */
 
@@ -231,6 +232,8 @@
 		8BD5141818A83E50002DC6B1 /* ContextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContextCell.m; sourceTree = "<group>"; };
 		8BD5141A18A856E7002DC6B1 /* UIColor+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Helpers.h"; sourceTree = "<group>"; };
 		8BD5141B18A856E7002DC6B1 /* UIColor+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Helpers.m"; sourceTree = "<group>"; };
+		8BD5141D18B1B638002DC6B1 /* SuperScrollIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperScrollIndicator.h; sourceTree = "<group>"; };
+		8BD5141E18B1B638002DC6B1 /* SuperScrollIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperScrollIndicator.m; sourceTree = "<group>"; };
 		8BE5A65017CD2356002028E5 /* FilteredSearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilteredSearcher.h; sourceTree = "<group>"; };
 		8BE5A65117CD2356002028E5 /* FilteredSearcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilteredSearcher.m; sourceTree = "<group>"; };
 		8BE5A65317CD8FA2002028E5 /* SmartSearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartSearcher.h; sourceTree = "<group>"; };
@@ -492,6 +495,8 @@
 				8BD5140F18A7F912002DC6B1 /* BasicCell.m */,
 				8BD5141718A83E50002DC6B1 /* ContextCell.h */,
 				8BD5141818A83E50002DC6B1 /* ContextCell.m */,
+				8BD5141D18B1B638002DC6B1 /* SuperScrollIndicator.h */,
+				8BD5141E18B1B638002DC6B1 /* SuperScrollIndicator.m */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -712,6 +717,7 @@
 				8BB0F586189CBC32004D6377 /* SimpleSearcher.m in Sources */,
 				8B42030D17E7CAED00019A80 /* TokenInstance.m in Sources */,
 				8BA305FB17A0BCF200A2ABDE /* songbook.xcdatamodeld in Sources */,
+				8BD5141F18B1B638002DC6B1 /* SuperScrollIndicator.m in Sources */,
 				8B14432617F142190000A898 /* SearchTableModel.m in Sources */,
 				8BB0F588189CBC49004D6377 /* SearchOperation.m in Sources */,
 				8BAF6AE41816196200BFC813 /* BookCodec.m in Sources */,
