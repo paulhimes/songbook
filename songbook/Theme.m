@@ -46,8 +46,9 @@
 + (UIColor *)paperColor
 {
 //    return [UIColor colorWithR:255 G:241 B:224 A:255]; // Halogen
-    return [UIColor colorWithR:255 G:245 B:234 A:255];
+//    return [UIColor colorWithR:255 G:245 B:234 A:255]; // Compromise
 //    return [UIColor colorWithR:255 G:250 B:244 A:255]; // Carbon Arc
+    return [UIColor colorWithR:255 G:244 B:242 A:255]; // Full Spectrum Fluorescent
 }
 
 + (UIColor *)textColor
