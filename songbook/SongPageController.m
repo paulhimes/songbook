@@ -578,10 +578,29 @@ static const float kTextScaleThreshold = 1;
 
 - (NSString *)buildSharingString
 {
-    NSString *mainContent = [self.textView.text substringWithRange:self.textView.selectedRange];
-    NSString *prefix = self.textView.selectedRange.location ? @"…" : @"";
-    NSString *suffix = self.textView.selectedRange.location + self.textView.selectedRange.length < [self.textView.text length] ? @"…" : @"";
-    return [NSString stringWithFormat:@"%@%@%@", prefix, mainContent, suffix];
+    // Get the complete song text.
+    NSString *songText = self.song.string;
+    
+    // Create an attributed string.
+    NSMutableAttributedString *attributedSongText = [[NSMutableAttributedString alloc] initWithString:songText];
+    
+    // Use the system font.
+    [attributedSongText addAttribute:NSFontAttributeName
+                               value:[UIFont systemFontOfSize:12]
+                               range:NSMakeRange(0, attributedSongText.length)];
+    
+    // Bold and color the selected range.
+    [attributedSongText addAttributes:@{NSForegroundColorAttributeName: [Theme redColor],
+                                        NSFontAttributeName: [UIFont boldSystemFontOfSize:12]}
+                                range:self.textView.selectedRange];
+    
+    // Convert the attributed string to HTML.
+    NSData *htmlData = [attributedSongText dataFromRange:NSMakeRange(0, attributedSongText.length)
+                                      documentAttributes:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType}
+                                                   error:NULL];
+    NSString *htmlString = [[NSString alloc] initWithData:htmlData encoding:NSUTF8StringEncoding];
+
+    return htmlString;
 }
 
 #pragma mark - UIAlertViewDelegate
@@ -628,7 +647,7 @@ static const float kTextScaleThreshold = 1;
         [mailController setToRecipients:@[book.contactEmail]];
     }
     
-    [mailController setMessageBody:[self buildSharingString] isHTML:NO];
+    [mailController setMessageBody:[self buildSharingString] isHTML:YES];
     
     NSURL *fileURL = [BookCodec fileURLForExportingFromContext:self.coreDataStack.managedObjectContext];
     [BookCodec exportBookFromContext:self.coreDataStack.managedObjectContext intoURL:fileURL];
