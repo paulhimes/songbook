@@ -196,6 +196,7 @@ static const float kTextScaleThreshold = 1;
     NSMutableParagraphStyle *footerParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     footerParagraphStyle.alignment = NSTextAlignmentRight;
     footerAttributes[NSParagraphStyleAttributeName] = footerParagraphStyle;
+    footerAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion" size:kSubtitleFontSize];
     
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[self.song string]];
     

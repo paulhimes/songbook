@@ -12,8 +12,6 @@
 #import "Token+Helpers.h"
 #import "TokenInstance.h"
 
-static const NSUInteger kFragmentPrefixMaxLength = 5;
-static const NSUInteger kFragmentSuffixMaxLength = 20;
 static const NSString * const kFragmentKey = @"FragmentKey";
 static const NSString * const kRangeKey = @"RangeKey";
 
