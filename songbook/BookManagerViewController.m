@@ -193,7 +193,11 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
             // Build a custom message based on whether or not the new book has a title.
             NSString *message = @"This app can only hold one songbook at a time. Would you like to replace your current book?";
             if ([replacementBook.title length] > 0) {
-                message = [NSString stringWithFormat:@"This app can only hold one songbook at a time. Would you like to replace your current book with %@?", replacementBook.title];
+                NSString *versionString = @"";
+                if (replacementBook.version) {
+                    versionString = [NSString stringWithFormat:@" (v%@)", replacementBook.version];
+                }
+                message = [NSString stringWithFormat:@"This app can only hold one songbook at a time. Would you like to replace your current book with %@%@?", replacementBook.title, versionString];
             }
             
             // Ask people here if they would like to replace their current book with this new book.
