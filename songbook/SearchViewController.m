@@ -116,8 +116,8 @@ typedef enum PreferredSearchMethod : NSUInteger {
                                                                            object:nil
                                                                             queue:[NSOperationQueue mainQueue]
                                                                        usingBlock:^(NSNotification *note) {
-                                                                           int complete = [note.userInfo[kCompletedSongCountKey] integerValue];
-                                                                           int total = [note.userInfo[kTotalSongCountKey] integerValue];
+                                                                           NSInteger complete = [note.userInfo[kCompletedSongCountKey] integerValue];
+                                                                           NSInteger total = [note.userInfo[kTotalSongCountKey] integerValue];
                                                                            
                                                                            if (complete >= total) {
                                                                                // Clear the progress message.

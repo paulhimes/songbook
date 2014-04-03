@@ -93,7 +93,7 @@
         
         basicCell.numberLabel.textColor = [Theme textColor];
         if (searchTitleCellModel.number > 0) {
-            basicCell.numberLabel.text = [NSString stringWithFormat:@"%d", searchTitleCellModel.number];
+            basicCell.numberLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)searchTitleCellModel.number];
         } else {
             basicCell.numberLabel.text = @"";
         }
@@ -177,8 +177,8 @@
     NSRange range = [self songRangeAtIndexPath:idx];
     
     NSURL *url = [songId URIRepresentation];
-    url = [url URLByAppendingPathComponent:[NSString stringWithFormat:@"%d", range.location]];
-    url = [url URLByAppendingPathComponent:[NSString stringWithFormat:@"%d", range.length]];
+    url = [url URLByAppendingPathComponent:[NSString stringWithFormat:@"%lu", (unsigned long)range.location]];
+    url = [url URLByAppendingPathComponent:[NSString stringWithFormat:@"%lu", (unsigned long)range.length]];
     return [url absoluteString];
 }
 
