@@ -578,20 +578,32 @@ static const float kTextScaleThreshold = 1;
 
 - (NSString *)buildSharingString
 {
+    NSString *mainContent = [self.textView.text substringWithRange:self.textView.selectedRange];
+    NSString *prefix = self.textView.selectedRange.location ? @"…" : @"";
+    NSString *suffix = self.textView.selectedRange.location + self.textView.selectedRange.length < [self.textView.text length] ? @"…" : @"";
+    return [NSString stringWithFormat:@"%@%@%@", prefix, mainContent, suffix];
+}
+
+- (NSString *)buildProblemReportString
+{
     // Get the complete song text.
     NSString *songText = self.song.string;
     
     // Create an attributed string.
     NSMutableAttributedString *attributedSongText = [[NSMutableAttributedString alloc] initWithString:songText];
     
-    // Use the system font.
+    // Determine the fonts to use.
+    UIFont *preferredFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+    UIFont *preferredFontBold = [UIFont fontWithDescriptor:[[preferredFont fontDescriptor] fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold] size:preferredFont.pointSize];
+    
+    // Set the font.
     [attributedSongText addAttribute:NSFontAttributeName
-                               value:[UIFont systemFontOfSize:12]
+                               value:preferredFont
                                range:NSMakeRange(0, attributedSongText.length)];
     
     // Bold and color the selected range.
     [attributedSongText addAttributes:@{NSForegroundColorAttributeName: [Theme redColor],
-                                        NSFontAttributeName: [UIFont boldSystemFontOfSize:12]}
+                                        NSFontAttributeName:preferredFontBold}
                                 range:self.textView.selectedRange];
     
     // Convert the attributed string to HTML.
@@ -647,7 +659,7 @@ static const float kTextScaleThreshold = 1;
         [mailController setToRecipients:@[book.contactEmail]];
     }
     
-    [mailController setMessageBody:[self buildSharingString] isHTML:YES];
+    [mailController setMessageBody:[self buildProblemReportString] isHTML:YES];
     
     NSURL *fileURL = [BookCodec fileURLForExportingFromContext:self.coreDataStack.managedObjectContext];
     [BookCodec exportBookFromContext:self.coreDataStack.managedObjectContext intoURL:fileURL];
