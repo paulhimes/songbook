@@ -61,11 +61,16 @@
                                 </connections>
                             </view>
                             <view contentMode="scaleToFill" id="pEF-dK-J3n" userLabel="PlayerView">
-                                <rect key="frame" x="0.0" y="522" width="320" height="46"/>
+                                <rect key="frame" x="0.0" y="518" width="320" height="100"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <subviews>
+                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="HHp-B3-z97">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <items/>
+                                    </toolbar>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="2AJ-mX-caZ">
-                                        <rect key="frame" x="0.0" y="2" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="2" width="320" height="48"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="Stop">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -80,7 +85,7 @@
                                         <color key="trackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </progressView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -88,6 +93,7 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="backgroundView" destination="7Sj-8t-qNM" id="ItL-9L-Nk9"/>
+                        <outlet property="playerBackgroundToolbar" destination="HHp-B3-z97" id="bHU-NA-lmM"/>
                         <outlet property="playerView" destination="pEF-dK-J3n" id="U00-LS-w4e"/>
                         <outlet property="progressView" destination="MTl-LX-gc5" id="Foo-5o-nXy"/>
                         <outlet property="stopButton" destination="2AJ-mX-caZ" id="XYh-eE-StX"/>

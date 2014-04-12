@@ -351,6 +351,77 @@
             </objects>
             <point key="canvasLocation" x="-2375" y="-920"/>
         </scene>
+        <!--Play Song View Controller-->
+        <scene sceneID="SAB-wF-MDj">
+            <objects>
+                <viewController storyboardIdentifier="PlaySongViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="fX3-z5-wBg" customClass="PlaySongViewController" sceneMemberID="viewController">
+                    <view key="view" opaque="NO" contentMode="scaleToFill" id="ErX-hc-A8o">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <view opaque="NO" alpha="0.0" contentMode="scaleToFill" id="Hyg-bH-Rsj" userLabel="Background">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="Gxr-g5-lcW" appends="YES" id="Yd2-vt-2Jn"/>
+                                    <outletCollection property="gestureRecognizers" destination="t4a-Au-0Qx" appends="YES" id="1Wy-yv-DTP"/>
+                                </connections>
+                            </view>
+                            <view contentMode="scaleToFill" id="GUU-Ca-Mu8" userLabel="PlayerView">
+                                <rect key="frame" x="0.0" y="974" width="768" height="100"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <subviews>
+                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="0Bt-zZ-GKR">
+                                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <items/>
+                                    </toolbar>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="PeM-2J-zLX">
+                                        <rect key="frame" x="0.0" y="2" width="768" height="48"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Stop">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="stopAction:" destination="fX3-z5-wBg" eventType="touchUpInside" id="bQ4-pL-O65"/>
+                                        </connections>
+                                    </button>
+                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" id="0Vb-o3-D7S">
+                                        <rect key="frame" x="0.0" y="0.0" width="768" height="2"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <color key="trackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </progressView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="backgroundView" destination="Hyg-bH-Rsj" id="bLn-2S-D4u"/>
+                        <outlet property="playerBackgroundToolbar" destination="0Bt-zZ-GKR" id="muE-X5-J0m"/>
+                        <outlet property="playerView" destination="GUU-Ca-Mu8" id="aDI-YZ-g1U"/>
+                        <outlet property="progressView" destination="0Vb-o3-D7S" id="Yhb-ok-NXY"/>
+                        <outlet property="stopButton" destination="PeM-2J-zLX" id="fA1-Wc-lEj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uUt-at-rGg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="Gxr-g5-lcW">
+                    <connections>
+                        <action selector="stopAction:" destination="fX3-z5-wBg" id="NL3-KP-Y5T"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <swipeGestureRecognizer direction="down" id="t4a-Au-0Qx">
+                    <connections>
+                        <action selector="stopAction:" destination="fX3-z5-wBg" id="dqe-K1-Tus"/>
+                    </connections>
+                </swipeGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="611" y="-920"/>
+        </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="lightContent"/>

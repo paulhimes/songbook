@@ -10,10 +10,11 @@
 
 static const NSTimeInterval kFadeDuration = 0.25;
 
-@interface PlaySongViewController () <AVAudioPlayerDelegate>
+@interface PlaySongViewController () <AVAudioPlayerDelegate, UIToolbarDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *backgroundView;
 @property (weak, nonatomic) IBOutlet UIView *playerView;
+@property (weak, nonatomic) IBOutlet UIToolbar *playerBackgroundToolbar;
 @property (weak, nonatomic) IBOutlet UIButton *stopButton;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (nonatomic, strong) NSTimer *playbackTimer;
@@ -27,7 +28,15 @@ static const NSTimeInterval kFadeDuration = 0.25;
 {
     [super viewDidLoad];
     
-    [self connectMotionEffects];
+    self.playerBackgroundToolbar.delegate = self;
+    self.playerBackgroundToolbar.barTintColor = [Theme paperColor];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    [self.playerBackgroundToolbar setHeight:self.playerView.bounds.size.height];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -44,7 +53,8 @@ static const NSTimeInterval kFadeDuration = 0.25;
     
     [UIView animateWithDuration:kFadeDuration animations:^{
         self.backgroundView.alpha = 0.3;
-        [self.playerView setOriginY:self.view.bounds.size.height - self.playerView.frame.size.height];
+        [self.playerView setOriginY:self.view.bounds.size.height - (self.playerView.frame.size.height / 2.0)];
+        [self connectMotionEffects];
     } completion:^(BOOL finished) {
         self.playbackTimer = [NSTimer scheduledTimerWithTimeInterval:0.01
                                                               target:self
@@ -77,15 +87,10 @@ static const NSTimeInterval kFadeDuration = 0.25;
     stopMotionEffect.maximumRelativeValue = @(horizontalSwing);
     [self.stopButton addMotionEffect:stopMotionEffect];
     
-    UIInterpolatingMotionEffect *playViewOriginXMotionEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"frame.origin.y" type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
+    UIInterpolatingMotionEffect *playViewOriginXMotionEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y" type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
     playViewOriginXMotionEffect.minimumRelativeValue = @(-verticalSwing);
     playViewOriginXMotionEffect.maximumRelativeValue = @(verticalSwing);
     [self.playerView addMotionEffect:playViewOriginXMotionEffect];
-    
-    UIInterpolatingMotionEffect *playViewSizeHeightMotionEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"bounds.size.height" type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
-    playViewSizeHeightMotionEffect.minimumRelativeValue = @(2 * verticalSwing);
-    playViewSizeHeightMotionEffect.maximumRelativeValue = @(verticalSwing);
-    [self.playerView addMotionEffect:playViewSizeHeightMotionEffect];
 }
 
 - (void)disconnectMotionEffects
@@ -119,6 +124,13 @@ static const NSTimeInterval kFadeDuration = 0.25;
 {
     float progress = self.audioPlayer.currentTime / self.audioPlayer.duration;    
     self.progressView.progress = progress;
+}
+
+#pragma mark - UIBarPositioningDelegate
+
+- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
+{
+    return UIBarPositionTop;
 }
 
 #pragma mark - AVAudioPlayerDelegate
