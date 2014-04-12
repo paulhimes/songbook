@@ -88,8 +88,22 @@ static const NSTimeInterval kFadeDuration = 0.25;
     [self.playerView addMotionEffect:playViewSizeHeightMotionEffect];
 }
 
+- (void)disconnectMotionEffects
+{
+    NSArray *stopMotionEffects = self.stopButton.motionEffects;
+    for (UIMotionEffect *motionEffect in stopMotionEffects) {
+        [self.stopButton removeMotionEffect:motionEffect];
+    }
+    
+    NSArray *playerViewMotionEffects = self.playerView.motionEffects;
+    for (UIMotionEffect *motionEffect in playerViewMotionEffects) {
+        [self.playerView removeMotionEffect:motionEffect];
+    }
+}
+
 - (void)dismiss
 {
+    [self disconnectMotionEffects];
     [self.playbackTimer invalidate];
     [self.audioPlayer stop];
     
