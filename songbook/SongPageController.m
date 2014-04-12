@@ -12,6 +12,8 @@
 #import "Section+Helpers.h"
 #import "Song+Helpers.h"
 
+@import AVFoundation;
+
 static const float kTextScaleThreshold = 1;
 
 @interface SongPageController () <UITextViewDelegate, UIToolbarDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
@@ -233,6 +235,23 @@ static const float kTextScaleThreshold = 1;
     paragraphStyle.firstLineHeadIndent = firstLineIndent;
     paragraphStyle.headIndent = normalIndent;
     return paragraphStyle;
+}
+
+- (NSArray *)activityItems
+{
+    NSArray *activityItems = [super activityItems];
+
+    // Build and share the audio player.
+    NSString *soundFilePath = [[NSBundle mainBundle] pathForResource:@"0-0" ofType: @"m4a"];
+    NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:soundFilePath ];
+    NSError *error;
+    AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:&error];
+    audioPlayer.numberOfLoops = 0; //infinite loop
+    if (audioPlayer) {
+        activityItems = [activityItems arrayByAddingObject:audioPlayer];
+    }
+    
+    return activityItems;
 }
 
 //#pragma mark - UITableViewDataSource

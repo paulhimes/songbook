@@ -9,6 +9,7 @@
 #import "PageController.h"
 #import "BookCodec.h"
 #import "BookProvider.h"
+#import "PlaySongActivity.h"
 
 NSString * const kStandardTextSizeKey = @"StandardTextSize";
 
@@ -43,6 +44,11 @@ const float kMinimumStandardTextSize = 8;
                                                                             action:@selector(handleGesture:)];
     }
     return _pinchGestureRecognizer;
+}
+
+- (NSArray *)activityItems
+{
+    return @[[[BookProvider alloc] initWithCoreDataStack:self.coreDataStack]];
 }
 
 - (void)awakeFromNib
@@ -141,16 +147,15 @@ const float kMinimumStandardTextSize = 8;
     [self.delegate search];
 }
 
-- (IBAction)exportAction:(id)sender
+- (IBAction)activityAction:(id)sender
 {
-    CoreDataStack *coreDataStack = self.coreDataStack;
-    NSArray *activityItems = @[[[BookProvider alloc] initWithCoreDataStack:coreDataStack]];
+    NSArray *activityItems = [self activityItems];
     UIActivityViewController *activityViewController = [[NoStatusActivityViewController alloc] initWithActivityItems:activityItems
-                                                                                               applicationActivities:nil];
+                                                                                               applicationActivities:@[[[PlaySongActivity alloc] init]]];
     activityViewController.excludedActivityTypes = @[UIActivityTypeMessage];
     activityViewController.completionHandler = ^(NSString *activityType, BOOL completed) {
         // Delete the temporary file.
-        NSURL *fileURL = [BookCodec fileURLForExportingFromContext:coreDataStack.managedObjectContext];
+        NSURL *fileURL = [BookCodec fileURLForExportingFromContext:self.coreDataStack.managedObjectContext];
         if (fileURL && [[NSFileManager defaultManager] fileExistsAtPath:fileURL.path]) {
             NSError *deleteError;
             if (![[NSFileManager defaultManager] removeItemAtURL:fileURL error:&deleteError]) {

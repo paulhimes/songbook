@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="13B42" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="Igp-1z-ufN">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="Igp-1z-ufN">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
         <!--Split View Controller-->
@@ -212,7 +212,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="tkw-8C-Yp4"/>
                                     <barButtonItem systemItem="action" id="cwq-XR-J4K">
                                         <connections>
-                                            <action selector="exportAction:" destination="C58-AL-puc" id="jEa-7Q-N6G"/>
+                                            <action selector="activityAction:" destination="C58-AL-puc" id="fsH-e4-ZqP"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -271,7 +271,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="qPL-NL-rqx"/>
                                     <barButtonItem systemItem="action" id="taR-JW-ffh">
                                         <connections>
-                                            <action selector="exportAction:" destination="xRO-Bd-g44" id="bmy-dN-Lo2"/>
+                                            <action selector="activityAction:" destination="xRO-Bd-g44" id="g5c-NF-dD5"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -318,7 +318,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="DK9-Yg-P4f"/>
                                     <barButtonItem systemItem="action" id="q8c-aJ-tiQ">
                                         <connections>
-                                            <action selector="exportAction:" destination="qBS-d5-2mh" id="e5M-eW-8MU"/>
+                                            <action selector="activityAction:" destination="qBS-d5-2mh" id="972-40-Mwa"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>

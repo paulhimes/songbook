@@ -17,6 +17,9 @@
 		8B42031017E7CAED00019A80 /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42030F17E7CAED00019A80 /* Song.m */; };
 		8B42031717E7D51C00019A80 /* TokenInstance+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42031617E7D51C00019A80 /* TokenInstance+Helpers.m */; };
 		8B6FC947181C88F900BACCCB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B6FC946181C88F900BACCCB /* MessageUI.framework */; };
+		8B729BF118F0AE89007B21F5 /* 0-0.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 8B729BF018F0AE89007B21F5 /* 0-0.m4a */; };
+		8B729BF418F20A0A007B21F5 /* PlaySongActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B729BF318F20A0A007B21F5 /* PlaySongActivity.m */; };
+		8B729BFB18F62EBB007B21F5 /* PlaySongViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B729BFA18F62EBB007B21F5 /* PlaySongViewController.m */; };
 		8B810A5517D9519A00F339CE /* Token+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B810A5417D9519A00F339CE /* Token+Helpers.m */; };
 		8B94531F17A5F15D00327479 /* Song+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94531E17A5F15D00327479 /* Song+Helpers.m */; };
 		8B94532217A5F3E500327479 /* Verse+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94532117A5F3E500327479 /* Verse+Helpers.m */; };
@@ -129,6 +132,11 @@
 		8B6F1BFB17ACBC4C00F72C3D /* SectionPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionPageController.h; sourceTree = "<group>"; };
 		8B6F1BFC17ACBC4C00F72C3D /* SectionPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionPageController.m; sourceTree = "<group>"; };
 		8B6FC946181C88F900BACCCB /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		8B729BF018F0AE89007B21F5 /* 0-0.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "0-0.m4a"; sourceTree = "<group>"; };
+		8B729BF218F20A0A007B21F5 /* PlaySongActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaySongActivity.h; sourceTree = "<group>"; };
+		8B729BF318F20A0A007B21F5 /* PlaySongActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaySongActivity.m; sourceTree = "<group>"; };
+		8B729BF918F62EBB007B21F5 /* PlaySongViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaySongViewController.h; sourceTree = "<group>"; };
+		8B729BFA18F62EBB007B21F5 /* PlaySongViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaySongViewController.m; sourceTree = "<group>"; };
 		8B810A5317D9519A00F339CE /* Token+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Token+Helpers.h"; sourceTree = "<group>"; };
 		8B810A5417D9519A00F339CE /* Token+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Token+Helpers.m"; sourceTree = "<group>"; };
 		8B94531D17A5F15D00327479 /* Song+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Song+Helpers.h"; sourceTree = "<group>"; };
@@ -355,6 +363,17 @@
 			name = Pages;
 			sourceTree = "<group>";
 		};
+		8B729BF818F62E6C007B21F5 /* PlaySong */ = {
+			isa = PBXGroup;
+			children = (
+				8B729BF218F20A0A007B21F5 /* PlaySongActivity.h */,
+				8B729BF318F20A0A007B21F5 /* PlaySongActivity.m */,
+				8B729BF918F62EBB007B21F5 /* PlaySongViewController.h */,
+				8B729BFA18F62EBB007B21F5 /* PlaySongViewController.m */,
+			);
+			name = PlaySong;
+			sourceTree = "<group>";
+		};
 		8BA0DB5317D7607E00CF7CBB /* SmartSearcher */ = {
 			isa = PBXGroup;
 			children = (
@@ -402,6 +421,7 @@
 			isa = PBXGroup;
 			children = (
 				8BAE5B4E17B1F7DC004631CA /* Search */,
+				8B729BF818F62E6C007B21F5 /* PlaySong */,
 				8B6F1BFE17AD519300F72C3D /* Pages */,
 				8BA305FC17A0BCF200A2ABDE /* Images.xcassets */,
 				8BA3061A17A0BDAD00A2ABDE /* Songbook.storyboard */,
@@ -425,6 +445,7 @@
 			children = (
 				8BAF35EA181F285400D6A93E /* ZipArchive */,
 				8BB4CBE818959EA0009F0FA1 /* default.songbook */,
+				8B729BF018F0AE89007B21F5 /* 0-0.m4a */,
 				8BA305F617A0BCF200A2ABDE /* AppDelegate.h */,
 				8BA305F717A0BCF200A2ABDE /* AppDelegate.m */,
 				8BA305EF17A0BCF200A2ABDE /* songbook-Info.plist */,
@@ -658,6 +679,7 @@
 				8BA3061B17A0BDAD00A2ABDE /* Songbook.storyboard in Resources */,
 				8BAF35FC181F285400D6A93E /* README.md in Resources */,
 				8BB4CBE918959EA0009F0FA1 /* default.songbook in Resources */,
+				8B729BF118F0AE89007B21F5 /* 0-0.m4a in Resources */,
 				8BA305FD17A0BCF200A2ABDE /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -695,6 +717,7 @@
 			files = (
 				8BC7D64F18860ECA008F2289 /* NoStatusActivityViewController.m in Sources */,
 				8BD5141918A83E50002DC6B1 /* ContextCell.m in Sources */,
+				8B729BFB18F62EBB007B21F5 /* PlaySongViewController.m in Sources */,
 				8BC674CA17BC912C001E71B1 /* NSMutableAttributedString+Helpers.m in Sources */,
 				8B14432217F141770000A898 /* SearchSectionModel.m in Sources */,
 				8BB0F58F189CBCFC004D6377 /* BookPageController.m in Sources */,
@@ -722,6 +745,7 @@
 				8BB0F588189CBC49004D6377 /* SearchOperation.m in Sources */,
 				8BAF6AE41816196200BFC813 /* BookCodec.m in Sources */,
 				8B94532517A5F44000327479 /* Section+Helpers.m in Sources */,
+				8B729BF418F20A0A007B21F5 /* PlaySongActivity.m in Sources */,
 				8BB18ADF17A5DB77006E257C /* Verse.m in Sources */,
 				8BA305F417A0BCF200A2ABDE /* main.m in Sources */,
 				8B191A051809CEB50071DF4D /* SafeTextView.m in Sources */,

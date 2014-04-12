@@ -32,6 +32,8 @@ extern const float kMinimumStandardTextSize;
 @property (nonatomic) CGFloat bookmarkedCharacterYOffset;
 @property (strong, nonatomic) UIPopoverController *activityPopover;
 
+- (NSArray *)activityItems;
+
 - (void)handleGesture:(UIPinchGestureRecognizer *)sender;
 - (void)textContentChanged;
 
