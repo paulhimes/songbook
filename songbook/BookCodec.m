@@ -47,63 +47,54 @@ NSString * const kRelatedSongIndexKey = @"relatedSongIndex";
 NSString * const kRelatedSongSongKey = @"relatedSongSong";
 
 NSString * const kBookFileName = @"book.json";
-
+NSString * const kBookDatabaseFileName = @"book.sqlite";
 
 @implementation BookCodec
 
-+ (void)exportBookFromContext:(NSManagedObjectContext *)context intoURL:(NSURL *)url;
++ (NSURL *)exportBookFromDirectory:(NSURL *)directory
 {
-    Book *book = [Book bookFromContext:context];
-    if (!book) {
-        return;
-    }
+    CoreDataStack *coreDataStack = [BookCodec coreDataStackFromBookDirectory:directory
+                                                             concurrencyType:NSPrivateQueueConcurrencyType];
     
-    NSData *bookData = [self encodeBook:book];
+    NSURL *exportURL = [BookCodec fileURLForExportingFromContext:coreDataStack.managedObjectContext];
+    
+    // Delete the export file if it exists.
     NSFileManager *fileManager = [NSFileManager defaultManager];
+    [fileManager removeItemAtURL:exportURL error:NULL];
     
-    // Write data to a temporary book file.
-    // Create the path to the temporary file.
-    NSURL *bookFile = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:kBookFileName]];
-    // Delete the old file if it exists.
-    if ([fileManager fileExistsAtPath:bookFile.path]) {
-        [fileManager removeItemAtURL:bookFile error:NULL];
+    ZipArchive *zipArchive = [[ZipArchive alloc] init];
+    BOOL createResult = [zipArchive createZipFile:exportURL.path];
+    if (!createResult) {
+        NSLog(@"Create zip file failed");
+        return nil;
     }
-    // Create the temporary file.
-    [fileManager createFileAtPath:bookFile.path contents:nil attributes:nil];
-    // Get the handle to the file.
-    NSError *handleError;
-    NSFileHandle *bookFileHandle = [NSFileHandle fileHandleForUpdatingURL:bookFile error:&handleError];
-    // Write the data.
-    [bookFileHandle writeData:bookData];
-    // Close the book.
-    [bookFileHandle closeFile];
-
-    // Delete the old file if it exists.
-    if ([[NSFileManager defaultManager] fileExistsAtPath:url.path]) {
-        NSError *error;
-        if (![[NSFileManager defaultManager] removeItemAtURL:url error:&error]) {
-            NSLog(@"Failed to delete the old zip file: %@", error);
-            return;
+    
+    NSError *contentsError;
+    NSArray *files = [fileManager contentsOfDirectoryAtURL:directory
+                                includingPropertiesForKeys:nil
+                                                   options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                     error:&contentsError];
+    
+    if (!contentsError) {
+        for (NSURL *file in files) {
+            if ([file isFileURL] &&
+                [[file lastPathComponent] rangeOfString:kBookDatabaseFileName].location == NSNotFound) {
+                BOOL addResult = [zipArchive addFileToZip:file.path newname:[file lastPathComponent]];
+                if (!addResult) {
+                    NSLog(@"Add file to zip file failed: %@", file);
+                    return nil;
+                }
+            }
         }
     }
     
-    ZipArchive *zipArchive = [[ZipArchive alloc] init];
-    
-    BOOL createResult = [zipArchive createZipFile:url.path];
-    if (!createResult) {
-        NSLog(@"Create zip file failed");
-        return;
-    }
-    BOOL addResult = [zipArchive addFileToZip:bookFile.path newname:kBookFileName];
-    if (!addResult) {
-        NSLog(@"Add file to zip file failed");
-        return;
-    }
     BOOL closeResult = [zipArchive closeZipFile];
     if (!closeResult) {
         NSLog(@"Close zip file failed");
-        return;
+        return nil;
     }
+    
+    return exportURL;
 }
 
 + (NSURL *)fileURLForExportingFromContext:(NSManagedObjectContext *)context
@@ -223,43 +214,23 @@ NSString * const kBookFileName = @"book.json";
     return bookDictionary;
 }
 
-+ (NSString *)temporaryFilePathForBook:(Book *)book
++ (void)importBookFromURL:(NSURL *)file intoDirectory:(NSURL *)directory
 {
-    NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>"];
-    NSString *safeFileName = [[book.title componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
+    // Unzip the file.
+    [BookCodec unzipFile:file intoDirectory:directory];
     
-    // Protect against an empty title.
-    if ([safeFileName length] == 0) {
-        safeFileName = @"songbook";
-    }
+    // Create the database stack.
+    NSURL *databaseFile = [directory URLByAppendingPathComponent:kBookDatabaseFileName];
+    CoreDataStack *databaseStack = [[CoreDataStack alloc] initWithFileURL:databaseFile concurrencyType:NSPrivateQueueConcurrencyType];
     
-    // Create the path to the temporary file.
-    NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.songbook", safeFileName]];
-    
-    return filePath;
-}
-
-+ (NSFileHandle *)openFileHandleOfTemporaryFileAtPath:(NSString *)filePath
-{
-    // Delete the old file if it exists.
-    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-        [[NSFileManager defaultManager] removeItemAtPath:filePath error:NULL];
-    }
-    // Create the temporary file.
-    [[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:nil];
-    
-    // Get the handle to the file.
-    NSFileHandle *fileHandle = [NSFileHandle fileHandleForUpdatingAtPath:filePath];
-    
-    return fileHandle;
-}
-
-+ (void)importBookFromURL:(NSURL *)file
-              intoContext:(NSManagedObjectContext *)context
-{
+    // Load the book into the database.
+    NSManagedObjectContext *context = databaseStack.managedObjectContext;
     [context performBlockAndWait:^{
+        
+        // Build a book dictionary.
+        NSDictionary *bookDictionary = [BookCodec bookDictionaryFromBookDirectory:directory];
+        
         // Build the new book.
-        NSDictionary *bookDictionary = [BookCodec bookDictionaryFromFileURL:file];
         Book *book = [BookCodec bookFromBookDictionary:bookDictionary inContext:context];
         
         // Save the new book.
@@ -272,27 +243,32 @@ NSString * const kBookFileName = @"book.json";
     }];
 }
 
-+ (NSDictionary *)bookDictionaryFromFileURL:(NSURL *)file
++ (CoreDataStack *)coreDataStackFromBookDirectory:(NSURL *)directory concurrencyType:(NSManagedObjectContextConcurrencyType)concurrencyType
 {
-    // Create a directory to unzip to.
-    NSURL *unzippedDirectory = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"unzipped"]];
-    
+    // Create the database stack.
+    NSURL *databaseFile = [directory URLByAppendingPathComponent:kBookDatabaseFileName];
+    return [[CoreDataStack alloc] initWithFileURL:databaseFile concurrencyType:concurrencyType];
+}
+
++ (void)unzipFile:(NSURL *)file intoDirectory:(NSURL *)directory
+{
     // Delete the unzip directory if it already exists.
-    NSError *deleteError;    
-    if ([[NSFileManager defaultManager] fileExistsAtPath:unzippedDirectory.path]) {
-        [[NSFileManager defaultManager] removeItemAtURL:unzippedDirectory error:&deleteError];
+    NSError *deleteError;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:directory.path]) {
+        [[NSFileManager defaultManager] removeItemAtURL:directory error:&deleteError];
         if (deleteError) {
             NSLog(@"Delete Error: %@", deleteError);
+            return;
         }
     }
     
     NSError *createDirectoryError;
-    if (![[NSFileManager defaultManager] createDirectoryAtURL:unzippedDirectory
+    if (![[NSFileManager defaultManager] createDirectoryAtURL:directory
                                   withIntermediateDirectories:NO
                                                    attributes:nil
                                                         error:&createDirectoryError]) {
         NSLog(@"Failed to create unzipped directory: %@", createDirectoryError);
-        return nil;
+        return;
     }
     
     // Unzip the file into the directory.
@@ -300,21 +276,23 @@ NSString * const kBookFileName = @"book.json";
     BOOL openResult = [zipArchive unzipOpenFile:file.path];
     if (!openResult) {
         NSLog(@"Failed to open zip at: %@", file);
-        return nil;
+        return;
     }
-    BOOL unzipResult = [zipArchive unzipFileTo:unzippedDirectory.path overwrite:YES];
+    BOOL unzipResult = [zipArchive unzipFileTo:directory.path overwrite:YES];
     if (!unzipResult) {
         NSLog(@"Failed to unzip: %@", file);
-        return nil;
     }
     BOOL closeResult = [zipArchive unzipCloseFile];
     if (!closeResult) {
         NSLog(@"Failed to close: %@", file);
-        return nil;
+        return;
     }
-    
+}
+
++ (NSDictionary *)bookDictionaryFromBookDirectory:(NSURL *)bookDirectory
+{
     // Read the contents of the book file.
-    NSURL *bookFile = [unzippedDirectory URLByAppendingPathComponent:kBookFileName];
+    NSURL *bookFile = [bookDirectory URLByAppendingPathComponent:kBookFileName];
     NSData *bookData = [NSData dataWithContentsOfURL:bookFile];
     
     // Make sure the book data is not nil.
@@ -338,12 +316,6 @@ NSString * const kBookFileName = @"book.json";
     } else {
         NSLog(@"JSON object was not a dictionary");
         return nil;
-    }
-    
-    // Delete the temporary unzip directory.
-    [[NSFileManager defaultManager] removeItemAtURL:unzippedDirectory error:&deleteError];
-    if (deleteError) {
-        NSLog(@"Delete Error: %@", deleteError);
     }
     
     return bookDictionary;

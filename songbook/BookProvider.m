@@ -28,9 +28,9 @@
 
 - (id)item
 {
-    NSURL *fileURL = self.placeholderItem;
-    [BookCodec exportBookFromContext:self.coreDataStack.managedObjectContext intoURL:fileURL];
-    return fileURL;
+    NSURL *bookDirectory = self.coreDataStack.databaseDirectory;
+    NSURL *exportFileURL = [BookCodec exportBookFromDirectory:bookDirectory];
+    return exportFileURL;
 }
 
 - (NSString *)activityViewController:(UIActivityViewController *)activityViewController subjectForActivityType:(NSString *)activityType

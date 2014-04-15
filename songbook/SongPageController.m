@@ -241,12 +241,15 @@ static const float kTextScaleThreshold = 1;
 {
     NSArray *activityItems = [super activityItems];
 
+    // Generate the target song file URL.
+    NSUInteger songIndex = [self.song.section.songs indexOfObject:self.song];
+    NSUInteger sectionIndex = [self.song.section.book.sections indexOfObject:self.song.section];
+    NSURL *bookDirectory = self.coreDataStack.databaseDirectory;
+    NSURL *songFile = [bookDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%d-%d.m4a", sectionIndex, songIndex]];
+    
     // Build and share the audio player.
-    NSString *soundFilePath = [[NSBundle mainBundle] pathForResource:@"0-0" ofType: @"m4a"];
-    NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:soundFilePath ];
     NSError *error;
-    AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:&error];
-    audioPlayer.numberOfLoops = 0; //infinite loop
+    AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:songFile error:&error];
     if (audioPlayer) {
         activityItems = [activityItems arrayByAddingObject:audioPlayer];
     }
@@ -680,8 +683,7 @@ static const float kTextScaleThreshold = 1;
     
     [mailController setMessageBody:[self buildProblemReportString] isHTML:YES];
     
-    NSURL *fileURL = [BookCodec fileURLForExportingFromContext:self.coreDataStack.managedObjectContext];
-    [BookCodec exportBookFromContext:self.coreDataStack.managedObjectContext intoURL:fileURL];
+    NSURL *fileURL = [BookCodec exportBookFromDirectory:self.coreDataStack.databaseDirectory];
     NSData *exportData = [NSData dataWithContentsOfURL:fileURL];
     NSError *deleteError;
     if (![[NSFileManager defaultManager] removeItemAtURL:fileURL error:&deleteError]) {

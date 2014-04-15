@@ -7,11 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CoreDataStack.h"
 
 @interface BookCodec : NSObject
 
 + (NSURL *)fileURLForExportingFromContext:(NSManagedObjectContext *)context;
-+ (void)exportBookFromContext:(NSManagedObjectContext *)context intoURL:(NSURL *)url;
-+ (void)importBookFromURL:(NSURL *)file intoContext:(NSManagedObjectContext *)context;
++ (NSURL *)exportBookFromDirectory:(NSURL *)directory;
++ (void)importBookFromURL:(NSURL *)file intoDirectory:(NSURL *)directory;
++ (CoreDataStack *)coreDataStackFromBookDirectory:(NSURL *)directory concurrencyType:(NSManagedObjectContextConcurrencyType)concurrencyType;
 
 @end

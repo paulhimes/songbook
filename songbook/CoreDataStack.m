@@ -43,17 +43,15 @@ static NSString * const kConcurrencyTypeKey = @"ConcurrencyTypeKey";
 
 - (NSManagedObjectContext *)managedObjectContext
 {
-    if (_managedObjectContext != nil)
+    if (!_managedObjectContext)
     {
-        return _managedObjectContext;
-    }
-    
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (coordinator != nil)
-    {
-        _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:self.concurrencyType];
-        [_managedObjectContext setPersistentStoreCoordinator:coordinator];
-        _managedObjectContext.undoManager = nil;
+        NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+        if (coordinator != nil)
+        {
+            _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:self.concurrencyType];
+            [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+            _managedObjectContext.undoManager = nil;
+        }
     }
     
     return _managedObjectContext;
@@ -61,34 +59,48 @@ static NSString * const kConcurrencyTypeKey = @"ConcurrencyTypeKey";
 
 - (NSManagedObjectModel *)managedObjectModel
 {
-    if (_managedObjectModel != nil)
+    if (!_managedObjectModel)
     {
-        return _managedObjectModel;
+        NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"songbook" withExtension:@"momd"];
+        _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     }
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"songbook" withExtension:@"momd"];
-    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     return _managedObjectModel;
 }
 
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator
 {
-    if (_persistentStoreCoordinator != nil)
+    if (!_persistentStoreCoordinator)
     {
-        return _persistentStoreCoordinator;
-    }
-    
-    NSDictionary *lightweightMigrationOptionsDictionary = @{NSMigratePersistentStoresAutomaticallyOption: @YES,
-                                                            NSInferMappingModelAutomaticallyOption: @YES};
-    
-    NSError *error = nil;
-    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:self.fileURL options:lightweightMigrationOptionsDictionary error:&error])
-    {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
+        NSDictionary *lightweightMigrationOptionsDictionary = @{NSMigratePersistentStoresAutomaticallyOption: @YES,
+                                                                NSInferMappingModelAutomaticallyOption: @YES};
+        
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSError *createDirectoryError;
+        if ([fileManager createDirectoryAtURL:[self.fileURL URLByDeletingLastPathComponent]
+                  withIntermediateDirectories:YES
+                                   attributes:nil
+                                        error:&createDirectoryError]) {
+            NSError *error = nil;
+            _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+            if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:self.fileURL options:lightweightMigrationOptionsDictionary error:&error])
+            {
+                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                abort();
+            }
+        } else {
+            NSLog(@"Failed to create the directories for %@", self.fileURL);
+        }
     }
     
     return _persistentStoreCoordinator;
+}
+
+- (NSURL *)databaseDirectory
+{
+    NSArray *stores = self.managedObjectContext.persistentStoreCoordinator.persistentStores;
+    NSURL *storeURL = [self.managedObjectContext.persistentStoreCoordinator URLForPersistentStore:[stores firstObject]];
+    NSURL *bookDirectory = [storeURL URLByDeletingLastPathComponent];
+    return bookDirectory;
 }
 
 #pragma mark - UIStateRestoring

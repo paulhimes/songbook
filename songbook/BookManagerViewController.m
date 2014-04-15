@@ -16,8 +16,6 @@
 
 static NSString * const kTemporaryDatabaseDirectoryName = @"temporaryBook";
 static NSString * const kMainDatabaseDirectoryName = @"mainBook";
-static NSString * const kBookDatabaseFileName = @"book.sqlite";
-
 static NSString * const kMainBookStackKey = @"mainBookStack";
 
 @interface BookManagerViewController () <UIAlertViewDelegate>
@@ -41,11 +39,11 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
 - (CoreDataStack *)mainBookStack
 {
     if (!_mainBookStack) {
-        NSURL *directory = [self mainBookDirectory];
-        NSURL *file = [directory URLByAppendingPathComponent:kBookDatabaseFileName];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:file.path]) {
-            _mainBookStack = [[CoreDataStack alloc] initWithFileURL:file concurrencyType:NSMainQueueConcurrencyType];
-            [UIApplication registerObjectForStateRestoration:_mainBookStack restorationIdentifier:kMainBookStackKey];
+        _mainBookStack = [BookCodec coreDataStackFromBookDirectory:[self mainBookDirectory]
+                                                   concurrencyType:NSMainQueueConcurrencyType];
+        if (_mainBookStack) {
+            [UIApplication registerObjectForStateRestoration:_mainBookStack
+                                       restorationIdentifier:kMainBookStackKey];
         }
     }
     return _mainBookStack;
@@ -155,38 +153,21 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
 
 - (void)loadBookFromFileURL:(NSURL *)fileURL andWarnAboutReplacement:(BOOL)warnAboutReplacement
 {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-
-    NSURL *temporaryFile = [[self temporaryBookDirectory] URLByAppendingPathComponent:kBookDatabaseFileName];
-    
-    // Delete any existing temporary database file.
-    [self deleteTemporaryDirectory];
-    
-    // Create the temporary directory.
-    NSError *createDirectoryError;
-    if (![fileManager createDirectoryAtURL:[self temporaryBookDirectory]
-               withIntermediateDirectories:YES
-                                attributes:nil
-                                     error:&createDirectoryError]) {
-        NSLog(@"Failed to create temporary directory: %@", createDirectoryError);
-        [self alertFailure];
-        return;
-    }
-    
-    // Create the temporary database stack.
-    CoreDataStack *temporaryBookStack = [[CoreDataStack alloc] initWithFileURL:temporaryFile concurrencyType:NSPrivateQueueConcurrencyType];
-    
-    // Load the book into the temporary database.
-    NSManagedObjectContext *temporaryContext = temporaryBookStack.managedObjectContext;
-    [BookCodec importBookFromURL:fileURL intoContext:temporaryContext];
+    // Import the book into a directory.
+    [BookCodec importBookFromURL:fileURL intoDirectory:[self temporaryBookDirectory]];
     
     // Delete the import file. It is no longer needed.
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     NSError *deleteError;
     if (![fileManager removeItemAtURL:fileURL error:&deleteError]) {
         NSLog(@"Failed to delete the import file: %@", deleteError);
     }
     
-    Book *replacementBook = [Book bookFromContext:temporaryContext];
+    // Get a core data stack connected to the database in the book directory.
+    CoreDataStack *temporaryBookStack = [BookCodec coreDataStackFromBookDirectory:[self temporaryBookDirectory]
+                                                                  concurrencyType:NSPrivateQueueConcurrencyType];
+    
+    Book *replacementBook = [Book bookFromContext:temporaryBookStack.managedObjectContext];
     if (replacementBook) {
         // A book was found in the file.
         if (warnAboutReplacement) {

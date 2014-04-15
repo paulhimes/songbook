@@ -11,6 +11,7 @@
 @interface CoreDataStack : NSObject <UIStateRestoring>
 
 @property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, readonly) NSURL *databaseDirectory;
 
 - (instancetype)initWithFileURL:(NSURL *)fileURL concurrencyType:(NSManagedObjectContextConcurrencyType)concurrencyType;
 
