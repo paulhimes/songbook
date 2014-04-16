@@ -9,6 +9,8 @@
 #import "PlaySongViewController.h"
 
 static const NSTimeInterval kFadeDuration = 0.25;
+static const CGFloat kHorizontalSwing = 12;
+static const CGFloat kVerticalSwing = 10;
 
 @interface PlaySongViewController () <AVAudioPlayerDelegate, UIToolbarDelegate>
 
@@ -79,17 +81,14 @@ static const NSTimeInterval kFadeDuration = 0.25;
 
 - (void)connectMotionEffects
 {
-    CGFloat horizontalSwing = 10;
-    CGFloat verticalSwing = 8;
-    
     UIInterpolatingMotionEffect *stopMotionEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x" type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
-    stopMotionEffect.minimumRelativeValue = @(-horizontalSwing);
-    stopMotionEffect.maximumRelativeValue = @(horizontalSwing);
+    stopMotionEffect.minimumRelativeValue = @(-kHorizontalSwing);
+    stopMotionEffect.maximumRelativeValue = @(kHorizontalSwing);
     [self.stopButton addMotionEffect:stopMotionEffect];
     
     UIInterpolatingMotionEffect *playViewOriginXMotionEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y" type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
-    playViewOriginXMotionEffect.minimumRelativeValue = @(-verticalSwing);
-    playViewOriginXMotionEffect.maximumRelativeValue = @(verticalSwing);
+    playViewOriginXMotionEffect.minimumRelativeValue = @(-kVerticalSwing);
+    playViewOriginXMotionEffect.maximumRelativeValue = @(kVerticalSwing);
     [self.playerView addMotionEffect:playViewOriginXMotionEffect];
 }
 
