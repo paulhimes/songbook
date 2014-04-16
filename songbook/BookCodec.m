@@ -68,26 +68,42 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
         NSLog(@"Create zip file failed");
         return nil;
     }
+
+    NSDirectoryEnumerator *directoryEnumerator = [fileManager enumeratorAtURL:directory
+                                                   includingPropertiesForKeys:@[NSURLIsDirectoryKey]
+                                                                      options:0
+                                                                 errorHandler:^BOOL(NSURL *url, NSError *error) {
+                                                                     NSLog(@"Error enumerating url: %@", url);
+                                                                     return YES;
+                                                                 }];
     
-    NSError *contentsError;
-    NSArray *files = [fileManager contentsOfDirectoryAtURL:directory
-                                includingPropertiesForKeys:nil
-                                                   options:NSDirectoryEnumerationSkipsHiddenFiles
-                                                     error:&contentsError];
-    
-    if (!contentsError) {
-        for (NSURL *file in files) {
-            if ([file isFileURL] &&
-                [[file lastPathComponent] rangeOfString:kBookDatabaseFileName].location == NSNotFound) {
-                BOOL addResult = [zipArchive addFileToZip:file.path newname:[file lastPathComponent]];
-                if (!addResult) {
-                    NSLog(@"Add file to zip file failed: %@", file);
-                    return nil;
-                }
+    NSString *basePath = directory.path;
+
+    for (NSURL *url in directoryEnumerator) {
+        // Skip directories. They will be automatically added if they contain any files.
+        NSNumber *isDirectory;
+        [url getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:NULL];
+        if ([isDirectory boolValue]) {
+            continue;
+        }
+        
+        // Get the new file path and attempt to remove the base directory portion of the path.
+        NSString *newFilePath = url.path;
+        NSRange baseRange = [newFilePath rangeOfString:basePath];
+        if (baseRange.location != NSNotFound) {
+            newFilePath = [newFilePath substringFromIndex:NSMaxRange(baseRange)];
+        }
+
+        // Only process files unrelated to the core data database.
+        if ([newFilePath rangeOfString:kBookDatabaseFileName].location == NSNotFound) {
+            BOOL addResult = [zipArchive addFileToZip:url.path newname:newFilePath];
+            if (!addResult) {
+                NSLog(@"Add file to zip file failed: %@", url);
+                return nil;
             }
         }
     }
-    
+
     BOOL closeResult = [zipArchive closeZipFile];
     if (!closeResult) {
         NSLog(@"Close zip file failed");
