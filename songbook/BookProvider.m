@@ -12,16 +12,18 @@
 @interface BookProvider()
 
 @property (nonatomic, strong) CoreDataStack *coreDataStack;
+@property (nonatomic) BOOL includeExtraFiles;
 
 @end
 
 @implementation BookProvider
 
-- (instancetype)initWithCoreDataStack:(CoreDataStack *)coreDataStack
+- (instancetype)initWithCoreDataStack:(CoreDataStack *)coreDataStack includeExtraFiles:(BOOL)includeExtraFiles
 {
     self = [super initWithPlaceholderItem:[BookCodec fileURLForExportingFromContext:coreDataStack.managedObjectContext]];
     if (self) {
         self.coreDataStack = coreDataStack;
+        self.includeExtraFiles = includeExtraFiles;
     }
     return self;
 }
@@ -29,7 +31,7 @@
 - (id)item
 {
     NSURL *bookDirectory = self.coreDataStack.databaseDirectory;
-    NSURL *exportFileURL = [BookCodec exportBookFromDirectory:bookDirectory];
+    NSURL *exportFileURL = [BookCodec exportBookFromDirectory:bookDirectory includeExtraFiles:self.includeExtraFiles];
     return exportFileURL;
 }
 

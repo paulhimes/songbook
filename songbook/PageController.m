@@ -9,7 +9,6 @@
 #import "PageController.h"
 #import "BookCodec.h"
 #import "BookProvider.h"
-#import "PlaySongActivity.h"
 
 NSString * const kStandardTextSizeKey = @"StandardTextSize";
 
@@ -27,6 +26,7 @@ const float kMinimumStandardTextSize = 8;
 @interface PageController () <UIScrollViewDelegate, UIToolbarDelegate, UIViewControllerRestoration>
 
 @property (nonatomic, strong) UIPinchGestureRecognizer *pinchGestureRecognizer;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *activityButton;
 
 @end
 
@@ -44,11 +44,6 @@ const float kMinimumStandardTextSize = 8;
                                                                             action:@selector(handleGesture:)];
     }
     return _pinchGestureRecognizer;
-}
-
-- (NSArray *)activityItems
-{
-    return @[[[BookProvider alloc] initWithCoreDataStack:self.coreDataStack]];
 }
 
 - (void)awakeFromNib
@@ -140,18 +135,11 @@ const float kMinimumStandardTextSize = 8;
     
 }
 
-#pragma mark - Action Methods
-
-- (IBAction)searchAction:(id)sender
+- (void)shareBookWithExtraFiles:(BOOL)includeExtraFiles
 {
-    [self.delegate search];
-}
-
-- (IBAction)activityAction:(id)sender
-{
-    NSArray *activityItems = [self activityItems];
+    NSArray *activityItems = @[[[BookProvider alloc] initWithCoreDataStack:self.coreDataStack includeExtraFiles:includeExtraFiles]];
     UIActivityViewController *activityViewController = [[NoStatusActivityViewController alloc] initWithActivityItems:activityItems
-                                                                                               applicationActivities:@[[[PlaySongActivity alloc] init]]];
+                                                                                               applicationActivities:nil];
     activityViewController.excludedActivityTypes = @[UIActivityTypeMessage];
     activityViewController.completionHandler = ^(NSString *activityType, BOOL completed) {
         // Delete the temporary file.
@@ -174,13 +162,87 @@ const float kMinimumStandardTextSize = 8;
         //iPad, present the view controller inside a popover
         if (![self.activityPopover isPopoverVisible]) {
             self.activityPopover = [[UIPopoverController alloc] initWithContentViewController:activityViewController];
-            [self.activityPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+            [self.activityPopover presentPopoverFromBarButtonItem:self.activityButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         }
         else
         {
             //Dismiss if the button is tapped while pop over is visible
             [self.activityPopover dismissPopoverAnimated:YES];
         }
+    }
+}
+
+- (BOOL)bookDirectoryHasSongFiles
+{
+    NSURL *bookDirectory = self.coreDataStack.databaseDirectory;
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSDirectoryEnumerator *directoryEnumerator = [fileManager enumeratorAtURL:bookDirectory
+                                                   includingPropertiesForKeys:@[NSURLIsDirectoryKey]
+                                                                      options:0
+                                                                 errorHandler:^BOOL(NSURL *url, NSError *error) {
+                                                                     NSLog(@"Error enumerating url: %@", url);
+                                                                     return YES;
+                                                                 }];
+    
+    BOOL foundSongFile;
+    
+    for (NSURL *url in directoryEnumerator) {
+        // Skip directories.
+        NSNumber *isDirectory;
+        [url getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:nil];
+        if ([isDirectory boolValue]) {
+            continue;
+        }
+        
+        NSString *fileExtension = [url pathExtension];
+        if ([fileExtension localizedCaseInsensitiveCompare:@"m4a"] == NSOrderedSame ||
+            [fileExtension localizedCaseInsensitiveCompare:@"mp3"] == NSOrderedSame ||
+            [fileExtension localizedCaseInsensitiveCompare:@"wav"] == NSOrderedSame) {
+            
+            foundSongFile = YES;
+            break;
+        }
+    }
+    
+    return foundSongFile;
+}
+
+#pragma mark - Action Methods
+
+- (IBAction)searchAction:(id)sender
+{
+    [self.delegate search];
+}
+
+- (IBAction)activityAction:(id)sender
+{
+    if ([self bookDirectoryHasSongFiles]) {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                                 delegate:self
+                                                        cancelButtonTitle:nil
+                                                   destructiveButtonTitle:nil
+                                                        otherButtonTitles:nil];
+        
+        [actionSheet addButtonWithTitle:@"Share Book"];
+        [actionSheet addButtonWithTitle:@"Share Book With Tunes"];
+        [actionSheet addButtonWithTitle:@"Cancel"];
+        actionSheet.cancelButtonIndex = actionSheet.numberOfButtons - 1;
+        
+        [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+    } else {
+        [self shareBookWithExtraFiles:NO];
+    }
+}
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [self shareBookWithExtraFiles:NO];
+    } else if (buttonIndex == 1) {
+        [self shareBookWithExtraFiles:YES];
     }
 }
 

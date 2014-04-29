@@ -64,7 +64,7 @@
     NSArray *directoryContents = [fileManager contentsOfDirectoryAtURL:inbox
                                             includingPropertiesForKeys:nil
                                                                options:0
-                                                                 error:NULL];
+                                                                 error:nil];
     for (NSURL *item in directoryContents) {
         if (![item isEqual:url]) {
             NSError *deleteError;

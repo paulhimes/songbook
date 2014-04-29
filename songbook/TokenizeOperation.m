@@ -48,7 +48,7 @@ NSUInteger const kBatchSize = 5;
 
 - (void)tokenizeBook
 {    
-    Book *book = (Book *)[self.context existingObjectWithID:self.bookID error:NULL];
+    Book *book = (Book *)[self.context existingObjectWithID:self.bookID error:nil];
     
     if (book) {
         // Tokenize the songs.

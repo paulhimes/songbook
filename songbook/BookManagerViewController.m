@@ -277,7 +277,7 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
                          withItemAtURL:[self temporaryBookDirectory]
                         backupItemName:nil
                                options:0
-                      resultingItemURL:NULL
+                      resultingItemURL:nil
                                  error:&replaceError]) {
         NSLog(@"Failed to replace book directory: %@", replaceError);
         [self alertFailure];

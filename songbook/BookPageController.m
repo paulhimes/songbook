@@ -43,7 +43,7 @@
 - (Book *)book
 {
     Book *book;
-    NSManagedObject *managedObject = [self.coreDataStack.managedObjectContext existingObjectWithID:self.modelID error:NULL];
+    NSManagedObject *managedObject = [self.coreDataStack.managedObjectContext existingObjectWithID:self.modelID error:nil];
     if ([managedObject isKindOfClass:[Book class]]) {
         book = (Book *)managedObject;
     }

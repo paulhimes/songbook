@@ -12,7 +12,7 @@
 @interface BookCodec : NSObject
 
 + (NSURL *)fileURLForExportingFromContext:(NSManagedObjectContext *)context;
-+ (NSURL *)exportBookFromDirectory:(NSURL *)directory;
++ (NSURL *)exportBookFromDirectory:(NSURL *)directory includeExtraFiles:(BOOL)includeExtraFiles;
 + (void)importBookFromURL:(NSURL *)file intoDirectory:(NSURL *)directory;
 + (CoreDataStack *)coreDataStackFromBookDirectory:(NSURL *)directory concurrencyType:(NSManagedObjectContextConcurrencyType)concurrencyType;
 

@@ -51,7 +51,7 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
 
 @implementation BookCodec
 
-+ (NSURL *)exportBookFromDirectory:(NSURL *)directory
++ (NSURL *)exportBookFromDirectory:(NSURL *)directory includeExtraFiles:(BOOL)includeExtraFiles
 {
     CoreDataStack *coreDataStack = [BookCodec coreDataStackFromBookDirectory:directory
                                                              concurrencyType:NSPrivateQueueConcurrencyType];
@@ -60,7 +60,7 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
     
     // Delete the export file if it exists.
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    [fileManager removeItemAtURL:exportURL error:NULL];
+    [fileManager removeItemAtURL:exportURL error:nil];
     
     ZipArchive *zipArchive = [[ZipArchive alloc] init];
     BOOL createResult = [zipArchive createZipFile:exportURL.path];
@@ -82,7 +82,7 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
     for (NSURL *url in directoryEnumerator) {
         // Skip directories. They will be automatically added if they contain any files.
         NSNumber *isDirectory;
-        [url getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:NULL];
+        [url getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:nil];
         if ([isDirectory boolValue]) {
             continue;
         }
@@ -93,14 +93,22 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
         if (baseRange.location != NSNotFound) {
             newFilePath = [newFilePath substringFromIndex:NSMaxRange(baseRange)];
         }
+        
+        // Possibly skip all files except the main book json file.
+        if (!includeExtraFiles && ![newFilePath isEqualToString:kBookFileName]) {
+            continue;
+        }
 
         // Only process files unrelated to the core data database.
-        if ([newFilePath rangeOfString:kBookDatabaseFileName].location == NSNotFound) {
-            BOOL addResult = [zipArchive addFileToZip:url.path newname:newFilePath];
-            if (!addResult) {
-                NSLog(@"Add file to zip file failed: %@", url);
-                return nil;
-            }
+        if ([newFilePath rangeOfString:kBookDatabaseFileName].location != NSNotFound) {
+            continue;
+        }
+        
+        // Add the file to the zip
+        BOOL addResult = [zipArchive addFileToZip:url.path newname:newFilePath];
+        if (!addResult) {
+            NSLog(@"Add file to zip file failed: %@", url);
+            return nil;
         }
     }
 

@@ -18,7 +18,7 @@
     fetchRequest.predicate = [NSPredicate predicateWithFormat:@"title == %@", title];
     
     // Fetch the results.
-    NSArray *results = [context executeFetchRequest:fetchRequest error:NULL];
+    NSArray *results = [context executeFetchRequest:fetchRequest error:nil];
     
     Book *book;
     if ([results count] > 0) {
@@ -46,7 +46,7 @@
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Book"];
     
     // Fetch the results.
-    NSArray *results = [context executeFetchRequest:fetchRequest error:NULL];
+    NSArray *results = [context executeFetchRequest:fetchRequest error:nil];
     
     //  Get the first book.
     Book *book = [results firstObject];

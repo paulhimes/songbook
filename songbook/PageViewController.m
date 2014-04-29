@@ -48,7 +48,7 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
                                                                   pageViewController:self]]
                            direction:UIPageViewControllerNavigationDirectionForward
                             animated:NO
-                          completion:NULL];
+                          completion:nil];
         }
     }
 }
@@ -86,7 +86,7 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
         [self setViewControllers:@[viewController]
                        direction:UIPageViewControllerNavigationDirectionForward
                         animated:NO
-                      completion:NULL];
+                      completion:nil];
     }
 }
 
@@ -120,7 +120,7 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
         [self setViewControllers:@[pageController]
                        direction:UIPageViewControllerNavigationDirectionForward
                         animated:animated
-                      completion:NULL];
+                      completion:nil];
     }
 }
 

@@ -82,7 +82,7 @@ static NSString * const kPageViewControllerKey = @"PageViewControllerKey";
                    withRange:(NSRange)range
 {
     if (selectedSongID) {
-        Song *song = (Song *)[self.coreDataStack.managedObjectContext existingObjectWithID:selectedSongID error:NULL];
+        Song *song = (Song *)[self.coreDataStack.managedObjectContext existingObjectWithID:selectedSongID error:nil];
         if (song) {
             [self.pageViewController showPageForModelObject:song
                                              highlightRange:range

@@ -17,7 +17,7 @@
     fetchRequest.predicate = [NSPredicate predicateWithFormat:@"title == %@ AND book == %@", title, book];
     
     // Fetch the results.
-    NSArray *results = [book.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
+    NSArray *results = [book.managedObjectContext executeFetchRequest:fetchRequest error:nil];
     
     Section *section;
     if ([results count] > 0) {

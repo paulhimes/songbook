@@ -31,7 +31,7 @@ NSString * const kFooterRangesKey = @"FooterRanges";
     fetchRequest.predicate = [NSPredicate predicateWithFormat:@"title == %@ AND section == %@", title, section];
     
     // Fetch the results.
-    NSArray *results = [section.managedObjectContext executeFetchRequest:fetchRequest error:NULL];
+    NSArray *results = [section.managedObjectContext executeFetchRequest:fetchRequest error:nil];
     
     Song *song;
     if ([results count] > 0) {

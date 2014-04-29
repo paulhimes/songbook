@@ -11,6 +11,6 @@
 
 @interface BookProvider : UIActivityItemProvider
 
-- (instancetype)initWithCoreDataStack:(CoreDataStack *)coreDataStack;
+- (instancetype)initWithCoreDataStack:(CoreDataStack *)coreDataStack includeExtraFiles:(BOOL)includeExtraFiles;
 
 @end

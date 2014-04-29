@@ -19,7 +19,7 @@ extern const float kMinimumStandardTextSize;
 
 @protocol PageControllerDelegate;
 
-@interface PageController : UIViewController
+@interface PageController : UIViewController <UIActionSheetDelegate>
 
 @property (nonatomic, strong) CoreDataStack *coreDataStack;
 @property (nonatomic, strong) NSManagedObjectID *modelID;
@@ -32,10 +32,12 @@ extern const float kMinimumStandardTextSize;
 @property (nonatomic) CGFloat bookmarkedCharacterYOffset;
 @property (strong, nonatomic) UIPopoverController *activityPopover;
 
-- (NSArray *)activityItems;
+- (IBAction)activityAction:(id)sender;
 
 - (void)handleGesture:(UIPinchGestureRecognizer *)sender;
 - (void)textContentChanged;
+
+- (void)shareBookWithExtraFiles:(BOOL)includeExtraFiles;
 
 @end
 

@@ -26,7 +26,7 @@
     fetchRequest.fetchLimit = 1;
     
     // Fetch the results.
-    NSArray *results = [context executeFetchRequest:fetchRequest error:NULL];
+    NSArray *results = [context executeFetchRequest:fetchRequest error:nil];
     
     Token *token;
     if ([results count] > 0) {
@@ -48,7 +48,7 @@
     fetchRequest.predicate = [NSPredicate predicateWithFormat:@"text BEGINSWITH %@", text];
     
     // Fetch the results.
-    NSArray *results = [context executeFetchRequest:fetchRequest error:NULL];
+    NSArray *results = [context executeFetchRequest:fetchRequest error:nil];
     
     return results;
 }

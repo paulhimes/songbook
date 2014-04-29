@@ -99,8 +99,8 @@ static NSString * const kConcurrencyTypeKey = @"ConcurrencyTypeKey";
 {
     NSArray *stores = self.managedObjectContext.persistentStoreCoordinator.persistentStores;
     NSURL *storeURL = [self.managedObjectContext.persistentStoreCoordinator URLForPersistentStore:[stores firstObject]];
-    NSURL *bookDirectory = [storeURL URLByDeletingLastPathComponent];
-    return bookDirectory;
+    NSURL *storeDirectory = [storeURL URLByDeletingLastPathComponent];
+    return storeDirectory;
 }
 
 #pragma mark - UIStateRestoring

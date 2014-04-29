@@ -15,8 +15,9 @@
 @import AVFoundation;
 
 static const float kTextScaleThreshold = 1;
+static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 
-@interface SongPageController () <UITextViewDelegate, UIToolbarDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
+@interface SongPageController () <UITextViewDelegate, UIToolbarDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, AVAudioPlayerDelegate>
 
 @property (nonatomic, readonly) Song *song;
 
@@ -26,6 +27,11 @@ static const float kTextScaleThreshold = 1;
 @property (weak, nonatomic) IBOutlet UIToolbar *bottomBar;
 @property (weak, nonatomic) IBOutlet SafeTextView *textView;
 @property (weak, nonatomic) IBOutlet SongTitleView *titleView;
+
+@property (weak, nonatomic) IBOutlet UIView *playerView;
+@property (weak, nonatomic) IBOutlet UIProgressView *progressView;
+@property (nonatomic, strong) NSTimer *playbackTimer;
+@property (nonatomic, strong) AVAudioPlayer *audioPlayer;
 
 //@property (nonatomic, strong) UITableView *relatedItemsView;
 
@@ -91,6 +97,8 @@ static const float kTextScaleThreshold = 1;
     
     self.topBar.delegate = self;
     self.bottomBar.delegate = self;
+    
+    self.playerView.backgroundColor = [Theme paperColor];
 
     [super viewDidLoad];
     
@@ -112,6 +120,12 @@ static const float kTextScaleThreshold = 1;
                                                                                      action:@selector(shareSelection:)],
                                                           [[UIMenuItem alloc] initWithTitle:@"Report Problem…"
                                                                                      action:@selector(reportError:)]];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self dismissPlayer];
 }
 
 - (void)viewDidLayoutSubviews
@@ -138,7 +152,7 @@ static const float kTextScaleThreshold = 1;
 - (Song *)song
 {
     Song *song;
-    NSManagedObject *managedObject = [self.coreDataStack.managedObjectContext existingObjectWithID:self.modelID error:NULL];
+    NSManagedObject *managedObject = [self.coreDataStack.managedObjectContext existingObjectWithID:self.modelID error:nil];
     if ([managedObject isKindOfClass:[Song class]]) {
         song = (Song *)managedObject;
     }
@@ -237,24 +251,50 @@ static const float kTextScaleThreshold = 1;
     return paragraphStyle;
 }
 
-- (NSArray *)activityItems
+- (NSArray *)matchingSongFiles
 {
-    NSArray *activityItems = [super activityItems];
-
     // Generate the target song file URL.
     NSUInteger songIndex = [self.song.section.songs indexOfObject:self.song];
     NSUInteger sectionIndex = [self.song.section.book.sections indexOfObject:self.song.section];
     NSURL *bookDirectory = self.coreDataStack.databaseDirectory;
-    NSURL *songFile = [bookDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%d-%d.m4a", sectionIndex, songIndex]];
     
-    // Build and share the audio player.
-    NSError *error;
-    AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:songFile error:&error];
-    if (audioPlayer) {
-        activityItems = [activityItems arrayByAddingObject:audioPlayer];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSDirectoryEnumerator *directoryEnumerator = [fileManager enumeratorAtURL:bookDirectory
+                                                   includingPropertiesForKeys:@[NSURLIsDirectoryKey]
+                                                                      options:0
+                                                                 errorHandler:^BOOL(NSURL *url, NSError *error) {
+                                                                     NSLog(@"Error enumerating url: %@", url);
+                                                                     return YES;
+                                                                 }];
+    
+    NSMutableArray *matchingSongFiles = [@[] mutableCopy];
+    for (NSURL *url in directoryEnumerator) {
+        // Skip directories.
+        NSNumber *isDirectory;
+        [url getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:nil];
+        if ([isDirectory boolValue]) {
+            continue;
+        }
+        
+        NSString *fileExtension = [url pathExtension];
+        NSString *fileName = [url lastPathComponent];
+        NSString *matchStringA = [NSString stringWithFormat:@"%lu-%lu.", (unsigned long)sectionIndex, (unsigned long)songIndex];
+        NSString *matchStringB = [NSString stringWithFormat:@"%lu-%lu-", (unsigned long)sectionIndex, (unsigned long)songIndex];
+        if (([fileName rangeOfString:matchStringA].location == 0 ||
+             [fileName rangeOfString:matchStringB].location == 0) &&
+            ([fileExtension localizedCaseInsensitiveCompare:@"m4a"] == NSOrderedSame ||
+             [fileExtension localizedCaseInsensitiveCompare:@"mp3"] == NSOrderedSame ||
+             [fileExtension localizedCaseInsensitiveCompare:@"wav"] == NSOrderedSame)) {
+                
+                [matchingSongFiles addObject:url];
+            }
     }
     
-    return activityItems;
+    [matchingSongFiles sortUsingComparator:^NSComparisonResult(NSURL *songFile1, NSURL *songFile2) {
+        return [[songFile1 lastPathComponent] localizedCaseInsensitiveCompare:[songFile2 lastPathComponent]];
+    }];
+    
+    return matchingSongFiles;
 }
 
 //#pragma mark - UITableViewDataSource
@@ -312,6 +352,101 @@ static const float kTextScaleThreshold = 1;
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self updateBarVisibility];
+}
+
+- (IBAction)activityAction:(id)sender
+{
+    NSArray *matchingSongFiles = [self matchingSongFiles];
+    
+    if ([matchingSongFiles count]) {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                                 delegate:self
+                                                        cancelButtonTitle:nil
+                                                   destructiveButtonTitle:nil
+                                                        otherButtonTitles:nil];
+        
+        if ([matchingSongFiles count] == 1) {
+            [actionSheet addButtonWithTitle:@"Play Tune"];
+        } else {
+            [matchingSongFiles enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                [actionSheet addButtonWithTitle:[NSString stringWithFormat:@"Play Tune %lu", (unsigned long)(idx + 1)]];
+            }];
+        }
+        
+        [actionSheet addButtonWithTitle:@"Share Book"];
+        [actionSheet addButtonWithTitle:@"Share Book & Tunes"];
+        [actionSheet addButtonWithTitle:@"Cancel"];
+        actionSheet.cancelButtonIndex = actionSheet.numberOfButtons - 1;
+        
+        [actionSheet showInView:self.bottomBar];
+    } else {
+        [super activityAction:sender];
+    }
+}
+
+#pragma mark - Song Playback
+
+- (void)playSongFile:(NSURL *)songFile
+{
+    [self.playbackTimer invalidate];
+    self.playbackTimer = nil;
+    
+    [self.audioPlayer stop];
+    self.audioPlayer = nil;
+    
+    self.progressView.progress = 0;
+    
+    [UIView animateWithDuration:kPlayerAnimationDuration animations:^{
+        self.playerView.alpha = 1;
+    } completion:^(BOOL finished) {
+        self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:songFile error:nil];
+        self.audioPlayer.delegate = self;
+        
+        if (self.audioPlayer) {
+            
+            self.playbackTimer = [NSTimer timerWithTimeInterval:0.01
+                                                         target:self
+                                                       selector:@selector(playbackTimerUpdate)
+                                                       userInfo:nil
+                                                        repeats:YES];
+
+            NSRunLoop *runloop = [NSRunLoop currentRunLoop];
+            [runloop addTimer:self.playbackTimer forMode:NSRunLoopCommonModes];
+            [runloop addTimer:self.playbackTimer forMode:UITrackingRunLoopMode];
+
+            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+            [self.audioPlayer prepareToPlay];
+            [self.audioPlayer play];
+        }
+    }];
+}
+
+- (IBAction)stopPlayingAction:(id)sender
+{
+    [self dismissPlayer];
+}
+
+- (void)dismissPlayer
+{
+    [UIView animateWithDuration:kPlayerAnimationDuration animations:^{
+        self.playerView.alpha = 0;
+    } completion:^(BOOL finished) {
+        [self.playbackTimer invalidate];
+        self.playbackTimer = nil;
+        
+        [self.audioPlayer stop];
+        self.audioPlayer = nil;
+    }];
+}
+
+- (void)playbackTimerUpdate
+{
+    float progress = 0.0;
+    if (self.audioPlayer) {
+        progress = self.audioPlayer.currentTime / self.audioPlayer.duration;
+    }
+    
+    [self.progressView setProgress:progress animated:YES];
 }
 
 #pragma mark - UITextViewDelegate
@@ -631,7 +766,7 @@ static const float kTextScaleThreshold = 1;
     // Convert the attributed string to HTML.
     NSData *htmlData = [attributedSongText dataFromRange:NSMakeRange(0, attributedSongText.length)
                                       documentAttributes:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType}
-                                                   error:NULL];
+                                                   error:nil];
     NSString *htmlString = [[NSString alloc] initWithData:htmlData encoding:NSUTF8StringEncoding];
 
     return htmlString;
@@ -683,7 +818,7 @@ static const float kTextScaleThreshold = 1;
     
     [mailController setMessageBody:[self buildProblemReportString] isHTML:YES];
     
-    NSURL *fileURL = [BookCodec exportBookFromDirectory:self.coreDataStack.databaseDirectory];
+    NSURL *fileURL = [BookCodec exportBookFromDirectory:self.coreDataStack.databaseDirectory includeExtraFiles:NO];
     NSData *exportData = [NSData dataWithContentsOfURL:fileURL];
     NSError *deleteError;
     if (![[NSFileManager defaultManager] removeItemAtURL:fileURL error:&deleteError]) {
@@ -703,6 +838,45 @@ static const float kTextScaleThreshold = 1;
                         error:(NSError *)error
 {
     [self dismissViewControllerAnimated:YES completion:^{}];
+}
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSArray *matchingSongFiles = [self matchingSongFiles];
+    if ([matchingSongFiles count]) {
+        if (buttonIndex < [matchingSongFiles count]) {
+            [self playSongFile:matchingSongFiles[buttonIndex]];
+        } else {
+            buttonIndex -= [matchingSongFiles count];
+            
+            if (buttonIndex == 0) {
+                [self shareBookWithExtraFiles:NO];
+            } else if (buttonIndex == 1) {
+                [self shareBookWithExtraFiles:YES];
+            }
+        }
+    } else {
+        [super actionSheet:actionSheet clickedButtonAtIndex:buttonIndex];
+    }
+}
+
+#pragma mark - AVAudioPlayerDelegate
+
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
+{
+    [self dismissPlayer];
+}
+
+- (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error
+{
+    [self dismissPlayer];
+}
+
+- (void)audioPlayerBeginInterruption:(AVAudioPlayer *)player
+{
+    [self dismissPlayer];
 }
 
 @end

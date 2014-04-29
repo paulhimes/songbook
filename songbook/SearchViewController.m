@@ -76,7 +76,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
 {
     Song *song;
     if (self.closestSongID) {
-        song = (Song *)[self.coreDataStack.managedObjectContext existingObjectWithID:self.closestSongID error:NULL];
+        song = (Song *)[self.coreDataStack.managedObjectContext existingObjectWithID:self.closestSongID error:nil];
     }
     return song;
 }
