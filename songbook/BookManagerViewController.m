@@ -23,6 +23,9 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
 @property (nonatomic, strong) CoreDataStack *mainBookStack;
 @property (nonatomic, strong) NSOperationQueue *tokenizerOperationQueue;
 
+@property (weak, nonatomic) IBOutlet UILabel *busyMessageLabel;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *busySpinner;
+
 @end
 
 @implementation BookManagerViewController
@@ -58,6 +61,8 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
     GradientView *gradientView = [[GradientView alloc] initWithFrame:CGRectMake(-self.view.bounds.size.width, 0, 2 * self.view.bounds.size.width, self.view.bounds.size.height)];
     gradientView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view insertSubview:gradientView atIndex:0];
+    
+    self.busyMessageLabel.textColor = [Theme paperColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -155,6 +160,10 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
 {
     // Import the book into a directory.
     [BookCodec importBookFromURL:fileURL intoDirectory:[self temporaryBookDirectory]];
+    
+    // Hide busy message.
+    self.busyMessageLabel.hidden = YES;
+    self.busySpinner.hidden = YES;
     
     // Delete the import file. It is no longer needed.
     NSFileManager *fileManager = [NSFileManager defaultManager];

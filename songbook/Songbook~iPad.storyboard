@@ -370,8 +370,23 @@
                     <view key="view" contentMode="scaleToFill" id="YFS-7C-uPM">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Opening Book" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XAk-Ux-ZRG">
+                                <rect key="frame" x="329" y="464" width="111" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" id="x7E-z0-n1W">
+                                <rect key="frame" x="366" y="493" width="37" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
+                        </subviews>
                     </view>
                     <connections>
+                        <outlet property="busyMessageLabel" destination="XAk-Ux-ZRG" id="97v-p9-ngu"/>
+                        <outlet property="busySpinner" destination="x7E-z0-n1W" id="gxa-bm-Ftv"/>
                         <segue destination="jrp-vl-Nww" kind="modal" identifier="OpenBook" animates="NO" id="2eP-Qa-BaT"/>
                     </connections>
                 </viewController>

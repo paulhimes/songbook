@@ -24,7 +24,6 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 @property (nonatomic, strong) NSArray *relatedSongs;
 
 @property (weak, nonatomic) IBOutlet UIToolbar *topBar;
-@property (weak, nonatomic) IBOutlet UIToolbar *bottomBar;
 @property (weak, nonatomic) IBOutlet SafeTextView *textView;
 @property (weak, nonatomic) IBOutlet SongTitleView *titleView;
 
@@ -378,7 +377,13 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
         [actionSheet addButtonWithTitle:@"Cancel"];
         actionSheet.cancelButtonIndex = actionSheet.numberOfButtons - 1;
         
-        [actionSheet showInView:self.bottomBar];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            //iPhone, present action sheet from view.
+            [actionSheet showInView:self.textView];
+        } else {
+            //iPad, present the action sheet from bar button.
+            [actionSheet showFromBarButtonItem:self.activityButton animated:YES];
+        }
     } else {
         [super activityAction:sender];
     }
@@ -446,7 +451,9 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
         progress = self.audioPlayer.currentTime / self.audioPlayer.duration;
     }
     
-    [self.progressView setProgress:progress animated:YES];
+    if (progress > self.progressView.progress) {
+        [self.progressView setProgress:progress animated:YES];
+    }
 }
 
 #pragma mark - UITextViewDelegate

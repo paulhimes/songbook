@@ -26,7 +26,6 @@ const float kMinimumStandardTextSize = 8;
 @interface PageController () <UIScrollViewDelegate, UIToolbarDelegate, UIViewControllerRestoration>
 
 @property (nonatomic, strong) UIPinchGestureRecognizer *pinchGestureRecognizer;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *activityButton;
 
 @end
 
@@ -185,7 +184,7 @@ const float kMinimumStandardTextSize = 8;
                                                                      return YES;
                                                                  }];
     
-    BOOL foundSongFile;
+    BOOL foundSongFile = NO;
     
     for (NSURL *url in directoryEnumerator) {
         // Skip directories.
@@ -225,11 +224,17 @@ const float kMinimumStandardTextSize = 8;
                                                         otherButtonTitles:nil];
         
         [actionSheet addButtonWithTitle:@"Share Book"];
-        [actionSheet addButtonWithTitle:@"Share Book With Tunes"];
+        [actionSheet addButtonWithTitle:@"Share Book & Tunes"];
         [actionSheet addButtonWithTitle:@"Cancel"];
         actionSheet.cancelButtonIndex = actionSheet.numberOfButtons - 1;
         
-        [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            //iPhone, present action sheet from view.
+            [actionSheet showInView:self.textView];
+        } else {
+            //iPad, present the action sheet from bar button.
+            [actionSheet showFromBarButtonItem:self.activityButton animated:YES];
+        }
     } else {
         [self shareBookWithExtraFiles:NO];
     }
