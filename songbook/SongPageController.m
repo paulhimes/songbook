@@ -266,6 +266,9 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
                                                                      return YES;
                                                                  }];
     
+    NSString *matchStringA = [NSString stringWithFormat:@"%lu-%lu.", (unsigned long)sectionIndex, (unsigned long)songIndex];
+    NSString *matchStringB = [NSString stringWithFormat:@"%lu-%lu-", (unsigned long)sectionIndex, (unsigned long)songIndex];
+    
     NSMutableArray *matchingSongFiles = [@[] mutableCopy];
     for (NSURL *url in directoryEnumerator) {
         // Skip directories.
@@ -277,16 +280,15 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
         
         NSString *fileExtension = [url pathExtension];
         NSString *fileName = [url lastPathComponent];
-        NSString *matchStringA = [NSString stringWithFormat:@"%lu-%lu.", (unsigned long)sectionIndex, (unsigned long)songIndex];
-        NSString *matchStringB = [NSString stringWithFormat:@"%lu-%lu-", (unsigned long)sectionIndex, (unsigned long)songIndex];
+
         if (([fileName rangeOfString:matchStringA].location == 0 ||
              [fileName rangeOfString:matchStringB].location == 0) &&
             ([fileExtension localizedCaseInsensitiveCompare:@"m4a"] == NSOrderedSame ||
              [fileExtension localizedCaseInsensitiveCompare:@"mp3"] == NSOrderedSame ||
              [fileExtension localizedCaseInsensitiveCompare:@"wav"] == NSOrderedSame)) {
                 
-                [matchingSongFiles addObject:url];
-            }
+            [matchingSongFiles addObject:url];
+        }
     }
     
     [matchingSongFiles sortUsingComparator:^NSComparisonResult(NSURL *songFile1, NSURL *songFile2) {

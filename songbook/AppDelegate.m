@@ -40,6 +40,11 @@
     return [idiom integerValue] == [[UIDevice currentDevice] userInterfaceIdiom];
 }
 
+- (void)application:(UIApplication *)application didDecodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    NSLog(@"State restoration complete.");
+}
+
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     [self handoffImportFile:url];
