@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B039ABF1911FAE6005F14B4 /* BookActivityItemSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B039ABE1911FAE6005F14B4 /* BookActivityItemSource.m */; };
 		8B088FC217C867440043341D /* UIView+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B088FC117C867440043341D /* UIView+Helpers.m */; };
 		8B14431917EFDAB60000A898 /* Token.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42031217E7CAEE00019A80 /* Token.m */; };
 		8B14432217F141770000A898 /* SearchSectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B14432117F141770000A898 /* SearchSectionModel.m */; };
@@ -75,7 +76,6 @@
 		8BB4CBE918959EA0009F0FA1 /* default.songbook in Resources */ = {isa = PBXBuildFile; fileRef = 8BB4CBE818959EA0009F0FA1 /* default.songbook */; };
 		8BB54D5C17A4C60700FD2914 /* PageServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB54D5B17A4C60700FD2914 /* PageServer.m */; };
 		8BC674CA17BC912C001E71B1 /* NSMutableAttributedString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */; };
-		8BC7D645187E62AA008F2289 /* BookProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7D644187E62AA008F2289 /* BookProvider.m */; };
 		8BC7D648188344DD008F2289 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7D647188344DD008F2289 /* Book.m */; };
 		8BC7D64F18860ECA008F2289 /* NoStatusActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7D64E18860ECA008F2289 /* NoStatusActivityViewController.m */; };
 		8BCA006F18457F9B00600947 /* SingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BCA006E18457F9B00600947 /* SingleViewController.m */; };
@@ -99,6 +99,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8B039ABD1911FAE6005F14B4 /* BookActivityItemSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookActivityItemSource.h; sourceTree = "<group>"; };
+		8B039ABE1911FAE6005F14B4 /* BookActivityItemSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookActivityItemSource.m; sourceTree = "<group>"; };
 		8B088FC017C867440043341D /* UIView+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Helpers.h"; sourceTree = "<group>"; };
 		8B088FC117C867440043341D /* UIView+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Helpers.m"; sourceTree = "<group>"; };
 		8B14431A17F10E560000A898 /* SearchOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchOperation.h; sourceTree = "<group>"; };
@@ -214,8 +216,6 @@
 		8BC674C617B9E1D8001E71B1 /* SongTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongTitleView.m; sourceTree = "<group>"; };
 		8BC674C817BC912C001E71B1 /* NSMutableAttributedString+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+Helpers.h"; sourceTree = "<group>"; };
 		8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableAttributedString+Helpers.m"; sourceTree = "<group>"; };
-		8BC7D643187E62AA008F2289 /* BookProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookProvider.h; sourceTree = "<group>"; };
-		8BC7D644187E62AA008F2289 /* BookProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookProvider.m; sourceTree = "<group>"; };
 		8BC7D646188344DD008F2289 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
 		8BC7D647188344DD008F2289 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
 		8BC7D64D18860ECA008F2289 /* NoStatusActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoStatusActivityViewController.h; sourceTree = "<group>"; };
@@ -412,8 +412,8 @@
 				8B191A9B180A4E290071DF4D /* SplitViewController.m */,
 				8BCA006D18457F9B00600947 /* SingleViewController.h */,
 				8BCA006E18457F9B00600947 /* SingleViewController.m */,
-				8BC7D643187E62AA008F2289 /* BookProvider.h */,
-				8BC7D644187E62AA008F2289 /* BookProvider.m */,
+				8B039ABD1911FAE6005F14B4 /* BookActivityItemSource.h */,
+				8B039ABE1911FAE6005F14B4 /* BookActivityItemSource.m */,
 				8BB18AD617A5DAD2006E257C /* Data Model */,
 				8BA305EE17A0BCF200A2ABDE /* Supporting Files */,
 			);
@@ -717,6 +717,7 @@
 				8BB0F586189CBC32004D6377 /* SimpleSearcher.m in Sources */,
 				8B42030D17E7CAED00019A80 /* TokenInstance.m in Sources */,
 				8BA305FB17A0BCF200A2ABDE /* songbook.xcdatamodeld in Sources */,
+				8B039ABF1911FAE6005F14B4 /* BookActivityItemSource.m in Sources */,
 				8BD5141F18B1B638002DC6B1 /* SuperScrollIndicator.m in Sources */,
 				8B14432617F142190000A898 /* SearchTableModel.m in Sources */,
 				8BB0F588189CBC49004D6377 /* SearchOperation.m in Sources */,
@@ -726,7 +727,6 @@
 				8BA305F417A0BCF200A2ABDE /* main.m in Sources */,
 				8B191A051809CEB50071DF4D /* SafeTextView.m in Sources */,
 				8BAF35FD181F285400D6A93E /* ZipArchive.mm in Sources */,
-				8BC7D645187E62AA008F2289 /* BookProvider.m in Sources */,
 				8B088FC217C867440043341D /* UIView+Helpers.m in Sources */,
 				8B810A5517D9519A00F339CE /* Token+Helpers.m in Sources */,
 				8BB0F58E189CBCE4004D6377 /* SectionPageController.m in Sources */,

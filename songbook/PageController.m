@@ -8,7 +8,7 @@
 
 #import "PageController.h"
 #import "BookCodec.h"
-#import "BookProvider.h"
+#import "BookActivityItemSource.h"
 
 NSString * const kStandardTextSizeKey = @"StandardTextSize";
 
@@ -136,7 +136,10 @@ const float kMinimumStandardTextSize = 8;
 
 - (void)shareBookWithExtraFiles:(BOOL)includeExtraFiles
 {
-    NSArray *activityItems = @[[[BookProvider alloc] initWithCoreDataStack:self.coreDataStack includeExtraFiles:includeExtraFiles]];
+    NSURL *bookDirectory = self.coreDataStack.databaseDirectory;
+    NSURL *exportFileURL = [BookCodec exportBookFromDirectory:bookDirectory includeExtraFiles:includeExtraFiles];
+    
+    NSArray *activityItems = @[[[BookActivityItemSource alloc] initWithBookFileURL:exportFileURL]];
     UIActivityViewController *activityViewController = [[NoStatusActivityViewController alloc] initWithActivityItems:activityItems
                                                                                                applicationActivities:nil];
     activityViewController.excludedActivityTypes = @[UIActivityTypeMessage];
