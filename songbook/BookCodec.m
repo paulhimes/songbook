@@ -51,16 +51,30 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
 
 @implementation BookCodec
 
-+ (NSURL *)exportBookFromDirectory:(NSURL *)directory includeExtraFiles:(BOOL)includeExtraFiles
+#pragma mark - Exporting
+
++ (NSURL *)exportBookFromDirectory:(NSURL *)directory includeExtraFiles:(BOOL)includeExtraFiles progress:(void (^)(CGFloat progress, BOOL *stop))progress;
 {
+    // Protect against a nil block.
+    if (!progress) {
+        progress = ^(CGFloat progress, BOOL *stop){};
+    }
+    
+    __block BOOL shouldStop = NO;
+    
+    progress(0, &shouldStop);
+    
     CoreDataStack *coreDataStack = [BookCodec coreDataStackFromBookDirectory:directory
-                                                             concurrencyType:NSPrivateQueueConcurrencyType];
+                                                             concurrencyType:NSMainQueueConcurrencyType];
     
     NSURL *exportURL = [BookCodec fileURLForExportingFromContext:coreDataStack.managedObjectContext];
     
     // Delete the export file if it exists.
     NSFileManager *fileManager = [NSFileManager defaultManager];
     [fileManager removeItemAtURL:exportURL error:nil];
+    
+    // Get all the file paths and new names for the zip archive.
+    NSDictionary *filePathsAndNames = [BookCodec dictionaryOfExportFilePathsWithNamesFromDirectory:directory includeExtraFiles:includeExtraFiles];
     
     ZipArchive *zipArchive = [[ZipArchive alloc] init];
     BOOL createResult = [zipArchive createZipFile:exportURL.path];
@@ -69,6 +83,41 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
         return nil;
     }
 
+    if (!shouldStop) {
+        NSUInteger totalFileCount = [filePathsAndNames count];
+        __block  NSUInteger currentFileIndex = 1;
+        [filePathsAndNames enumerateKeysAndObjectsUsingBlock:^(NSString *path, NSString *name, BOOL *stop) {
+            
+            BOOL addResult = [zipArchive addFileToZip:path newname:name];
+            if (zipArchive && !addResult) {
+                NSLog(@"Add file to zip file failed: %@", path);
+            }
+            
+            progress((CGFloat)currentFileIndex / (CGFloat)totalFileCount, stop);
+            shouldStop = *stop;
+            
+            currentFileIndex++;
+        }];
+    }
+
+    BOOL closeResult = [zipArchive closeZipFile];
+    if (!closeResult) {
+        NSLog(@"Close zip file failed");
+        return nil;
+    }
+        
+    if (shouldStop) {
+        // Delete the failed export file.
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        [fileManager removeItemAtURL:exportURL error:nil];
+    }
+    
+    return exportURL;
+}
+
++ (NSDictionary *)dictionaryOfExportFilePathsWithNamesFromDirectory:(NSURL *)directory includeExtraFiles:(BOOL)includeExtraFiles
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     NSDirectoryEnumerator *directoryEnumerator = [fileManager enumeratorAtURL:directory
                                                    includingPropertiesForKeys:@[NSURLIsDirectoryKey]
                                                                       options:0
@@ -78,7 +127,9 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
                                                                  }];
     
     NSString *basePath = directory.path;
-
+    
+    NSMutableDictionary *dictionary = [@{} mutableCopy];
+    
     for (NSURL *url in directoryEnumerator) {
         // Skip directories. They will be automatically added if they contain any files.
         NSNumber *isDirectory;
@@ -98,48 +149,41 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
         if (!includeExtraFiles && ![newFilePath isEqualToString:kBookFileName]) {
             continue;
         }
-
+        
         // Only process files unrelated to the core data database.
         if ([newFilePath rangeOfString:kBookDatabaseFileName].location != NSNotFound) {
             continue;
         }
         
         // Add the file to the zip
-        BOOL addResult = [zipArchive addFileToZip:url.path newname:newFilePath];
-        if (!addResult) {
-            NSLog(@"Add file to zip file failed: %@", url);
-            return nil;
-        }
-    }
-
-    BOOL closeResult = [zipArchive closeZipFile];
-    if (!closeResult) {
-        NSLog(@"Close zip file failed");
-        return nil;
+        dictionary[url.path] = newFilePath;
     }
     
-    return exportURL;
+    return [dictionary copy];
 }
 
 + (NSURL *)fileURLForExportingFromContext:(NSManagedObjectContext *)context
 {
-    Book *book = [Book bookFromContext:context];
-    if (!book) {
-        return nil;
-    }
-    
-    NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>"];
-    NSString *safeFileName = [[book.title componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
-    
-    // Protect against an empty title.
-    if ([safeFileName length] == 0) {
-        safeFileName = @"songbook";
-    }
-    
-    NSString *fullFileName = [NSString stringWithFormat:@"%@.songbook", safeFileName];
-    
-    // Create the path to the temporary file.
-    NSURL *fileURLForExporting = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:fullFileName]];
+    __block NSURL *fileURLForExporting;
+    [context performBlockAndWait:^{
+        Book *book = [Book bookFromContext:context];
+        if (!book) {
+            return;
+        }
+        
+        NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>"];
+        NSString *safeFileName = [[book.title componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
+        
+        // Protect against an empty title.
+        if ([safeFileName length] == 0) {
+            safeFileName = @"songbook";
+        }
+        
+        NSString *fullFileName = [NSString stringWithFormat:@"%@.songbook", safeFileName];
+        
+        // Create the path to the temporary file.
+        fileURLForExporting = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:fullFileName]];
+    }];
     
     return fileURLForExporting;
 }
@@ -238,6 +282,8 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
     return bookDictionary;
 }
 
+#pragma mark - Importing
+
 + (void)importBookFromURL:(NSURL *)file intoDirectory:(NSURL *)directory
 {
     // Unzip the file.
@@ -265,13 +311,6 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
             }
         }
     }];
-}
-
-+ (CoreDataStack *)coreDataStackFromBookDirectory:(NSURL *)directory concurrencyType:(NSManagedObjectContextConcurrencyType)concurrencyType
-{
-    // Create the database stack.
-    NSURL *databaseFile = [directory URLByAppendingPathComponent:kBookDatabaseFileName];
-    return [[CoreDataStack alloc] initWithFileURL:databaseFile concurrencyType:concurrencyType];
 }
 
 + (void)unzipFile:(NSURL *)file intoDirectory:(NSURL *)directory
@@ -446,6 +485,15 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
     }
     
     return book;
+}
+
+#pragma mark - Helper Methods
+
++ (CoreDataStack *)coreDataStackFromBookDirectory:(NSURL *)directory concurrencyType:(NSManagedObjectContextConcurrencyType)concurrencyType
+{
+    // Create the database stack.
+    NSURL *databaseFile = [directory URLByAppendingPathComponent:kBookDatabaseFileName];
+    return [[CoreDataStack alloc] initWithFileURL:databaseFile concurrencyType:concurrencyType];
 }
 
 @end

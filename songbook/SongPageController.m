@@ -827,7 +827,7 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     
     [mailController setMessageBody:[self buildProblemReportString] isHTML:YES];
     
-    NSURL *fileURL = [BookCodec exportBookFromDirectory:self.coreDataStack.databaseDirectory includeExtraFiles:NO];
+    NSURL *fileURL = [BookCodec exportBookFromDirectory:self.coreDataStack.databaseDirectory includeExtraFiles:NO progress:nil];
     NSData *exportData = [NSData dataWithContentsOfURL:fileURL];
     NSError *deleteError;
     if (![[NSFileManager defaultManager] removeItemAtURL:fileURL error:&deleteError]) {

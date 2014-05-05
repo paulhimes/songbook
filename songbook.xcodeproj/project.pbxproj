@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8B039ABF1911FAE6005F14B4 /* BookActivityItemSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B039ABE1911FAE6005F14B4 /* BookActivityItemSource.m */; };
+		8B039AC219146590005F14B4 /* ExportProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B039AC119146590005F14B4 /* ExportProgressViewController.m */; };
 		8B088FC217C867440043341D /* UIView+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B088FC117C867440043341D /* UIView+Helpers.m */; };
 		8B14431917EFDAB60000A898 /* Token.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42031217E7CAEE00019A80 /* Token.m */; };
 		8B14432217F141770000A898 /* SearchSectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B14432117F141770000A898 /* SearchSectionModel.m */; };
@@ -101,6 +102,8 @@
 /* Begin PBXFileReference section */
 		8B039ABD1911FAE6005F14B4 /* BookActivityItemSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookActivityItemSource.h; sourceTree = "<group>"; };
 		8B039ABE1911FAE6005F14B4 /* BookActivityItemSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookActivityItemSource.m; sourceTree = "<group>"; };
+		8B039AC019146590005F14B4 /* ExportProgressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExportProgressViewController.h; sourceTree = "<group>"; };
+		8B039AC119146590005F14B4 /* ExportProgressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExportProgressViewController.m; sourceTree = "<group>"; };
 		8B088FC017C867440043341D /* UIView+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Helpers.h"; sourceTree = "<group>"; };
 		8B088FC117C867440043341D /* UIView+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Helpers.m"; sourceTree = "<group>"; };
 		8B14431A17F10E560000A898 /* SearchOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchOperation.h; sourceTree = "<group>"; };
@@ -414,6 +417,8 @@
 				8BCA006E18457F9B00600947 /* SingleViewController.m */,
 				8B039ABD1911FAE6005F14B4 /* BookActivityItemSource.h */,
 				8B039ABE1911FAE6005F14B4 /* BookActivityItemSource.m */,
+				8B039AC019146590005F14B4 /* ExportProgressViewController.h */,
+				8B039AC119146590005F14B4 /* ExportProgressViewController.m */,
 				8BB18AD617A5DAD2006E257C /* Data Model */,
 				8BA305EE17A0BCF200A2ABDE /* Supporting Files */,
 			);
@@ -712,6 +717,7 @@
 				8BD5141618A7FB3C002DC6B1 /* SearchContextCellModel.m in Sources */,
 				8BB0F590189CBD06004D6377 /* SongPageController.m in Sources */,
 				8BB0F592189CBD1E004D6377 /* BookManagerViewController.m in Sources */,
+				8B039AC219146590005F14B4 /* ExportProgressViewController.m in Sources */,
 				8BA5E1D017DB702600858741 /* UITableView+Helpers.m in Sources */,
 				8BED9F1017C9418400D834BE /* GradientView.m in Sources */,
 				8BB0F586189CBC32004D6377 /* SimpleSearcher.m in Sources */,

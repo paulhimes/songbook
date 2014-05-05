@@ -394,6 +394,70 @@
             </objects>
             <point key="canvasLocation" x="-2375" y="-920"/>
         </scene>
+        <!--Export Progress View Controller-->
+        <scene sceneID="sPm-QT-Kdb">
+            <objects>
+                <viewController storyboardIdentifier="ExportProgressViewController" id="Ar5-W9-01W" customClass="ExportProgressViewController" sceneMemberID="viewController">
+                    <view key="view" opaque="NO" contentMode="scaleToFill" id="UtV-O1-eUe">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <view alpha="0.0" contentMode="scaleToFill" id="q2C-nd-DHi" userLabel="Background View">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                            <view opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" id="NyE-SF-PUR" userLabel="Dialog">
+                                <rect key="frame" x="244" y="461" width="280" height="103"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="NCK-oe-2yq" userLabel="Dialog Background">
+                                        <rect key="frame" x="0.0" y="0.0" width="280" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                        <items/>
+                                        <connections>
+                                            <outlet property="delegate" destination="Ar5-W9-01W" id="dgF-RT-PGa"/>
+                                        </connections>
+                                    </toolbar>
+                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" id="INC-mL-9aJ">
+                                        <rect key="frame" x="20" y="55" width="240" height="2"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    </progressView>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Exporting Book" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3Rf-mW-IRo">
+                                        <rect key="frame" x="0.0" y="0.0" width="280" height="57"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5WA-4H-o34">
+                                        <rect key="frame" x="0.0" y="61" width="280" height="42"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                        <state key="normal" title="Cancel">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="exportCancelled:" destination="Ar5-W9-01W" eventType="touchUpInside" id="eor-uU-Dng"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="backgroundView" destination="q2C-nd-DHi" id="w9t-qH-2g7"/>
+                        <outlet property="dialogBackground" destination="NCK-oe-2yq" id="J9R-E8-25A"/>
+                        <outlet property="dialogView" destination="NyE-SF-PUR" id="mgZ-ml-jhU"/>
+                        <outlet property="label" destination="3Rf-mW-IRo" id="H1y-9D-QLN"/>
+                        <outlet property="progressView" destination="INC-mL-9aJ" id="HnW-6i-zzB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tnd-TK-Dfb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="611" y="-920"/>
+        </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="lightContent"/>
