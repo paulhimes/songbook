@@ -59,6 +59,14 @@
 	return [self createZipFile:zipFile];
 }
 
+-(BOOL) openZipFile:(NSString*) zipFile
+{
+    _zipFile = zipOpen( (const char*)[zipFile UTF8String], 1 );
+    if( !_zipFile )
+        return NO;
+    return YES;
+}
+
 -(BOOL) addFileToZip:(NSString*) file newname:(NSString*) newname;
 {
 	if( !_zipFile )

@@ -458,19 +458,6 @@
             </objects>
             <point key="canvasLocation" x="-297" y="1551"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="DsC-dw-WJg">
-            <objects>
-                <viewController id="zRG-oa-k3V" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="mou-iu-MeQ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1Ow-uw-pml" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-        </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

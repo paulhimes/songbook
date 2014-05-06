@@ -123,6 +123,15 @@
 
 -(BOOL) createZipFile:(NSString*) zipFile password:(NSString*) password;
 
+/** Open an existing zip file. Use this to add more files to an existing zip file.
+ *
+ * @param zipFile Path of file to open
+ *
+ * @return Returns `YES` if successful. `NO` if failure.
+ */
+
+-(BOOL) openZipFile:(NSString*) zipFile;
+
 /** Add file to zip file
  *
  * @param file Path of file to create
