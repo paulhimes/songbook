@@ -10,6 +10,7 @@
 #import "BookCodec.h"
 #import "BookActivityItemSource.h"
 #import "ExportProgressViewController.h"
+#import "TTOpenInAppActivity.h"
 
 NSString * const kStandardTextSizeKey = @"StandardTextSize";
 
@@ -199,9 +200,11 @@ const float kMinimumStandardTextSize = 8;
 - (void)shareExportedBookFile:(NSURL *)exportedFileURL
 {
     if ([[NSFileManager defaultManager] fileExistsAtPath:exportedFileURL.path]) {
+        
         NSArray *activityItems = @[[[BookActivityItemSource alloc] initWithBookFileURL:exportedFileURL]];
+        TTOpenInAppActivity *openInAppActivity = [[TTOpenInAppActivity alloc] initWithView:self.view andBarButtonItem:self.activityButton];
         UIActivityViewController *activityViewController = [[NoStatusActivityViewController alloc] initWithActivityItems:activityItems
-                                                                                                   applicationActivities:nil];
+                                                                                                   applicationActivities:@[openInAppActivity]];
         activityViewController.excludedActivityTypes = @[UIActivityTypeMessage];
         activityViewController.completionHandler = ^(NSString *activityType, BOOL completed) {
             // Delete the temporary file.
@@ -215,12 +218,18 @@ const float kMinimumStandardTextSize = 8;
         };
         
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            // Store reference to superview (UIActionSheet) to allow dismissal
+            openInAppActivity.superViewController = activityViewController;
             //iPhone, present activity view controller as is
             [self presentViewController:activityViewController animated:YES completion:nil];
         } else {
             //iPad, present the view controller inside a popover
             if (![self.activityPopover isPopoverVisible]) {
                 self.activityPopover = [[UIPopoverController alloc] initWithContentViewController:activityViewController];
+                
+                // Store reference to superview (UIPopoverController) to allow dismissal
+                openInAppActivity.superViewController = self.activityPopover;
+                
                 [self.activityPopover presentPopoverFromBarButtonItem:self.activityButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
             } else {
                 //Dismiss if the button is tapped while pop over is visible

@@ -72,7 +72,9 @@
 	<array>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<array/>
+			<array>
+				<string>public.data</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>Songbook File</string>
 			<key>UTTypeIdentifier</key>
