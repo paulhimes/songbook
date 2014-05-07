@@ -63,6 +63,7 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
     [self.view insertSubview:gradientView atIndex:0];
     
     self.busyMessageLabel.textColor = [Theme paperColor];
+    self.busySpinner.color = [Theme paperColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated
