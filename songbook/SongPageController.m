@@ -230,6 +230,9 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
                                       NSStrokeWidthAttributeName:@(-2)}
                               range:self.highlightRange];
     
+    // Add blank lines to the end of the string to make the end of the song stand out.
+    [attributedString appendString:@"\n\n\n\n" attributes:normalAttributes];
+    
     return [attributedString copy];
 }
 
