@@ -89,7 +89,7 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
         [filePathsAndNames enumerateKeysAndObjectsUsingBlock:^(NSString *path, NSString *name, BOOL *stop) {
             
             BOOL addResult = [zipArchive addFileToZip:path newname:name];
-            if (zipArchive && !addResult) {
+            if (!addResult) {
                 NSLog(@"Add file to zip file failed: %@", path);
             }
             
@@ -126,7 +126,7 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
                                                                      return YES;
                                                                  }];
     
-    NSString *basePath = directory.path;
+    NSString *basePath = [directory.path stringByAppendingString:@"/"];
     
     NSMutableDictionary *dictionary = [@{} mutableCopy];
     
