@@ -159,52 +159,58 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
 
 - (void)loadBookFromFileURL:(NSURL *)fileURL andWarnAboutReplacement:(BOOL)warnAboutReplacement
 {
-    // Import the book into a directory.
-    [BookCodec importBookFromURL:fileURL intoDirectory:[self temporaryBookDirectory]];
-    
-    // Hide busy message.
-    self.busyMessageLabel.hidden = YES;
-    self.busySpinner.hidden = YES;
-    
-    // Delete the import file. It is no longer needed.
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSError *deleteError;
-    if (![fileManager removeItemAtURL:fileURL error:&deleteError]) {
-        NSLog(@"Failed to delete the import file: %@", deleteError);
-    }
-    
-    // Get a core data stack connected to the database in the book directory.
-    CoreDataStack *temporaryBookStack = [BookCodec coreDataStackFromBookDirectory:[self temporaryBookDirectory]
-                                                                  concurrencyType:NSPrivateQueueConcurrencyType];
-    
-    Book *replacementBook = [Book bookFromContext:temporaryBookStack.managedObjectContext];
-    if (replacementBook) {
-        // A book was found in the file.
-        if (warnAboutReplacement) {
-            // Build a custom message based on whether or not the new book has a title.
-            NSString *message = @"This app can only hold one songbook at a time. Would you like to replace your current book?";
-            if ([replacementBook.title length] > 0) {
-                NSString *versionString = @"";
-                if (replacementBook.version) {
-                    versionString = [NSString stringWithFormat:@" (v%@)", replacementBook.version];
-                }
-                message = [NSString stringWithFormat:@"This app can only hold one songbook at a time. Would you like to replace your current book with %@%@?", replacementBook.title, versionString];
+    __weak BookManagerViewController *welf = self;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+
+        // Import the book into a directory.
+        [BookCodec importBookFromURL:fileURL intoDirectory:[welf temporaryBookDirectory]];
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            // Hide busy message.
+            welf.busyMessageLabel.hidden = YES;
+            welf.busySpinner.hidden = YES;
+            
+            // Delete the import file. It is no longer needed.
+            NSFileManager *fileManager = [NSFileManager defaultManager];
+            NSError *deleteError;
+            if (![fileManager removeItemAtURL:fileURL error:&deleteError]) {
+                NSLog(@"Failed to delete the import file: %@", deleteError);
             }
             
-            // Ask people here if they would like to replace their current book with this new book.
-            UIAlertView *replaceAlertView = [[UIAlertView alloc] initWithTitle:@"Replace Book?"
-                                                                       message:message
-                                                                      delegate:self
-                                                             cancelButtonTitle:@"Cancel"
-                                                             otherButtonTitles:@"Replace", nil];
-            [replaceAlertView show];
-        } else {
-            [self finalizeTemporaryBookAndOpen];
-        }
-        
-    } else {
-        [self alertFailure];
-    }
+            // Get a core data stack connected to the database in the book directory.
+            CoreDataStack *temporaryBookStack = [BookCodec coreDataStackFromBookDirectory:[welf temporaryBookDirectory]
+                                                                          concurrencyType:NSMainQueueConcurrencyType];
+            
+            Book *replacementBook = [Book bookFromContext:temporaryBookStack.managedObjectContext];
+            if (replacementBook) {
+                // A book was found in the file.
+                if (warnAboutReplacement) {
+                    // Build a custom message based on whether or not the new book has a title.
+                    NSString *message = @"This app can only hold one songbook at a time. Would you like to replace your current book?";
+                    if ([replacementBook.title length] > 0) {
+                        NSString *versionString = @"";
+                        if (replacementBook.version) {
+                            versionString = [NSString stringWithFormat:@" (v%@)", replacementBook.version];
+                        }
+                        message = [NSString stringWithFormat:@"This app can only hold one songbook at a time. Would you like to replace your current book with %@%@?", replacementBook.title, versionString];
+                    }
+                    
+                    // Ask people here if they would like to replace their current book with this new book.
+                    UIAlertView *replaceAlertView = [[UIAlertView alloc] initWithTitle:@"Replace Book?"
+                                                                               message:message
+                                                                              delegate:welf
+                                                                     cancelButtonTitle:@"Cancel"
+                                                                     otherButtonTitles:@"Replace", nil];
+                    [replaceAlertView show];
+                } else {
+                    [welf finalizeTemporaryBookAndOpen];
+                }
+                
+            } else {
+                [welf alertFailure];
+            }
+        });
+    });
 }
 
 - (void)alertFailure
