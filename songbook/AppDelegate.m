@@ -36,8 +36,21 @@
 - (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder
 {
     // Only restore state if the device type hasn't changed.
-    NSNumber *idiom = [coder decodeObjectForKey:UIApplicationStateRestorationUserInterfaceIdiomKey];
-    return [idiom integerValue] == [[UIDevice currentDevice] userInterfaceIdiom];
+    NSNumber *savedIdiom = [coder decodeObjectForKey:UIApplicationStateRestorationUserInterfaceIdiomKey];
+    UIUserInterfaceIdiom idiom = [[UIDevice currentDevice] userInterfaceIdiom];
+    BOOL equalIdioms = [savedIdiom integerValue] == idiom;
+    
+    // Only restore state if the app version hasn't changed.
+    NSString *savedAppVersion = [coder decodeObjectForKey:UIApplicationStateRestorationBundleVersionKey];
+    NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString *)kCFBundleVersionKey];
+    BOOL equalAppVersions = [savedAppVersion isEqualToString:appVersion];
+    
+    // Only restore state if the system version hasn't changed.
+    NSString *savedSystemVersion = [coder decodeObjectForKey:UIApplicationStateRestorationSystemVersionKey];
+    NSString *systemVersion = [UIDevice currentDevice].systemVersion;
+    BOOL equalSystemVersions = [savedSystemVersion isEqualToString:systemVersion];
+    
+    return equalIdioms && equalAppVersions && equalSystemVersions;
 }
 
 - (void)application:(UIApplication *)application didDecodeRestorableStateWithCoder:(NSCoder *)coder
