@@ -14,6 +14,9 @@
 #import "GradientView.h"
 #import "Book+Helpers.h"
 
+#import "SingleViewController.h"
+#import "SplitViewController.h"
+
 static NSString * const kTemporaryDatabaseDirectoryName = @"temporaryBook";
 static NSString * const kMainDatabaseDirectoryName = @"mainBook";
 static NSString * const kMainBookStackKey = @"mainBookStack";
@@ -86,6 +89,14 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
     if ([segue.identifier isEqualToString:@"OpenBook"]) {
         if ([segue.destinationViewController respondsToSelector:@selector(setCoreDataStack:)]) {
             [segue.destinationViewController setCoreDataStack:self.mainBookStack];
+        }
+        
+        if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad &&
+            [segue.destinationViewController isKindOfClass:[SingleViewController class]]) {
+            NSLog(@"Storyboard Error: Opening book with SingleViewController on iPad!");
+        } else if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone &&
+                   [segue.destinationViewController isKindOfClass:[SplitViewController class]]) {
+            NSLog(@"Storyboard Error: Opening book with SplitViewController on iPhone!");
         }
     }
 }
