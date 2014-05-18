@@ -88,7 +88,7 @@ static NSString * const kConcurrencyTypeKey = @"ConcurrencyTypeKey";
                 abort();
             }
         } else {
-            NSLog(@"Failed to create the directories for %@", self.fileURL);
+            NSLog(@"Failed to create the directories for %@: %@", self.fileURL, createDirectoryError);
         }
     }
     
