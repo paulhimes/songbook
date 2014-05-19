@@ -68,7 +68,8 @@
 {
     if ([url isFileURL]) {
         // Give the import file url to the book manager.
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Songbook" bundle:nil];
+        NSString *storyboardName = [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad ? @"Songbook~iPad" : @"Songbook";
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:nil];
         BookManagerViewController *bookManagerViewController = [storyboard instantiateInitialViewController];
         bookManagerViewController.importFileURL = url;
         self.window.rootViewController = bookManagerViewController;
