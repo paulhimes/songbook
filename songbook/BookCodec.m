@@ -179,7 +179,12 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
             safeFileName = @"songbook";
         }
         
-        NSString *fullFileName = [NSString stringWithFormat:@"%@.songbook", safeFileName];
+        NSString *versionString = @"";
+        if (book.version) {
+            versionString = [NSString stringWithFormat:@" (v%@)", book.version];
+        }
+        
+        NSString *fullFileName = [NSString stringWithFormat:@"%@%@.songbook", safeFileName, versionString];
         
         // Create the path to the temporary file.
         fileURLForExporting = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:fullFileName]];
