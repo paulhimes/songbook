@@ -113,7 +113,19 @@ static NSString * const kConcurrencyTypeKey = @"ConcurrencyTypeKey";
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
     if (self.fileURL) {
-        [coder encodeObject:self.fileURL forKey:kFileURLKey];
+        // Strip the application directory from the file URL to convert it to a relative URL.
+        NSString *applicationDirectoryPath = NSHomeDirectory();
+        NSString *absoluteDatabaseFilePath = [self.fileURL path];
+        NSRange substringRange = [absoluteDatabaseFilePath rangeOfString:applicationDirectoryPath];
+        NSString *relativeDatabaseFilePath;
+        if (substringRange.location != NSNotFound &&
+            NSMaxRange(substringRange) <= [absoluteDatabaseFilePath length]) {
+            relativeDatabaseFilePath = [absoluteDatabaseFilePath substringFromIndex:NSMaxRange(substringRange)];
+        }
+        
+        if ([relativeDatabaseFilePath length]) {
+            [coder encodeObject:relativeDatabaseFilePath forKey:kFileURLKey];
+        }
     }
     
     [coder encodeObject:@(self.concurrencyType) forKey:kConcurrencyTypeKey];
@@ -123,15 +135,24 @@ static NSString * const kConcurrencyTypeKey = @"ConcurrencyTypeKey";
 
 + (id<UIStateRestoring>)objectWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
 {
-    CoreDataStack *coreDataStack;
-    NSURL *fileURL = [coder decodeObjectForKey:kFileURLKey];
+    // Decode the fileURL.
+    NSURL *fileURL;
+    NSString *relativeDatabaseFilePath = [coder decodeObjectForKey:kFileURLKey];
+    if ([relativeDatabaseFilePath length]) {
+        // Convert the relative file path to an absolute path and create an NSURL.
+        NSString *applicationDirectoryPath = NSHomeDirectory();
+        NSString *absoluteDatabaseFilePath = [applicationDirectoryPath stringByAppendingPathComponent:relativeDatabaseFilePath];
+        fileURL = [NSURL fileURLWithPath:absoluteDatabaseFilePath];
+    }
+    
+    // Decode the concurrencyType.
     NSNumber *concurrencyType = [coder decodeObjectForKey:kConcurrencyTypeKey];
     
+    CoreDataStack *coreDataStack;
     if (fileURL && concurrencyType) {
         coreDataStack = [[CoreDataStack alloc] initWithFileURL:fileURL concurrencyType:[concurrencyType unsignedIntegerValue]];
         [UIApplication registerObjectForStateRestoration:coreDataStack restorationIdentifier:[identifierComponents lastObject]];
     }
-    
     return coreDataStack;
 }
 

@@ -53,6 +53,11 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
     }
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
+
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
     [super encodeRestorableStateWithCoder:coder];
@@ -78,10 +83,25 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
 {
     [super decodeRestorableStateWithCoder:coder];
     
+    // Decode the core data stack.
     self.coreDataStack = [coder decodeObjectForKey:kCoreDataStackKey];
+    
+    // Decode the delegate.
     self.pageViewControllerDelegate = [coder decodeObjectForKey:kDelegateKey];
     
+    // Decode the visible view controller.
     UIViewController *viewController = [coder decodeObjectForKey:kViewControllerKey];
+    
+    // Create a new view controller if we failed to decode one.
+    if (!viewController) {
+        Book *book = [Book bookFromContext:self.coreDataStack.managedObjectContext];
+        // If there is a model to display...
+        if (book) {
+            viewController = [self.pageServer pageControllerForModelObject:book pageViewController:self];
+        }
+    }
+    
+    // Show the restored or created view controller.
     if (viewController) {
         [self setViewControllers:@[viewController]
                        direction:UIPageViewControllerNavigationDirectionForward

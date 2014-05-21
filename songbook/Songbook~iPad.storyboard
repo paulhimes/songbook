@@ -392,6 +392,8 @@
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="busyMessageLabel" destination="SwS-cm-Ddm" id="WeW-zd-iWT"/>
+                        <outlet property="busySpinner" destination="Nwj-7C-miB" id="PG3-Xg-yl0"/>
                         <segue destination="jrp-vl-Nww" kind="modal" identifier="OpenBook" animates="NO" id="2eP-Qa-BaT"/>
                     </connections>
                 </viewController>
