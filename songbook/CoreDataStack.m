@@ -138,7 +138,8 @@ static NSString * const kConcurrencyTypeKey = @"ConcurrencyTypeKey";
     // Decode the fileURL.
     NSURL *fileURL;
     NSString *relativeDatabaseFilePath = [coder decodeObjectForKey:kFileURLKey];
-    if ([relativeDatabaseFilePath length]) {
+    if ([relativeDatabaseFilePath isKindOfClass:[NSString class]] &&
+        [relativeDatabaseFilePath length]) {
         // Convert the relative file path to an absolute path and create an NSURL.
         NSString *applicationDirectoryPath = NSHomeDirectory();
         NSString *absoluteDatabaseFilePath = [applicationDirectoryPath stringByAppendingPathComponent:relativeDatabaseFilePath];
