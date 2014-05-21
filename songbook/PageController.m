@@ -31,6 +31,7 @@ const float kMinimumStandardTextSize = 8;
 @property (nonatomic, strong) UIWindow *alertWindow;
 @property (nonatomic, strong) ExportProgressViewController *exportProgressViewController;
 @property (nonatomic) BOOL exportCancelled;
+@property (nonatomic, strong) NSNumber *previousExportIncludedExtraFiles;
 
 @end
 
@@ -143,57 +144,67 @@ const float kMinimumStandardTextSize = 8;
 
 - (void)shareBookWithExtraFiles:(BOOL)includeExtraFiles
 {
-    // Determine the source directory for the book files.
-    NSURL *bookDirectory = self.coreDataStack.databaseDirectory;
+    __block NSURL *exportedFileURL = [BookCodec fileURLForExportingFromContext:self.coreDataStack.managedObjectContext];
     
-    if (includeExtraFiles) {
-        // Create the alert window and view controller.
-        self.alertWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-        self.alertWindow.opaque = NO;
-        self.alertWindow.tintColor = [Theme redColor];
-        self.exportProgressViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ExportProgressViewController"];
-        self.exportProgressViewController.delegate = self;
-        //Put window on top of all other windows/views
-        [self.alertWindow setWindowLevel:UIWindowLevelNormal];
-        [self.alertWindow setRootViewController:self.exportProgressViewController];
-        [self.alertWindow makeKeyAndVisible];
-        [self.exportProgressViewController showWithCompletion:nil];
-        self.view.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
-
-        self.exportCancelled = NO;
-        
-        // Export the book directory to a file, and share it when ready.
-        __block NSURL *exportedFileURL;
-        __weak PageController *welf = self;
-        __weak ExportProgressViewController *weakProgressViewController = self.exportProgressViewController;
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            exportedFileURL = [BookCodec exportBookFromDirectory:bookDirectory
-                                               includeExtraFiles:includeExtraFiles
-                                                        progress:^(CGFloat progress, BOOL *stop) {
-                                                            dispatch_sync(dispatch_get_main_queue(), ^{
-                                                                [weakProgressViewController setProgress:progress];
-                                                                
-                                                                *stop = welf.exportCancelled;
-                                                            });
-                                                        }];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                //Dismiss alert by making main window key and visible
-                [welf.exportProgressViewController hideWithCompletion:^{
-                    welf.view.tintAdjustmentMode = UIViewTintAdjustmentModeAutomatic;
-                    [welf.view.window makeKeyAndVisible];
-                    welf.alertWindow = nil;
-                    welf.exportProgressViewController = nil;
-                    
-                    // Share the completed book file.
-                    [welf shareExportedBookFile:exportedFileURL];
-                }];
-            });
-        });
-    } else {
-        NSURL *exportedFileURL = [BookCodec exportBookFromDirectory:bookDirectory
-                                                  includeExtraFiles:NO
-                                                           progress:nil];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[exportedFileURL path]] &&
+        self.previousExportIncludedExtraFiles &&
+        [self.previousExportIncludedExtraFiles boolValue] == includeExtraFiles) {
+        // Just share the existing file.
         [self shareExportedBookFile:exportedFileURL];
+    } else {
+        // Determine the source directory for the book files.
+        NSURL *bookDirectory = self.coreDataStack.databaseDirectory;
+        
+        if (includeExtraFiles) {
+            // Create the alert window and view controller.
+            self.alertWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+            self.alertWindow.opaque = NO;
+            self.alertWindow.tintColor = [Theme redColor];
+            self.exportProgressViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ExportProgressViewController"];
+            self.exportProgressViewController.delegate = self;
+            //Put window on top of all other windows/views
+            [self.alertWindow setWindowLevel:UIWindowLevelNormal];
+            [self.alertWindow setRootViewController:self.exportProgressViewController];
+            [self.alertWindow makeKeyAndVisible];
+            [self.exportProgressViewController showWithCompletion:nil];
+            self.view.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
+            
+            self.exportCancelled = NO;
+            
+            // Export the book directory to a file, and share it when ready.
+            __weak PageController *welf = self;
+            __weak ExportProgressViewController *weakProgressViewController = self.exportProgressViewController;
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                exportedFileURL = [BookCodec exportBookFromDirectory:bookDirectory
+                                                   includeExtraFiles:includeExtraFiles
+                                                            progress:^(CGFloat progress, BOOL *stop) {
+                                                                dispatch_sync(dispatch_get_main_queue(), ^{
+                                                                    [weakProgressViewController setProgress:progress];
+                                                                    
+                                                                    *stop = welf.exportCancelled;
+                                                                });
+                                                            }];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    //Dismiss alert by making main window key and visible
+                    [welf.exportProgressViewController hideWithCompletion:^{
+                        welf.view.tintAdjustmentMode = UIViewTintAdjustmentModeAutomatic;
+                        [welf.view.window makeKeyAndVisible];
+                        welf.alertWindow = nil;
+                        welf.exportProgressViewController = nil;
+                        
+                        // Share the completed book file.
+                        welf.previousExportIncludedExtraFiles = @(includeExtraFiles);
+                        [welf shareExportedBookFile:exportedFileURL];
+                    }];
+                });
+            });
+        } else {
+            exportedFileURL = [BookCodec exportBookFromDirectory:bookDirectory
+                                               includeExtraFiles:NO
+                                                        progress:nil];
+            self.previousExportIncludedExtraFiles = @(includeExtraFiles);
+            [self shareExportedBookFile:exportedFileURL];
+        }
     }
 }
 
@@ -217,12 +228,14 @@ const float kMinimumStandardTextSize = 8;
         
         activityViewController.excludedActivityTypes = excludedActivityTypes;
         activityViewController.completionHandler = ^(NSString *activityType, BOOL completed) {
-            // Delete the temporary file.
-            NSURL *fileURL = [BookCodec fileURLForExportingFromContext:self.coreDataStack.managedObjectContext];
-            if (fileURL && [[NSFileManager defaultManager] fileExistsAtPath:fileURL.path]) {
-                NSError *deleteError;
-                if (![[NSFileManager defaultManager] removeItemAtURL:fileURL error:&deleteError]) {
-                    NSLog(@"Failed to delete temporary export file: %@", deleteError);
+            if (completed) {
+                // Delete the temporary file.
+                NSURL *fileURL = [BookCodec fileURLForExportingFromContext:self.coreDataStack.managedObjectContext];
+                if (fileURL && [[NSFileManager defaultManager] fileExistsAtPath:fileURL.path]) {
+                    NSError *deleteError;
+                    if (![[NSFileManager defaultManager] removeItemAtURL:fileURL error:&deleteError]) {
+                        NSLog(@"Failed to delete temporary export file: %@", deleteError);
+                    }
                 }
             }
         };

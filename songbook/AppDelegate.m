@@ -93,10 +93,31 @@
         }
     }
 }
+
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    [AppDelegate clearTemporaryDirectory];
+}
                     
 - (NSURL *)applicationDocumentsDirectory
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
++ (void)clearTemporaryDirectory
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSDirectoryEnumerator *directoryEnumerator = [fileManager enumeratorAtURL:[NSURL fileURLWithPath:NSTemporaryDirectory()]
+                                                   includingPropertiesForKeys:@[NSURLIsDirectoryKey]
+                                                                      options:0
+                                                                 errorHandler:^BOOL(NSURL *url, NSError *error) {
+                                                                     NSLog(@"Error enumerating url: %@", url);
+                                                                     return YES;
+                                                                 }];
+
+    for (NSURL *url in directoryEnumerator) {
+        [fileManager removeItemAtURL:url error:nil];
+    }
 }
 
 @end
