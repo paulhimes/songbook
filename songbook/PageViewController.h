@@ -27,5 +27,6 @@
 @protocol PageViewControllerDelegate <NSObject>
 
 - (void)search;
+- (void)closeBook;
 
 @end

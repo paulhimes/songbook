@@ -29,9 +29,11 @@
                     <connections>
                         <outlet property="pageViewControllerContainer" destination="h7t-x4-jkX" id="0N9-AL-4Ep"/>
                         <outlet property="searchViewControllerContainer" destination="EhB-BJ-hYL" id="y5H-Um-l4A"/>
+                        <segue destination="TfC-XK-uVT" kind="unwind" identifier="CloseBook" unwindAction="closeBook:" id="aDK-wV-mUS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="97R-C6-6gg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="TfC-XK-uVT" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-1389" y="-920"/>
         </scene>

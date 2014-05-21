@@ -107,6 +107,9 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
                        direction:UIPageViewControllerNavigationDirectionForward
                         animated:NO
                       completion:nil];
+    } else {
+        // There is no page to display. Close the book.
+        [self.pageViewControllerDelegate closeBook];
     }
 }
 

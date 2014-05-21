@@ -143,6 +143,10 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
     }
 }
 
+-(IBAction)closeBook:(UIStoryboardSegue *)segue
+{
+}
+
 - (void)loadBuiltInBook
 {
     // Create the main book directory if it doesn't already exist.

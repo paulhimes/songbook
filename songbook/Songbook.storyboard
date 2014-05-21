@@ -26,9 +26,11 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <segue destination="f4X-As-1jE" kind="modal" identifier="Search" id="gWg-ME-xV2"/>
+                        <segue destination="PRR-wm-QWt" kind="unwind" identifier="CloseBook" unwindAction="closeBook:" id="Vw1-J7-5xZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UE2-s0-nhb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="PRR-wm-QWt" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-1280" y="812"/>
         </scene>
