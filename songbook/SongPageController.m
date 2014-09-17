@@ -489,9 +489,6 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     
     if (offsetY + textViewHeight >= MAX(textViewContentHeight, textViewOldSchoolContentHeight)) {
         shouldShowScrollIndicator = NO;
-        [self.bottomBar setBackgroundImage:[[UIImage alloc] init] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
-    } else {
-        [self.bottomBar setBackgroundImage:nil forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     }
     
     self.textView.showsVerticalScrollIndicator = shouldShowScrollIndicator;
