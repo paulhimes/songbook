@@ -126,7 +126,9 @@ const float kMinimumStandardTextSize = 8;
 - (void)userDefaultsChanged:(NSNotification *)notification
 {
     if ([[notification name] isEqualToString:NSUserDefaultsDidChangeNotification]) {
-        [self textContentChanged];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self textContentChanged];
+        });
     }
 }
 
