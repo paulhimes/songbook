@@ -10,6 +10,7 @@
 		8B039ABF1911FAE6005F14B4 /* BookActivityItemSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B039ABE1911FAE6005F14B4 /* BookActivityItemSource.m */; };
 		8B039AC219146590005F14B4 /* ExportProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B039AC119146590005F14B4 /* ExportProgressViewController.m */; };
 		8B088FC217C867440043341D /* UIView+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B088FC117C867440043341D /* UIView+Helpers.m */; };
+		8B0F610219CE2E4600B04BC4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B0F610119CE2E4600B04BC4 /* LaunchScreen.xib */; };
 		8B14431917EFDAB60000A898 /* Token.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42031217E7CAEE00019A80 /* Token.m */; };
 		8B14432217F141770000A898 /* SearchSectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B14432117F141770000A898 /* SearchSectionModel.m */; };
 		8B14432617F142190000A898 /* SearchTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B14432517F142190000A898 /* SearchTableModel.m */; };
@@ -107,6 +108,7 @@
 		8B039AC119146590005F14B4 /* ExportProgressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExportProgressViewController.m; sourceTree = "<group>"; };
 		8B088FC017C867440043341D /* UIView+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Helpers.h"; sourceTree = "<group>"; };
 		8B088FC117C867440043341D /* UIView+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Helpers.m"; sourceTree = "<group>"; };
+		8B0F610119CE2E4600B04BC4 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		8B14431A17F10E560000A898 /* SearchOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchOperation.h; sourceTree = "<group>"; };
 		8B14431B17F10E560000A898 /* SearchOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchOperation.m; sourceTree = "<group>"; };
 		8B14431D17F140420000A898 /* SearchCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchCellModel.h; sourceTree = "<group>"; };
@@ -433,6 +435,7 @@
 		8BA305EE17A0BCF200A2ABDE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				8B0F610119CE2E4600B04BC4 /* LaunchScreen.xib */,
 				8BAF35EA181F285400D6A93E /* ZipArchive */,
 				8BB4CBE818959EA0009F0FA1 /* default.songbook */,
 				8BA305F617A0BCF200A2ABDE /* AppDelegate.h */,
@@ -666,6 +669,7 @@
 				8B983C0617FE636900D1A4C7 /* Songbook~iPad.storyboard in Resources */,
 				8BA305F217A0BCF200A2ABDE /* InfoPlist.strings in Resources */,
 				8BA3061B17A0BDAD00A2ABDE /* Songbook.storyboard in Resources */,
+				8B0F610219CE2E4600B04BC4 /* LaunchScreen.xib in Resources */,
 				8BAF35FC181F285400D6A93E /* README.md in Resources */,
 				8BB4CBE918959EA0009F0FA1 /* default.songbook in Resources */,
 				8BA305FD17A0BCF200A2ABDE /* Images.xcassets in Resources */,
@@ -837,7 +841,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -869,7 +873,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -880,9 +884,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/paulhimes/Dropbox/Projects/songbook/songbook,
@@ -890,7 +895,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "songbook/songbook-Prefix.pch";
 				INFOPLIST_FILE = "songbook/songbook-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -899,9 +906,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/paulhimes/Dropbox/Projects/songbook/songbook,
@@ -909,7 +917,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "songbook/songbook-Prefix.pch";
 				INFOPLIST_FILE = "songbook/songbook-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
