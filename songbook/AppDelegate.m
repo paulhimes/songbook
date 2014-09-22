@@ -25,6 +25,9 @@
     self.window.tintColor = [Theme redColor];
     [self.window makeKeyAndVisible];
     
+    // Disable screen sleeping.
+    application.idleTimerDisabled = YES;
+    
     return YES;
 }
 
