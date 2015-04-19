@@ -36,7 +36,6 @@
 		8BA305F817A0BCF200A2ABDE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA305F717A0BCF200A2ABDE /* AppDelegate.m */; };
 		8BA305FB17A0BCF200A2ABDE /* songbook.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8BA305F917A0BCF200A2ABDE /* songbook.xcdatamodeld */; };
 		8BA305FD17A0BCF200A2ABDE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8BA305FC17A0BCF200A2ABDE /* Images.xcassets */; };
-		8BA3060417A0BCF200A2ABDE /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA3060317A0BCF200A2ABDE /* XCTest.framework */; };
 		8BA3060517A0BCF200A2ABDE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305E517A0BCF200A2ABDE /* Foundation.framework */; };
 		8BA3060617A0BCF200A2ABDE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305E917A0BCF200A2ABDE /* UIKit.framework */; };
 		8BA3060717A0BCF200A2ABDE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305EB17A0BCF200A2ABDE /* CoreData.framework */; };
@@ -46,6 +45,8 @@
 		8BA3062117A1656B00A2ABDE /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA3062017A1640B00A2ABDE /* PageViewController.m */; };
 		8BA5142917ADA275009E960D /* UIView+Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5142817ADA275009E960D /* UIView+Debug.m */; };
 		8BA5E1D017DB702600858741 /* UITableView+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5E1CF17DB702600858741 /* UITableView+Helpers.m */; };
+		8BA6F6D41AE3796B00AC9007 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BAF6AE01816046A00BFC813 /* Crashlytics.framework */; };
+		8BA6F6D61AE379B000AC9007 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA6F6D51AE379B000AC9007 /* Fabric.framework */; };
 		8BA785B317D5864D00BEF4D9 /* NSString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA785B217D5864D00BEF4D9 /* NSString+Helpers.m */; };
 		8BAF35D7181E274200D6A93E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BAF35D6181E274200D6A93E /* libz.dylib */; };
 		8BAF35F8181F285400D6A93E /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF35ED181F285400D6A93E /* ioapi.c */; };
@@ -57,7 +58,6 @@
 		8BAF36081824C41700D6A93E /* CoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF36071824C41700D6A93E /* CoreDataStack.m */; };
 		8BAF36111824D95200D6A93E /* OrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF36101824D95200D6A93E /* OrderedDictionary.m */; };
 		8BAF6ADE180E3C6B00BFC813 /* Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF6ADD180E3C6B00BFC813 /* Theme.m */; };
-		8BAF6AE11816046A00BFC813 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BAF6AE01816046A00BFC813 /* Crashlytics.framework */; };
 		8BAF6AE41816196200BFC813 /* BookCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF6AE31816196200BFC813 /* BookCodec.m */; };
 		8BB0F584189CBC1D004D6377 /* SmartSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE5A65417CD8FA2002028E5 /* SmartSearcher.m */; };
 		8BB0F585189CBC27004D6377 /* FilteredSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE5A65117CD2356002028E5 /* FilteredSearcher.m */; };
@@ -163,7 +163,6 @@
 		8BA305FA17A0BCF200A2ABDE /* songbook.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = songbook.xcdatamodel; sourceTree = "<group>"; };
 		8BA305FC17A0BCF200A2ABDE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		8BA3060217A0BCF200A2ABDE /* songbookTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = songbookTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8BA3060317A0BCF200A2ABDE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		8BA3060C17A0BCF200A2ABDE /* songbookTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "songbookTests-Info.plist"; sourceTree = "<group>"; };
 		8BA3060E17A0BCF200A2ABDE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8BA3061017A0BCF200A2ABDE /* songbookTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = songbookTests.m; sourceTree = "<group>"; };
@@ -175,6 +174,7 @@
 		8BA5142817ADA275009E960D /* UIView+Debug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Debug.m"; sourceTree = "<group>"; };
 		8BA5E1CE17DB702600858741 /* UITableView+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+Helpers.h"; sourceTree = "<group>"; };
 		8BA5E1CF17DB702600858741 /* UITableView+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+Helpers.m"; sourceTree = "<group>"; };
+		8BA6F6D51AE379B000AC9007 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		8BA785B117D5864D00BEF4D9 /* NSString+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Helpers.h"; sourceTree = "<group>"; };
 		8BA785B217D5864D00BEF4D9 /* NSString+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Helpers.m"; sourceTree = "<group>"; };
 		8BA85DFD17B2F12200F6B3B7 /* SongbookModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongbookModel.h; sourceTree = "<group>"; };
@@ -257,10 +257,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8BA6F6D41AE3796B00AC9007 /* Crashlytics.framework in Frameworks */,
 				8BAF35D7181E274200D6A93E /* libz.dylib in Frameworks */,
 				8B6FC947181C88F900BACCCB /* MessageUI.framework in Frameworks */,
+				8BA6F6D61AE379B000AC9007 /* Fabric.framework in Frameworks */,
 				8BA305E817A0BCF200A2ABDE /* CoreGraphics.framework in Frameworks */,
-				8BAF6AE11816046A00BFC813 /* Crashlytics.framework in Frameworks */,
 				8BA305EC17A0BCF200A2ABDE /* CoreData.framework in Frameworks */,
 				8BA305EA17A0BCF200A2ABDE /* UIKit.framework in Frameworks */,
 				8BA305E617A0BCF200A2ABDE /* Foundation.framework in Frameworks */,
@@ -271,7 +272,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8BA3060417A0BCF200A2ABDE /* XCTest.framework in Frameworks */,
 				8BA3060717A0BCF200A2ABDE /* CoreData.framework in Frameworks */,
 				8BA3060617A0BCF200A2ABDE /* UIKit.framework in Frameworks */,
 				8BA3060517A0BCF200A2ABDE /* Foundation.framework in Frameworks */,
@@ -396,12 +396,12 @@
 			children = (
 				8BAF35D6181E274200D6A93E /* libz.dylib */,
 				8B6FC946181C88F900BACCCB /* MessageUI.framework */,
+				8BA6F6D51AE379B000AC9007 /* Fabric.framework */,
 				8BAF6AE01816046A00BFC813 /* Crashlytics.framework */,
 				8BA305E517A0BCF200A2ABDE /* Foundation.framework */,
 				8BA305E717A0BCF200A2ABDE /* CoreGraphics.framework */,
 				8BA305E917A0BCF200A2ABDE /* UIKit.framework */,
 				8BA305EB17A0BCF200A2ABDE /* CoreData.framework */,
-				8BA3060317A0BCF200A2ABDE /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -698,7 +698,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Crashlytics.framework/run 9be265b58168dc66ff492f601ff87ed72389455f";
+			shellScript = "./Fabric.framework/run 9be265b58168dc66ff492f601ff87ed72389455f d8fb540825b63a0c21fba37db849bae5e53d22c765c918cf6f715da95eaeec7f";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -891,6 +891,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/paulhimes/Dropbox/Projects/songbook/songbook,
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "songbook/songbook-Prefix.pch";
@@ -913,6 +914,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/paulhimes/Dropbox/Projects/songbook/songbook,
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "songbook/songbook-Prefix.pch";

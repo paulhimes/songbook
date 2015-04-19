@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Paul Himes. All rights reserved.
 //
 
+#import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 #import "AppDelegate.h"
 #import "PageController.h"
@@ -16,7 +17,7 @@
 - (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    [Crashlytics startWithAPIKey:@"9be265b58168dc66ff492f601ff87ed72389455f"];
+    [Fabric with:@[CrashlyticsKit]];
     
     // Setup the default user defaults.
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{kStandardTextSizeKey: @18}];
