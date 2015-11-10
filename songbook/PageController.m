@@ -219,17 +219,7 @@ const float kMinimumStandardTextSize = 8;
         UIActivityViewController *activityViewController = [[NoStatusActivityViewController alloc] initWithActivityItems:activityItems
                                                                                                    applicationActivities:@[openInAppActivity]];
         
-        NSArray *excludedActivityTypes = @[UIActivityTypeMessage];
-        // Check if the file size is greater than 10 MB.
-        NSNumber *fileSizeInBytes;
-        [exportedFileURL getResourceValue:&fileSizeInBytes forKey:NSURLFileSizeKey error:nil];
-        if ([fileSizeInBytes integerValue] / 1024 / 1024 > 10) {
-            // Remove the email activity. The email would likely be rejected anyway.
-            excludedActivityTypes = [excludedActivityTypes arrayByAddingObject:UIActivityTypeMail];
-        }
-        
-        activityViewController.excludedActivityTypes = excludedActivityTypes;
-        activityViewController.completionHandler = ^(NSString *activityType, BOOL completed) {
+        activityViewController.completionWithItemsHandler = ^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
             if (completed) {
                 // Delete the temporary file.
                 NSURL *fileURL = [BookCodec fileURLForExportingFromContext:self.coreDataStack.managedObjectContext];
