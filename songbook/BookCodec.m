@@ -171,6 +171,10 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
             return;
         }
         
+//        // Uncomment these lines to print out a text version of the songbook.
+//        NSString *bookString = [BookCodec stringFromBook:book];
+//        NSLog(@"\n%@", bookString);
+        
         NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>"];
         NSString *safeFileName = [[book.title componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
         
@@ -193,18 +197,18 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
     return fileURLForExporting;
 }
 
-+ (NSData *)encodeBook:(Book *)book
-{
-    NSDictionary *bookDictionary = [BookCodec bookDictionaryFromBook:book];
-    
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:bookDictionary options:NSJSONWritingPrettyPrinted error:&error];
-    if (error) {
-        NSLog(@"JSON Encode Error: %@", error);
-    }
-    
-    return jsonData;
-}
+//+ (NSData *)encodeBook:(Book *)book
+//{
+//    NSDictionary *bookDictionary = [BookCodec bookDictionaryFromBook:book];
+//    
+//    NSError *error;
+//    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:bookDictionary options:NSJSONWritingPrettyPrinted error:&error];
+//    if (error) {
+//        NSLog(@"JSON Encode Error: %@", error);
+//    }
+//    
+//    return jsonData;
+//}
 
 + (NSMutableDictionary *)bookDictionaryFromBook:(Book *)book
 {
@@ -499,6 +503,25 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
     // Create the database stack.
     NSURL *databaseFile = [directory URLByAppendingPathComponent:kBookDatabaseFileName];
     return [[CoreDataStack alloc] initWithFileURL:databaseFile concurrencyType:concurrencyType];
+}
+
++ (NSString *)stringFromBook:(Book *)book
+{
+    NSMutableString *string = [@"" mutableCopy];
+    
+    [string appendString:book.title];
+    
+    for (Section *section in book.sections) {
+        [string appendString:@"\n\n\n\n\n"];
+        [string appendString:section.title];
+        
+        for (Song *song in section.songs) {
+            [string appendString:@"\n\n\n\n\n"];
+            [string appendString:[song string]];
+        }
+    }
+    
+    return [string copy];
 }
 
 @end
