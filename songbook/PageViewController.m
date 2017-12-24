@@ -121,14 +121,10 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
 - (NSManagedObjectID *)closestSongID
 {
     PageController *currentController = self.viewControllers[0];
-    NSManagedObject *modelObject = currentController.modelObject;
+    id<SongbookModel> modelObject = currentController.modelObject;
     
-    if ([modelObject conformsToProtocol:@protocol(SongbookModel)]) {
-        id<SongbookModel> songbookModel = (id<SongbookModel>)modelObject;
-        return songbookModel.closestSong.objectID;
-    } else {
-        return nil;
-    }
+    id<SongbookModel> songbookModel = (id<SongbookModel>)modelObject;
+    return songbookModel.closestSong.objectID;
 }
 
 - (void)showPageForModelObject:(NSManagedObject *)modelObject

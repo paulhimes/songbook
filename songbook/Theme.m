@@ -30,12 +30,12 @@
 
 + (UIColor *)grayTrimColor
 {
-    return [UIColor colorWithR:199 G:191 B:182 A:255];
+    return [UIColor colorWithR:199 G:199 B:199 A:255];
 }
 
 + (UIColor *)darkerGrayColor
 {
-    return [UIColor colorWithR:127 G:122 B:116 A:255];
+    return [UIColor colorWithR:128 G:128 B:128 A:255];
 }
 
 + (UIColor *)searchFieldBackgroundColor
@@ -45,15 +45,12 @@
 
 + (UIColor *)paperColor
 {
-//    return [UIColor colorWithR:255 G:241 B:224 A:255]; // Halogen
-//    return [UIColor colorWithR:255 G:245 B:234 A:255]; // Compromise
-//    return [UIColor colorWithR:255 G:250 B:244 A:255]; // Carbon Arc
-    return [UIColor colorWithR:255 G:244 B:242 A:255]; // Full Spectrum Fluorescent
+    return [UIColor whiteColor];
 }
 
 + (UIColor *)textColor
 {
-    return [UIColor colorWithR:0 G:0 B:0 A:255];
+    return [UIColor blackColor];
 }
 
 @end

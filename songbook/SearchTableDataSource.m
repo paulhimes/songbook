@@ -11,7 +11,6 @@
 #import "SearchCellModel.h"
 #import "SearchTitleCellModel.h"
 #import "SearchContextCellModel.h"
-#import "SearchHeaderFooterView.h"
 #import "BasicCell.h"
 #import "ContextCell.h"
 
@@ -119,10 +118,22 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UITableViewHeaderFooterView *headerFooterView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:kSearchHeaderFooterFiewIdentifier];
     SearchSectionModel *sectionModel = self.tableModel.sectionModels[section];
-    headerFooterView.textLabel.text = sectionModel.title;
-    return headerFooterView;
+    
+    UIView *headerView = [[UIView alloc] init];
+    headerView.backgroundColor = [Theme grayTrimColor];
+
+    UILabel *label = [[UILabel alloc] init];
+    label.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    label.attributedText = [[NSAttributedString alloc] initWithString:sectionModel.title attributes:@{NSForegroundColorAttributeName: [Theme paperColor],
+                                                                                                      NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline]}];
+    
+    [headerView addSubview:label];
+    [headerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-2-[label]-2-|" options:0 metrics:nil views:@{@"label": label}]];
+    [headerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[label]-|" options:0 metrics:nil views:@{@"label": label}]];
+    
+    return headerView;
 }
 
 #pragma mark - UITableViewDelegate

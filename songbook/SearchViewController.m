@@ -13,7 +13,6 @@
 #import "SearchOperation.h"
 #import "SearchTableDataSource.h"
 #import "TokenizeOperation.h"
-#import "SearchHeaderFooterView.h"
 #import "SuperScrollIndicator.h"
 
 static NSString * const kPreferredSearchMethodKey = @"PreferredSearchMethodKey";
@@ -28,16 +27,16 @@ typedef enum PreferredSearchMethod : NSUInteger {
     PreferredSearchMethodLetters
 } PreferredSearchMethod;
 
-@interface SearchViewController () <UITableViewDelegate, UIToolbarDelegate, SearchTableDataSourceDelegate, UITextFieldDelegate, SuperScrollIndicatorDelegate>
+@interface SearchViewController () <UITableViewDelegate, SearchTableDataSourceDelegate, UITextFieldDelegate, SuperScrollIndicatorDelegate>
 
 @property (nonatomic, strong) SearchTableDataSource *dataSource;
 @property (nonatomic, strong) NSOperationQueue *searchQueue;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) NSString *lastSearchString;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (weak, nonatomic) IBOutlet UITextField *searchField;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+@property (weak, nonatomic) IBOutlet UIView *topBar;
 
 @property (weak, nonatomic) IBOutlet SuperScrollIndicator *scrollIndicator;
 
@@ -86,15 +85,12 @@ typedef enum PreferredSearchMethod : NSUInteger {
     [super viewDidLoad];
     
     self.tableView.tableFooterView = nil;
-    self.tableView.contentInset = UIEdgeInsetsMake(self.toolbar.frame.size.height, 0, 0, 0);
     UIEdgeInsets separatorInset = self.tableView.separatorInset;
     separatorInset.right = separatorInset.left;
     self.tableView.separatorInset = separatorInset;
     self.tableView.backgroundColor = [Theme paperColor];
-    [self.tableView registerClass:[SearchHeaderFooterView class] forHeaderFooterViewReuseIdentifier:kSearchHeaderFooterFiewIdentifier];
-
-    self.toolbar.delegate = self;
-    self.toolbar.barTintColor = [Theme paperColor];
+    self.tableView.sectionHeaderHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedSectionHeaderHeight = 20;
     
     self.searchField.layer.cornerRadius = 5;
     self.searchField.backgroundColor = [Theme searchFieldBackgroundColor];
@@ -150,6 +146,12 @@ typedef enum PreferredSearchMethod : NSUInteger {
                                                                                }
                                                                            }
                                                                        }];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    self.tableView.contentInset = UIEdgeInsetsMake(self.topBar.frame.size.height - self.topLayoutGuide.length, 0, 0, 0);
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -322,13 +324,6 @@ typedef enum PreferredSearchMethod : NSUInteger {
     return YES;
 }
 
-#pragma mark - UIToolbarDelegate
-
-- (UIBarPosition)positionForBar:(id <UIBarPositioning>)bar
-{
-    return UIBarPositionAny;
-}
-
 #pragma mark - SearchTableDataSourceDelegate
 
 - (void)selectedSong:(NSManagedObjectID *)selectedSongID withRange:(NSRange)range
@@ -352,9 +347,22 @@ typedef enum PreferredSearchMethod : NSUInteger {
 
 - (void)superScrollIndicator:(SuperScrollIndicator *)superScrollIndicator didScrollToPercent:(CGFloat)percent
 {
-    CGFloat maxOffset = self.tableView.contentSize.height - self.tableView.frame.size.height + self.tableView.contentInset.top;
+    CGFloat maxOffset = maxOffset = self.tableView.contentSize.height - self.tableView.frame.size.height;
+    
+    if (@available(iOS 11, *)) {
+        maxOffset += self.tableView.adjustedContentInset.top + self.tableView.adjustedContentInset.bottom;
+    } else {
+        maxOffset += self.tableView.contentInset.top + self.tableView.contentInset.bottom;
+    }
+    
     CGFloat targetOffset = maxOffset * percent;
-    targetOffset -= self.tableView.contentInset.top;
+    
+    if (@available(iOS 11, *)) {
+        targetOffset -= self.tableView.adjustedContentInset.top;
+    } else {
+        targetOffset -= self.tableView.contentInset.top;
+    }
+    
     [self.tableView setContentOffset:CGPointMake(0, targetOffset) animated:NO];
     [self.searchField resignFirstResponder];
 }

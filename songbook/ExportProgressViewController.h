@@ -15,8 +15,8 @@
 @property (nonatomic, strong) id <ExportProgressViewControllerDelegate> delegate;
 
 - (void)setProgress:(CGFloat)progress;
-- (void)showWithCompletion:(void (^)())completion;
-- (void)hideWithCompletion:(void (^)())completion;
+- (void)showWithCompletion:(void (^)(void))completion;
+- (void)hideWithCompletion:(void (^)(void))completion;
 
 @end
 

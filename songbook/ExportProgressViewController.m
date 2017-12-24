@@ -76,7 +76,7 @@
     }
 }
 
-- (void)showWithCompletion:(void (^)())completion
+- (void)showWithCompletion:(void (^)(void))completion
 {
     [UIView animateWithDuration:0.4
                           delay:0
@@ -94,7 +94,7 @@
     }];
 }
 
-- (void)hideWithCompletion:(void (^)())completion
+- (void)hideWithCompletion:(void (^)(void))completion
 {
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         self.backgroundView.alpha = 0.0;

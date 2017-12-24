@@ -9,7 +9,7 @@
 #import "SuperScrollIndicator.h"
 
 static const NSUInteger kMinimumIndicatorHeight = 88;
-static const NSUInteger kIndicatorMargin = 4;
+static const NSUInteger kIndicatorMinimumMargin = 4;
 
 
 @interface SuperScrollIndicator()
@@ -25,9 +25,22 @@ static const NSUInteger kIndicatorMargin = 4;
 @property (nonatomic) CGFloat scrolledPercent;
 @property (nonatomic) NSUInteger scrollIndicatorHeight;
 
+@property (nonatomic) CGFloat indicatorTopMargin;
+@property (nonatomic) CGFloat indicatorBottomMargin;
+
 @end
 
 @implementation SuperScrollIndicator
+
+- (CGFloat)indicatorTopMargin
+{
+    return MAX(kIndicatorMinimumMargin, self.layoutMargins.top);
+}
+
+- (CGFloat)indicatorBottomMargin
+{
+    return MAX(kIndicatorMinimumMargin, self.layoutMargins.bottom);
+}
 
 - (UIColor *)normalBackgroudColor
 {
@@ -80,7 +93,7 @@ static const NSUInteger kIndicatorMargin = 4;
 {
     CGFloat percent = scrollViewFrameHeight / scrollViewContentHeight;
     percent = MAX(0, MIN(1, percent));
-    CGFloat scrollIndicatorHeight = rintf((self.bounds.size.height - (2 * kIndicatorMargin)) * percent);
+    CGFloat scrollIndicatorHeight = rintf((self.bounds.size.height - (self.indicatorTopMargin + self.indicatorBottomMargin)) * percent);
     self.scrollIndicatorHeight = scrollIndicatorHeight;
     self.enabled = self.scrollIndicatorHeight < self.bounds.size.height * 0.75;
     [self setNeedsDisplay];
@@ -96,8 +109,8 @@ static const NSUInteger kIndicatorMargin = 4;
     if (self.enabled) {
         // Draw the scroll indicator.
         UIColor *scrollIndicatorColor = self.highlighted ? self.highlightedScrollIndicatorColor : self.normalScrollIndicatorColor;
-        CGFloat scrollIndicatorTopY = (self.bounds.size.height - self.scrollIndicatorHeight - 2 * kIndicatorMargin) * self.scrolledPercent + kIndicatorMargin;
-        UIBezierPath *scrollIndicatorPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(kIndicatorMargin, scrollIndicatorTopY, self.bounds.size.width - (2 * kIndicatorMargin), self.scrollIndicatorHeight) cornerRadius:3];
+        CGFloat scrollIndicatorTopY = (self.bounds.size.height - self.scrollIndicatorHeight - (self.indicatorTopMargin + self.indicatorBottomMargin)) * self.scrolledPercent + self.indicatorTopMargin;
+        UIBezierPath *scrollIndicatorPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(kIndicatorMinimumMargin, scrollIndicatorTopY, self.bounds.size.width - (2 * kIndicatorMinimumMargin), self.scrollIndicatorHeight) cornerRadius:3];
         [scrollIndicatorColor setFill];
         [scrollIndicatorPath fill];
     }
@@ -149,10 +162,10 @@ static const NSUInteger kIndicatorMargin = 4;
 
 - (CGFloat)percentAcrossTouchRange:(CGFloat)yCoordinate
 {
-    CGFloat minYCoordinate = (self.scrollIndicatorHeight / 2) + kIndicatorMargin;
-    CGFloat maxYCoordinate = self.bounds.size.height - (self.scrollIndicatorHeight / 2) - kIndicatorMargin;
+    CGFloat minYCoordinate = (self.scrollIndicatorHeight / 2) + self.indicatorTopMargin;
+    CGFloat maxYCoordinate = self.bounds.size.height - (self.scrollIndicatorHeight / 2) - self.indicatorBottomMargin;
     
-    CGFloat totalRange = self.bounds.size.height - self.scrollIndicatorHeight - (2 * kIndicatorMargin);
+    CGFloat totalRange = self.bounds.size.height - self.scrollIndicatorHeight - (self.indicatorTopMargin + self.indicatorBottomMargin);
     
     // Pin the y location to the active range.
     if (yCoordinate < minYCoordinate) {
