@@ -45,8 +45,6 @@
 		8BA3062117A1656B00A2ABDE /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA3062017A1640B00A2ABDE /* PageViewController.m */; };
 		8BA5142917ADA275009E960D /* UIView+Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5142817ADA275009E960D /* UIView+Debug.m */; };
 		8BA5E1D017DB702600858741 /* UITableView+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5E1CF17DB702600858741 /* UITableView+Helpers.m */; };
-		8BA6F6D41AE3796B00AC9007 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BAF6AE01816046A00BFC813 /* Crashlytics.framework */; };
-		8BA6F6D61AE379B000AC9007 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA6F6D51AE379B000AC9007 /* Fabric.framework */; };
 		8BA785B317D5864D00BEF4D9 /* NSString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA785B217D5864D00BEF4D9 /* NSString+Helpers.m */; };
 		8BAF35D7181E274200D6A93E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BAF35D6181E274200D6A93E /* libz.dylib */; };
 		8BAF35F8181F285400D6A93E /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF35ED181F285400D6A93E /* ioapi.c */; };
@@ -173,7 +171,6 @@
 		8BA5142817ADA275009E960D /* UIView+Debug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Debug.m"; sourceTree = "<group>"; };
 		8BA5E1CE17DB702600858741 /* UITableView+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+Helpers.h"; sourceTree = "<group>"; };
 		8BA5E1CF17DB702600858741 /* UITableView+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+Helpers.m"; sourceTree = "<group>"; };
-		8BA6F6D51AE379B000AC9007 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		8BA785B117D5864D00BEF4D9 /* NSString+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Helpers.h"; sourceTree = "<group>"; };
 		8BA785B217D5864D00BEF4D9 /* NSString+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Helpers.m"; sourceTree = "<group>"; };
 		8BA85DFD17B2F12200F6B3B7 /* SongbookModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongbookModel.h; sourceTree = "<group>"; };
@@ -202,7 +199,6 @@
 		8BAF3613182B3EDA00D6A93E /* TokenizeOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenizeOperation.m; sourceTree = "<group>"; };
 		8BAF6ADC180E3C6B00BFC813 /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Theme.h; sourceTree = "<group>"; };
 		8BAF6ADD180E3C6B00BFC813 /* Theme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Theme.m; sourceTree = "<group>"; };
-		8BAF6AE01816046A00BFC813 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		8BAF6AE21816196200BFC813 /* BookCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookCodec.h; sourceTree = "<group>"; };
 		8BAF6AE31816196200BFC813 /* BookCodec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookCodec.m; sourceTree = "<group>"; };
 		8BB02AE017CB97BE001CCB6C /* SimpleSearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleSearcher.h; sourceTree = "<group>"; };
@@ -254,10 +250,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8BA6F6D41AE3796B00AC9007 /* Crashlytics.framework in Frameworks */,
 				8BAF35D7181E274200D6A93E /* libz.dylib in Frameworks */,
 				8B6FC947181C88F900BACCCB /* MessageUI.framework in Frameworks */,
-				8BA6F6D61AE379B000AC9007 /* Fabric.framework in Frameworks */,
 				8BA305E817A0BCF200A2ABDE /* CoreGraphics.framework in Frameworks */,
 				8BA305EC17A0BCF200A2ABDE /* CoreData.framework in Frameworks */,
 				8BA305EA17A0BCF200A2ABDE /* UIKit.framework in Frameworks */,
@@ -393,8 +387,6 @@
 			children = (
 				8BAF35D6181E274200D6A93E /* libz.dylib */,
 				8B6FC946181C88F900BACCCB /* MessageUI.framework */,
-				8BA6F6D51AE379B000AC9007 /* Fabric.framework */,
-				8BAF6AE01816046A00BFC813 /* Crashlytics.framework */,
 				8BA305E517A0BCF200A2ABDE /* Foundation.framework */,
 				8BA305E717A0BCF200A2ABDE /* CoreGraphics.framework */,
 				8BA305E917A0BCF200A2ABDE /* UIKit.framework */,
@@ -592,7 +584,6 @@
 				8BA305DE17A0BCF200A2ABDE /* Sources */,
 				8BA305DF17A0BCF200A2ABDE /* Frameworks */,
 				8BA305E017A0BCF200A2ABDE /* Resources */,
-				8BAF6ADF1816040E00BFC813 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -680,22 +671,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		8BAF6ADF1816040E00BFC813 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run 9be265b58168dc66ff492f601ff87ed72389455f d8fb540825b63a0c21fba37db849bae5e53d22c765c918cf6f715da95eaeec7f";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8BA305DE17A0BCF200A2ABDE /* Sources */ = {
