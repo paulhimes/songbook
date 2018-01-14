@@ -32,7 +32,6 @@ extern const float kMinimumStandardTextSize;
 @property (nonatomic) CGFloat bookmarkedGlyphYOffset;
 @property (strong, nonatomic) UIPopoverController *activityPopover;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *activityButton;
-@property (weak, nonatomic) IBOutlet UIToolbar *bottomBar;
 
 - (IBAction)activityAction:(id)sender;
 

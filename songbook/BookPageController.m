@@ -10,10 +10,10 @@
 #import "GradientView.h"
 #import "Book.h"
 
-@interface BookPageController () <UIToolbarDelegate>
+@interface BookPageController ()
 
 @property (nonatomic, readonly) Book *book;
-@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
+@property (weak, nonatomic) IBOutlet UIToolbar *bottomBar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *versionButton;
 
 @end
@@ -28,11 +28,18 @@
     gradientView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view insertSubview:gradientView atIndex:0];
     
-    [self.toolbar setBackgroundImage:[[UIImage alloc] init] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
-    self.toolbar.delegate = self;
-    self.toolbar.tintColor = [Theme paperColor];
+    UIImage *clearImage = [[UIImage alloc] init];
+    [self.bottomBar setBackgroundImage:clearImage forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    [self.bottomBar setShadowImage:clearImage forToolbarPosition:UIBarPositionAny];
+    self.bottomBar.tintColor = [Theme paperColor];
     
     self.versionButton.title = [NSString stringWithFormat:@"Version %@", self.book.version];
+}
+
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    [self.bottomBar invalidateIntrinsicContentSize];
 }
 
 - (NSManagedObject *)modelObject
@@ -56,16 +63,9 @@
     CGFloat standardTextSize = [standardTextSizeNumber floatValue];
     
     return [[NSAttributedString alloc] initWithString:self.book.title
-                                           attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:standardTextSize * 2],
+                                           attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:standardTextSize * 2.5],
                                                         NSForegroundColorAttributeName: [Theme paperColor]
                                                         }];
-}
-
-#pragma mark - UIBarPositioningDelegate
-
-- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
-{
-    return UIBarPositionTop;
 }
 
 @end

@@ -9,9 +9,9 @@
 #import "SectionPageController.h"
 #import "Section.h"
 
-@interface SectionPageController () <UIToolbarDelegate>
+@interface SectionPageController ()
 
-@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
+@property (weak, nonatomic) IBOutlet UIToolbar *bottomBar;
 @property (nonatomic, readonly) Section *section;
 
 @end
@@ -22,11 +22,18 @@
 {
     [super viewDidLoad];
     
-    [self.toolbar setBackgroundImage:[[UIImage alloc] init] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
-    self.toolbar.delegate = self;
+    UIImage *clearImage = [[UIImage alloc] init];
+    [self.bottomBar setBackgroundImage:clearImage forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    [self.bottomBar setShadowImage:clearImage forToolbarPosition:UIBarPositionAny];
     
     self.view.backgroundColor = [Theme paperColor];
     self.textView.backgroundColor = [Theme paperColor];
+}
+
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    [self.bottomBar invalidateIntrinsicContentSize];
 }
 
 - (NSManagedObject *)modelObject
@@ -50,16 +57,9 @@
     CGFloat standardTextSize = [standardTextSizeNumber floatValue];
     
     return [[NSAttributedString alloc] initWithString:self.section.title
-                                           attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:standardTextSize * 1.75],
+                                           attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:standardTextSize * 2],
                                                         NSForegroundColorAttributeName: [Theme textColor]
                                                         }];
-}
-
-#pragma mark - UIBarPositioningDelegate
-
-- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
-{
-    return UIBarPositionTop;
 }
 
 @end

@@ -27,6 +27,7 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 @property (weak, nonatomic) IBOutlet SongTitleView *titleView;
 
 @property (weak, nonatomic) IBOutlet UIVisualEffectView *bottomBarBackground;
+@property (weak, nonatomic) IBOutlet UIToolbar *bottomBar;
 
 @property (weak, nonatomic) IBOutlet UIView *playerView;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;

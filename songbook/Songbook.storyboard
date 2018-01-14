@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -463,17 +462,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView contentMode="scaleToFill" fixedFrame="YES" bounces="NO" showsHorizontalScrollIndicator="NO" indicatorStyle="white" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="83D-ol-4TM" customClass="SafeTextView">
-                                <rect key="frame" x="16" y="0.0" width="343" height="568"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                            <textView contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" indicatorStyle="white" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="83D-ol-4TM" customClass="SafeTextView">
+                                <rect key="frame" x="16" y="20" width="343" height="603"/>
                                 <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="-16" maxY="0.0"/>
                                 <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YwN-3A-Ahs">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YwN-3A-Ahs" userLabel="Bottom Toolbar">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem systemItem="search" id="Jis-vO-tNv">
                                         <connections>
@@ -491,19 +487,28 @@
                                 </items>
                             </toolbar>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="YwN-3A-Ahs" firstAttribute="top" secondItem="83D-ol-4TM" secondAttribute="bottom" id="Ozm-db-Pgz"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="83D-ol-4TM" secondAttribute="trailing" id="XJW-Yb-taR"/>
+                            <constraint firstAttribute="trailing" secondItem="YwN-3A-Ahs" secondAttribute="trailing" id="c1z-Ib-IfZ"/>
+                            <constraint firstItem="YwN-3A-Ahs" firstAttribute="bottom" secondItem="occ-MC-E84" secondAttribute="bottom" id="cuS-cy-r0h"/>
+                            <constraint firstItem="83D-ol-4TM" firstAttribute="leading" secondItem="CM7-69-SWi" secondAttribute="leadingMargin" id="dKK-RW-qNn"/>
+                            <constraint firstItem="YwN-3A-Ahs" firstAttribute="leading" secondItem="CM7-69-SWi" secondAttribute="leading" id="tHF-yY-hCp"/>
+                            <constraint firstItem="83D-ol-4TM" firstAttribute="top" secondItem="CM7-69-SWi" secondAttribute="topMargin" id="xWe-ZL-Bge"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="occ-MC-E84"/>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="activityButton" destination="4II-VE-9Ik" id="7Q0-GW-DTA"/>
+                        <outlet property="bottomBar" destination="YwN-3A-Ahs" id="bpO-1y-2tf"/>
                         <outlet property="textView" destination="83D-ol-4TM" id="kZo-cf-p9A"/>
-                        <outlet property="toolbar" destination="YwN-3A-Ahs" id="tHG-YJ-0gI"/>
                         <outlet property="versionButton" destination="aKK-ee-51J" id="whb-sS-Ndl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IPb-bN-9UO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-745" y="1551"/>
+            <point key="canvasLocation" x="-745.5" y="1550.5"/>
         </scene>
         <!--Section Page Controller-->
         <scene sceneID="2E3-5H-GhD">
@@ -513,17 +518,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView contentMode="scaleToFill" fixedFrame="YES" bounces="NO" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MDa-SC-IaW" customClass="SafeTextView">
-                                <rect key="frame" x="16" y="0.0" width="343" height="568"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                            <textView contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MDa-SC-IaW" customClass="SafeTextView">
+                                <rect key="frame" x="16" y="20" width="343" height="603"/>
                                 <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="-16" maxY="0.0"/>
                                 <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DxV-Wx-01N">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DxV-Wx-01N" userLabel="Bottom Toolbar">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem systemItem="search" id="Cmy-JK-5bz">
                                         <connections>
@@ -539,13 +542,22 @@
                                 </items>
                             </toolbar>
                         </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="DxV-Wx-01N" secondAttribute="trailing" id="EXM-SD-Jwu"/>
+                            <constraint firstAttribute="topMargin" secondItem="MDa-SC-IaW" secondAttribute="top" id="Lqm-cL-R1t"/>
+                            <constraint firstItem="DxV-Wx-01N" firstAttribute="top" secondItem="MDa-SC-IaW" secondAttribute="bottom" id="ODt-7P-3GS"/>
+                            <constraint firstItem="DxV-Wx-01N" firstAttribute="bottom" secondItem="hzs-Cn-eaY" secondAttribute="bottom" id="PCl-7x-orz"/>
+                            <constraint firstItem="MDa-SC-IaW" firstAttribute="leading" secondItem="Mha-i6-HMs" secondAttribute="leadingMargin" id="WPp-PQ-VRe"/>
+                            <constraint firstItem="DxV-Wx-01N" firstAttribute="leading" secondItem="Mha-i6-HMs" secondAttribute="leading" id="hoC-Wp-T60"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="MDa-SC-IaW" secondAttribute="trailing" id="oQD-Eg-7Xr"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="hzs-Cn-eaY"/>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="activityButton" destination="2mA-cQ-rYT" id="0zb-nV-1kH"/>
+                        <outlet property="bottomBar" destination="DxV-Wx-01N" id="Wku-24-Lbt"/>
                         <outlet property="textView" destination="MDa-SC-IaW" id="sg9-Jp-Bid"/>
-                        <outlet property="toolbar" destination="DxV-Wx-01N" id="6VV-hT-hx8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="de2-5d-fJK" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -21,7 +21,7 @@
 {
     [super viewDidLoad];
     
-    self.textView.textContainerInset = UIEdgeInsetsMake(0, 0, 0, 5);
+    self.textView.textContainerInset = UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
 - (void)viewDidLayoutSubviews
@@ -44,19 +44,6 @@
     
     // Frame centered at the golden ratio.
     [self.textView setOriginY:desiredVerticalCenter - halfTextViewHeight];
-    
-    if ((desiredVerticalCenter + halfTextViewHeight) > self.view.bounds.size.height) {
-        // Limit the bottom of the textView to the bottom of the main view.
-        [self.textView setOriginY:self.view.bounds.size.height - textSize.height];
-    }
-    if (textSize.height > self.view.bounds.size.height) {
-        // Limit the textView height to the height of the main view.
-        [self.textView setHeight:self.view.bounds.size.height];
-        [self.textView setOriginY:0];
-        self.textView.bounces = YES;
-    } else {
-        self.textView.bounces = NO;
-    }
 }
 
 #pragma mark - UIGestureRecognizer target
