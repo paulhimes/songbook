@@ -28,8 +28,7 @@ static NSString * const kConcurrencyTypeKey = @"ConcurrencyTypeKey";
 {
     self = [super init];
     if (self && fileURL &&
-        ((concurrencyType == NSConfinementConcurrencyType) ||
-		(concurrencyType == NSPrivateQueueConcurrencyType) ||
+        ((concurrencyType == NSPrivateQueueConcurrencyType) ||
 		(concurrencyType == NSMainQueueConcurrencyType))) {
             
         self.fileURL = fileURL;

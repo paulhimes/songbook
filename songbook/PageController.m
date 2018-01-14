@@ -10,7 +10,6 @@
 #import "BookCodec.h"
 #import "BookActivityItemSource.h"
 #import "ExportProgressViewController.h"
-#import "TTOpenInAppActivity.h"
 
 NSString * const kStandardTextSizeKey = @"StandardTextSize";
 
@@ -215,9 +214,8 @@ const float kMinimumStandardTextSize = 8;
     if ([[NSFileManager defaultManager] fileExistsAtPath:exportedFileURL.path]) {
         
         NSArray *activityItems = @[[[BookActivityItemSource alloc] initWithBookFileURL:exportedFileURL]];
-        TTOpenInAppActivity *openInAppActivity = [[TTOpenInAppActivity alloc] initWithView:self.view andBarButtonItem:self.activityButton];
-        UIActivityViewController *activityViewController = [[NoStatusActivityViewController alloc] initWithActivityItems:activityItems
-                                                                                                   applicationActivities:@[openInAppActivity]];
+        UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems
+                                                                                             applicationActivities:nil];
         
         activityViewController.completionWithItemsHandler = ^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
             if (completed) {
@@ -232,25 +230,9 @@ const float kMinimumStandardTextSize = 8;
             }
         };
         
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            // Store reference to superview (UIActionSheet) to allow dismissal
-            openInAppActivity.superViewController = activityViewController;
-            //iPhone, present activity view controller as is
-            [self presentViewController:activityViewController animated:YES completion:nil];
-        } else {
-            //iPad, present the view controller inside a popover
-            if (![self.activityPopover isPopoverVisible]) {
-                self.activityPopover = [[UIPopoverController alloc] initWithContentViewController:activityViewController];
-                
-                // Store reference to superview (UIPopoverController) to allow dismissal
-                openInAppActivity.superViewController = self.activityPopover;
-                
-                [self.activityPopover presentPopoverFromBarButtonItem:self.activityButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-            } else {
-                //Dismiss if the button is tapped while pop over is visible
-                [self.activityPopover dismissPopoverAnimated:YES];
-            }
-        }
+        activityViewController.popoverPresentationController.barButtonItem = self.activityButton;
+        
+        [self presentViewController:activityViewController animated:YES completion:^{}];
     }
 }
 
@@ -300,37 +282,24 @@ const float kMinimumStandardTextSize = 8;
 - (IBAction)activityAction:(id)sender
 {
     if ([self bookDirectoryHasSongFiles]) {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                                 delegate:self
-                                                        cancelButtonTitle:nil
-                                                   destructiveButtonTitle:nil
-                                                        otherButtonTitles:nil];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        __weak PageController *welf = self;
         
-        [actionSheet addButtonWithTitle:@"Share Book"];
-        [actionSheet addButtonWithTitle:@"Share Book & Tunes"];
-        [actionSheet addButtonWithTitle:@"Cancel"];
-        actionSheet.cancelButtonIndex = actionSheet.numberOfButtons - 1;
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Share Book" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [welf shareBookWithExtraFiles:NO];
+        }]];
         
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            //iPhone, present action sheet from view.
-            [actionSheet showInView:self.textView];
-        } else {
-            //iPad, present the action sheet from bar button.
-            [actionSheet showFromBarButtonItem:self.activityButton animated:YES];
-        }
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Share Book & Tunes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [welf shareBookWithExtraFiles:YES];
+        }]];
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}]];
+        
+        alertController.popoverPresentationController.barButtonItem = self.activityButton;
+        
+        [self presentViewController:alertController animated:YES completion:^{}];
     } else {
         [self shareBookWithExtraFiles:NO];
-    }
-}
-
-#pragma mark - UIActionSheetDelegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 0) {
-        [self shareBookWithExtraFiles:NO];
-    } else if (buttonIndex == 1) {
-        [self shareBookWithExtraFiles:YES];
     }
 }
 

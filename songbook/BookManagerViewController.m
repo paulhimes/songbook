@@ -21,7 +21,7 @@ static NSString * const kTemporaryDatabaseDirectoryName = @"temporaryBook";
 static NSString * const kMainDatabaseDirectoryName = @"mainBook";
 static NSString * const kMainBookStackKey = @"mainBookStack";
 
-@interface BookManagerViewController () <UIAlertViewDelegate>
+@interface BookManagerViewController ()
 
 @property (nonatomic, strong) CoreDataStack *mainBookStack;
 @property (nonatomic, strong) NSOperationQueue *tokenizerOperationQueue;
@@ -211,12 +211,16 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
                     }
                     
                     // Ask people here if they would like to replace their current book with this new book.
-                    UIAlertView *replaceAlertView = [[UIAlertView alloc] initWithTitle:@"Replace Book?"
-                                                                               message:message
-                                                                              delegate:welf
-                                                                     cancelButtonTitle:@"Cancel"
-                                                                     otherButtonTitles:@"Replace", nil];
-                    [replaceAlertView show];
+                    UIAlertController *replaceAlert = [UIAlertController alertControllerWithTitle:@"Replace Book?" message:message preferredStyle:UIAlertControllerStyleAlert];
+                    [replaceAlert addAction:[UIAlertAction actionWithTitle:@"Replace" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        [welf finalizeTemporaryBookAndOpen];
+                    }]];
+                    [replaceAlert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                        [welf deleteTemporaryDirectory];
+                        [welf openBook];
+                    }]];
+                    
+                    [self presentViewController:replaceAlert animated:YES completion:^{}];
                 } else {
                     [welf finalizeTemporaryBookAndOpen];
                 }
@@ -231,12 +235,14 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
 - (void)alertFailure
 {
     // Could not open the file.
-    UIAlertView *replaceAlertView = [[UIAlertView alloc] initWithTitle:@"Failed to Open Book"
-                                                               message:@"The app could not open this file."
-                                                              delegate:self
-                                                     cancelButtonTitle:@"Ok"
-                                                     otherButtonTitles:nil];
-    [replaceAlertView show];
+    __weak BookManagerViewController *welf = self;
+    UIAlertController *failedAlert = [UIAlertController alertControllerWithTitle:@"Failed to Open Book" message:@"The app could not open this file." preferredStyle:UIAlertControllerStyleAlert];
+    [failedAlert addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [welf deleteTemporaryDirectory];
+        [welf openBook];
+    }]];
+    
+    [self presentViewController:failedAlert animated:YES completion:^{}];
 }
 
 - (void)tokenizeBook:(Book *)book
@@ -275,25 +281,6 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
             NSLog(@"Failed to delete temporary database directory: %@", error);
             return;
         }
-    }
-}
-
-#pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    switch (buttonIndex) {
-        case 0:
-            // Cancel
-            [self deleteTemporaryDirectory];
-            [self openBook];
-            break;
-        case 1:
-            // Replace
-            [self finalizeTemporaryBookAndOpen];
-            break;
-        default:
-            break;
     }
 }
 

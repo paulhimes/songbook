@@ -151,7 +151,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    self.tableView.contentInset = UIEdgeInsetsMake(self.topBar.frame.size.height - self.topLayoutGuide.length, 0, 0, 0);
+    self.tableView.contentInset = UIEdgeInsetsMake(self.topBar.frame.size.height - self.view.layoutMargins.top, 0, 0, 0);
 }
 
 - (void)viewWillAppear:(BOOL)animated

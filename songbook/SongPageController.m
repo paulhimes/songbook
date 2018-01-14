@@ -17,7 +17,7 @@
 static const float kTextScaleThreshold = 2;
 static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 
-@interface SongPageController () <UITextViewDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, AVAudioPlayerDelegate>
+@interface SongPageController () <UITextViewDelegate, MFMailComposeViewControllerDelegate, AVAudioPlayerDelegate>
 
 @property (nonatomic, readonly) Song *song;
 
@@ -94,8 +94,6 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     self.titleView.number = self.song.number;
     self.titleView.title = self.song.title;
     
-    self.playerView.backgroundColor = [Theme paperColor];
-
     [super viewDidLoad];
     
     self.textView.contentOffsetCallsAllowed = NO;
@@ -113,9 +111,7 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     [super viewWillAppear:animated];
     
     // Add custom menu items (for text views).
-    [UIMenuController sharedMenuController].menuItems = @[[[UIMenuItem alloc] initWithTitle:@"Share…"
-                                                                                     action:@selector(shareSelection:)],
-                                                          [[UIMenuItem alloc] initWithTitle:@"Report Problem…"
+    [UIMenuController sharedMenuController].menuItems = @[[[UIMenuItem alloc] initWithTitle:@"Report Problem…"
                                                                                      action:@selector(reportError:)]];
 }
 
@@ -321,34 +317,36 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 - (IBAction)activityAction:(id)sender
 {
     NSArray *matchingSongFiles = [self matchingSongFiles];
-    
+
     if ([matchingSongFiles count]) {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                                 delegate:self
-                                                        cancelButtonTitle:nil
-                                                   destructiveButtonTitle:nil
-                                                        otherButtonTitles:nil];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        __weak SongPageController *welf = self;
         
         if ([matchingSongFiles count] == 1) {
-            [actionSheet addButtonWithTitle:@"Play Tune"];
+            [alertController addAction:[UIAlertAction actionWithTitle:@"Play Tune" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [welf playSongFile:matchingSongFiles[0]];
+            }]];
         } else {
             [matchingSongFiles enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                [actionSheet addButtonWithTitle:[NSString stringWithFormat:@"Play Tune %lu", (unsigned long)(idx + 1)]];
+                [alertController addAction:[UIAlertAction actionWithTitle:[NSString stringWithFormat:@"Play Tune %lu", (unsigned long)(idx + 1)] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    [welf playSongFile:matchingSongFiles[idx]];
+                }]];
             }];
         }
         
-        [actionSheet addButtonWithTitle:@"Share Book"];
-        [actionSheet addButtonWithTitle:@"Share Book & Tunes"];
-        [actionSheet addButtonWithTitle:@"Cancel"];
-        actionSheet.cancelButtonIndex = actionSheet.numberOfButtons - 1;
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Share Book" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [welf shareBookWithExtraFiles:NO];
+        }]];
         
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            //iPhone, present action sheet from view.
-            [actionSheet showInView:self.textView];
-        } else {
-            //iPad, present the action sheet from bar button.
-            [actionSheet showFromBarButtonItem:self.activityButton animated:YES];
-        }
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Share Book & Tunes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [welf shareBookWithExtraFiles:YES];
+        }]];
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}]];
+        
+        alertController.popoverPresentationController.barButtonItem = self.activityButton;
+        
+        [self presentViewController:alertController animated:YES completion:^{}];
     } else {
         [super activityAction:sender];
     }
@@ -368,6 +366,7 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     
     [UIView animateWithDuration:kPlayerAnimationDuration animations:^{
         self.playerView.alpha = 1;
+        self.bottomBar.alpha = 0;
     } completion:^(BOOL finished) {
         self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:songFile error:nil];
         self.audioPlayer.delegate = self;
@@ -400,6 +399,7 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 {
     [UIView animateWithDuration:kPlayerAnimationDuration animations:^{
         self.playerView.alpha = 0;
+        self.bottomBar.alpha = 1;
     } completion:^(BOOL finished) {
         [self.playbackTimer invalidate];
         self.playbackTimer = nil;
@@ -623,59 +623,18 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     }
 }
 
-- (void)shareSelection:(id)sender
-{
-    NSArray *activityItems = @[[self buildSharingString]];
-    UIActivityViewController *activityViewController = [[NoStatusActivityViewController alloc] initWithActivityItems:activityItems
-                                                                                               applicationActivities:nil];
-    activityViewController.excludedActivityTypes = @[UIActivityTypeMessage];
-    
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        //iPhone, present activity view controller as is
-        [self presentViewController:activityViewController animated:YES completion:nil];
-    }
-    else
-    {
-        //iPad, present the view controller inside a popover
-        if (![self.activityPopover isPopoverVisible]) {
-            self.activityPopover = [[UIPopoverController alloc] initWithContentViewController:activityViewController];
-            CGRect selectionBoundingRect = CGRectNull;
-            NSArray *selectionRects = [self.textView selectionRectsForRange:self.textView.selectedTextRange];
-            for (int i = 0; i < [selectionRects count]; i++) {
-                CGRect selectionRect = ((UITextSelectionRect *)selectionRects[i]).rect;
-                if (i == 0) {
-                    selectionBoundingRect = selectionRect;
-                } else {
-                    selectionBoundingRect = CGRectUnion(selectionBoundingRect, selectionRect);
-                }
-            }
-            [self.activityPopover presentPopoverFromRect:selectionBoundingRect inView:self.textView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        }
-        else
-        {
-            //Dismiss if the button is tapped while pop over is visible
-            [self.activityPopover dismissPopoverAnimated:YES];
-        }
-    }
-}
-
 - (void)reportError:(id)sender
 {
-    // Could not open the file.
-    UIAlertView *reportAlertView = [[UIAlertView alloc] initWithTitle:@"Report Problem"
-                                                              message:@"Would you like to report an error in this song?"
-                                                             delegate:self
-                                                    cancelButtonTitle:@"No"
-                                                    otherButtonTitles:@"Report", nil];
-    [reportAlertView show];
-}
-
-- (NSString *)buildSharingString
-{
-    NSString *mainContent = [self.textView.text substringWithRange:self.textView.selectedRange];
-    NSString *prefix = self.textView.selectedRange.location ? @"…" : @"";
-    NSString *suffix = self.textView.selectedRange.location + self.textView.selectedRange.length < [self.textView.text length] ? @"…" : @"";
-    return [NSString stringWithFormat:@"%@%@%@", prefix, mainContent, suffix];
+    UIAlertController *reportAlert = [UIAlertController alertControllerWithTitle:@"Report Problem" message:@"Would you like to report an error in this song?" preferredStyle:UIAlertControllerStyleAlert];
+    
+    __weak SongPageController *welf = self;
+    [reportAlert addAction:[UIAlertAction actionWithTitle:@"Report" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [welf sendEmailProblemReport];
+    }]];
+    
+    [reportAlert addAction:[UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}]];
+    
+    [self presentViewController:reportAlert animated:YES completion:^{}];
 }
 
 - (NSString *)buildProblemReportString
@@ -707,23 +666,6 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     NSString *htmlString = [[NSString alloc] initWithData:htmlData encoding:NSUTF8StringEncoding];
 
     return htmlString;
-}
-
-#pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    switch (buttonIndex) {
-        case 0:
-            // Cancel
-            break;
-        case 1:
-            // Report
-            [self sendEmailProblemReport];
-            break;
-        default:
-            break;
-    }
 }
 
 - (void)sendEmailProblemReport
@@ -775,28 +717,6 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
                         error:(NSError *)error
 {
     [self dismissViewControllerAnimated:YES completion:^{}];
-}
-
-#pragma mark - UIActionSheetDelegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    NSArray *matchingSongFiles = [self matchingSongFiles];
-    if ([matchingSongFiles count]) {
-        if (buttonIndex < [matchingSongFiles count]) {
-            [self playSongFile:matchingSongFiles[buttonIndex]];
-        } else {
-            buttonIndex -= [matchingSongFiles count];
-            
-            if (buttonIndex == 0) {
-                [self shareBookWithExtraFiles:NO];
-            } else if (buttonIndex == 1) {
-                [self shareBookWithExtraFiles:YES];
-            }
-        }
-    } else {
-        [super actionSheet:actionSheet clickedButtonAtIndex:buttonIndex];
-    }
 }
 
 #pragma mark - AVAudioPlayerDelegate

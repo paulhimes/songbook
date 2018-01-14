@@ -10,7 +10,6 @@
 #import "SafeTextView.h"
 #import "CoreDataStack.h"
 #import "SongbookModel.h"
-#import "NoStatusActivityViewController.h"
 
 extern NSString * const kStandardTextSizeKey;
 extern const float kSuperMaximumStandardTextSize;
@@ -30,7 +29,6 @@ extern const float kMinimumStandardTextSize;
 @property (nonatomic) NSRange highlightRange;
 @property (nonatomic) NSUInteger bookmarkedGlyphIndex;
 @property (nonatomic) CGFloat bookmarkedGlyphYOffset;
-@property (strong, nonatomic) UIPopoverController *activityPopover;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *activityButton;
 
 - (IBAction)activityAction:(id)sender;
