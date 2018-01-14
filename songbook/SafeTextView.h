@@ -13,7 +13,7 @@
 @property (nonatomic) BOOL contentOffsetCallsAllowed;
 
 - (void)forceContentOffset:(CGPoint)contentOffset;
-- (CGPoint)locationForGlyphAtIndex:(NSUInteger)glyphIndex;
-- (CGFloat)contentHeight;
+- (CGPoint)locationForGlyphAtIndex:(NSUInteger)glyphIndex; // Returns a point relative to text view's frame.
+- (NSUInteger)glyphIndexClosestToPoint:(CGPoint)point; //  Point is relative to text view's frame.
 
 @end

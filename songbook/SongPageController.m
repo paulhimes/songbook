@@ -14,24 +14,24 @@
 
 @import AVFoundation;
 
-static const float kTextScaleThreshold = 1;
+static const float kTextScaleThreshold = 2;
 static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 
-@interface SongPageController () <UITextViewDelegate, UIToolbarDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, AVAudioPlayerDelegate>
+@interface SongPageController () <UITextViewDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, AVAudioPlayerDelegate>
 
 @property (nonatomic, readonly) Song *song;
 
 @property (nonatomic, strong) NSArray *relatedSongs;
 
-@property (weak, nonatomic) IBOutlet UIToolbar *topBar;
+@property (weak, nonatomic) IBOutlet UIVisualEffectView *topBar;
 @property (weak, nonatomic) IBOutlet SongTitleView *titleView;
+
+@property (weak, nonatomic) IBOutlet UIVisualEffectView *bottomBarBackground;
 
 @property (weak, nonatomic) IBOutlet UIView *playerView;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (nonatomic, strong) NSTimer *playbackTimer;
 @property (nonatomic, strong) AVAudioPlayer *audioPlayer;
-
-//@property (nonatomic, strong) UITableView *relatedItemsView;
 
 @property (nonatomic, strong) NSNumber *gestureStartTextSize;
 @property (nonatomic) NSUInteger glyphIndex;
@@ -39,6 +39,9 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 @property (nonatomic) CGFloat glyphYCoordinateInMainView;
 @property (nonatomic) CGPoint touchStartPoint;
 @property (nonatomic) CGPoint latestTouchPoint;
+
+@property (nonatomic, readonly) CGFloat minimumContentOffset;
+@property (nonatomic, readonly) CGFloat maximumContentOffset;
 
 // Caching for speed optimization.
 @property (nonatomic, strong) NSParagraphStyle *numberAndTitleParagraphStyle;
@@ -48,13 +51,6 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 @end
 
 @implementation SongPageController
-
-//- (void)setSong:(Song *)song
-//{
-//    _song = song;
-//    
-//    self.relatedSongs = [self.song.relatedSongs allObjects];
-//}
 
 - (NSParagraphStyle *)numberAndTitleParagraphStyle
 {
@@ -82,19 +78,20 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     return _songComponentRanges;
 }
 
+- (CGFloat)minimumContentOffset
+{
+    return -(self.view.layoutMargins.top + self.textView.contentInset.top);
+}
+
+- (CGFloat)maximumContentOffset
+{
+    return MAX(self.minimumContentOffset, self.textView.contentSize.height + self.bottomBarBackground.frame.size.height - self.textView.bounds.size.height );
+}
+
 - (void)viewDidLoad
 {
-//    [self.relatedItemsView setHeight:self.relatedItemsView.contentHeight];
-//    [self.textView addSubview:self.relatedItemsView];
-    
     self.titleView.number = self.song.number;
     self.titleView.title = self.song.title;
-    
-    CGFloat titleContentOriginY = self.titleView.contentOriginY;
-    self.textView.textContainerInset = UIEdgeInsetsMake(titleContentOriginY, 0, 44, 0);
-    
-    self.topBar.delegate = self;
-    self.bottomBar.delegate = self;
     
     self.playerView.backgroundColor = [Theme paperColor];
 
@@ -104,9 +101,10 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     
     self.view.backgroundColor = [Theme paperColor];
     self.textView.backgroundColor = [Theme paperColor];
-    
-    self.topBar.barTintColor = [Theme paperColor];
-    self.bottomBar.barTintColor = [Theme paperColor];
+
+    UIImage *clearImage = [[UIImage alloc] init];
+    [self.bottomBar setBackgroundImage:clearImage forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    [self.bottomBar setShadowImage:clearImage forToolbarPosition:UIBarPositionAny];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -126,20 +124,34 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     [self dismissPlayer];
 }
 
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    [self.bottomBar invalidateIntrinsicContentSize];
+}
+
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
     
     [self.titleView setNeedsDisplay];
-    
-    // Auto scroll to the highlight if there is no bookmark.
-    if (self.bookmarkedCharacterIndex == 0 && self.bookmarkedCharacterYOffset == 0) {
-        [self scrollToCharacterAtIndex:self.highlightRange.location];
-    } else {
-        [self scrollCharacterAtIndex:self.bookmarkedCharacterIndex toYCoordinate:self.bookmarkedCharacterYOffset];
-    }
-    
     [self updateBarVisibility];
+
+    CGFloat titleContentOriginY = self.titleView.contentOriginY;
+
+    self.textView.textContainerInset = UIEdgeInsetsMake(0, self.view.layoutMargins.left, 0, self.view.layoutMargins.right);
+
+    self.textView.contentInset = UIEdgeInsetsMake(titleContentOriginY, 0, self.bottomBarBackground.frame.size.height - self.view.layoutMargins.bottom, 0);
+
+    self.textView.scrollIndicatorInsets = UIEdgeInsetsMake(self.titleView.frame.size.height, self.textView.scrollIndicatorInsets.left, self.bottomBarBackground.frame.size.height - self.view.layoutMargins.bottom, 0);
+
+    // Auto scroll to the highlight if there is no bookmark.
+    if (self.bookmarkedGlyphIndex == 0 && self.bookmarkedGlyphYOffset == 0) {
+        NSUInteger glyphIndex = [self.textView.layoutManager glyphIndexForCharacterAtIndex:self.highlightRange.location];
+        [self scrollToGlyphAtIndex:glyphIndex];
+    } else {
+        [self scrollGlyphAtIndex:self.bookmarkedGlyphIndex toYCoordinate:self.bookmarkedGlyphYOffset];
+    }
 }
 
 - (NSManagedObject *)modelObject
@@ -300,58 +312,6 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     return matchingSongFiles;
 }
 
-//#pragma mark - UITableViewDataSource
-//
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-//{
-//    return [self.relatedSongs count];
-//}
-//
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-//    if (!cell) {
-//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
-//    }
-//    
-//    Song *relatedSong = self.relatedSongs[indexPath.row];
-//    
-//    NSMutableDictionary *numberAttributes = [@{} mutableCopy];
-//    numberAttributes[NSFontAttributeName] = [UIFont boldSystemFontOfSize:18];
-//    NSMutableDictionary *titleAttributes = [@{} mutableCopy];
-//    titleAttributes[NSFontAttributeName] = [UIFont systemFontOfSize:18];
-//    
-//    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@""
-//                                                                                         attributes:nil];
-//    if (relatedSong.number) {
-//        [attributedString appendString:[NSString stringWithFormat:@"%d", [relatedSong.number integerValue]]attributes:numberAttributes];
-//        [attributedString appendString:@" " attributes:titleAttributes];
-//    }
-//    
-//    [attributedString appendString:relatedSong.title attributes:titleAttributes];
-//    
-//    cell.textLabel.attributedText = attributedString;
-//
-//    
-//    return cell;
-//}
-//
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-//{
-//    return [self.relatedSongs count] > 0 ? 1 : 0;
-//}
-//
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-//{
-//    return @"Related Songs";
-//}
-//
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    [self.delegate pageController:self selectedModelObject:self.relatedSongs[indexPath.row]];
-//}
-
-
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self updateBarVisibility];
@@ -472,8 +432,8 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     BOOL shouldShowScrollIndicator = YES;
     
     CGFloat offsetY = self.textView.contentOffset.y;
-    
-    if (offsetY <= 0) {
+
+    if (offsetY <= self.minimumContentOffset) {
         self.topBar.hidden = YES;
         self.titleView.hidden = YES;
         shouldShowScrollIndicator = NO;
@@ -482,14 +442,13 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
         self.titleView.hidden = NO;
     }
     
-    CGFloat textViewHeight = self.textView.frame.size.height;
-    CGFloat textViewContentHeight = [self.textView contentHeight];
-    CGFloat textViewOldSchoolContentHeight = self.textView.contentSize.height;
-    
-    if (offsetY + textViewHeight >= MAX(textViewContentHeight, textViewOldSchoolContentHeight)) {
+    if (offsetY >= self.maximumContentOffset) {
         shouldShowScrollIndicator = NO;
+        self.bottomBarBackground.hidden = YES;
+    } else {
+        self.bottomBarBackground.hidden = NO;
     }
-    
+
     self.textView.showsVerticalScrollIndicator = shouldShowScrollIndicator;
 }
 
@@ -528,39 +487,17 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     // Save the glyph index of the glyph closest to 0,0 of the textView's frame.
     CGPoint topLeftVisibleCornerOfTextView = [self.textView convertPoint:self.textView.frame.origin fromView:self.view];
 
-    // Convert to the text container's coordinate space.
-    topLeftVisibleCornerOfTextView.x -= self.textView.textContainerInset.left;
-    topLeftVisibleCornerOfTextView.y -= self.textView.textContainerInset.top;
-
     // Get the glyph index.
-    NSUInteger glyphIndex = [self.textView.layoutManager glyphIndexForPoint:topLeftVisibleCornerOfTextView
-                                                            inTextContainer:self.textView.textContainer
-                                             fractionOfDistanceThroughGlyph:NULL];
+    NSUInteger glyphIndex = [self.textView glyphIndexClosestToPoint:topLeftVisibleCornerOfTextView];
 
     // Convert to character index.
-    self.bookmarkedCharacterIndex = [self.textView.layoutManager characterIndexForGlyphAtIndex:glyphIndex];
+    self.bookmarkedGlyphIndex = glyphIndex;
     
-    // Get the character's location relative to the main view.
-    CGPoint glyphLocationInMainView = [self locationInMainViewOfGlyphAtIndex:glyphIndex];
-    
-    // Get the character's location relative to the frame origin of the text view.
-    CGPoint glyphLocationRelativeToTextViewFrameOrigin = CGPointMake(glyphLocationInMainView.x - self.textView.frame.origin.x,
-                                                                     glyphLocationInMainView.y - self.textView.frame.origin.y);
-    
-    // Save the y offset of the character relative to the frame origin of the text view.
-    self.bookmarkedCharacterYOffset = glyphLocationRelativeToTextViewFrameOrigin.y;
-}
+    // Get the glyph's location relative to the frame origin of the text view.
+    CGPoint glyphLocationInTextView = [self.textView locationForGlyphAtIndex:glyphIndex];
 
-#pragma mark - UIBarPositioningDelegate
-
-- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
-{
-    if (bar == self.topBar) {
-        return UIBarPositionBottom;
-    } else if (bar == self.bottomBar) {
-        return UIBarPositionTop;
-    }
-    return UIBarPositionAny;
+    // Save the y offset of the glyph relative to the frame origin of the text view.
+    self.bookmarkedGlyphYOffset = glyphLocationInTextView.y;
 }
 
 #pragma mark - UIGestureRecognizer target
@@ -573,12 +510,8 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
         
         CGPoint gesturePoint = [sender locationInView:self.textView];
         
-        // Convert to the text container's coordinate space.
-        gesturePoint.x -= self.textView.textContainerInset.left;
-        gesturePoint.y -= self.textView.textContainerInset.top;
-        
-        self.glyphIndex = [self.textView.layoutManager glyphIndexForPoint:gesturePoint inTextContainer:self.textView.textContainer fractionOfDistanceThroughGlyph:NULL];
-        
+        self.glyphIndex = [self.textView glyphIndexClosestToPoint:gesturePoint];
+
         self.glyphOriginalYCoordinateInMainView = [self locationInMainViewOfGlyphAtIndex:self.glyphIndex].y;
         
         self.touchStartPoint = [sender locationInView:self.view];
@@ -593,7 +526,6 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
                  minimumFontSize:kMinimumStandardTextSize
                  maximumFontSize:kMaximumStandardTextSize];
 
-        [userDefaults synchronize];
         self.glyphIndex = 0;
         self.glyphOriginalYCoordinateInMainView = 0;
         self.glyphYCoordinateInMainView = 0;
@@ -601,16 +533,13 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
         self.latestTouchPoint = CGPointZero;
         
         // Limit the content offset to the actual content size.
-        CGFloat minimumContentOffset = 0;
-        CGFloat maximumContentOffset = MAX([self.textView contentHeight] - self.textView.frame.size.height, 0);
         CGFloat contentOffsetY = self.textView.contentOffset.y;
-        contentOffsetY = MIN(maximumContentOffset, MAX(minimumContentOffset, contentOffsetY));
-        
+        contentOffsetY = MIN(self.maximumContentOffset, MAX(self.minimumContentOffset, contentOffsetY));
+
         [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
         [self updateBookmark];
         
-    } else {
-        
+    } else if (sender.state == UIGestureRecognizerStateChanged){
         CGPoint updatedTouchPoint = [sender locationInView:self.view];
         self.latestTouchPoint = updatedTouchPoint;
         
@@ -626,7 +555,7 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     CGPoint glyphLocationInTextView = [self.textView locationForGlyphAtIndex:glyphIndex];
     
     // Convert to the main view's coordinate space.
-    CGPoint glyphLocationInMainView = [self.view convertPoint:glyphLocationInTextView fromView:self.textView];
+    CGPoint glyphLocationInMainView = CGPointMake(glyphLocationInTextView.x + self.textView.frame.origin.x, glyphLocationInTextView.y + self.textView.frame.origin.y);
     
     return glyphLocationInMainView;
 }
@@ -642,16 +571,18 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     
     // Limit the scaled size to sane bounds.
     float scaledAndLimitedSize = MIN(maximumFontSize, MAX(minimumFontSize, scaledSize));
-    
-    CGFloat touchPointVerticalShift = touchPoint.y - self.touchStartPoint.y;
-    self.glyphYCoordinateInMainView = self.glyphOriginalYCoordinateInMainView + touchPointVerticalShift;
-    
+
     // Only update the text scale if the change is significant enough.
     NSNumber *currentTextSize = [[NSUserDefaults standardUserDefaults] objectForKey:kStandardTextSizeKey];
     if (fabsf([currentTextSize floatValue] - scaledAndLimitedSize) > kTextScaleThreshold) {
+        // Persist the new text size.
         [[NSUserDefaults standardUserDefaults] setObject:@(scaledAndLimitedSize) forKey:kStandardTextSizeKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
-    
+
+    CGFloat touchPointVerticalShift = touchPoint.y - self.touchStartPoint.y;
+    self.glyphYCoordinateInMainView = self.glyphOriginalYCoordinateInMainView + touchPointVerticalShift;
+
     CGFloat currentYCoordinateOfGlyphInMainView = [self locationInMainViewOfGlyphAtIndex:self.glyphIndex].y;
     CGFloat glyphVerticalError = self.glyphYCoordinateInMainView - currentYCoordinateOfGlyphInMainView;
     CGFloat contentOffsetY = self.textView.contentOffset.y - glyphVerticalError;
@@ -659,25 +590,22 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
 }
 
-- (void)scrollToCharacterAtIndex:(NSUInteger)characterIndex
+- (void)scrollToGlyphAtIndex:(NSUInteger)glyphIndex
 {
     CGFloat viewHeight = self.textView.frame.size.height;
     CGFloat targetYCoordinate = viewHeight - (viewHeight / M_PHI);
-    [self scrollCharacterAtIndex:characterIndex toYCoordinate:targetYCoordinate];
+    [self scrollGlyphAtIndex:glyphIndex toYCoordinate:targetYCoordinate];
 }
 
-- (void)scrollCharacterAtIndex:(NSUInteger)characterIndex toYCoordinate:(CGFloat)yCoordinate
+- (void)scrollGlyphAtIndex:(NSUInteger)glyphIndex toYCoordinate:(CGFloat)yCoordinate
 {
-    NSUInteger glyphIndex = [self.textView.layoutManager glyphIndexForCharacterAtIndex:characterIndex];
     CGFloat currentYCoordinateOfGlyphInMainView = [self locationInMainViewOfGlyphAtIndex:glyphIndex].y;
     CGFloat glyphVerticalError = yCoordinate - currentYCoordinateOfGlyphInMainView;
     CGFloat currentContentOffsetY = self.textView.contentOffset.y;
     CGFloat contentOffsetY = currentContentOffsetY - glyphVerticalError;
-
+    
     // Limit the content offset to the actual content size.
-    CGFloat minimumContentOffset = 0;
-    CGFloat maximumContentOffset = MAX([self.textView contentHeight] - self.textView.frame.size.height, 0);
-    contentOffsetY = MIN(maximumContentOffset, MAX(minimumContentOffset, contentOffsetY));
+    contentOffsetY = MIN(self.maximumContentOffset, MAX(self.minimumContentOffset, contentOffsetY));
     
     [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
     [self updateBookmark];

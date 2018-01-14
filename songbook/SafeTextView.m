@@ -35,27 +35,29 @@
 
 - (CGPoint)locationForGlyphAtIndex:(NSUInteger)glyphIndex
 {
-    CGRect fragmentRect = [self.layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex effectiveRange:NULL];
-    CGPoint glyphLocation = [self.layoutManager locationForGlyphAtIndex:glyphIndex];
+    // Glyph bounds in text container coordinate space.
+    CGRect glyphRect = [self.layoutManager boundingRectForGlyphRange:NSMakeRange(glyphIndex, 1) inTextContainer:self.textContainer];
     
-    // Convert to the text container's coordinate space.
-    glyphLocation.x += CGRectGetMinX(fragmentRect);
-    glyphLocation.y += CGRectGetMinY(fragmentRect);
+    CGPoint glyphLocation = glyphRect.origin;
     
     // Convert to the text view's coordinate space.
     glyphLocation.x += self.textContainerInset.left;
     glyphLocation.y += self.textContainerInset.top;
+
+    // Compensate for the text view's content offset.
+    glyphLocation.x -= self.contentOffset.x;
+    glyphLocation.y -= self.contentOffset.y;
     
     return glyphLocation;
 }
 
-- (CGFloat)contentHeight
+- (NSUInteger)glyphIndexClosestToPoint:(CGPoint)point
 {
-    CGFloat textViewTopContainerInset = self.textContainerInset.top;
-    CGFloat textViewBottomContainerInset = self.textContainerInset.bottom;
-    CGRect textViewContentRect = [self.layoutManager usedRectForTextContainer:self.textContainer];
-    CGFloat textViewTextKitHeight = textViewContentRect.size.height + textViewTopContainerInset + textViewBottomContainerInset;
-    return textViewTextKitHeight;
+    // Convert to the text container's coordinate space.
+    point.x -= self.textContainerInset.left;
+    point.y -= self.textContainerInset.top;
+    
+    return [self.layoutManager glyphIndexForPoint:point inTextContainer:self.textContainer fractionOfDistanceThroughGlyph:NULL];
 }
 
 @end

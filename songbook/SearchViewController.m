@@ -347,22 +347,10 @@ typedef enum PreferredSearchMethod : NSUInteger {
 
 - (void)superScrollIndicator:(SuperScrollIndicator *)superScrollIndicator didScrollToPercent:(CGFloat)percent
 {
-    CGFloat maxOffset = maxOffset = self.tableView.contentSize.height - self.tableView.frame.size.height;
-    
-    if (@available(iOS 11, *)) {
-        maxOffset += self.tableView.adjustedContentInset.top + self.tableView.adjustedContentInset.bottom;
-    } else {
-        maxOffset += self.tableView.contentInset.top + self.tableView.contentInset.bottom;
-    }
-    
-    CGFloat targetOffset = maxOffset * percent;
-    
-    if (@available(iOS 11, *)) {
-        targetOffset -= self.tableView.adjustedContentInset.top;
-    } else {
-        targetOffset -= self.tableView.contentInset.top;
-    }
-    
+    CGFloat maxOffset = maxOffset = self.tableView.contentSize.height - self.tableView.frame.size.height + self.tableView.adjustedContentInset.top + self.tableView.adjustedContentInset.bottom;
+
+    CGFloat targetOffset = maxOffset * percent - self.tableView.adjustedContentInset.top;
+
     [self.tableView setContentOffset:CGPointMake(0, targetOffset) animated:NO];
     [self.searchField resignFirstResponder];
 }

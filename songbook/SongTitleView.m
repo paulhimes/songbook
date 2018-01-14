@@ -84,6 +84,11 @@ static const CGFloat kSongComponentPadding = 8;
     return size;
 }
 
+- (CGSize)intrinsicContentSize
+{
+    return [self sizeForWidth:self.bounds.size.width];
+}
+
 - (CGRect)textRectForWidth:(CGFloat)width
 {
     CGRect boundingRect = [[self text] boundingRectWithSize:CGSizeMake(width, self.numberFont.lineHeight)

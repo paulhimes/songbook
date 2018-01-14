@@ -66,14 +66,13 @@
         <!--Song Page Controller-->
         <scene sceneID="7wM-0O-W7s">
             <objects>
-                <viewController storyboardIdentifier="SongPage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BLr-Sz-4hc" customClass="SongPageController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SongPage" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BLr-Sz-4hc" customClass="SongPageController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8NI-aE-eQr">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q00-Dd-rwV" customClass="SafeTextView">
-                                <rect key="frame" x="16" y="0.0" width="343" height="667"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <textView contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q00-Dd-rwV" customClass="SafeTextView">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <inset key="scrollIndicatorInsets" minX="0.0" minY="44" maxX="-16" maxY="44"/>
                                 <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -82,9 +81,16 @@
                                     <outlet property="delegate" destination="BLr-Sz-4hc" id="A4z-20-kRB"/>
                                 </connections>
                             </textView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Z9-uC-sit" userLabel="Bottom Toolbar">
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yka-ka-k57" userLabel="Bottom Bar">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="e1l-qj-dQd">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="extraLight"/>
+                            </visualEffectView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Z9-uC-sit" userLabel="Bottom Toolbar">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <items>
                                     <barButtonItem systemItem="search" id="WUh-qr-l10">
                                         <connections>
@@ -99,15 +105,20 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UyO-Ke-5E4" userLabel="Top Toolbar">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items/>
-                            </toolbar>
-                            <view hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pea-vZ-suQ" customClass="SongTitleView">
-                                <rect key="frame" x="16" y="0.0" width="343" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aAJ-uP-jzP">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="0ZR-Gd-Zdy">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="extraLight"/>
+                            </visualEffectView>
+                            <view hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pea-vZ-suQ" customClass="SongTitleView">
+                                <rect key="frame" x="16" y="20" width="343" height="40"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" placeholder="YES" id="tCd-ym-tnH"/>
+                                </constraints>
                             </view>
                             <view opaque="NO" alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ONt-b4-PI9" userLabel="PlayerView">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
@@ -133,17 +144,39 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="7Z9-uC-sit" firstAttribute="trailing" secondItem="yka-ka-k57" secondAttribute="trailing" id="6rC-s3-7vh"/>
+                            <constraint firstItem="7Z9-uC-sit" firstAttribute="leading" secondItem="8NI-aE-eQr" secondAttribute="leading" id="Au0-IA-Gqj"/>
+                            <constraint firstItem="aAJ-uP-jzP" firstAttribute="top" secondItem="8NI-aE-eQr" secondAttribute="top" id="Ryi-D4-FcD"/>
+                            <constraint firstItem="Pea-vZ-suQ" firstAttribute="leading" secondItem="8NI-aE-eQr" secondAttribute="leadingMargin" id="X4h-bI-qtL"/>
+                            <constraint firstItem="aAJ-uP-jzP" firstAttribute="leading" secondItem="8NI-aE-eQr" secondAttribute="leading" id="bkl-3B-jlS"/>
+                            <constraint firstAttribute="trailing" secondItem="aAJ-uP-jzP" secondAttribute="trailing" id="eWX-AL-tOs"/>
+                            <constraint firstItem="q00-Dd-rwV" firstAttribute="leading" secondItem="8NI-aE-eQr" secondAttribute="leading" id="gpa-cB-Obx"/>
+                            <constraint firstAttribute="bottom" secondItem="q00-Dd-rwV" secondAttribute="bottom" id="jm6-sn-5dR"/>
+                            <constraint firstItem="inn-9a-Zjf" firstAttribute="bottom" secondItem="7Z9-uC-sit" secondAttribute="bottom" id="lLo-cw-PS2"/>
+                            <constraint firstItem="7Z9-uC-sit" firstAttribute="top" secondItem="yka-ka-k57" secondAttribute="top" id="lmM-ez-Fbz"/>
+                            <constraint firstItem="aAJ-uP-jzP" firstAttribute="bottom" secondItem="Pea-vZ-suQ" secondAttribute="bottom" id="mzA-8X-bbP"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Pea-vZ-suQ" secondAttribute="trailing" id="n5E-Hz-jGG"/>
+                            <constraint firstAttribute="trailing" secondItem="q00-Dd-rwV" secondAttribute="trailing" id="nLg-mg-lOu"/>
+                            <constraint firstItem="7Z9-uC-sit" firstAttribute="leading" secondItem="yka-ka-k57" secondAttribute="leading" id="oKt-Qa-Fl6"/>
+                            <constraint firstAttribute="bottom" secondItem="yka-ka-k57" secondAttribute="bottom" id="owz-2v-IRY"/>
+                            <constraint firstItem="q00-Dd-rwV" firstAttribute="top" secondItem="8NI-aE-eQr" secondAttribute="top" id="wdM-6f-HDw"/>
+                            <constraint firstItem="inn-9a-Zjf" firstAttribute="top" secondItem="Pea-vZ-suQ" secondAttribute="top" id="xkA-XQ-JDV"/>
+                            <constraint firstAttribute="trailing" secondItem="7Z9-uC-sit" secondAttribute="trailing" id="ykU-Ff-GZr"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="inn-9a-Zjf"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="activityButton" destination="SDL-hj-HEh" id="pUz-h2-Lg8"/>
-                        <outlet property="bottomBar" destination="7Z9-uC-sit" id="Vlm-fq-mqL"/>
+                        <outlet property="bottomBar" destination="7Z9-uC-sit" id="GgP-f2-fAx"/>
+                        <outlet property="bottomBarBackground" destination="yka-ka-k57" id="cUk-au-7Rc"/>
                         <outlet property="playerView" destination="ONt-b4-PI9" id="omm-DV-TRB"/>
                         <outlet property="progressView" destination="89R-Xd-duU" id="o4x-bT-1Yw"/>
                         <outlet property="textView" destination="q00-Dd-rwV" id="9sm-AZ-kx8"/>
                         <outlet property="titleView" destination="Pea-vZ-suQ" id="kPJ-BB-CA6"/>
-                        <outlet property="topBar" destination="UyO-Ke-5E4" id="J4c-oS-9Jw"/>
+                        <outlet property="topBar" destination="aAJ-uP-jzP" id="2LI-rX-XBo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WIu-na-kln" userLabel="First Responder" sceneMemberID="firstResponder"/>
