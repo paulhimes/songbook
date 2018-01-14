@@ -17,16 +17,9 @@ static const NSString * const kRangeKey = @"RangeKey";
 
 @implementation FilteredSearcher
 
-+ (NSDictionary *)defaultAttributes
-{
-    UITableViewCell *cellSpecimen = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
-    cellSpecimen.textLabel.text = @" ";
-    return [cellSpecimen.textLabel.attributedText attributesAtIndex:0 effectiveRange:NULL];
-}
-
 + (NSDictionary *)normalFragmentAttributes
 {
-    NSMutableDictionary *normalFragmentAttributes = [[FilteredSearcher defaultAttributes] mutableCopy];
+    NSMutableDictionary *normalFragmentAttributes = [@{} mutableCopy];
     normalFragmentAttributes[NSFontAttributeName] = [UIFont systemFontOfSize:16];
     normalFragmentAttributes[NSForegroundColorAttributeName] = [Theme darkerGrayColor];
     return [normalFragmentAttributes copy];
@@ -34,7 +27,7 @@ static const NSString * const kRangeKey = @"RangeKey";
 
 + (NSDictionary *)matchingFragmentAttributes
 {
-    NSMutableDictionary *matchingFragmentAttributes = [[FilteredSearcher defaultAttributes] mutableCopy];
+    NSMutableDictionary *matchingFragmentAttributes = [@{} mutableCopy];
     matchingFragmentAttributes[NSFontAttributeName] = [UIFont boldSystemFontOfSize:16];
     matchingFragmentAttributes[NSForegroundColorAttributeName] = [Theme redColor];
     return [matchingFragmentAttributes copy];
