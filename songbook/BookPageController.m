@@ -14,7 +14,7 @@
 
 @property (nonatomic, readonly) Book *book;
 @property (weak, nonatomic) IBOutlet UIToolbar *bottomBar;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *versionButton;
+@property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 
 @end
 
@@ -33,7 +33,8 @@
     [self.bottomBar setShadowImage:clearImage forToolbarPosition:UIBarPositionAny];
     self.bottomBar.tintColor = [Theme paperColor];
     
-    self.versionButton.title = [NSString stringWithFormat:@"Version %@", self.book.version];
+    self.versionLabel.text = [NSString stringWithFormat:@"Version %@", self.book.version];
+    self.versionLabel.textColor = [Theme paperColor];
 }
 
 - (void)viewWillLayoutSubviews
@@ -66,6 +67,11 @@
                                            attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:standardTextSize * 2.5],
                                                         NSForegroundColorAttributeName: [Theme paperColor]
                                                         }];
+}
+
+- (UIColor *)pageControlColor
+{
+    return [Theme paperColor];
 }
 
 @end

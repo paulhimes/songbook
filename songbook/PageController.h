@@ -29,14 +29,11 @@ extern const float kMinimumStandardTextSize;
 @property (nonatomic) NSRange highlightRange;
 @property (nonatomic) NSUInteger bookmarkedGlyphIndex;
 @property (nonatomic) CGFloat bookmarkedGlyphYOffset;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *activityButton;
-
-- (IBAction)activityAction:(id)sender;
+@property (nonatomic, readonly) NSArray<NSURL *> *pageSongFiles;
+@property (nonatomic, readonly) UIColor *pageControlColor;
 
 - (void)handleGesture:(UIPinchGestureRecognizer *)sender;
 - (void)textContentChanged;
-
-- (void)shareBookWithExtraFiles:(BOOL)includeExtraFiles;
 
 @end
 
@@ -44,7 +41,6 @@ extern const float kMinimumStandardTextSize;
 
 - (void)pageController:(PageController *)pageController
    selectedModelObject:(NSManagedObject *)modelObject;
-- (void)search;
 - (CoreDataStack *)coreDataStack;
 
 @end

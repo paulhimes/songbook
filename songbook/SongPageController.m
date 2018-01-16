@@ -12,12 +12,9 @@
 #import "Section+Helpers.h"
 #import "Song+Helpers.h"
 
-@import AVFoundation;
-
 static const float kTextScaleThreshold = 2;
-static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 
-@interface SongPageController () <UITextViewDelegate, MFMailComposeViewControllerDelegate, AVAudioPlayerDelegate>
+@interface SongPageController () <UITextViewDelegate, MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, readonly) Song *song;
 
@@ -28,11 +25,6 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 
 @property (weak, nonatomic) IBOutlet UIVisualEffectView *bottomBarBackground;
 @property (weak, nonatomic) IBOutlet UIToolbar *bottomBar;
-
-@property (weak, nonatomic) IBOutlet UIView *playerView;
-@property (weak, nonatomic) IBOutlet UIProgressView *progressView;
-@property (nonatomic, strong) NSTimer *playbackTimer;
-@property (nonatomic, strong) AVAudioPlayer *audioPlayer;
 
 @property (nonatomic, strong) NSNumber *gestureStartTextSize;
 @property (nonatomic) NSUInteger glyphIndex;
@@ -115,12 +107,6 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
                                                                                      action:@selector(reportError:)]];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [self dismissPlayer];
-}
-
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
@@ -165,20 +151,6 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     }
     return song;
 }
-
-//- (UITableView *)relatedItemsView
-//{
-//    if (!_relatedItemsView) {
-//        _relatedItemsView = [[UITableView alloc] init];
-//        _relatedItemsView.dataSource = self;
-//        _relatedItemsView.delegate = self;
-//        _relatedItemsView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-//        _relatedItemsView.scrollEnabled = NO;
-//        _relatedItemsView.separatorInset = UIEdgeInsetsZero;
-//        _relatedItemsView.separatorStyle = UITableViewCellSeparatorStyleNone;
-//    }
-//    return _relatedItemsView;
-//}
 
 - (NSAttributedString *)text
 {
@@ -261,7 +233,7 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     return paragraphStyle;
 }
 
-- (NSArray *)matchingSongFiles
+- (NSArray<NSURL *> *)pageSongFiles
 {
     // Generate the target song file URL.
     NSUInteger songIndex = [self.song.section.songs indexOfObject:self.song];
@@ -312,113 +284,6 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self updateBarVisibility];
-}
-
-- (IBAction)activityAction:(id)sender
-{
-    NSArray *matchingSongFiles = [self matchingSongFiles];
-
-    if ([matchingSongFiles count]) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-        __weak SongPageController *welf = self;
-        
-        if ([matchingSongFiles count] == 1) {
-            [alertController addAction:[UIAlertAction actionWithTitle:@"Play Tune" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [welf playSongFile:matchingSongFiles[0]];
-            }]];
-        } else {
-            [matchingSongFiles enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                [alertController addAction:[UIAlertAction actionWithTitle:[NSString stringWithFormat:@"Play Tune %lu", (unsigned long)(idx + 1)] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    [welf playSongFile:matchingSongFiles[idx]];
-                }]];
-            }];
-        }
-        
-        [alertController addAction:[UIAlertAction actionWithTitle:@"Share Book" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [welf shareBookWithExtraFiles:NO];
-        }]];
-        
-        [alertController addAction:[UIAlertAction actionWithTitle:@"Share Book & Tunes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [welf shareBookWithExtraFiles:YES];
-        }]];
-        
-        [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}]];
-        
-        alertController.popoverPresentationController.barButtonItem = self.activityButton;
-        
-        [self presentViewController:alertController animated:YES completion:^{}];
-    } else {
-        [super activityAction:sender];
-    }
-}
-
-#pragma mark - Song Playback
-
-- (void)playSongFile:(NSURL *)songFile
-{
-    [self.playbackTimer invalidate];
-    self.playbackTimer = nil;
-    
-    [self.audioPlayer stop];
-    self.audioPlayer = nil;
-    
-    self.progressView.progress = 0;
-    
-    [UIView animateWithDuration:kPlayerAnimationDuration animations:^{
-        self.playerView.alpha = 1;
-        self.bottomBar.alpha = 0;
-    } completion:^(BOOL finished) {
-        self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:songFile error:nil];
-        self.audioPlayer.delegate = self;
-        
-        if (self.audioPlayer) {
-            
-            self.playbackTimer = [NSTimer timerWithTimeInterval:0.01
-                                                         target:self
-                                                       selector:@selector(playbackTimerUpdate)
-                                                       userInfo:nil
-                                                        repeats:YES];
-
-            NSRunLoop *runloop = [NSRunLoop currentRunLoop];
-            [runloop addTimer:self.playbackTimer forMode:NSRunLoopCommonModes];
-            [runloop addTimer:self.playbackTimer forMode:UITrackingRunLoopMode];
-
-            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
-            [self.audioPlayer prepareToPlay];
-            [self.audioPlayer play];
-        }
-    }];
-}
-
-- (IBAction)stopPlayingAction:(id)sender
-{
-    [self dismissPlayer];
-}
-
-- (void)dismissPlayer
-{
-    [UIView animateWithDuration:kPlayerAnimationDuration animations:^{
-        self.playerView.alpha = 0;
-        self.bottomBar.alpha = 1;
-    } completion:^(BOOL finished) {
-        [self.playbackTimer invalidate];
-        self.playbackTimer = nil;
-        
-        [self.audioPlayer stop];
-        self.audioPlayer = nil;
-    }];
-}
-
-- (void)playbackTimerUpdate
-{
-    float progress = 0.0;
-    if (self.audioPlayer) {
-        progress = self.audioPlayer.currentTime / self.audioPlayer.duration;
-    }
-    
-    if (progress > self.progressView.progress) {
-        [self.progressView setProgress:progress animated:YES];
-    }
 }
 
 #pragma mark - UITextViewDelegate
@@ -718,22 +583,4 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 {
     [self dismissViewControllerAnimated:YES completion:^{}];
 }
-
-#pragma mark - AVAudioPlayerDelegate
-
-- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
-{
-    [self dismissPlayer];
-}
-
-- (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error
-{
-    [self dismissPlayer];
-}
-
-- (void)audioPlayerBeginInterruption:(AVAudioPlayer *)player
-{
-    [self dismissPlayer];
-}
-
 @end

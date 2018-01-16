@@ -17,6 +17,8 @@
 @property (nonatomic, strong) PageServer *pageServer;
 @property (nonatomic, weak) id<PageViewControllerDelegate> pageViewControllerDelegate;
 @property (nonatomic, readonly) NSManagedObjectID *closestSongID;
+@property (nonatomic, readonly) NSArray<NSURL *> *pageSongFiles;
+@property (nonatomic, readonly) UIColor *pageControlColor;
 
 - (void)showPageForModelObject:(NSManagedObject *)modelObject
                 highlightRange:(NSRange)highlightRange
@@ -26,7 +28,7 @@
 
 @protocol PageViewControllerDelegate <NSObject>
 
-- (void)search;
 - (void)closeBook;
+- (void)pageDidChange;
 
 @end

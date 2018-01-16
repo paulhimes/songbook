@@ -13,7 +13,7 @@ static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
 static NSString * const kDelegateKey = @"DelegateKey";
 static NSString * const kViewControllerKey = @"ViewControllerKey";
 
-@interface PageViewController () <PageControllerDelegate>
+@interface PageViewController () <PageControllerDelegate, UIPageViewControllerDelegate>
 
 @end
 
@@ -31,6 +31,7 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.delegate = self;
     self.dataSource = self.pageServer;    
     self.view.backgroundColor = [Theme paperColor];
 }
@@ -127,6 +128,26 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
     return songbookModel.closestSong.objectID;
 }
 
+- (NSArray<NSURL *> *)pageSongFiles
+{
+    PageController *currentController = self.viewControllers[0];
+    return currentController.pageSongFiles;
+}
+
+- (UIColor *)pageControlColor
+{
+    PageController *currentController = self.viewControllers[0];
+    return currentController.pageControlColor;
+}
+
+- (void)setViewControllers:(NSArray<UIViewController *> *)viewControllers direction:(UIPageViewControllerNavigationDirection)direction animated:(BOOL)animated completion:(void (^)(BOOL))completion
+{
+    __weak PageViewController *welf = self;
+    [super setViewControllers:viewControllers direction:direction animated:animated completion:^(BOOL completed) {
+        [welf.pageViewControllerDelegate pageDidChange];
+    }];
+}
+
 - (void)showPageForModelObject:(NSManagedObject *)modelObject
                 highlightRange:(NSRange)highlightRange
                       animated:(BOOL)animated;
@@ -151,9 +172,11 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
     [self showPageForModelObject:modelObject highlightRange:NSMakeRange(0, 0) animated:NO];
 }
 
-- (void)search
+#pragma mark - UIPageViewControllerDelegate
+
+- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed
 {
-    [self.pageViewControllerDelegate search];
+    [self.pageViewControllerDelegate pageDidChange];
 }
 
 @end

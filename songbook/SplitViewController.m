@@ -151,6 +151,11 @@ static NSString * const kSearchViewControllerKey = @"SearchViewControllerKey";
     [self performSegueWithIdentifier:@"CloseBook" sender:nil];
 }
 
+- (void)pageDidChange
+{
+    
+}
+
 #pragma mark - SearchViewControllerDelegate
 
 - (void)searchCancelled:(SearchViewController *)searchViewController

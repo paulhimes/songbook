@@ -7,9 +7,6 @@
 //
 
 #import "PageController.h"
-#import "BookCodec.h"
-#import "BookActivityItemSource.h"
-#import "ExportProgressViewController.h"
 
 NSString * const kStandardTextSizeKey = @"StandardTextSize";
 
@@ -24,13 +21,9 @@ const float kSuperMaximumStandardTextSize = 60;
 const float kMaximumStandardTextSize = 40;
 const float kMinimumStandardTextSize = 8;
 
-@interface PageController () <UIScrollViewDelegate, UIToolbarDelegate, UIViewControllerRestoration, ExportProgressViewControllerDelegate>
+@interface PageController () <UIScrollViewDelegate, UIViewControllerRestoration>
 
 @property (nonatomic, strong) UIPinchGestureRecognizer *pinchGestureRecognizer;
-@property (nonatomic, strong) UIWindow *alertWindow;
-@property (nonatomic, strong) ExportProgressViewController *exportProgressViewController;
-@property (nonatomic) BOOL exportCancelled;
-@property (nonatomic, strong) NSNumber *previousExportIncludedExtraFiles;
 
 @end
 
@@ -141,173 +134,14 @@ const float kMinimumStandardTextSize = 8;
     
 }
 
-#pragma mark - Book Sharing
-
-- (void)shareBookWithExtraFiles:(BOOL)includeExtraFiles
+- (NSArray<NSURL *> *)pageSongFiles
 {
-    __block NSURL *exportedFileURL = [BookCodec fileURLForExportingFromContext:self.coreDataStack.managedObjectContext];
-    
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[exportedFileURL path]] &&
-        self.previousExportIncludedExtraFiles &&
-        [self.previousExportIncludedExtraFiles boolValue] == includeExtraFiles) {
-        // Just share the existing file.
-        [self shareExportedBookFile:exportedFileURL];
-    } else {
-        // Determine the source directory for the book files.
-        NSURL *bookDirectory = self.coreDataStack.databaseDirectory;
-        
-        if (includeExtraFiles) {
-            // Create the alert window and view controller.
-            self.alertWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-            self.alertWindow.opaque = NO;
-            self.alertWindow.tintColor = [Theme redColor];
-            self.exportProgressViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ExportProgressViewController"];
-            self.exportProgressViewController.delegate = self;
-            //Put window on top of all other windows/views
-            [self.alertWindow setWindowLevel:UIWindowLevelNormal];
-            [self.alertWindow setRootViewController:self.exportProgressViewController];
-            [self.alertWindow makeKeyAndVisible];
-            [self.exportProgressViewController showWithCompletion:nil];
-            self.view.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
-            
-            self.exportCancelled = NO;
-            
-            // Export the book directory to a file, and share it when ready.
-            __weak PageController *welf = self;
-            __weak ExportProgressViewController *weakProgressViewController = self.exportProgressViewController;
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                exportedFileURL = [BookCodec exportBookFromDirectory:bookDirectory
-                                                   includeExtraFiles:includeExtraFiles
-                                                            progress:^(CGFloat progress, BOOL *stop) {
-                                                                dispatch_sync(dispatch_get_main_queue(), ^{
-                                                                    [weakProgressViewController setProgress:progress];
-                                                                    
-                                                                    *stop = welf.exportCancelled;
-                                                                });
-                                                            }];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    //Dismiss alert by making main window key and visible
-                    [welf.exportProgressViewController hideWithCompletion:^{
-                        welf.view.tintAdjustmentMode = UIViewTintAdjustmentModeAutomatic;
-                        [welf.view.window makeKeyAndVisible];
-                        welf.alertWindow = nil;
-                        welf.exportProgressViewController = nil;
-                        
-                        // Share the completed book file.
-                        welf.previousExportIncludedExtraFiles = @(includeExtraFiles);
-                        [welf shareExportedBookFile:exportedFileURL];
-                    }];
-                });
-            });
-        } else {
-            exportedFileURL = [BookCodec exportBookFromDirectory:bookDirectory
-                                               includeExtraFiles:NO
-                                                        progress:nil];
-            self.previousExportIncludedExtraFiles = @(includeExtraFiles);
-            [self shareExportedBookFile:exportedFileURL];
-        }
-    }
+    return @[];
 }
 
-- (void)shareExportedBookFile:(NSURL *)exportedFileURL
+- (UIColor *)pageControlColor
 {
-    if ([[NSFileManager defaultManager] fileExistsAtPath:exportedFileURL.path]) {
-        
-        NSArray *activityItems = @[[[BookActivityItemSource alloc] initWithBookFileURL:exportedFileURL]];
-        UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems
-                                                                                             applicationActivities:nil];
-        
-        activityViewController.completionWithItemsHandler = ^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
-            if (completed) {
-                // Delete the temporary file.
-                NSURL *fileURL = [BookCodec fileURLForExportingFromContext:self.coreDataStack.managedObjectContext];
-                if (fileURL && [[NSFileManager defaultManager] fileExistsAtPath:fileURL.path]) {
-                    NSError *deleteError;
-                    if (![[NSFileManager defaultManager] removeItemAtURL:fileURL error:&deleteError]) {
-                        NSLog(@"Failed to delete temporary export file: %@", deleteError);
-                    }
-                }
-            }
-        };
-        
-        activityViewController.popoverPresentationController.barButtonItem = self.activityButton;
-        
-        [self presentViewController:activityViewController animated:YES completion:^{}];
-    }
-}
-
-- (BOOL)bookDirectoryHasSongFiles
-{
-    NSURL *bookDirectory = self.coreDataStack.databaseDirectory;
-    
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSDirectoryEnumerator *directoryEnumerator = [fileManager enumeratorAtURL:bookDirectory
-                                                   includingPropertiesForKeys:@[NSURLIsDirectoryKey]
-                                                                      options:0
-                                                                 errorHandler:^BOOL(NSURL *url, NSError *error) {
-                                                                     NSLog(@"Error enumerating url: %@", url);
-                                                                     return YES;
-                                                                 }];
-    
-    BOOL foundSongFile = NO;
-    
-    for (NSURL *url in directoryEnumerator) {
-        // Skip directories.
-        NSNumber *isDirectory;
-        [url getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:nil];
-        if ([isDirectory boolValue]) {
-            continue;
-        }
-        
-        NSString *fileExtension = [url pathExtension];
-        if ([fileExtension localizedCaseInsensitiveCompare:@"m4a"] == NSOrderedSame ||
-            [fileExtension localizedCaseInsensitiveCompare:@"mp3"] == NSOrderedSame ||
-            [fileExtension localizedCaseInsensitiveCompare:@"wav"] == NSOrderedSame) {
-            
-            foundSongFile = YES;
-            break;
-        }
-    }
-    
-    return foundSongFile;
-}
-
-#pragma mark - Action Methods
-
-- (IBAction)searchAction:(id)sender
-{
-    [self.delegate search];
-}
-
-- (IBAction)activityAction:(id)sender
-{
-    if ([self bookDirectoryHasSongFiles]) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-        __weak PageController *welf = self;
-        
-        [alertController addAction:[UIAlertAction actionWithTitle:@"Share Book" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [welf shareBookWithExtraFiles:NO];
-        }]];
-        
-        [alertController addAction:[UIAlertAction actionWithTitle:@"Share Book & Tunes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [welf shareBookWithExtraFiles:YES];
-        }]];
-        
-        [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}]];
-        
-        alertController.popoverPresentationController.barButtonItem = self.activityButton;
-        
-        [self presentViewController:alertController animated:YES completion:^{}];
-    } else {
-        [self shareBookWithExtraFiles:NO];
-    }
-}
-
-#pragma mark - ExportProgressViewControllerDelegate
-
-- (void)exportProgressViewControllerDidCancel:(ExportProgressViewController *)exportProgressViewController
-{
-    self.exportCancelled = YES;
+    return [Theme redColor];
 }
 
 @end

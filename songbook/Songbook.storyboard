@@ -31,11 +31,63 @@
                                     <segue destination="POr-aa-yjp" kind="embed" identifier="EmbedPageViewController" id="LNa-o6-fot"/>
                                 </connections>
                             </containerView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xfz-tE-Oee" userLabel="Bottom Toolbar">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem systemItem="search" id="nqW-MI-wLw">
+                                        <connections>
+                                            <action selector="searchAction:" destination="V7H-QJ-amo" id="w8y-b5-dVZ"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="ho9-ta-Hto"/>
+                                    <barButtonItem systemItem="action" id="MjF-Cz-FmT">
+                                        <connections>
+                                            <action selector="activityAction:" destination="V7H-QJ-amo" id="TMZ-ON-3d8"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <view opaque="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hp4-cc-nJu" userLabel="PlayerView">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kDz-bJ-H5d">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="Stop">
+                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="stopPlayingAction:" destination="V7H-QJ-amo" eventType="touchUpInside" id="1fX-C6-jOI"/>
+                                        </connections>
+                                    </button>
+                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fkV-FJ-9TP">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="2"/>
+                                        <color key="trackTintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </progressView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="kDz-bJ-H5d" firstAttribute="top" secondItem="Hp4-cc-nJu" secondAttribute="top" id="6mA-0v-Wvc"/>
+                                    <constraint firstAttribute="bottom" secondItem="kDz-bJ-H5d" secondAttribute="bottom" id="AU1-gG-ynj"/>
+                                    <constraint firstAttribute="trailing" secondItem="fkV-FJ-9TP" secondAttribute="trailing" id="YzC-TP-McN"/>
+                                    <constraint firstItem="fkV-FJ-9TP" firstAttribute="leading" secondItem="Hp4-cc-nJu" secondAttribute="leading" id="d4Y-sd-fOq"/>
+                                    <constraint firstAttribute="trailing" secondItem="kDz-bJ-H5d" secondAttribute="trailing" id="do3-vX-F4n"/>
+                                    <constraint firstItem="fkV-FJ-9TP" firstAttribute="top" secondItem="Hp4-cc-nJu" secondAttribute="top" id="vHl-0w-Vpw"/>
+                                    <constraint firstItem="kDz-bJ-H5d" firstAttribute="leading" secondItem="Hp4-cc-nJu" secondAttribute="leading" id="xSZ-wo-wxn"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="J57-gg-R16" firstAttribute="bottom" secondItem="Xfz-tE-Oee" secondAttribute="bottom" id="4bL-ok-FCF"/>
+                            <constraint firstItem="Xfz-tE-Oee" firstAttribute="leading" secondItem="kIM-zc-2bf" secondAttribute="leading" id="66y-LA-Xz1"/>
+                            <constraint firstItem="Hp4-cc-nJu" firstAttribute="bottom" secondItem="Xfz-tE-Oee" secondAttribute="bottom" id="8CN-r3-u7z"/>
+                            <constraint firstItem="Xfz-tE-Oee" firstAttribute="top" secondItem="Hp4-cc-nJu" secondAttribute="top" id="8Qy-M5-ZSX"/>
                             <constraint firstItem="5Ey-ad-7q1" firstAttribute="top" secondItem="kIM-zc-2bf" secondAttribute="top" id="DJR-qJ-c0j"/>
                             <constraint firstItem="5Ey-ad-7q1" firstAttribute="leading" secondItem="kIM-zc-2bf" secondAttribute="leading" id="GnB-zt-yRf"/>
+                            <constraint firstItem="Hp4-cc-nJu" firstAttribute="leading" secondItem="kIM-zc-2bf" secondAttribute="leading" id="M4r-Wh-210"/>
+                            <constraint firstAttribute="trailing" secondItem="Xfz-tE-Oee" secondAttribute="trailing" id="N5z-pY-C9U"/>
+                            <constraint firstAttribute="trailing" secondItem="Hp4-cc-nJu" secondAttribute="trailing" id="Sfe-fl-BnF"/>
                             <constraint firstAttribute="trailing" secondItem="5Ey-ad-7q1" secondAttribute="trailing" id="cce-4o-J5a"/>
                             <constraint firstAttribute="bottom" secondItem="5Ey-ad-7q1" secondAttribute="bottom" id="p8Z-rc-PRm"/>
                         </constraints>
@@ -43,6 +95,10 @@
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
+                        <outlet property="activityButton" destination="MjF-Cz-FmT" id="gmV-x2-R7s"/>
+                        <outlet property="bottomBar" destination="Xfz-tE-Oee" id="nPl-WQ-Mss"/>
+                        <outlet property="playerView" destination="Hp4-cc-nJu" id="9oq-ff-Cdn"/>
+                        <outlet property="progressView" destination="fkV-FJ-9TP" id="Yjc-d7-PmL"/>
                         <segue destination="PRR-wm-QWt" kind="unwind" identifier="CloseBook" unwindAction="closeBook:" id="Vw1-J7-5xZ"/>
                         <segue destination="f4X-As-1jE" kind="modal" identifier="Search" id="zkF-k4-Qae"/>
                     </connections>
@@ -88,50 +144,12 @@
                                 </view>
                                 <blurEffect style="extraLight"/>
                             </visualEffectView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Z9-uC-sit" userLabel="Bottom Toolbar">
+                            <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Z9-uC-sit" userLabel="Bottom Toolbar">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <items>
-                                    <barButtonItem systemItem="search" id="WUh-qr-l10">
-                                        <connections>
-                                            <action selector="searchAction:" destination="BLr-Sz-4hc" id="5jR-KJ-9rD"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Fo1-rD-kV8"/>
-                                    <barButtonItem systemItem="action" id="SDL-hj-HEh">
-                                        <connections>
-                                            <action selector="activityAction:" destination="BLr-Sz-4hc" id="NLQ-Bb-f4C"/>
-                                        </connections>
-                                    </barButtonItem>
+                                    <barButtonItem systemItem="search" id="g2n-r7-q7N"/>
                                 </items>
                             </toolbar>
-                            <view opaque="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ONt-b4-PI9" userLabel="PlayerView">
-                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j5o-kV-auQ">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" title="Stop">
-                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="stopPlayingAction:" destination="BLr-Sz-4hc" eventType="touchUpInside" id="Crt-cg-1QS"/>
-                                        </connections>
-                                    </button>
-                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="89R-Xd-duU">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="2"/>
-                                        <color key="trackTintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </progressView>
-                                </subviews>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstItem="89R-Xd-duU" firstAttribute="top" secondItem="ONt-b4-PI9" secondAttribute="top" id="EKo-hU-nvc"/>
-                                    <constraint firstItem="j5o-kV-auQ" firstAttribute="leading" secondItem="ONt-b4-PI9" secondAttribute="leading" id="OQu-LA-jIM"/>
-                                    <constraint firstAttribute="trailing" secondItem="j5o-kV-auQ" secondAttribute="trailing" id="WG3-qc-evk"/>
-                                    <constraint firstItem="89R-Xd-duU" firstAttribute="leading" secondItem="ONt-b4-PI9" secondAttribute="leading" id="biM-0U-n4l"/>
-                                    <constraint firstItem="j5o-kV-auQ" firstAttribute="top" secondItem="ONt-b4-PI9" secondAttribute="top" id="e55-in-vP9"/>
-                                    <constraint firstAttribute="trailing" secondItem="89R-Xd-duU" secondAttribute="trailing" id="yUB-Y4-iWJ"/>
-                                </constraints>
-                            </view>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aAJ-uP-jzP">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="0ZR-Gd-Zdy">
@@ -151,11 +169,8 @@
                         <constraints>
                             <constraint firstItem="7Z9-uC-sit" firstAttribute="trailing" secondItem="yka-ka-k57" secondAttribute="trailing" id="6rC-s3-7vh"/>
                             <constraint firstItem="7Z9-uC-sit" firstAttribute="leading" secondItem="8NI-aE-eQr" secondAttribute="leading" id="Au0-IA-Gqj"/>
-                            <constraint firstItem="ONt-b4-PI9" firstAttribute="top" secondItem="yka-ka-k57" secondAttribute="top" id="B8d-js-Wqw"/>
-                            <constraint firstItem="j5o-kV-auQ" firstAttribute="bottom" secondItem="inn-9a-Zjf" secondAttribute="bottom" id="H3V-m9-LOD"/>
                             <constraint firstItem="aAJ-uP-jzP" firstAttribute="top" secondItem="8NI-aE-eQr" secondAttribute="top" id="Ryi-D4-FcD"/>
                             <constraint firstItem="Pea-vZ-suQ" firstAttribute="leading" secondItem="8NI-aE-eQr" secondAttribute="leadingMargin" id="X4h-bI-qtL"/>
-                            <constraint firstItem="ONt-b4-PI9" firstAttribute="leading" secondItem="yka-ka-k57" secondAttribute="leading" id="Zry-oV-Kjw"/>
                             <constraint firstItem="aAJ-uP-jzP" firstAttribute="leading" secondItem="8NI-aE-eQr" secondAttribute="leading" id="bkl-3B-jlS"/>
                             <constraint firstAttribute="trailing" secondItem="aAJ-uP-jzP" secondAttribute="trailing" id="eWX-AL-tOs"/>
                             <constraint firstItem="q00-Dd-rwV" firstAttribute="leading" secondItem="8NI-aE-eQr" secondAttribute="leading" id="gpa-cB-Obx"/>
@@ -166,23 +181,18 @@
                             <constraint firstAttribute="trailingMargin" secondItem="Pea-vZ-suQ" secondAttribute="trailing" id="n5E-Hz-jGG"/>
                             <constraint firstAttribute="trailing" secondItem="q00-Dd-rwV" secondAttribute="trailing" id="nLg-mg-lOu"/>
                             <constraint firstItem="7Z9-uC-sit" firstAttribute="leading" secondItem="yka-ka-k57" secondAttribute="leading" id="oKt-Qa-Fl6"/>
-                            <constraint firstItem="ONt-b4-PI9" firstAttribute="bottom" secondItem="yka-ka-k57" secondAttribute="bottom" id="oPd-68-Mb1"/>
                             <constraint firstAttribute="bottom" secondItem="yka-ka-k57" secondAttribute="bottom" id="owz-2v-IRY"/>
                             <constraint firstItem="q00-Dd-rwV" firstAttribute="top" secondItem="8NI-aE-eQr" secondAttribute="top" id="wdM-6f-HDw"/>
                             <constraint firstItem="inn-9a-Zjf" firstAttribute="top" secondItem="Pea-vZ-suQ" secondAttribute="top" id="xkA-XQ-JDV"/>
                             <constraint firstAttribute="trailing" secondItem="7Z9-uC-sit" secondAttribute="trailing" id="ykU-Ff-GZr"/>
-                            <constraint firstItem="ONt-b4-PI9" firstAttribute="trailing" secondItem="yka-ka-k57" secondAttribute="trailing" id="zg6-9r-p4g"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="inn-9a-Zjf"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <outlet property="activityButton" destination="SDL-hj-HEh" id="pUz-h2-Lg8"/>
                         <outlet property="bottomBar" destination="7Z9-uC-sit" id="GgP-f2-fAx"/>
                         <outlet property="bottomBarBackground" destination="yka-ka-k57" id="cUk-au-7Rc"/>
-                        <outlet property="playerView" destination="ONt-b4-PI9" id="omm-DV-TRB"/>
-                        <outlet property="progressView" destination="89R-Xd-duU" id="o4x-bT-1Yw"/>
                         <outlet property="textView" destination="q00-Dd-rwV" id="9sm-AZ-kx8"/>
                         <outlet property="titleView" destination="Pea-vZ-suQ" id="kPJ-BB-CA6"/>
                         <outlet property="topBar" destination="aAJ-uP-jzP" id="2LI-rX-XBo"/>
@@ -478,31 +488,26 @@
                                 <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YwN-3A-Ahs" userLabel="Bottom Toolbar">
+                            <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.0" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YwN-3A-Ahs" userLabel="Bottom Toolbar">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
-                                <items>
-                                    <barButtonItem systemItem="search" id="Jis-vO-tNv">
-                                        <connections>
-                                            <action selector="searchAction:" destination="e5b-Wd-exR" id="yCq-jU-IoZ"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="ozh-JA-HQn"/>
-                                    <barButtonItem enabled="NO" id="aKK-ee-51J"/>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="CfN-fd-mfU"/>
-                                    <barButtonItem systemItem="action" id="4II-VE-9Ik">
-                                        <connections>
-                                            <action selector="activityAction:" destination="e5b-Wd-exR" id="dTD-4y-fiy"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
+                                <items/>
                             </toolbar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2rM-G9-oR7">
+                                <rect key="frame" x="166.5" y="623" width="42.5" height="44"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="2rM-G9-oR7" firstAttribute="centerX" secondItem="occ-MC-E84" secondAttribute="centerX" id="KSu-xj-3zx"/>
                             <constraint firstItem="YwN-3A-Ahs" firstAttribute="top" secondItem="83D-ol-4TM" secondAttribute="bottom" id="Ozm-db-Pgz"/>
                             <constraint firstAttribute="trailingMargin" secondItem="83D-ol-4TM" secondAttribute="trailing" id="XJW-Yb-taR"/>
+                            <constraint firstItem="2rM-G9-oR7" firstAttribute="bottom" secondItem="occ-MC-E84" secondAttribute="bottom" id="b47-1s-Upb"/>
                             <constraint firstAttribute="trailing" secondItem="YwN-3A-Ahs" secondAttribute="trailing" id="c1z-Ib-IfZ"/>
                             <constraint firstItem="YwN-3A-Ahs" firstAttribute="bottom" secondItem="occ-MC-E84" secondAttribute="bottom" id="cuS-cy-r0h"/>
                             <constraint firstItem="83D-ol-4TM" firstAttribute="leading" secondItem="CM7-69-SWi" secondAttribute="leadingMargin" id="dKK-RW-qNn"/>
+                            <constraint firstItem="2rM-G9-oR7" firstAttribute="top" secondItem="YwN-3A-Ahs" secondAttribute="top" id="pfB-pw-LBZ"/>
                             <constraint firstItem="YwN-3A-Ahs" firstAttribute="leading" secondItem="CM7-69-SWi" secondAttribute="leading" id="tHF-yY-hCp"/>
                             <constraint firstItem="83D-ol-4TM" firstAttribute="top" secondItem="CM7-69-SWi" secondAttribute="topMargin" id="xWe-ZL-Bge"/>
                         </constraints>
@@ -510,10 +515,9 @@
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <outlet property="activityButton" destination="4II-VE-9Ik" id="7Q0-GW-DTA"/>
                         <outlet property="bottomBar" destination="YwN-3A-Ahs" id="bpO-1y-2tf"/>
                         <outlet property="textView" destination="83D-ol-4TM" id="kZo-cf-p9A"/>
-                        <outlet property="versionButton" destination="aKK-ee-51J" id="whb-sS-Ndl"/>
+                        <outlet property="versionLabel" destination="2rM-G9-oR7" id="1Hl-dU-bLx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IPb-bN-9UO" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -535,21 +539,9 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DxV-Wx-01N" userLabel="Bottom Toolbar">
+                            <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DxV-Wx-01N" userLabel="Bottom Toolbar">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
-                                <items>
-                                    <barButtonItem systemItem="search" id="Cmy-JK-5bz">
-                                        <connections>
-                                            <action selector="searchAction:" destination="JX1-xR-aBA" id="eoE-hX-YdC"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="HpY-CU-kDR"/>
-                                    <barButtonItem systemItem="action" id="2mA-cQ-rYT">
-                                        <connections>
-                                            <action selector="activityAction:" destination="JX1-xR-aBA" id="4l7-pE-nZs"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
+                                <items/>
                             </toolbar>
                         </subviews>
                         <constraints>
@@ -565,7 +557,6 @@
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <outlet property="activityButton" destination="2mA-cQ-rYT" id="0zb-nV-1kH"/>
                         <outlet property="bottomBar" destination="DxV-Wx-01N" id="Wku-24-Lbt"/>
                         <outlet property="textView" destination="MDa-SC-IaW" id="sg9-Jp-Bid"/>
                     </connections>
