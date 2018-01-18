@@ -7,6 +7,7 @@
 //
 
 #import "Section+Helpers.h"
+#import "Book+Helpers.h"
 
 @implementation Section (Helpers)
 
@@ -40,7 +41,7 @@
                                insertIntoManagedObjectContext:context];
 }
 
-- (NSManagedObject *)nextObject
+- (NSManagedObject<SongbookModel> *)nextObject
 {
     // Return the first song in this section.
     if ([self.songs count] > 0) {
@@ -57,7 +58,7 @@
     return nil;
 }
 
-- (NSManagedObject *)previousObject
+- (NSManagedObject<SongbookModel> *)previousObject
 {
     // Return the last song in the previous section.
     NSUInteger sectionIndex = [self.book.sections indexOfObject:self];

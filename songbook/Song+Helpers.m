@@ -8,7 +8,7 @@
 
 #import "Song+Helpers.h"
 #import "Verse+Helpers.h"
-#import "Section.h"
+#import "Section+Helpers.h"
 #import "Book.h"
 #import "Token+Helpers.h"
 #import "TokenInstance+Helpers.h"
@@ -64,7 +64,7 @@ NSString * const kFooterRangesKey = @"FooterRanges";
     return verse;
 }
 
-- (NSManagedObject *)nextObject
+- (NSManagedObject<SongbookModel> *)nextObject
 {
     // Return the next song in this song's section.
     NSUInteger songIndex = [self.section.songs indexOfObject:self];
@@ -82,7 +82,7 @@ NSString * const kFooterRangesKey = @"FooterRanges";
     return nil;
 }
 
-- (NSManagedObject *)previousObject
+- (NSManagedObject<SongbookModel> *)previousObject
 {
     // Return the previous song in this song's section.
     NSUInteger songIndex = [self.section.songs indexOfObject:self];

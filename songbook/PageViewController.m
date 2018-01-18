@@ -128,10 +128,10 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
     return songbookModel.closestSong.objectID;
 }
 
-- (NSArray<NSURL *> *)pageSongFiles
+- (id<SongbookModel>)pageModelObject
 {
     PageController *currentController = self.viewControllers[0];
-    return currentController.pageSongFiles;
+    return currentController.modelObject;
 }
 
 - (UIColor *)pageControlColor

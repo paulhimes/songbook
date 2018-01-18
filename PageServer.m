@@ -47,7 +47,7 @@
 
 #pragma mark - Helper methods
 
-- (PageController *)pageControllerForModelObject:(NSManagedObject *)modelObject
+- (PageController *)pageControllerForModelObject:(NSManagedObject<SongbookModel> *)modelObject
                               pageViewController:(UIPageViewController<PageControllerDelegate> *)pageViewController
 {
     PageController *pageController;

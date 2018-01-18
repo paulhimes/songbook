@@ -17,7 +17,7 @@
 @property (nonatomic, strong) PageServer *pageServer;
 @property (nonatomic, weak) id<PageViewControllerDelegate> pageViewControllerDelegate;
 @property (nonatomic, readonly) NSManagedObjectID *closestSongID;
-@property (nonatomic, readonly) NSArray<NSURL *> *pageSongFiles;
+@property (nonatomic, readonly) id<SongbookModel> pageModelObject;
 @property (nonatomic, readonly) UIColor *pageControlColor;
 
 - (void)showPageForModelObject:(NSManagedObject *)modelObject

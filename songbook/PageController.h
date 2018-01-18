@@ -29,7 +29,6 @@ extern const float kMinimumStandardTextSize;
 @property (nonatomic) NSRange highlightRange;
 @property (nonatomic) NSUInteger bookmarkedGlyphIndex;
 @property (nonatomic) CGFloat bookmarkedGlyphYOffset;
-@property (nonatomic, readonly) NSArray<NSURL *> *pageSongFiles;
 @property (nonatomic, readonly) UIColor *pageControlColor;
 
 - (void)handleGesture:(UIPinchGestureRecognizer *)sender;

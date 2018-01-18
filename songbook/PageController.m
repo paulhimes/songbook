@@ -134,11 +134,6 @@ const float kMinimumStandardTextSize = 8;
     
 }
 
-- (NSArray<NSURL *> *)pageSongFiles
-{
-    return @[];
-}
-
 - (UIColor *)pageControlColor
 {
     return [Theme redColor];

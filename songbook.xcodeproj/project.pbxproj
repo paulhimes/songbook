@@ -74,6 +74,7 @@
 		8BB18ADF17A5DB77006E257C /* Verse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB18ADE17A5DB77006E257C /* Verse.m */; };
 		8BB4CBE918959EA0009F0FA1 /* default.songbook in Resources */ = {isa = PBXBuildFile; fileRef = 8BB4CBE818959EA0009F0FA1 /* default.songbook */; };
 		8BB54D5C17A4C60700FD2914 /* PageServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB54D5B17A4C60700FD2914 /* PageServer.m */; };
+		8BBFC36C20103F8E00A8DEF0 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBFC36B20103F8E00A8DEF0 /* AudioPlayer.swift */; };
 		8BC674CA17BC912C001E71B1 /* NSMutableAttributedString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */; };
 		8BC7D648188344DD008F2289 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7D647188344DD008F2289 /* Book.m */; };
 		8BCA006F18457F9B00600947 /* SingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BCA006E18457F9B00600947 /* SingleViewController.m */; };
@@ -209,6 +210,8 @@
 		8BB54D5B17A4C60700FD2914 /* PageServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PageServer.m; path = ../PageServer.m; sourceTree = "<group>"; };
 		8BB54D5D17A4C79300FD2914 /* SongPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongPageController.h; sourceTree = "<group>"; };
 		8BB54D5E17A4C79300FD2914 /* SongPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongPageController.m; sourceTree = "<group>"; };
+		8BBFC36A20103F8E00A8DEF0 /* songbook-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "songbook-Bridging-Header.h"; sourceTree = "<group>"; };
+		8BBFC36B20103F8E00A8DEF0 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		8BC674C517B9E1D8001E71B1 /* SongTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongTitleView.h; sourceTree = "<group>"; };
 		8BC674C617B9E1D8001E71B1 /* SongTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongTitleView.m; sourceTree = "<group>"; };
 		8BC674C817BC912C001E71B1 /* NSMutableAttributedString+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+Helpers.h"; sourceTree = "<group>"; };
@@ -403,6 +406,7 @@
 				8B191A9B180A4E290071DF4D /* SplitViewController.m */,
 				8BCA006D18457F9B00600947 /* SingleViewController.h */,
 				8BCA006E18457F9B00600947 /* SingleViewController.m */,
+				8BBFC36B20103F8E00A8DEF0 /* AudioPlayer.swift */,
 				8B039ABD1911FAE6005F14B4 /* BookActivityItemSource.h */,
 				8B039ABE1911FAE6005F14B4 /* BookActivityItemSource.m */,
 				8B039AC019146590005F14B4 /* ExportProgressViewController.h */,
@@ -419,6 +423,7 @@
 				8B0F610119CE2E4600B04BC4 /* LaunchScreen.xib */,
 				8BAF35EA181F285400D6A93E /* ZipArchive */,
 				8BB4CBE818959EA0009F0FA1 /* default.songbook */,
+				8BBFC36A20103F8E00A8DEF0 /* songbook-Bridging-Header.h */,
 				8BA305F617A0BCF200A2ABDE /* AppDelegate.h */,
 				8BA305F717A0BCF200A2ABDE /* AppDelegate.m */,
 				8BA305EF17A0BCF200A2ABDE /* songbook-Info.plist */,
@@ -613,6 +618,12 @@
 				TargetAttributes = {
 					8BA305E117A0BCF200A2ABDE = {
 						DevelopmentTeam = U48P68REXM;
+						LastSwiftMigration = 0920;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					8BA3060117A0BCF200A2ABDE = {
 						TestTargetID = 8BA305E117A0BCF200A2ABDE;
@@ -714,6 +725,7 @@
 				8BB0F589189CBC50004D6377 /* SearchTableDataSource.m in Sources */,
 				8BAF35FA181F285400D6A93E /* unzip.c in Sources */,
 				8BB0F58C189CBC64004D6377 /* TitlePageController.m in Sources */,
+				8BBFC36C20103F8E00A8DEF0 /* AudioPlayer.swift in Sources */,
 				8B14431917EFDAB60000A898 /* Token.m in Sources */,
 				8BD5141318A7FAC1002DC6B1 /* SearchTitleCellModel.m in Sources */,
 				8BD5141C18A856E7002DC6B1 /* UIColor+Helpers.m in Sources */,
@@ -867,6 +879,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -878,9 +891,13 @@
 				GCC_PREFIX_HEADER = "songbook/songbook-Prefix.pch";
 				INFOPLIST_FILE = "songbook/songbook-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.paulhimes.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "songbook/songbook-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -890,6 +907,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -901,9 +919,12 @@
 				GCC_PREFIX_HEADER = "songbook/songbook-Prefix.pch";
 				INFOPLIST_FILE = "songbook/songbook-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.paulhimes.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "songbook/songbook-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -911,6 +932,7 @@
 		8BA3061817A0BCF200A2ABDE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/songbook.app/songbook";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -934,6 +956,7 @@
 		8BA3061917A0BCF200A2ABDE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/songbook.app/songbook";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",

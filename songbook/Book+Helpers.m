@@ -54,7 +54,7 @@
     return book;
 }
 
-- (NSManagedObject *)nextObject
+- (NSManagedObject<SongbookModel> *)nextObject
 {
     // Return the first section in this book.
     if ([self.sections count] > 0) {
@@ -65,7 +65,7 @@
     return nil;
 }
 
-- (NSManagedObject *)previousObject
+- (NSManagedObject<SongbookModel> *)previousObject
 {
     // This is the start of the book.
     return nil;

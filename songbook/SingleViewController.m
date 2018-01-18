@@ -11,15 +11,17 @@
 #import "BookCodec.h"
 #import "ExportProgressViewController.h"
 #import "BookActivityItemSource.h"
-
-@import AVFoundation;
+#import "Book+Helpers.h"
+#import "Section.h"
+#import "Song.h"
+#import "songbook-Swift.h"
 
 static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
 static NSString * const kPageViewControllerKey = @"PageViewControllerKey";
 
 static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 
-@interface SingleViewController () <SearchViewControllerDelegate, ExportProgressViewControllerDelegate, AVAudioPlayerDelegate>
+@interface SingleViewController () <SearchViewControllerDelegate, ExportProgressViewControllerDelegate, AudioPlayerDelegate>
 
 @property (nonatomic, strong) PageViewController *pageViewController;
 @property (weak, nonatomic) IBOutlet UIToolbar *bottomBar;
@@ -29,13 +31,22 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 @property (nonatomic) BOOL exportCancelled;
 @property (nonatomic, strong) NSNumber *previousExportIncludedExtraFiles;
 @property (nonatomic, strong) NSTimer *playbackTimer;
-@property (nonatomic, strong) AVAudioPlayer *audioPlayer;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UIView *playerView;
+@property (nonatomic, strong) AudioPlayer *audioPlayer;
 
 @end
 
 @implementation SingleViewController
+
+- (AudioPlayer *)audioPlayer
+{
+    if (!_audioPlayer) {
+        _audioPlayer = [[AudioPlayer alloc] initWithDirectory:self.coreDataStack.databaseDirectory];
+        _audioPlayer.delegate = self;
+    }
+    return _audioPlayer;
+}
 
 - (void)viewDidLoad
 {
@@ -102,20 +113,24 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 
 - (IBAction)activityAction:(id)sender
 {
-    if ([self bookDirectoryHasSongFiles]) {
+    if (self.audioPlayer.hasSongFiles) {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         __weak SingleViewController *welf = self;
-        
-        NSArray<NSURL *> *pageSongFiles = self.pageViewController.pageSongFiles;
+
+        NSArray<NSURL *> *pageSongFiles = @[];
+        id<SongbookModel> pageModelObject = self.pageViewController.pageModelObject;
+        if ([pageModelObject isKindOfClass:[Song class]]) {
+            pageSongFiles = [self.audioPlayer audioFileURLsForSong:(Song *)pageModelObject];
+        }
         
         if ([pageSongFiles count] == 1) {
             [alertController addAction:[UIAlertAction actionWithTitle:@"Play Tune" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [welf playSongFile:pageSongFiles[0]];
+                [welf.audioPlayer startPlayingAtSong:(Song *)pageModelObject tuneIndex:0];
             }]];
         } else {
             [pageSongFiles enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 [alertController addAction:[UIAlertAction actionWithTitle:[NSString stringWithFormat:@"Play Tune %lu", (unsigned long)(idx + 1)] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    [welf playSongFile:pageSongFiles[idx]];
+                    [welf.audioPlayer startPlayingAtSong:(Song *)pageModelObject tuneIndex:idx];
                 }]];
             }];
         }
@@ -233,105 +248,19 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     }
 }
 
-- (BOOL)bookDirectoryHasSongFiles
-{
-    NSURL *bookDirectory = self.coreDataStack.databaseDirectory;
-    
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSDirectoryEnumerator *directoryEnumerator = [fileManager enumeratorAtURL:bookDirectory
-                                                   includingPropertiesForKeys:@[NSURLIsDirectoryKey]
-                                                                      options:0
-                                                                 errorHandler:^BOOL(NSURL *url, NSError *error) {
-                                                                     NSLog(@"Error enumerating url: %@", url);
-                                                                     return YES;
-                                                                 }];
-    
-    BOOL foundSongFile = NO;
-    
-    for (NSURL *url in directoryEnumerator) {
-        // Skip directories.
-        NSNumber *isDirectory;
-        [url getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:nil];
-        if ([isDirectory boolValue]) {
-            continue;
-        }
-        
-        NSString *fileExtension = [url pathExtension];
-        if ([fileExtension localizedCaseInsensitiveCompare:@"m4a"] == NSOrderedSame ||
-            [fileExtension localizedCaseInsensitiveCompare:@"mp3"] == NSOrderedSame ||
-            [fileExtension localizedCaseInsensitiveCompare:@"wav"] == NSOrderedSame) {
-            
-            foundSongFile = YES;
-            break;
-        }
-    }
-    
-    return foundSongFile;
-}
-
 #pragma mark - Song Playback
-
-- (void)playSongFile:(NSURL *)songFile
-{
-    [self.playbackTimer invalidate];
-    self.playbackTimer = nil;
-    
-    [self.audioPlayer stop];
-    self.audioPlayer = nil;
-    
-    self.progressView.progress = 0;
-    
-    [UIView animateWithDuration:kPlayerAnimationDuration animations:^{
-        self.playerView.alpha = 1;
-        self.bottomBar.alpha = 0;
-    } completion:^(BOOL finished) {
-        self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:songFile error:nil];
-        self.audioPlayer.delegate = self;
-        
-        if (self.audioPlayer) {
-            
-            self.playbackTimer = [NSTimer timerWithTimeInterval:0.01
-                                                         target:self
-                                                       selector:@selector(playbackTimerUpdate)
-                                                       userInfo:nil
-                                                        repeats:YES];
-            
-            NSRunLoop *runloop = [NSRunLoop currentRunLoop];
-            [runloop addTimer:self.playbackTimer forMode:NSRunLoopCommonModes];
-            [runloop addTimer:self.playbackTimer forMode:UITrackingRunLoopMode];
-            
-            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
-            [self.audioPlayer prepareToPlay];
-            [self.audioPlayer play];
-        }
-    }];
-}
 
 - (IBAction)stopPlayingAction:(id)sender
 {
-    [self dismissPlayer];
-}
-
-- (void)dismissPlayer
-{
-    [UIView animateWithDuration:kPlayerAnimationDuration animations:^{
-        self.playerView.alpha = 0;
-        self.bottomBar.alpha = 1;
-    } completion:^(BOOL finished) {
-        [self.playbackTimer invalidate];
-        self.playbackTimer = nil;
-        
-        [self.audioPlayer stop];
-        self.audioPlayer = nil;
-    }];
+    [self.player stopPlayback];
 }
 
 - (void)playbackTimerUpdate
 {
     float progress = 0.0;
-    if (self.audioPlayer) {
-        progress = self.audioPlayer.currentTime / self.audioPlayer.duration;
-    }
+//    if (self.audioPlayer) {
+//        progress = self.audioPlayer.currentTime / self.audioPlayer.duration;
+//    }
     
     if (progress > self.progressView.progress) {
         [self.progressView setProgress:progress animated:YES];
@@ -382,21 +311,40 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     self.exportCancelled = YES;
 }
 
-#pragma mark - AVAudioPlayerDelegate
+#pragma mark - AudioPlayerDelegate
 
-- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
+- (void)audioPlayerStarted
 {
-    [self dismissPlayer];
+    [self.playbackTimer invalidate];
+    self.playbackTimer = nil;
+    
+    self.progressView.progress = 0;
+    
+    [UIView animateWithDuration:kPlayerAnimationDuration animations:^{
+        self.playerView.alpha = 1;
+        self.bottomBar.alpha = 0;
+    } completion:^(BOOL finished) {
+        self.playbackTimer = [NSTimer timerWithTimeInterval:0.01
+                                                     target:self
+                                                   selector:@selector(playbackTimerUpdate)
+                                                   userInfo:nil
+                                                    repeats:YES];
+        
+        NSRunLoop *runloop = [NSRunLoop currentRunLoop];
+        [runloop addTimer:self.playbackTimer forMode:NSRunLoopCommonModes];
+        [runloop addTimer:self.playbackTimer forMode:UITrackingRunLoopMode];
+    }];
 }
 
-- (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error
+- (void)audioPlayerStopped
 {
-    [self dismissPlayer];
-}
-
-- (void)audioPlayerBeginInterruption:(AVAudioPlayer *)player
-{
-    [self dismissPlayer];
+    [UIView animateWithDuration:kPlayerAnimationDuration animations:^{
+        self.playerView.alpha = 0;
+        self.bottomBar.alpha = 1;
+    } completion:^(BOOL finished) {
+        [self.playbackTimer invalidate];
+        self.playbackTimer = nil;
+    }];
 }
 
 @end
