@@ -8,6 +8,7 @@
 
 #import "SplitViewController.h"
 #import "SearchViewController.h"
+#import "Song+Helpers.h"
 
 static NSString * const kSearchIsVisibleKey = @"SearchIsVisibleKey";
 static NSString * const kCoreDataStackKey = @"CoreDataStackKey";

@@ -18,10 +18,22 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
             return audioFileURLs.count > 0
         }
     }
+    @objc var playbackProgress: Double {
+        get {
+            guard let audioPlayer = audioPlayer, audioPlayer.duration > 0 else { return 0 }
+            return min(1, max(0, audioPlayer.currentTime / audioPlayer.duration))
+        }
+    }
+    @objc var duration: Double {
+        get {
+            guard let audioPlayer = audioPlayer else { return 0 }
+            return audioPlayer.duration
+        }
+    }
     
     private let audioFileDirectory: URL
     private var audioPlayer: AVAudioPlayer?
-    private var currentSong: Song?
+    @objc private(set) var currentSong: Song?
     private var currentTuneIndex = 0
     
     private lazy var audioFileURLs: [URL] = {
@@ -44,7 +56,7 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
         
         return audioFileURLs
     }()
-    
+
     @objc init(directory: URL) {
         audioFileDirectory = directory
         super.init()
@@ -58,12 +70,28 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
             return .success
         }
         MPRemoteCommandCenter.shared().playCommand.addTarget() { [weak self] (event) -> MPRemoteCommandHandlerStatus in
-            self?.audioPlayer?.play()
-            return .success
+            if !(self?.audioPlayer?.isPlaying ?? false) {
+                self?.audioPlayer?.play()
+                MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = 1
+                MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = self?.audioPlayer?.currentTime ?? 0
+                if let song = self?.currentSong, let tuneIndex = self?.currentTuneIndex {
+                    self?.delegate?.audioPlayerStartedPlayingSong(song, tuneIndex: tuneIndex)
+                }
+                return .success
+            } else {
+                return .commandFailed
+            }
         }
         MPRemoteCommandCenter.shared().pauseCommand.addTarget() { [weak self] (event) -> MPRemoteCommandHandlerStatus in
-            self?.audioPlayer?.pause()
-            return .success
+            if (self?.audioPlayer?.isPlaying ?? false) {
+                self?.audioPlayer?.pause()
+                MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = self?.audioPlayer?.currentTime ?? 0
+                MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = 0
+                self?.delegate?.audioPlayerStopped()
+                return .success
+            } else {
+                return .commandFailed
+            }
         }
         MPRemoteCommandCenter.shared().stopCommand.addTarget() { [weak self] (event) -> MPRemoteCommandHandlerStatus in
             self?.stopPlayback()
@@ -98,16 +126,18 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
                 titleString.append(title)
             }
             if songAudioFiles.count > 1 {
-                titleString.append(" (Tune \(tuneIndex + 1))")
+                titleString.append(" (Tune \(currentTuneIndex + 1))")
             }
-            
+
             let albumString = [song.section.title ?? "", song.section.book.title ?? ""].filter { $0.count > 0 }.joined(separator: " - ")
-            
+
             MPNowPlayingInfoCenter.default().nowPlayingInfo = [MPMediaItemPropertyTitle: titleString,
                                                                MPMediaItemPropertyAlbumTitle: albumString,
-                                                               MPNowPlayingInfoPropertyMediaType: MPNowPlayingInfoMediaType.audio.rawValue]
-            
-            delegate?.audioPlayerStarted()
+                                                               MPNowPlayingInfoPropertyMediaType: MPNowPlayingInfoMediaType.audio.rawValue,
+                                                               MPMediaItemPropertyPlaybackDuration: audioPlayer?.duration ?? 0,
+                                                               MPNowPlayingInfoPropertyPlaybackRate: 1]
+
+            delegate?.audioPlayerStartedPlayingSong(song, tuneIndex: tuneIndex)
             
         } catch {
             NSLog("Failed to start playing audio file: \(error)")
@@ -122,7 +152,6 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
         currentSong = nil
         currentTuneIndex = 0
         
-        UIApplication.shared.endReceivingRemoteControlEvents()
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
         
         delegate?.audioPlayerStopped()
@@ -144,7 +173,7 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
         
         // Find the next song with a tune
         var model: SongbookModel? = currentSong
-        while let nextModel = model?.nextObject() as? SongbookModel {
+        while let nextModel = model?.nextObject() {
             if let nextSong = nextModel as? Song {
                 let audioFilesForNextSong = audioFileURLsForSong(nextSong)
                 if audioFilesForNextSong.count > 0 {
@@ -178,7 +207,7 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
         
         // Find the previous song with a tune
         var model: SongbookModel? = currentSong
-        while let previousModel = model?.previousObject() as? SongbookModel {
+        while let previousModel = model?.previousObject() {
             if let previousSong = previousModel as? Song {
                 let audioFilesForPreviousSong = audioFileURLsForSong(previousSong)
                 if audioFilesForPreviousSong.count > 0 {
@@ -223,5 +252,5 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
 
 @objc protocol AudioPlayerDelegate {
     func audioPlayerStopped()
-    func audioPlayerStarted()
+    func audioPlayerStartedPlayingSong(_ song: Song, tuneIndex: Int)
 }

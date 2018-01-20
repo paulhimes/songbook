@@ -148,7 +148,7 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
     }];
 }
 
-- (void)showPageForModelObject:(NSManagedObject *)modelObject
+- (void)showPageForModelObject:(id<SongbookModel>)modelObject
                 highlightRange:(NSRange)highlightRange
                       animated:(BOOL)animated;
 {
@@ -167,7 +167,7 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
 #pragma mark - PageControllerDelegate
 
 - (void)pageController:(PageController *)pageController
-   selectedModelObject:(NSManagedObject *)modelObject
+   selectedModelObject:(id<SongbookModel>)modelObject
 {
     [self showPageForModelObject:modelObject highlightRange:NSMakeRange(0, 0) animated:NO];
 }

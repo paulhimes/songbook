@@ -11,8 +11,10 @@
 
 @protocol SongbookModel <NSObject>
 
-- (NSManagedObject<SongbookModel> *)nextObject;
-- (NSManagedObject<SongbookModel> *)previousObject;
+@property(nonatomic, readonly) NSManagedObjectID *objectID;
+
+- (id<SongbookModel>)nextObject;
+- (id<SongbookModel>)previousObject;
 - (Song *)closestSong;
 
 @end

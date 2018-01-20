@@ -7,7 +7,7 @@
 //
 
 #import "SectionPageController.h"
-#import "Section.h"
+#import "Section+Helpers.h"
 
 @interface SectionPageController ()
 
@@ -36,7 +36,7 @@
     [self.bottomBar invalidateIntrinsicContentSize];
 }
 
-- (NSManagedObject *)modelObject
+- (id<SongbookModel>)modelObject
 {
     return self.section;
 }

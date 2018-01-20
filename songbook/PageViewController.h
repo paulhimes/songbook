@@ -20,7 +20,7 @@
 @property (nonatomic, readonly) id<SongbookModel> pageModelObject;
 @property (nonatomic, readonly) UIColor *pageControlColor;
 
-- (void)showPageForModelObject:(NSManagedObject *)modelObject
+- (void)showPageForModelObject:(id<SongbookModel>)modelObject
                 highlightRange:(NSRange)highlightRange
                       animated:(BOOL)animated;
 

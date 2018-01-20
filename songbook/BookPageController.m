@@ -8,7 +8,7 @@
 
 #import "BookPageController.h"
 #import "GradientView.h"
-#import "Book.h"
+#import "Book+Helpers.h"
 
 @interface BookPageController ()
 
@@ -24,7 +24,7 @@
 {
     [super viewDidLoad];
     
-    GradientView *gradientView = [[GradientView alloc] initWithFrame:CGRectMake(-self.view.bounds.size.width, 0, 2 * self.view.bounds.size.width, self.view.bounds.size.height)];
+    GradientView *gradientView = [[GradientView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     gradientView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view insertSubview:gradientView atIndex:0];
     
@@ -43,7 +43,7 @@
     [self.bottomBar invalidateIntrinsicContentSize];
 }
 
-- (NSManagedObject *)modelObject
+- (id<SongbookModel>)modelObject
 {
     return self.book;
 }

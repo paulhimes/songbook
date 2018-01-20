@@ -41,7 +41,7 @@
                                insertIntoManagedObjectContext:context];
 }
 
-- (NSManagedObject<SongbookModel> *)nextObject
+- (id<SongbookModel>)nextObject
 {
     // Return the first song in this section.
     if ([self.songs count] > 0) {
@@ -54,11 +54,11 @@
         return [self.book.sections objectAtIndex:sectionIndex + 1];
     }
     
-    // This is the end of the book.
-    return nil;
+    // Return the book.
+    return self.book;
 }
 
-- (NSManagedObject<SongbookModel> *)previousObject
+- (id<SongbookModel>)previousObject
 {
     // Return the last song in the previous section.
     NSUInteger sectionIndex = [self.book.sections indexOfObject:self];

@@ -137,7 +137,7 @@ static const float kTextScaleThreshold = 2;
     }
 }
 
-- (NSManagedObject *)modelObject
+- (id<SongbookModel>)modelObject
 {
     return self.song;
 }

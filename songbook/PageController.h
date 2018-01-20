@@ -39,7 +39,7 @@ extern const float kMinimumStandardTextSize;
 @protocol PageControllerDelegate <NSObject>
 
 - (void)pageController:(PageController *)pageController
-   selectedModelObject:(NSManagedObject *)modelObject;
+   selectedModelObject:(id<SongbookModel>)modelObject;
 - (CoreDataStack *)coreDataStack;
 
 @end

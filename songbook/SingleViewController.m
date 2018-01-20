@@ -13,7 +13,7 @@
 #import "BookActivityItemSource.h"
 #import "Book+Helpers.h"
 #import "Section.h"
-#import "Song.h"
+#import "Song+Helpers.h"
 #import "songbook-Swift.h"
 
 static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
@@ -252,19 +252,18 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 
 - (IBAction)stopPlayingAction:(id)sender
 {
-    [self.player stopPlayback];
+    [self.audioPlayer stopPlayback];
 }
 
 - (void)playbackTimerUpdate
 {
     float progress = 0.0;
-//    if (self.audioPlayer) {
-//        progress = self.audioPlayer.currentTime / self.audioPlayer.duration;
-//    }
-    
-    if (progress > self.progressView.progress) {
-        [self.progressView setProgress:progress animated:YES];
+
+    if (self.audioPlayer) {
+        progress = self.audioPlayer.playbackProgress;
     }
+
+    [self.progressView setProgress:progress animated:NO];
 }
 
 #pragma mark - PageViewControllerDelegate
@@ -280,6 +279,13 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     [[[UIViewPropertyAnimator alloc] initWithDuration:0.4 curve:UIViewAnimationCurveEaseInOut animations:^{
         welf.bottomBar.tintColor = welf.pageViewController.pageControlColor;
     }] startAnimation];
+    
+    if (self.audioPlayer.currentSong &&
+        self.audioPlayer.currentSong != self.pageViewController.pageModelObject &&
+        [self.pageViewController.pageModelObject isKindOfClass:[Song class]] &&
+        [self.audioPlayer audioFileURLsForSong:((Song *)self.pageViewController.pageModelObject)].count > 0) {
+        [self.audioPlayer startPlayingAtSong:((Song *)self.pageViewController.pageModelObject) tuneIndex:0];
+    }
 }
 
 #pragma mark - SearchViewControllerDelegate
@@ -313,7 +319,7 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 
 #pragma mark - AudioPlayerDelegate
 
-- (void)audioPlayerStarted
+- (void)audioPlayerStartedPlayingSong:(Song *)song tuneIndex:(NSInteger)tuneIndex
 {
     [self.playbackTimer invalidate];
     self.playbackTimer = nil;
@@ -324,16 +330,24 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
         self.playerView.alpha = 1;
         self.bottomBar.alpha = 0;
     } completion:^(BOOL finished) {
-        self.playbackTimer = [NSTimer timerWithTimeInterval:0.01
+        NSTimeInterval interval = 0.01;
+        if (self.audioPlayer.duration > 0) {
+            interval = self.audioPlayer.duration / (double)self.progressView.frame.size.width;
+        }
+        self.playbackTimer = [NSTimer timerWithTimeInterval:interval
                                                      target:self
                                                    selector:@selector(playbackTimerUpdate)
                                                    userInfo:nil
                                                     repeats:YES];
         
-        NSRunLoop *runloop = [NSRunLoop currentRunLoop];
+        NSRunLoop *runloop = [NSRunLoop mainRunLoop];
         [runloop addTimer:self.playbackTimer forMode:NSRunLoopCommonModes];
         [runloop addTimer:self.playbackTimer forMode:UITrackingRunLoopMode];
     }];
+
+    if (self.pageViewController.pageModelObject != song) {
+        [self.pageViewController showPageForModelObject:song highlightRange:NSMakeRange(0, 0) animated:YES];
+    }
 }
 
 - (void)audioPlayerStopped
