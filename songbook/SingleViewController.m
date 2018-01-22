@@ -32,6 +32,7 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 @property (nonatomic, strong) NSNumber *previousExportIncludedExtraFiles;
 @property (nonatomic, strong) NSTimer *playbackTimer;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
+@property (weak, nonatomic) IBOutlet UIButton *stopButton;
 @property (weak, nonatomic) IBOutlet UIView *playerView;
 @property (nonatomic, strong) AudioPlayer *audioPlayer;
 
@@ -278,6 +279,8 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     __weak SingleViewController *welf = self;
     [[[UIViewPropertyAnimator alloc] initWithDuration:0.4 curve:UIViewAnimationCurveEaseInOut animations:^{
         welf.bottomBar.tintColor = welf.pageViewController.pageControlColor;
+        welf.progressView.tintColor = welf.pageViewController.pageControlColor;
+        welf.stopButton.tintColor = welf.pageViewController.pageControlColor;
     }] startAnimation];
     
     if (self.audioPlayer.currentSong &&

@@ -99,6 +99,7 @@
                         <outlet property="bottomBar" destination="Xfz-tE-Oee" id="nPl-WQ-Mss"/>
                         <outlet property="playerView" destination="Hp4-cc-nJu" id="9oq-ff-Cdn"/>
                         <outlet property="progressView" destination="fkV-FJ-9TP" id="Yjc-d7-PmL"/>
+                        <outlet property="stopButton" destination="kDz-bJ-H5d" id="pnO-FE-lqV"/>
                         <segue destination="PRR-wm-QWt" kind="unwind" identifier="CloseBook" unwindAction="closeBook:" id="Vw1-J7-5xZ"/>
                         <segue destination="f4X-As-1jE" kind="modal" identifier="Search" id="zkF-k4-Qae"/>
                     </connections>
@@ -492,22 +493,13 @@
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <items/>
                             </toolbar>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2rM-G9-oR7">
-                                <rect key="frame" x="166.5" y="623" width="42.5" height="44"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="2rM-G9-oR7" firstAttribute="centerX" secondItem="occ-MC-E84" secondAttribute="centerX" id="KSu-xj-3zx"/>
                             <constraint firstItem="YwN-3A-Ahs" firstAttribute="top" secondItem="83D-ol-4TM" secondAttribute="bottom" id="Ozm-db-Pgz"/>
                             <constraint firstAttribute="trailingMargin" secondItem="83D-ol-4TM" secondAttribute="trailing" id="XJW-Yb-taR"/>
-                            <constraint firstItem="2rM-G9-oR7" firstAttribute="bottom" secondItem="occ-MC-E84" secondAttribute="bottom" id="b47-1s-Upb"/>
                             <constraint firstAttribute="trailing" secondItem="YwN-3A-Ahs" secondAttribute="trailing" id="c1z-Ib-IfZ"/>
                             <constraint firstItem="YwN-3A-Ahs" firstAttribute="bottom" secondItem="occ-MC-E84" secondAttribute="bottom" id="cuS-cy-r0h"/>
                             <constraint firstItem="83D-ol-4TM" firstAttribute="leading" secondItem="CM7-69-SWi" secondAttribute="leadingMargin" id="dKK-RW-qNn"/>
-                            <constraint firstItem="2rM-G9-oR7" firstAttribute="top" secondItem="YwN-3A-Ahs" secondAttribute="top" id="pfB-pw-LBZ"/>
                             <constraint firstItem="YwN-3A-Ahs" firstAttribute="leading" secondItem="CM7-69-SWi" secondAttribute="leading" id="tHF-yY-hCp"/>
                             <constraint firstItem="83D-ol-4TM" firstAttribute="top" secondItem="CM7-69-SWi" secondAttribute="topMargin" id="xWe-ZL-Bge"/>
                         </constraints>
@@ -517,7 +509,6 @@
                     <connections>
                         <outlet property="bottomBar" destination="YwN-3A-Ahs" id="bpO-1y-2tf"/>
                         <outlet property="textView" destination="83D-ol-4TM" id="kZo-cf-p9A"/>
-                        <outlet property="versionLabel" destination="2rM-G9-oR7" id="1Hl-dU-bLx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IPb-bN-9UO" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -14,7 +14,6 @@
 
 @property (nonatomic, readonly) Book *book;
 @property (weak, nonatomic) IBOutlet UIToolbar *bottomBar;
-@property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 
 @end
 
@@ -32,9 +31,6 @@
     [self.bottomBar setBackgroundImage:clearImage forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     [self.bottomBar setShadowImage:clearImage forToolbarPosition:UIBarPositionAny];
     self.bottomBar.tintColor = [Theme paperColor];
-    
-    self.versionLabel.text = [NSString stringWithFormat:@"Version %@", self.book.version];
-    self.versionLabel.textColor = [Theme paperColor];
 }
 
 - (void)viewWillLayoutSubviews
@@ -62,11 +58,17 @@
 {
     NSNumber *standardTextSizeNumber = [[NSUserDefaults standardUserDefaults] objectForKey:kStandardTextSizeKey];
     CGFloat standardTextSize = [standardTextSizeNumber floatValue];
-    
-    return [[NSAttributedString alloc] initWithString:self.book.title
-                                           attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:standardTextSize * 2.5],
-                                                        NSForegroundColorAttributeName: [Theme paperColor]
-                                                        }];
+
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", self.book.title]
+                                                                             attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:standardTextSize * 2.5],
+                                                                                          NSForegroundColorAttributeName: [Theme paperColor]
+                                                                                          }];
+    [text appendString:[NSString stringWithFormat:@"Version %@", self.book.version]
+            attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:standardTextSize * 0.75],
+                         NSForegroundColorAttributeName: [[Theme paperColor] colorWithAlphaComponent:0.75]
+                         }];
+
+    return text;
 }
 
 - (UIColor *)pageControlColor
