@@ -114,4 +114,18 @@
     return nil;
 }
 
+- (NSUInteger)pageIndex
+{
+    NSUInteger currentIndex = 0;
+    for (Section *section in self.book.sections) {
+        if (section == self) {
+            currentIndex += 1;
+            break;
+        } else {
+            currentIndex += (1 + section.songs.count);
+        }
+    }
+    return currentIndex;
+}
+
 @end

@@ -157,10 +157,22 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
     pageController.highlightRange = highlightRange;
     
     if (pageController) {
-        [self setViewControllers:@[pageController]
-                       direction:UIPageViewControllerNavigationDirectionForward
-                        animated:animated
-                      completion:nil];
+        NSUInteger currentModelPageIndex = [self.pageModelObject pageIndex];
+        NSUInteger newModelPageIndex = [modelObject pageIndex];
+
+        if (currentModelPageIndex == newModelPageIndex) {
+            [self setViewControllers:@[pageController]
+                           direction:UIPageViewControllerNavigationDirectionForward
+                            animated:NO
+                          completion:nil];
+        } else {
+            UIPageViewControllerNavigationDirection direction = currentModelPageIndex > newModelPageIndex ? UIPageViewControllerNavigationDirectionReverse : UIPageViewControllerNavigationDirectionForward;
+
+            [self setViewControllers:@[pageController]
+                           direction:direction
+                            animated:animated
+                          completion:nil];
+        }
     }
 }
 

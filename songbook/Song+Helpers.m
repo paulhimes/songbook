@@ -99,6 +99,12 @@ NSString * const kFooterRangesKey = @"FooterRanges";
     return self;
 }
 
+- (NSUInteger)pageIndex
+{
+    NSUInteger songIndex = [self.section.songs indexOfObject:self];
+    return [self.section pageIndex] + songIndex + 1;
+}
+
 - (void)generateSearchTokensWithCache:(NSCache *)cache
 {
     NSString *stringForSearching = [self string];

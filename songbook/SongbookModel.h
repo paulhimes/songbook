@@ -16,5 +16,6 @@
 - (id<SongbookModel>)nextObject;
 - (id<SongbookModel>)previousObject;
 - (Song *)closestSong;
+- (NSUInteger)pageIndex;
 
 @end

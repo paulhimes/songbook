@@ -88,5 +88,9 @@
     return nil;
 }
 
+- (NSUInteger)pageIndex
+{
+    return 0;
+}
 
 @end
