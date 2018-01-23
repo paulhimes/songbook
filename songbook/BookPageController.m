@@ -64,8 +64,8 @@
                                                                                           NSForegroundColorAttributeName: [Theme paperColor]
                                                                                           }];
     [text appendString:[NSString stringWithFormat:@"Version %@", self.book.version]
-            attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:standardTextSize * 0.75],
-                         NSForegroundColorAttributeName: [[Theme paperColor] colorWithAlphaComponent:0.75]
+            attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:standardTextSize * 0.75],
+                         NSForegroundColorAttributeName: [[Theme paperColor] colorWithAlphaComponent:0.5]
                          }];
 
     return text;
