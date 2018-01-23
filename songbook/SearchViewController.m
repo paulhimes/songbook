@@ -27,16 +27,16 @@ typedef enum PreferredSearchMethod : NSUInteger {
     PreferredSearchMethodLetters
 } PreferredSearchMethod;
 
-@interface SearchViewController () <UITableViewDelegate, SearchTableDataSourceDelegate, UITextFieldDelegate, SuperScrollIndicatorDelegate>
+@interface SearchViewController () <UITableViewDelegate, SearchTableDataSourceDelegate, SuperScrollIndicatorDelegate, UISearchBarDelegate>
 
 @property (nonatomic, strong) SearchTableDataSource *dataSource;
 @property (nonatomic, strong) NSOperationQueue *searchQueue;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) NSString *lastSearchString;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UITextField *searchField;
-@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (weak, nonatomic) IBOutlet UIView *topBar;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, readonly) UITextField *searchField;
 
 @property (weak, nonatomic) IBOutlet SuperScrollIndicator *scrollIndicator;
 
@@ -51,6 +51,16 @@ typedef enum PreferredSearchMethod : NSUInteger {
 
 @implementation SearchViewController
 
+- (UITextField *)searchField
+{
+    UITextField *searchField = [self.searchBar valueForKey:@"searchField"];
+    if ([searchField isKindOfClass:[UITextField class]]) {
+        return searchField;
+    } else {
+        return nil;
+    }
+}
+
 - (NSOperationQueue *)searchQueue
 {
     if (!_searchQueue) {
@@ -64,9 +74,8 @@ typedef enum PreferredSearchMethod : NSUInteger {
 {
     if (!_activityIndicator) {
         _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        _activityIndicator.hidesWhenStopped = YES;
-        CGRect frame = _activityIndicator.frame;
-        _activityIndicator.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width + 10, frame.size.height);
+        _activityIndicator.hidesWhenStopped = NO;
+        [_activityIndicator startAnimating];
     }
     return _activityIndicator;
 }
@@ -91,20 +100,10 @@ typedef enum PreferredSearchMethod : NSUInteger {
     self.tableView.backgroundColor = [Theme paperColor];
     self.tableView.sectionHeaderHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedSectionHeaderHeight = 20;
-    
-    self.searchField.layer.cornerRadius = 5;
-    self.searchField.backgroundColor = [Theme searchFieldBackgroundColor];
-    self.searchField.textColor = [Theme textColor];
-    self.searchField.leftViewMode = UITextFieldViewModeAlways;
-    UIImageView *searchImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MagnifyingGlass"]];
-    searchImage.frame = CGRectMake(0, 0, 30, 30);
-    self.searchField.leftView = searchImage;
-    
+
+    [self.searchBar setPositionAdjustment:UIOffsetMake(-3, 0) forSearchBarIcon:UISearchBarIconClear];
     self.searchField.rightView = self.activityIndicator;
-    self.searchField.rightViewMode = UITextFieldViewModeAlways;
-    
-    self.searchField.delegate = self;
-    
+
     self.scrollIndicator.delegate = self;
     
     __weak SearchViewController *weakSelf = self;
@@ -122,14 +121,12 @@ typedef enum PreferredSearchMethod : NSUInteger {
                                                                                weakSelf.latestTokenizePercentComplete = 0;
                                                                            } else {
                                                                                // If this is a custom search, show the progress view and activity indicator.
-                                                                               if ([weakSelf.searchField.text length]) {
+                                                                               if ([weakSelf.searchBar.text length]) {
                                                                                    if (weakSelf.tableView.tableFooterView != weakSelf.tableFooterView) {
                                                                                        weakSelf.tableView.tableFooterView = weakSelf.tableFooterView;
                                                                                    }
-                                                                                   if (!weakSelf.activityIndicator.isAnimating) {
-                                                                                       self.searchField.rightView = self.activityIndicator;
-                                                                                       [weakSelf.activityIndicator startAnimating];
-                                                                                   }
+                                                                                   weakSelf.searchField.rightViewMode = UITextFieldViewModeAlways;
+                                                                                   weakSelf.searchField.clearButtonMode = UITextFieldViewModeNever;
                                                                                }
                                                                                // Update the progress view.
                                                                                [weakSelf.tokenizeProgressView setProgress:(float)complete/(float)total animated:YES];
@@ -142,7 +139,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
 
                                                                                // Refresh the search to see if new matches are available.
                                                                                if (percentComplete % 5 == 0 || percentComplete >= 100) {
-                                                                                   [weakSelf searchFieldEditingChanged:weakSelf.searchField];
+                                                                                   [weakSelf searchBar:weakSelf.searchBar textDidChange:weakSelf.searchBar.text];
                                                                                }
                                                                            }
                                                                        }];
@@ -163,9 +160,9 @@ typedef enum PreferredSearchMethod : NSUInteger {
     if (preferredSearchMethodNumber) {
         PreferredSearchMethod preferredSearchMethod = [preferredSearchMethodNumber unsignedIntegerValue];
         if (preferredSearchMethod == PreferredSearchMethodLetters) {
-            self.searchField.keyboardType = UIKeyboardTypeDefault;
+            self.searchBar.keyboardType = UIKeyboardTypeDefault;
         } else if (preferredSearchMethod == PreferredSearchMethodNumbers) {
-            self.searchField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+            self.searchBar.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
         }
     }
     
@@ -173,15 +170,15 @@ typedef enum PreferredSearchMethod : NSUInteger {
     NSTimeInterval searchAge = [searchTimestamp timeIntervalSinceNow];
     if (searchAge > -60) {
         NSString *searchString = [userDefaults stringForKey:kSearchStringKey];
-        self.searchField.text = searchString;
+        self.searchBar.text = searchString;
     }
-    [self searchFieldEditingChanged:self.searchField];
+    [self searchBar:self.searchBar textDidChange:self.searchBar.text];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.searchField becomeFirstResponder];
+    [self.searchBar becomeFirstResponder];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -190,7 +187,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
     
     // Save the search string and timestamp.
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:self.searchField.text forKey:kSearchStringKey];
+    [userDefaults setObject:self.searchBar.text forKey:kSearchStringKey];
     [userDefaults setObject:[NSDate date] forKey:kSearchTimestampKey];
     [userDefaults synchronize];
 }
@@ -215,8 +212,8 @@ typedef enum PreferredSearchMethod : NSUInteger {
         [coder encodeObject:[self.closestSongID URIRepresentation] forKey:kClosestSongIDKey];
     }
     
-    [coder encodeObject:self.searchField.text forKey:kSearchStringKey];
-    
+    [coder encodeObject:self.searchBar.text forKey:kSearchStringKey];
+
     // Save the delegate
     if (self.delegate) {
         [coder encodeObject:self.delegate forKey:kDelegateKey];
@@ -237,8 +234,8 @@ typedef enum PreferredSearchMethod : NSUInteger {
     
     NSString *searchString = [coder decodeObjectForKey:kSearchStringKey];
     if (searchString) {
-        self.searchField.text = searchString;
-        [self searchFieldEditingChanged:self.searchField];
+        self.searchBar.text = searchString;
+        [self searchBar:self.searchBar textDidChange:self.searchBar.text];
     }
 }
 
@@ -247,89 +244,12 @@ typedef enum PreferredSearchMethod : NSUInteger {
     [self.delegate searchCancelled:self];
 }
 
-#pragma mark - UISearchBarDelegate
-
-- (IBAction)searchFieldEditingChanged:(UITextField *)sender {
-
-    if (!self.activityIndicator.isAnimating) {
-        self.searchField.rightView = self.activityIndicator;
-        [self.activityIndicator startAnimating];
-    }
-    
-    NSString *searchText = self.searchField.text;
-    
-    NSString *letterOnlyString = [searchText stringLimitedToCharacterSet:[NSCharacterSet letterCharacterSet]];
-    NSString *decimalDigitOnlyString = [searchText stringLimitedToCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    // Save the preferred search method.
-    if ([letterOnlyString length] > 0) {
-        // Letter Search
-        [userDefaults setObject:[NSNumber numberWithUnsignedInteger:PreferredSearchMethodLetters]
-                         forKey:kPreferredSearchMethodKey];
-        self.searchField.keyboardType = UIKeyboardTypeDefault;
-        [self.searchField resignFirstResponder];
-        [self.searchField becomeFirstResponder];
-    } else if ([decimalDigitOnlyString length] > 0) {
-        // Number Search
-        [userDefaults setObject:[NSNumber numberWithUnsignedInteger:PreferredSearchMethodNumbers]
-                         forKey:kPreferredSearchMethodKey];
-        self.searchField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-        [self.searchField resignFirstResponder];
-        [self.searchField becomeFirstResponder];
-    }
-    [userDefaults synchronize];
-    
-    SearchOperation *operation = [[SearchOperation alloc] initWithSearchString:searchText
-                                                                          book:self.closestSong.section.book];
-    __weak SearchOperation *weakOperation = operation;
-    __weak SearchViewController *weakSelf = self;
-    [operation setCompletionBlock:^{
-        if (!weakOperation.isCancelled && weakOperation.tableModel) {
-            SearchTableModel *tableModel = weakOperation.tableModel;
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                [weakSelf updateDataSourceWithTableModel:tableModel];
-                [weakSelf.tableView reloadData];
-                [weakSelf.scrollIndicator setScrollViewContentHeight:weakSelf.tableView.contentSize.height
-                                                      andFrameHeight:weakSelf.tableView.frame.size.height];
-                if (weakSelf.tableView.tableFooterView != weakSelf.tableFooterView) {
-                    // Only stop animating if the tokenization process has finished.
-                    [weakSelf.activityIndicator stopAnimating];
-                    weakSelf.searchField.rightView = nil;
-                }
-                
-                if ((!weakSelf.lastSearchString || [weakSelf.lastSearchString length]) && [searchText length] == 0) {
-                    // If the search is blank, scroll to the current song.
-                    [weakSelf scrollToCurrentSong];
-                } else if ((!weakSelf.lastSearchString && searchText) ||
-                           (weakSelf.lastSearchString && !searchText) ||
-                           [weakSelf.lastSearchString caseInsensitiveCompare:searchText ? searchText : @""] != NSOrderedSame) {
-                    // If the search text changed (i.e. this was a manual search), Scroll to the top.
-                    [weakSelf scrollToTop];
-                }
-                weakSelf.lastSearchString = searchText;
-            }];
-        }
-    }];
-    
-    [self.searchQueue cancelAllOperations];
-    [self.searchQueue addOperation:operation];
-}
-
-#pragma mark - UITextFieldDelegate
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
-}
-
 #pragma mark - SearchTableDataSourceDelegate
 
 - (void)selectedSong:(NSManagedObjectID *)selectedSongID withRange:(NSRange)range
 {
+    [self.searchBar resignFirstResponder];
     [self.delegate searchViewController:self selectedSong:selectedSongID withRange:range];
-    [self.searchField resignFirstResponder];
 }
 
 - (void)tableViewScrolled
@@ -352,7 +272,73 @@ typedef enum PreferredSearchMethod : NSUInteger {
     CGFloat targetOffset = maxOffset * percent - self.tableView.adjustedContentInset.top;
 
     [self.tableView setContentOffset:CGPointMake(0, targetOffset) animated:NO];
-    [self.searchField resignFirstResponder];
+    [self.searchBar resignFirstResponder];
+}
+
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    self.searchField.rightViewMode = UITextFieldViewModeAlways;
+    self.searchField.clearButtonMode = UITextFieldViewModeNever;
+
+    NSString *letterOnlyString = [searchText stringLimitedToCharacterSet:[NSCharacterSet letterCharacterSet]];
+    NSString *decimalDigitOnlyString = [searchText stringLimitedToCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
+
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    // Save the preferred search method.
+    if ([letterOnlyString length] > 0) {
+        // Letter Search
+        [userDefaults setObject:[NSNumber numberWithUnsignedInteger:PreferredSearchMethodLetters]
+                         forKey:kPreferredSearchMethodKey];
+        self.searchBar.keyboardType = UIKeyboardTypeDefault;
+    } else if ([decimalDigitOnlyString length] > 0) {
+        // Number Search
+        [userDefaults setObject:[NSNumber numberWithUnsignedInteger:PreferredSearchMethodNumbers]
+                         forKey:kPreferredSearchMethodKey];
+        self.searchBar.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+    }
+    [userDefaults synchronize];
+
+    SearchOperation *operation = [[SearchOperation alloc] initWithSearchString:searchText
+                                                                          book:self.closestSong.section.book];
+    __weak SearchOperation *weakOperation = operation;
+    __weak SearchViewController *weakSelf = self;
+    [operation setCompletionBlock:^{
+        if (!weakOperation.isCancelled && weakOperation.tableModel) {
+            SearchTableModel *tableModel = weakOperation.tableModel;
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [weakSelf updateDataSourceWithTableModel:tableModel];
+                [weakSelf.tableView reloadData];
+                [weakSelf.scrollIndicator setScrollViewContentHeight:weakSelf.tableView.contentSize.height
+                                                      andFrameHeight:weakSelf.tableView.frame.size.height];
+                if (weakSelf.tableView.tableFooterView != weakSelf.tableFooterView) {
+                    // Only stop animating if the tokenization process has finished.
+                    weakSelf.searchField.rightViewMode = UITextFieldViewModeNever;
+                    weakSelf.searchField.clearButtonMode = UITextFieldViewModeWhileEditing;
+                }
+
+                if ((!weakSelf.lastSearchString || [weakSelf.lastSearchString length]) && [searchText length] == 0) {
+                    // If the search is blank, scroll to the current song.
+                    [weakSelf scrollToCurrentSong];
+                } else if ((!weakSelf.lastSearchString && searchText) ||
+                           (weakSelf.lastSearchString && !searchText) ||
+                           [weakSelf.lastSearchString caseInsensitiveCompare:searchText ? searchText : @""] != NSOrderedSame) {
+                    // If the search text changed (i.e. this was a manual search), Scroll to the top.
+                    [weakSelf scrollToTop];
+                }
+                weakSelf.lastSearchString = searchText;
+            }];
+        }
+    }];
+
+    [self.searchQueue cancelAllOperations];
+    [self.searchQueue addOperation:operation];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
 }
 
 #pragma mark - Helper Methods
@@ -378,7 +364,9 @@ typedef enum PreferredSearchMethod : NSUInteger {
 
 - (void)scrollToTop
 {
-    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+    if (self.tableView.numberOfSections > 0 && [self.tableView numberOfRowsInSection:0] > 0) {
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    }
 }
 
 @end

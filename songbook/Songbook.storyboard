@@ -7,14 +7,8 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="HelveticaNeueLights.ttc">
-            <string>HelveticaNeue-Light</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Single View Controller-->
         <scene sceneID="ybK-Uc-lWE">
@@ -287,42 +281,38 @@
                                 </connections>
                             </tableView>
                             <view opaque="NO" contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="slh-z3-w9i" customClass="SuperScrollIndicator">
-                                <rect key="frame" x="360" y="70" width="15" height="597"/>
+                                <rect key="frame" x="360" y="76" width="15" height="591"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="15" id="mtD-Pd-Hzc"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zpH-HV-y2I">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="76"/>
                                 <subviews>
                                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dJV-Tc-MTC">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="76"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="5e8-tD-a2R">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="76"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </view>
                                         <blurEffect style="light"/>
                                     </visualEffectView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="bBq-af-z7t">
-                                        <rect key="frame" x="16" y="28" width="343" height="34"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5om-TY-yhS">
+                                        <rect key="frame" x="8" y="20" width="351" height="56"/>
                                         <subviews>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="SearchField" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="hfi-dn-jY1" userLabel="Search Field">
-                                                <rect key="frame" x="0.0" y="0.0" width="281" height="34"/>
-                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
+                                            <searchBar contentMode="redraw" horizontalCompressionResistancePriority="250" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="7de-EQ-IO7">
+                                                <rect key="frame" x="0.0" y="0.0" width="286" height="56"/>
+                                                <textInputTraits key="textInputTraits"/>
                                                 <connections>
-                                                    <action selector="searchFieldEditingChanged:" destination="f4X-As-1jE" eventType="editingChanged" id="33F-bn-cND"/>
+                                                    <outlet property="delegate" destination="f4X-As-1jE" id="Aii-gS-mLS"/>
                                                 </connections>
-                                            </textField>
-                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xcf-7d-OfK">
-                                                <rect key="frame" x="289" y="0.0" width="54" height="34"/>
-                                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                                <state key="normal" title="Cancel">
-                                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
+                                            </searchBar>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="smD-1D-IrX">
+                                                <rect key="frame" x="286" y="0.0" width="65" height="56"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                <state key="normal" title="Cancel"/>
                                                 <connections>
-                                                    <action selector="searchCancelled:" destination="f4X-As-1jE" eventType="touchUpInside" id="hv3-iQ-mmq"/>
+                                                    <action selector="searchCancelled:" destination="f4X-As-1jE" eventType="touchUpInside" id="AQs-ub-u3K"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -330,12 +320,12 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="5om-TY-yhS" secondAttribute="bottom" id="D0q-zm-Tts"/>
                                     <constraint firstItem="dJV-Tc-MTC" firstAttribute="leading" secondItem="zpH-HV-y2I" secondAttribute="leading" id="Kkc-h0-GF9"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="5om-TY-yhS" secondAttribute="trailing" id="OEf-lw-sHj"/>
                                     <constraint firstAttribute="trailing" secondItem="dJV-Tc-MTC" secondAttribute="trailing" id="ULi-Hx-Ccf"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="bBq-af-z7t" secondAttribute="trailing" id="esV-VW-7xp"/>
-                                    <constraint firstItem="bBq-af-z7t" firstAttribute="leading" secondItem="zpH-HV-y2I" secondAttribute="leadingMargin" id="etu-uW-ygz"/>
                                     <constraint firstItem="dJV-Tc-MTC" firstAttribute="top" secondItem="zpH-HV-y2I" secondAttribute="top" id="jkF-oY-Tmf"/>
-                                    <constraint firstAttribute="bottom" secondItem="bBq-af-z7t" secondAttribute="bottom" constant="8" id="w2M-Vv-hn7"/>
+                                    <constraint firstItem="5om-TY-yhS" firstAttribute="leading" secondItem="zpH-HV-y2I" secondAttribute="leadingMargin" constant="-8" id="ous-9d-5By"/>
                                     <constraint firstAttribute="bottom" secondItem="dJV-Tc-MTC" secondAttribute="bottom" id="yaY-aS-yEP"/>
                                 </constraints>
                             </view>
@@ -344,8 +334,8 @@
                             <constraint firstItem="u1p-hu-jw2" firstAttribute="leading" secondItem="4pJ-jI-2fB" secondAttribute="leading" id="69s-JK-tcN"/>
                             <constraint firstAttribute="top" secondItem="u1p-hu-jw2" secondAttribute="top" id="6y2-eG-x99"/>
                             <constraint firstItem="zpH-HV-y2I" firstAttribute="leading" secondItem="4pJ-jI-2fB" secondAttribute="leading" id="Hhz-Ql-P2T"/>
-                            <constraint firstItem="bBq-af-z7t" firstAttribute="top" secondItem="5o9-gD-zgY" secondAttribute="top" constant="8" id="aVP-Cn-dv8"/>
                             <constraint firstAttribute="bottom" secondItem="u1p-hu-jw2" secondAttribute="bottom" id="eX9-9Z-YfG"/>
+                            <constraint firstItem="5om-TY-yhS" firstAttribute="top" secondItem="5o9-gD-zgY" secondAttribute="top" id="jfa-g3-nVD"/>
                             <constraint firstItem="slh-z3-w9i" firstAttribute="trailing" secondItem="5o9-gD-zgY" secondAttribute="trailing" id="lvu-iO-inc"/>
                             <constraint firstAttribute="trailing" secondItem="u1p-hu-jw2" secondAttribute="trailing" id="oAa-OF-BOs"/>
                             <constraint firstItem="slh-z3-w9i" firstAttribute="top" secondItem="zpH-HV-y2I" secondAttribute="bottom" id="sy8-Sd-4QD"/>
@@ -357,9 +347,8 @@
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <outlet property="cancelButton" destination="xcf-7d-OfK" id="HUd-yn-yaE"/>
                         <outlet property="scrollIndicator" destination="slh-z3-w9i" id="zcC-A9-xoD"/>
-                        <outlet property="searchField" destination="hfi-dn-jY1" id="7gw-0b-oij"/>
+                        <outlet property="searchBar" destination="7de-EQ-IO7" id="X19-Cj-zep"/>
                         <outlet property="tableFooterView" destination="12p-H6-Z8U" id="1f4-Gd-uje"/>
                         <outlet property="tableView" destination="u1p-hu-jw2" id="6pz-qS-Rdl"/>
                         <outlet property="tokenizeProgressView" destination="UnU-vG-TMp" id="RnZ-it-sdX"/>
@@ -368,7 +357,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="csr-1h-0Xt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-746" y="37"/>
+            <point key="canvasLocation" x="-746.5" y="36.5"/>
         </scene>
         <!--Book Manager View Controller-->
         <scene sceneID="sOI-yA-X9q">
