@@ -6,3 +6,4 @@
 #import "Song+Helpers.h"
 #import "Section+Helpers.h"
 #import "Book+Helpers.h"
+#import "SearchCellModel.h"

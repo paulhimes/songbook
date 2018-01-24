@@ -98,8 +98,6 @@ typedef enum PreferredSearchMethod : NSUInteger {
     separatorInset.right = separatorInset.left;
     self.tableView.separatorInset = separatorInset;
     self.tableView.backgroundColor = [Theme paperColor];
-    self.tableView.sectionHeaderHeight = UITableViewAutomaticDimension;
-    self.tableView.estimatedSectionHeaderHeight = 20;
 
     [self.searchBar setPositionAdjustment:UIOffsetMake(-3, 0) forSearchBarIcon:UISearchBarIconClear];
     self.searchField.rightView = self.activityIndicator;

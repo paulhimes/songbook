@@ -13,12 +13,11 @@
 #import "SearchContextCellModel.h"
 #import "BasicCell.h"
 #import "ContextCell.h"
+#import "songbook-Swift.h"
 
 @interface SearchTableDataSource()
 
 @property (nonatomic, strong) SearchTableModel *tableModel;
-@property (nonatomic) CGFloat basicHeight;
-@property (nonatomic) CGFloat contextHeight;
 
 @end
 
@@ -86,7 +85,25 @@
     id<SearchCellModel> cellModel = sectionModel.cellModels[indexPath.row];
     
     UITableViewCell *cell;
-    if ([cellModel isKindOfClass:[SearchTitleCellModel class]]) {
+    if ([cellModel isKindOfClass:[SearchExactMatchCellModel class]]) {
+        SearchExactMatchCellModel *searchExactMatchCellModel = (SearchExactMatchCellModel *)cellModel;
+        ExactMatchCell *exactMatchCell = [tableView dequeueReusableCellWithIdentifier:@"ExactMatchCell" forIndexPath:indexPath];
+        
+        exactMatchCell.sectionTitleLabel.textColor = [Theme textColor];
+        exactMatchCell.sectionTitleLabel.text = searchExactMatchCellModel.sectionTitle;
+        
+        exactMatchCell.numberLabel.textColor = [Theme textColor];
+        if (searchExactMatchCellModel.number > 0) {
+            exactMatchCell.numberLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)searchExactMatchCellModel.number];
+        } else {
+            exactMatchCell.numberLabel.text = @"";
+        }
+        
+        exactMatchCell.songTitleLabel.textColor = [Theme textColor];
+        exactMatchCell.songTitleLabel.text = searchExactMatchCellModel.songTitle;
+        
+        cell = exactMatchCell;
+    } else if ([cellModel isKindOfClass:[SearchTitleCellModel class]]) {
         SearchTitleCellModel *searchTitleCellModel = (SearchTitleCellModel *)cellModel;
         BasicCell *basicCell = [tableView dequeueReusableCellWithIdentifier:@"BasicCell" forIndexPath:indexPath];
         
@@ -137,30 +154,6 @@
 }
 
 #pragma mark - UITableViewDelegate
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (self.basicHeight == 0) {
-        UITableViewCell *basicCell = [tableView dequeueReusableCellWithIdentifier:@"BasicCell"];
-        self.basicHeight = basicCell.frame.size.height;
-    }
-    if (self.contextHeight == 0) {
-        UITableViewCell *contextCell = [tableView dequeueReusableCellWithIdentifier:@"ContextCell"];
-        self.contextHeight = contextCell.frame.size.height;
-    }
-    
-    SearchSectionModel *sectionModel = self.tableModel.sectionModels[indexPath.section];
-    id<SearchCellModel> cellModel = sectionModel.cellModels[indexPath.row];
-    
-    CGFloat cellHeight;
-    if ([cellModel isKindOfClass:[SearchTitleCellModel class]]) {
-        cellHeight = self.basicHeight;
-    } else {
-        cellHeight = self.contextHeight;
-    }
-    
-    return cellHeight;
-}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

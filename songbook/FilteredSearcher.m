@@ -11,6 +11,7 @@
 #import "Section.h"
 #import "Token+Helpers.h"
 #import "TokenInstance.h"
+#import "songbook-Swift.h"
 
 static const NSString * const kFragmentKey = @"FragmentKey";
 static const NSString * const kRangeKey = @"RangeKey";
@@ -79,23 +80,9 @@ static const NSString * const kRangeKey = @"RangeKey";
             Song *song1 = (Song *)[book.managedObjectContext objectWithID:songID1];
             Song *song2 = (Song *)[book.managedObjectContext objectWithID:songID2];
             
-            if (!song1.number) {
-                if (!song2.number) {
-                    return NSOrderedSame;
-                } else {
-                    return NSOrderedAscending;
-                }
-            }
+            Section *section = song1.section;
             
-            if (!song2.number) {
-                if (!song1.number) {
-                    return NSOrderedSame;
-                } else {
-                    return NSOrderedDescending;
-                }
-            }
-            
-            return [song1.number compare:song2.number];
+            return [@([section.songs indexOfObject:song1]) compare:@([section.songs indexOfObject:song2])];
         }];
     }
     
@@ -140,6 +127,29 @@ static const NSString * const kRangeKey = @"RangeKey";
         
         // Create the section.
         [sectionModels addObject:[[SearchSectionModel alloc] initWithTitle:section.title cellModels:[cellModels copy]]];
+    }
+    
+    // Add an "Exact Matches" section if appropriate.
+    NSString *letterOnlyString = [searchString stringLimitedToCharacterSet:[NSCharacterSet letterCharacterSet]];
+    NSString *decimalDigitOnlyString = [searchString stringLimitedToCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
+    NSMutableArray<SearchExactMatchCellModel *> *exactMatchSongModels = [@[] mutableCopy];
+    if (letterOnlyString.length == 0 && decimalDigitOnlyString.length > 0) {
+        for (Section *section in book.sections) {
+            for (Song *song in section.songs) {
+                if (song.number) {
+                    NSString *songNumberDecimalOnly = [[song.number stringValue] stringLimitedToCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
+                    if ([songNumberDecimalOnly isEqualToString:decimalDigitOnlyString]) {
+                        [exactMatchSongModels addObject:[[SearchExactMatchCellModel alloc] initWithSongID:song.objectID
+                                                                                                   number:[song.number unsignedIntegerValue]
+                                                                                                songTitle:song.title
+                                                                                             sectionTitle:song.section.title]];
+                    }
+                }
+            }
+        }
+    }
+    if (exactMatchSongModels.count > 0) {
+        [sectionModels insertObject:[[SearchSectionModel alloc] initWithTitle:@"Exact Matches" cellModels:[exactMatchSongModels copy]] atIndex:0];
     }
     
     SearchTableModel *table = [[SearchTableModel alloc] initWithSectionModels:[sectionModels copy] persistentStoreCoordinator:book.managedObjectContext.persistentStoreCoordinator];
