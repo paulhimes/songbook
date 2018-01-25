@@ -277,6 +277,9 @@ typedef enum PreferredSearchMethod : NSUInteger {
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
+    // Trim whitespace.
+    searchText = [searchText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
     self.searchField.rightViewMode = UITextFieldViewModeAlways;
     self.searchField.clearButtonMode = UITextFieldViewModeNever;
 
