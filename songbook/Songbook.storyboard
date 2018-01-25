@@ -205,6 +205,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <textField hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fju-yd-CWt" userLabel="Hidden Text Field">
+                                <rect key="frame" x="175" y="328.5" width="25" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="TableView" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="u1p-hu-jw2">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -310,7 +316,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A1W-k5-zBM">
-                                                            <rect key="frame" x="57" y="1" width="288" height="11"/>
+                                                            <rect key="frame" x="57" y="0.5" width="288" height="21.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -422,6 +428,7 @@
                             </view>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="fju-yd-CWt" firstAttribute="centerY" secondItem="5o9-gD-zgY" secondAttribute="centerY" id="4ft-j2-VAr"/>
                             <constraint firstItem="u1p-hu-jw2" firstAttribute="leading" secondItem="4pJ-jI-2fB" secondAttribute="leading" id="69s-JK-tcN"/>
                             <constraint firstAttribute="top" secondItem="u1p-hu-jw2" secondAttribute="top" id="6y2-eG-x99"/>
                             <constraint firstItem="zpH-HV-y2I" firstAttribute="leading" secondItem="4pJ-jI-2fB" secondAttribute="leading" id="Hhz-Ql-P2T"/>
@@ -430,6 +437,7 @@
                             <constraint firstItem="slh-z3-w9i" firstAttribute="trailing" secondItem="5o9-gD-zgY" secondAttribute="trailing" id="lvu-iO-inc"/>
                             <constraint firstAttribute="trailing" secondItem="u1p-hu-jw2" secondAttribute="trailing" id="oAa-OF-BOs"/>
                             <constraint firstItem="slh-z3-w9i" firstAttribute="top" secondItem="zpH-HV-y2I" secondAttribute="bottom" id="sy8-Sd-4QD"/>
+                            <constraint firstItem="fju-yd-CWt" firstAttribute="centerX" secondItem="5o9-gD-zgY" secondAttribute="centerX" id="tPo-Fh-Z3Y"/>
                             <constraint firstAttribute="trailing" secondItem="zpH-HV-y2I" secondAttribute="trailing" id="wku-lB-SkP"/>
                             <constraint firstItem="zpH-HV-y2I" firstAttribute="top" secondItem="4pJ-jI-2fB" secondAttribute="top" id="yED-Hb-n9Y"/>
                             <constraint firstItem="slh-z3-w9i" firstAttribute="bottom" secondItem="4pJ-jI-2fB" secondAttribute="bottom" id="ymw-Zc-WfZ"/>
@@ -438,6 +446,7 @@
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
+                        <outlet property="hiddenTextField" destination="fju-yd-CWt" id="AHM-7H-Mhd"/>
                         <outlet property="scrollIndicator" destination="slh-z3-w9i" id="zcC-A9-xoD"/>
                         <outlet property="searchBar" destination="7de-EQ-IO7" id="X19-Cj-zep"/>
                         <outlet property="tableFooterView" destination="12p-H6-Z8U" id="1f4-Gd-uje"/>

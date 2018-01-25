@@ -37,6 +37,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
 @property (weak, nonatomic) IBOutlet UIView *topBar;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, readonly) UITextField *searchField;
+@property (weak, nonatomic) IBOutlet UITextField *hiddenTextField;
 
 @property (weak, nonatomic) IBOutlet SuperScrollIndicator *scrollIndicator;
 
@@ -176,7 +177,14 @@ typedef enum PreferredSearchMethod : NSUInteger {
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+
+    // This is only used to make the keyboard appear animated.
+    [self.hiddenTextField becomeFirstResponder];
+
+    // Set search bar as first responder NOT animated to avoid strange cursor animation.
+    [UIView setAnimationsEnabled:NO];
     [self.searchBar becomeFirstResponder];
+    [UIView setAnimationsEnabled:YES];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
