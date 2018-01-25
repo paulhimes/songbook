@@ -91,9 +91,9 @@ static const CGFloat kSongComponentPadding = 8;
 
 - (CGRect)textRectForWidth:(CGFloat)width
 {
-    CGRect boundingRect = [[self text] boundingRectWithSize:CGSizeMake(width, self.numberFont.lineHeight)
-                                                    options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading | NSStringDrawingTruncatesLastVisibleLine
-                                                    context:nil];
+    CGRect boundingRect = [[self textForWidth:width] boundingRectWithSize:CGSizeMake(width, self.numberFont.lineHeight)
+                                                                  options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading | NSStringDrawingTruncatesLastVisibleLine
+                                                                  context:nil];
     return boundingRect;
 }
 
@@ -111,7 +111,7 @@ static const CGFloat kSongComponentPadding = 8;
 - (void)drawRect:(CGRect)rect
 {
     CGRect drawingRect = [self placedTextRectForWidth:self.bounds.size.width];
-    [[self text] drawWithRect:drawingRect options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading | NSStringDrawingTruncatesLastVisibleLine context:nil];
+    [[self textForWidth:self.bounds.size.width] drawWithRect:drawingRect options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading | NSStringDrawingTruncatesLastVisibleLine context:nil];
 }
 
 - (NSAttributedString *)numberText
@@ -126,17 +126,37 @@ static const CGFloat kSongComponentPadding = 8;
     return [attributedString copy];
 }
 
-- (NSAttributedString *)text
+- (NSAttributedString *)textForWidth:(CGFloat)width
 {
-    NSMutableAttributedString *attributedString = [[self numberText] mutableCopy];
-    
-    if ([self.title length] > 0) {
-        [attributedString appendString:self.title attributes:self.titleAttributes];
-    }
-    
-    [attributedString addAttributes:@{NSParagraphStyleAttributeName: [self paragraphStyleFirstLineIndent:0 andNormalIndent:self.titleOriginX]}
-                              range:NSMakeRange(0, attributedString.length)];
-    
+    NSMutableAttributedString *attributedString = nil;
+
+    CGRect boundingRect = CGRectMake(0, 0, CGFLOAT_MAX, 0);
+    NSString *fittedTitle = self.title;
+
+    do {
+        attributedString = [[self numberText] mutableCopy];
+
+        if ([fittedTitle length] > 0) {
+            [attributedString appendString:fittedTitle attributes:self.titleAttributes];
+        } else {
+            break;
+        }
+
+        [attributedString addAttributes:@{NSParagraphStyleAttributeName: [self paragraphStyleFirstLineIndent:0 andNormalIndent:self.titleOriginX]}
+                                  range:NSMakeRange(0, attributedString.length)];
+
+        boundingRect = [attributedString boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, self.numberFont.lineHeight)
+                                                      options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                                      context:nil];
+        if (boundingRect.size.width >= width) {
+            // Truncate the fitted title one word at a time.
+            NSMutableArray<NSString *> *components = [[fittedTitle componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] mutableCopy];
+            [components removeLastObject];
+            NSString *joined = [components componentsJoinedByString:@" "];
+            fittedTitle = [joined stringByAppendingString:@"…"];
+        }
+    } while (boundingRect.size.width >= width);
+
     return [attributedString copy];
 }
 
