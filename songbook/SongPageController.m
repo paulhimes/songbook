@@ -121,11 +121,9 @@ static const float kTextScaleThreshold = 2;
     [self updateBarVisibility];
 
     CGFloat titleContentOriginY = self.titleView.contentOriginY;
-
-    self.textView.textContainerInset = UIEdgeInsetsMake(0, self.view.layoutMargins.left, 0, self.view.layoutMargins.right);
-
+    
+    [self updateTextViewTextConteinerInset];
     self.textView.contentInset = UIEdgeInsetsMake(titleContentOriginY, 0, self.bottomBarBackground.frame.size.height - self.view.layoutMargins.bottom, 0);
-
     self.textView.scrollIndicatorInsets = UIEdgeInsetsMake(self.titleView.frame.size.height, self.textView.scrollIndicatorInsets.left, self.bottomBarBackground.frame.size.height - self.view.layoutMargins.bottom, 0);
 
     // Auto scroll to the highlight if there is no bookmark.
@@ -135,6 +133,24 @@ static const float kTextScaleThreshold = 2;
     } else {
         [self scrollGlyphAtIndex:self.bookmarkedGlyphIndex toYCoordinate:self.bookmarkedGlyphYOffset];
     }
+}
+
+- (void)updateTextViewTextConteinerInset
+{
+    // Calculate the bottom inset such that the last line of the last verse / chorus will be visible when you scroll all the way to the bottom.
+    NSNumber *standardTextSizeNumber = [[NSUserDefaults standardUserDefaults] objectForKey:kStandardTextSizeKey];
+    CGFloat standardTextSize = [standardTextSizeNumber floatValue];
+    
+    CGFloat bottomSpace = self.view.bounds.size.height - self.topBar.frame.size.height - self.bottomBarBackground.frame.size.height;
+    
+    NSValue *lastTextRangeBeforeFooterValue = self.songComponentRanges[kLastTextRangeBeforeFooterKey];
+    if (lastTextRangeBeforeFooterValue) {
+        NSRange lastTextRangeBeforeFooter = lastTextRangeBeforeFooterValue.rangeValue;
+        CGFloat bottomInsetOfLastTextLineBeforeFooter = [self.textView distanceFromLastLineTopToContainerBottomForCharactersInRange:lastTextRangeBeforeFooter];
+        bottomSpace -= bottomInsetOfLastTextLineBeforeFooter + [UIFont fontWithName:@"Marion" size:standardTextSize].leading;
+    }
+    
+    self.textView.textContainerInset = UIEdgeInsetsMake(0, self.view.layoutMargins.left, bottomSpace, self.view.layoutMargins.right);
 }
 
 - (id<SongbookModel>)modelObject
@@ -209,9 +225,6 @@ static const float kTextScaleThreshold = 2;
     [attributedString addAttributes:@{NSForegroundColorAttributeName:[Theme redColor],
                                       NSStrokeWidthAttributeName:@(-2)}
                               range:self.highlightRange];
-    
-    // Add blank lines to the end of the string to make the end of the song stand out.
-    [attributedString appendString:@"\n\n\n\n" attributes:normalAttributes];
     
     return [attributedString copy];
 }
@@ -405,13 +418,15 @@ static const float kTextScaleThreshold = 2;
         [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
         [self updateBookmark];
         
+        [self updateTextViewTextConteinerInset];
+        
     } else if (sender.state == UIGestureRecognizerStateChanged){
         CGPoint updatedTouchPoint = [sender locationInView:self.view];
         self.latestTouchPoint = updatedTouchPoint;
         
         [self scaleTextWithScale:sender.scale
                       touchPoint:updatedTouchPoint
-                 minimumFontSize:1
+                 minimumFontSize:kMinimumStandardTextSize
                  maximumFontSize:kSuperMaximumStandardTextSize];
     }
 }

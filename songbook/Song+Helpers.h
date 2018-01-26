@@ -17,6 +17,7 @@ extern NSString * const kVerseTitleRangesKey;
 extern NSString * const kChorusRangesKey;
 extern NSString * const kGhostRangesKey;
 extern NSString * const kFooterRangesKey;
+extern NSString * const kLastTextRangeBeforeFooterKey;
 
 @interface Song (Helpers) <SongbookModel>
 

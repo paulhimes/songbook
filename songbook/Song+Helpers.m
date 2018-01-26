@@ -21,6 +21,7 @@ NSString * const kVerseTitleRangesKey = @"verseTitleRanges";
 NSString * const kChorusRangesKey = @"chorusRanges";
 NSString * const kGhostRangesKey = @"GhostRanges";
 NSString * const kFooterRangesKey = @"FooterRanges";
+NSString * const kLastTextRangeBeforeFooterKey = @"LastTextRangeBeforeFooter";
 
 @implementation Song (Helpers)
 
@@ -150,6 +151,8 @@ NSString * const kFooterRangesKey = @"FooterRanges";
     NSMutableArray *ghostRanges = [@[] mutableCopy];
     NSMutableArray *footerRanges = [@[] mutableCopy];
     
+    NSValue *lastTextRangeBeforeFooter = [NSValue valueWithRange:NSMakeRange(0, 0)];
+    
     NSMutableString *string = [@"" mutableCopy];
     
     // Look at me! I can use a crazy local block to cut down on the amount of duplicate code.
@@ -194,9 +197,11 @@ NSString * const kFooterRangesKey = @"FooterRanges";
             }
             
             addString(normalRanges, verse.text);
+            lastTextRangeBeforeFooter = normalRanges.lastObject;
             
             if (verse.repeatText) {
                 addString(ghostRanges, [NSString stringWithFormat:@" %@", verse.repeatText]);
+                lastTextRangeBeforeFooter = ghostRanges.lastObject;
             }
             
             if (verse.chorus) {
@@ -207,6 +212,8 @@ NSString * const kFooterRangesKey = @"FooterRanges";
                 [chorusRanges addObject:[NSValue valueWithRange:NSMakeRange([string length], [ghostString length])]];
                 [ghostRanges addObject:[NSValue valueWithRange:NSMakeRange([string length], [ghostString length])]];
                 [string appendString:ghostString];
+                
+                lastTextRangeBeforeFooter = ghostRanges.lastObject;
             }
         }
     }
@@ -235,7 +242,8 @@ NSString * const kFooterRangesKey = @"FooterRanges";
                                            kVerseTitleRangesKey:[verseTitleRanges copy],
                                            kChorusRangesKey:[chorusRanges copy],
                                            kGhostRangesKey:[ghostRanges copy],
-                                           kFooterRangesKey:[footerRanges copy]}];
+                                           kFooterRangesKey:[footerRanges copy],
+                                           kLastTextRangeBeforeFooterKey: lastTextRangeBeforeFooter}];
     
     return [string copy];
 }

@@ -18,7 +18,7 @@ static NSString * const kBookmarkedGlyphIndexKey = @"BookmarkedGlyphIndexKey";
 static NSString * const kBookmarkedGlyphYOffsetKey = @"BookmarkedGlyphYOffsetKey";
 
 const float kSuperMaximumStandardTextSize = 60;
-const float kMaximumStandardTextSize = 40;
+const float kMaximumStandardTextSize = 60;
 const float kMinimumStandardTextSize = 8;
 
 @interface PageController () <UIScrollViewDelegate, UIViewControllerRestoration>

@@ -15,5 +15,6 @@
 - (void)forceContentOffset:(CGPoint)contentOffset;
 - (CGPoint)locationForGlyphAtIndex:(NSUInteger)glyphIndex; // Returns a point relative to text view's frame.
 - (NSUInteger)glyphIndexClosestToPoint:(CGPoint)point; //  Point is relative to text view's frame.
+- (CGFloat)distanceFromLastLineTopToContainerBottomForCharactersInRange:(NSRange)characterRange; // The distance from the top of the last line in the given character range to the bottom ot the text view's text container.
 
 @end
