@@ -8,7 +8,20 @@
 
 #import "Theme.h"
 
+NSString * const kThemeStyleKey = @"ThemeStyle";
+
 @implementation Theme
+
++ (ThemeStyle)currentThemeStyle
+{
+    return [[NSUserDefaults standardUserDefaults] integerForKey:kThemeStyleKey];
+}
+
++ (void)setCurrentThemeStyle:(ThemeStyle)themeStyle
+{
+    [[NSUserDefaults standardUserDefaults] setInteger:themeStyle forKey:kThemeStyleKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 
 + (UIColor *)redColor
 {
@@ -30,27 +43,42 @@
 
 + (UIColor *)grayTrimColor
 {
-    return [UIColor colorWithR:199 G:199 B:199 A:255];
+    switch ([self currentThemeStyle]) {
+        case Light:
+            return [UIColor colorWithR:199 G:199 B:199 A:255];
+        case Dark:
+            return [UIColor colorWithR:70 G:70 B:70 A:255];
+    }
 }
 
-+ (UIColor *)darkerGrayColor
++ (UIColor *)fadedTextColor
 {
-    return [UIColor colorWithR:128 G:128 B:128 A:255];
-}
-
-+ (UIColor *)searchFieldBackgroundColor
-{
-    return [UIColor colorWithR:0 G:0 B:0 A:25];
+    switch ([self currentThemeStyle]) {
+        case Light:
+            return [[Theme textColor] colorWithAlphaComponent:0.5];
+        case Dark:
+            return [[Theme textColor] colorWithAlphaComponent:0.7];
+    }
 }
 
 + (UIColor *)paperColor
 {
-    return [UIColor whiteColor];
+    switch ([self currentThemeStyle]) {
+        case Light:
+            return [UIColor whiteColor];
+        case Dark:
+            return [UIColor blackColor];
+    }
 }
 
 + (UIColor *)textColor
 {
-    return [UIColor blackColor];
+    switch ([self currentThemeStyle]) {
+        case Light:
+            return [UIColor blackColor];
+        case Dark:
+            return [UIColor whiteColor];
+    }
 }
 
 @end

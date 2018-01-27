@@ -33,6 +33,7 @@ extern const float kMinimumStandardTextSize;
 
 - (void)handleGesture:(UIPinchGestureRecognizer *)sender;
 - (void)textContentChanged;
+- (void)updateThemedElements;
 
 @end
 

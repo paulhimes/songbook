@@ -453,6 +453,7 @@
                         <outlet property="tableView" destination="u1p-hu-jw2" id="6pz-qS-Rdl"/>
                         <outlet property="tokenizeProgressView" destination="UnU-vG-TMp" id="RnZ-it-sdX"/>
                         <outlet property="topBar" destination="zpH-HV-y2I" id="eDr-VE-4od"/>
+                        <outlet property="topBarEffectView" destination="dJV-Tc-MTC" id="vJn-up-lJD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="csr-1h-0Xt" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -512,49 +513,69 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
-                            <view opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sEf-6F-c0U" userLabel="Dialog">
-                                <rect key="frame" x="48" y="282" width="280" height="103"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <view opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sEf-6F-c0U" userLabel="Dialog">
+                                <rect key="frame" x="48" y="292" width="280" height="103"/>
                                 <subviews>
-                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="glc-pY-tvN" userLabel="Dialog Background">
-                                        <rect key="frame" x="0.0" y="0.0" width="280" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                        <items/>
-                                        <connections>
-                                            <outlet property="delegate" destination="DYE-Zn-ahd" id="ig8-an-zm8"/>
-                                        </connections>
-                                    </toolbar>
-                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nKA-Q7-Icr">
-                                        <rect key="frame" x="20" y="55" width="240" height="2"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                    </progressView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Exporting Book" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37R-oq-Cl9">
-                                        <rect key="frame" x="0.0" y="0.0" width="280" height="57"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Ky-eX-GgN">
-                                        <rect key="frame" x="0.0" y="61" width="280" height="42"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
-                                        <state key="normal" title="Cancel">
-                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="exportCancelled:" destination="DYE-Zn-ahd" eventType="touchUpInside" id="WEZ-sw-kjt"/>
-                                        </connections>
-                                    </button>
+                                    <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wpP-0z-vqS">
+                                        <rect key="frame" x="0.0" y="0.0" width="280" height="103"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="UFR-Vq-bNw">
+                                            <rect key="frame" x="0.0" y="0.0" width="280" height="103"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        </view>
+                                        <blurEffect style="light"/>
+                                    </visualEffectView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="YYg-Qk-v2g">
+                                        <rect key="frame" x="10" y="0.0" width="260" height="103"/>
+                                        <subviews>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Exporting Book" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37R-oq-Cl9">
+                                                <rect key="frame" x="0.0" y="0.0" width="260" height="51"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nKA-Q7-Icr">
+                                                <rect key="frame" x="0.0" y="51" width="260" height="2"/>
+                                            </progressView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Ky-eX-GgN">
+                                                <rect key="frame" x="0.0" y="53" width="260" height="50"/>
+                                                <state key="normal" title="Cancel">
+                                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="exportCancelled:" destination="DYE-Zn-ahd" eventType="touchUpInside" id="WEZ-sw-kjt"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="1Ky-eX-GgN" firstAttribute="height" secondItem="37R-oq-Cl9" secondAttribute="height" id="ieS-b6-xTH"/>
+                                        </constraints>
+                                    </stackView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="YYg-Qk-v2g" secondAttribute="bottom" id="Jss-E3-Y4Z"/>
+                                    <constraint firstAttribute="width" constant="280" id="Prl-Gy-CGZ"/>
+                                    <constraint firstItem="wpP-0z-vqS" firstAttribute="leading" secondItem="sEf-6F-c0U" secondAttribute="leading" id="Xjg-Wg-BTt"/>
+                                    <constraint firstAttribute="bottom" secondItem="wpP-0z-vqS" secondAttribute="bottom" id="cJS-l3-1fF"/>
+                                    <constraint firstAttribute="height" constant="103" id="ci4-TR-JNv"/>
+                                    <constraint firstItem="YYg-Qk-v2g" firstAttribute="top" secondItem="sEf-6F-c0U" secondAttribute="top" id="eo5-qx-eGA"/>
+                                    <constraint firstAttribute="trailing" secondItem="YYg-Qk-v2g" secondAttribute="trailing" constant="10" id="lYu-N9-ykx"/>
+                                    <constraint firstAttribute="trailing" secondItem="wpP-0z-vqS" secondAttribute="trailing" id="sLJ-io-j7D"/>
+                                    <constraint firstItem="wpP-0z-vqS" firstAttribute="top" secondItem="sEf-6F-c0U" secondAttribute="top" id="taI-pT-MOp"/>
+                                    <constraint firstItem="YYg-Qk-v2g" firstAttribute="leading" secondItem="sEf-6F-c0U" secondAttribute="leading" constant="10" id="vZd-id-HwS"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="sEf-6F-c0U" firstAttribute="centerY" secondItem="L0n-F3-epc" secondAttribute="centerY" placeholder="YES" id="bme-9x-Ong"/>
+                            <constraint firstItem="sEf-6F-c0U" firstAttribute="centerX" secondItem="L0n-F3-epc" secondAttribute="centerX" placeholder="YES" id="xdY-38-ulx"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="L0n-F3-epc"/>
                     </view>
                     <connections>
                         <outlet property="backgroundView" destination="xT3-qW-Arz" id="nZ5-fu-Nvs"/>
-                        <outlet property="dialogBackground" destination="glc-pY-tvN" id="9mJ-tO-j2j"/>
+                        <outlet property="dialogBackground" destination="wpP-0z-vqS" id="HOe-eI-tzc"/>
                         <outlet property="dialogView" destination="sEf-6F-c0U" id="Pal-I3-UHW"/>
                         <outlet property="label" destination="37R-oq-Cl9" id="JWH-qY-e8V"/>
                         <outlet property="progressView" destination="nKA-Q7-Icr" id="D55-Xs-BVf"/>

@@ -18,12 +18,15 @@
 
 static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
 static NSString * const kPageViewControllerKey = @"PageViewControllerKey";
+static NSString * const kSearchViewControllerKey = @"SearchViewControllerKey";
 
 static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 
 @interface SingleViewController () <SearchViewControllerDelegate, ExportProgressViewControllerDelegate, AudioPlayerDelegate>
 
 @property (nonatomic, strong) PageViewController *pageViewController;
+@property (nonatomic, strong) SearchViewController *searchViewController;
+
 @property (weak, nonatomic) IBOutlet UIToolbar *bottomBar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *activityButton;
 @property (nonatomic, strong) UIWindow *alertWindow;
@@ -56,6 +59,12 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     UIImage *clearImage = [[UIImage alloc] init];
     [self.bottomBar setBackgroundImage:clearImage forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     [self.bottomBar setShadowImage:clearImage forToolbarPosition:UIBarPositionAny];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userDefaultsChanged:)
+                                                 name:NSUserDefaultsDidChangeNotification object:nil];
+
+    [self updateThemedElements];
 }
 
 - (void)viewWillLayoutSubviews
@@ -64,20 +73,44 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     [self.bottomBar invalidateIntrinsicContentSize];
 }
 
+- (void)userDefaultsChanged:(NSNotification *)notification
+{
+    __weak SingleViewController *welf = self;
+    if ([[notification name] isEqualToString:NSUserDefaultsDidChangeNotification]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [UIViewPropertyAnimator runningPropertyAnimatorWithDuration:0.5 delay:0 options:0 animations:^{
+                [welf updateThemedElements];
+            } completion:^(UIViewAnimatingPosition finalPosition) {}];
+        });
+    }
+}
+
+- (void)updateThemedElements
+{
+    self.bottomBar.tintColor = self.pageViewController.pageControlColor;
+    self.progressView.progressTintColor = self.pageViewController.pageControlColor;
+    self.progressView.trackTintColor = [UIColor clearColor];
+    self.stopButton.tintColor = self.pageViewController.pageControlColor;
+    
+    [self.pageViewController updateThemedElements];
+    [self.searchViewController updateThemedElements];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"Search"] &&
         [segue.destinationViewController isKindOfClass:[SearchViewController class]]) {
-        SearchViewController *searchViewController = ((SearchViewController *)segue.destinationViewController);
-        searchViewController.delegate = self;
-        searchViewController.coreDataStack = self.coreDataStack;
-        searchViewController.closestSongID = self.pageViewController.closestSongID;
+        self.searchViewController = ((SearchViewController *)segue.destinationViewController);
+        self.searchViewController.delegate = self;
+        self.searchViewController.coreDataStack = self.coreDataStack;
+        self.searchViewController.closestSongID = self.pageViewController.closestSongID;
     } else if ([segue.identifier isEqualToString:@"EmbedPageViewController"] &&
                [segue.destinationViewController isKindOfClass:[PageViewController class]]) {
         self.pageViewController = segue.destinationViewController;
         self.pageViewController.pageViewControllerDelegate = self;
         self.pageViewController.coreDataStack = self.coreDataStack;
     }
+    [self updateThemedElements];
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -98,6 +131,11 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     if (self.pageViewController) {
         [coder encodeObject:self.pageViewController forKey:kPageViewControllerKey];
     }
+    
+    // Save the search view controller.
+    if (self.searchViewController) {
+        [coder encodeObject:self.searchViewController forKey:kSearchViewControllerKey];
+    }
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder
@@ -114,44 +152,55 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 
 - (IBAction)activityAction:(id)sender
 {
-    if (self.audioPlayer.hasSongFiles) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-        __weak SingleViewController *welf = self;
-
-        NSArray<NSURL *> *pageSongFiles = @[];
-        id<SongbookModel> pageModelObject = self.pageViewController.pageModelObject;
-        if ([pageModelObject isKindOfClass:[Song class]]) {
-            pageSongFiles = [self.audioPlayer audioFileURLsForSong:(Song *)pageModelObject];
-        }
-        
-        if ([pageSongFiles count] == 1) {
-            [alertController addAction:[UIAlertAction actionWithTitle:@"Play Tune" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [welf.audioPlayer startPlayingAtSong:(Song *)pageModelObject tuneIndex:0];
-            }]];
-        } else {
-            [pageSongFiles enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                [alertController addAction:[UIAlertAction actionWithTitle:[NSString stringWithFormat:@"Play Tune %lu", (unsigned long)(idx + 1)] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    [welf.audioPlayer startPlayingAtSong:(Song *)pageModelObject tuneIndex:idx];
-                }]];
-            }];
-        }
-        
-        [alertController addAction:[UIAlertAction actionWithTitle:@"Share Book" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [welf shareBookWithExtraFiles:NO];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    __weak SingleViewController *welf = self;
+    
+    NSArray<NSURL *> *pageSongFiles = @[];
+    id<SongbookModel> pageModelObject = self.pageViewController.pageModelObject;
+    if ([pageModelObject isKindOfClass:[Song class]]) {
+        pageSongFiles = [self.audioPlayer audioFileURLsForSong:(Song *)pageModelObject];
+    }
+    
+    if ([pageSongFiles count] == 1) {
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Play Tune" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [welf.audioPlayer startPlayingAtSong:(Song *)pageModelObject tuneIndex:0];
         }]];
-        
+    } else {
+        [pageSongFiles enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [alertController addAction:[UIAlertAction actionWithTitle:[NSString stringWithFormat:@"Play Tune %lu", (unsigned long)(idx + 1)] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [welf.audioPlayer startPlayingAtSong:(Song *)pageModelObject tuneIndex:idx];
+            }]];
+        }];
+    }
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Share Book" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [welf shareBookWithExtraFiles:NO];
+    }]];
+    
+    if (self.audioPlayer.hasSongFiles) {
         [alertController addAction:[UIAlertAction actionWithTitle:@"Share Book & Tunes" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [welf shareBookWithExtraFiles:YES];
         }]];
-        
-        [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}]];
-        
-        alertController.popoverPresentationController.barButtonItem = self.activityButton;
-        
-        [self presentViewController:alertController animated:YES completion:^{}];
-    } else {
-        [self shareBookWithExtraFiles:NO];
     }
+    
+    switch ([Theme currentThemeStyle]) {
+        case Light:
+            [alertController addAction:[UIAlertAction actionWithTitle:@"Dark Theme" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [Theme setCurrentThemeStyle:Dark];
+            }]];
+            break;
+        case Dark:
+            [alertController addAction:[UIAlertAction actionWithTitle:@"Light Theme" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [Theme setCurrentThemeStyle:Light];
+            }]];
+            break;
+    }
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}]];
+    
+    alertController.popoverPresentationController.barButtonItem = self.activityButton;
+    
+    [self presentViewController:alertController animated:YES completion:^{}];
 }
 
 #pragma mark - Book Sharing
@@ -277,11 +326,9 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 - (void)pageDidChange
 {
     __weak SingleViewController *welf = self;
-    [[[UIViewPropertyAnimator alloc] initWithDuration:0.4 curve:UIViewAnimationCurveEaseInOut animations:^{
-        welf.bottomBar.tintColor = welf.pageViewController.pageControlColor;
-        welf.progressView.tintColor = welf.pageViewController.pageControlColor;
-        welf.stopButton.tintColor = welf.pageViewController.pageControlColor;
-    }] startAnimation];
+    [UIViewPropertyAnimator runningPropertyAnimatorWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [welf updateThemedElements];
+    } completion:^(UIViewAnimatingPosition finalPosition) {}];
     
     if (self.audioPlayer.currentSong &&
         self.audioPlayer.currentSong != self.pageViewController.pageModelObject &&

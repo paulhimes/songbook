@@ -35,6 +35,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
 @property (nonatomic, strong) NSString *lastSearchString;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *topBar;
+@property (weak, nonatomic) IBOutlet UIVisualEffectView *topBarEffectView;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, readonly) UITextField *searchField;
 @property (weak, nonatomic) IBOutlet UITextField *hiddenTextField;
@@ -98,7 +99,6 @@ typedef enum PreferredSearchMethod : NSUInteger {
     UIEdgeInsets separatorInset = self.tableView.separatorInset;
     separatorInset.right = separatorInset.left;
     self.tableView.separatorInset = separatorInset;
-    self.tableView.backgroundColor = [Theme paperColor];
 
     [self.searchBar setPositionAdjustment:UIOffsetMake(-3, 0) forSearchBarIcon:UISearchBarIconClear];
     self.searchField.rightView = self.activityIndicator;
@@ -142,6 +142,8 @@ typedef enum PreferredSearchMethod : NSUInteger {
                                                                                }
                                                                            }
                                                                        }];
+
+    [self updateThemedElements];
 }
 
 - (void)viewDidLayoutSubviews
@@ -196,6 +198,26 @@ typedef enum PreferredSearchMethod : NSUInteger {
     [userDefaults setObject:self.searchBar.text forKey:kSearchStringKey];
     [userDefaults setObject:[NSDate date] forKey:kSearchTimestampKey];
     [userDefaults synchronize];
+}
+
+- (void)updateThemedElements
+{
+    self.tableView.backgroundColor = [Theme paperColor];
+    self.tableView.separatorColor = [Theme grayTrimColor];
+    self.searchField.textColor = [Theme textColor];
+    self.activityIndicator.color = [Theme textColor];
+    [self.scrollIndicator setNeedsDisplay];
+    
+    switch ([Theme currentThemeStyle]) {
+        case Light:
+            self.topBarEffectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
+            self.searchBar.keyboardAppearance = UIKeyboardAppearanceLight;
+            break;
+        case Dark:
+            self.topBarEffectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+            self.searchBar.keyboardAppearance = UIKeyboardAppearanceDark;
+            break;
+    }
 }
 
 - (BOOL)prefersStatusBarHidden

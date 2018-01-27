@@ -53,7 +53,7 @@ static const NSUInteger kIndicatorMinimumMargin = 4;
 - (UIColor *)normalScrollIndicatorColor
 {
     if (!_normalScrollIndicatorColor) {
-        _normalScrollIndicatorColor = [Theme searchFieldBackgroundColor];
+        _normalScrollIndicatorColor = [[Theme fadedTextColor] colorWithAlphaComponent:0.25];
     }
     return _normalScrollIndicatorColor;
 }

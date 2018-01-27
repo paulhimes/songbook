@@ -18,10 +18,10 @@ static const CGFloat kSongComponentPadding = 8;
 
 @interface SongTitleView()
 
-@property (nonatomic, strong) UIFont *numberFont;
-@property (nonatomic, strong) NSDictionary *numberAttributes;
-@property (nonatomic, strong) UIFont *titleFont;
-@property (nonatomic, strong) NSDictionary *titleAttributes;
+@property (nonatomic, readonly) UIFont *numberFont;
+@property (nonatomic, readonly) NSDictionary *numberAttributes;
+@property (nonatomic, readonly) UIFont *titleFont;
+@property (nonatomic, readonly) NSDictionary *titleAttributes;
 
 @end
 
@@ -29,34 +29,22 @@ static const CGFloat kSongComponentPadding = 8;
 
 - (UIFont *)numberFont
 {
-    if (!_numberFont) {
-        _numberFont = [UIFont fontWithName:@"Marion-Bold" size:kTitleNumberFontSize];
-    }
-    return _numberFont;
+    return [UIFont fontWithName:@"Marion-Bold" size:kTitleNumberFontSize];
 }
 
 - (NSDictionary *)numberAttributes
 {
-    if (!_numberAttributes) {
-        _numberAttributes = @{NSFontAttributeName: self.numberFont, NSForegroundColorAttributeName: [Theme textColor]};
-    }
-    return _numberAttributes;
+    return @{NSFontAttributeName: self.numberFont, NSForegroundColorAttributeName: [Theme textColor]};
 }
 
 - (UIFont *)titleFont
 {
-    if (!_titleFont) {
-        _titleFont = [UIFont fontWithName:@"Marion" size:kTitleFontSize];
-    }
-    return _titleFont;
+    return [UIFont fontWithName:@"Marion" size:kTitleFontSize];
 }
 
 - (NSDictionary *)titleAttributes
 {
-    if (!_titleAttributes) {
-        _titleAttributes = @{NSFontAttributeName: self.titleFont, NSForegroundColorAttributeName: [Theme textColor]};
-    }
-    return _titleAttributes;
+    return @{NSFontAttributeName: self.titleFont, NSForegroundColorAttributeName: [Theme textColor]};
 }
 
 - (CGFloat)titleOriginX

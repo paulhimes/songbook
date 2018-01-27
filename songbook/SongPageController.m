@@ -90,9 +90,6 @@ static const float kTextScaleThreshold = 2;
     
     self.textView.contentOffsetCallsAllowed = NO;
     
-    self.view.backgroundColor = [Theme paperColor];
-    self.textView.backgroundColor = [Theme paperColor];
-
     UIImage *clearImage = [[UIImage alloc] init];
     [self.bottomBar setBackgroundImage:clearImage forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     [self.bottomBar setShadowImage:clearImage forToolbarPosition:UIBarPositionAny];
@@ -132,6 +129,26 @@ static const float kTextScaleThreshold = 2;
         [self scrollToGlyphAtIndex:glyphIndex];
     } else {
         [self scrollGlyphAtIndex:self.bookmarkedGlyphIndex toYCoordinate:self.bookmarkedGlyphYOffset];
+    }
+}
+
+- (void)updateThemedElements
+{
+    self.view.backgroundColor = [Theme paperColor];
+    self.textView.backgroundColor = [Theme paperColor];
+    [self.titleView setNeedsDisplay];
+
+    switch ([Theme currentThemeStyle]) {
+        case Light:
+            self.topBar.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
+            self.bottomBarBackground.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
+            self.textView.indicatorStyle = UIScrollViewIndicatorStyleBlack;
+            break;
+        case Dark:
+            self.topBar.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+            self.bottomBarBackground.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+            self.textView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
+            break;
     }
 }
 
@@ -186,7 +203,7 @@ static const float kTextScaleThreshold = 2;
     titleAttributes[NSParagraphStyleAttributeName] = self.numberAndTitleParagraphStyle;
 
     NSMutableDictionary *ghostAttributes = [normalAttributes mutableCopy];
-    ghostAttributes[NSForegroundColorAttributeName] = [Theme darkerGrayColor];
+    ghostAttributes[NSForegroundColorAttributeName] = [Theme fadedTextColor];
     
     NSMutableDictionary *subtitleAttributes = [normalAttributes mutableCopy];
     subtitleAttributes[NSParagraphStyleAttributeName] = self.subtitleParagraphStyle;
@@ -400,11 +417,6 @@ static const float kTextScaleThreshold = 2;
                sender.state == UIGestureRecognizerStateCancelled ||
                sender.state == UIGestureRecognizerStateFailed) {
 
-        [self scaleTextWithScale:sender.scale
-                      touchPoint:self.latestTouchPoint
-                 minimumFontSize:kMinimumStandardTextSize
-                 maximumFontSize:kMaximumStandardTextSize];
-
         self.glyphIndex = 0;
         self.glyphOriginalYCoordinateInMainView = 0;
         self.glyphYCoordinateInMainView = 0;
@@ -420,7 +432,7 @@ static const float kTextScaleThreshold = 2;
         
         [self updateTextViewTextConteinerInset];
         
-    } else if (sender.state == UIGestureRecognizerStateChanged){
+    } else if (sender.state == UIGestureRecognizerStateChanged && sender.numberOfTouches > 1){
         CGPoint updatedTouchPoint = [sender locationInView:self.view];
         self.latestTouchPoint = updatedTouchPoint;
         

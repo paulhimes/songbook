@@ -65,11 +65,8 @@ const float kMinimumStandardTextSize = 8;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userDefaultsChanged:)
                                                  name:NSUserDefaultsDidChangeNotification object:nil];
-}
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self updateThemedElements];
 }
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
@@ -127,6 +124,11 @@ const float kMinimumStandardTextSize = 8;
 - (void)textContentChanged
 {
     self.textView.attributedText = self.text;
+}
+
+- (void)updateThemedElements
+{
+    
 }
 
 - (void)handleGesture:(UIPinchGestureRecognizer *)sender

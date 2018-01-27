@@ -13,5 +13,11 @@ class ExactMatchCell: UITableViewCell {
     @objc @IBOutlet weak var sectionTitleLabel: UILabel!
     @objc @IBOutlet weak var numberLabel: UILabel!
     @objc @IBOutlet weak var songTitleLabel: UILabel!
-    
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        let selectedBackgroundView = UIView()
+        selectedBackgroundView.backgroundColor = Theme.grayTrimColor()
+        self.selectedBackgroundView = selectedBackgroundView
+    }
 }

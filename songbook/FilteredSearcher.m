@@ -22,7 +22,7 @@ static const NSString * const kRangeKey = @"RangeKey";
 {
     NSMutableDictionary *normalFragmentAttributes = [@{} mutableCopy];
     normalFragmentAttributes[NSFontAttributeName] = [UIFont systemFontOfSize:16];
-    normalFragmentAttributes[NSForegroundColorAttributeName] = [Theme darkerGrayColor];
+    normalFragmentAttributes[NSForegroundColorAttributeName] = [Theme fadedTextColor];
     return [normalFragmentAttributes copy];
 }
 

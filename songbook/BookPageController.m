@@ -30,13 +30,17 @@
     UIImage *clearImage = [[UIImage alloc] init];
     [self.bottomBar setBackgroundImage:clearImage forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     [self.bottomBar setShadowImage:clearImage forToolbarPosition:UIBarPositionAny];
-    self.bottomBar.tintColor = [Theme paperColor];
 }
 
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
     [self.bottomBar invalidateIntrinsicContentSize];
+}
+
+- (void)updateThemedElements
+{
+    self.bottomBar.tintColor = [Theme paperColor];
 }
 
 - (id<SongbookModel>)modelObject

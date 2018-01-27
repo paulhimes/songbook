@@ -8,10 +8,10 @@
 
 #import "ExportProgressViewController.h"
 
-@interface ExportProgressViewController () <UIToolbarDelegate>
+@interface ExportProgressViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *dialogView;
-@property (weak, nonatomic) IBOutlet UIToolbar *dialogBackground;
+@property (weak, nonatomic) IBOutlet UIVisualEffectView *dialogBackground;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UIView *backgroundView;
 @property (weak, nonatomic) IBOutlet UILabel *label;
@@ -38,27 +38,34 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.dialogView.translatesAutoresizingMaskIntoConstraints = YES;
+    self.dialogView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
     self.dialogView.layer.cornerRadius = 10;
-    self.dialogBackground.barTintColor = [Theme paperColor];
+
+    switch ([Theme currentThemeStyle]) {
+        case Light:
+            self.dialogBackground.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
+            break;
+        case Dark:
+            self.dialogBackground.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+            break;
+    }
+
     self.label.textColor = [Theme textColor];
-    
+    self.progressView.trackTintColor = [Theme grayTrimColor];
+    self.progressView.progressTintColor = [Theme redColor];
+
     UIInterpolatingMotionEffect *horizontalMotionEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x" type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
-    horizontalMotionEffect.minimumRelativeValue = @-10;
-    horizontalMotionEffect.maximumRelativeValue = @10;
+    horizontalMotionEffect.minimumRelativeValue = @-15;
+    horizontalMotionEffect.maximumRelativeValue = @15;
     
     [self.dialogView addMotionEffect:horizontalMotionEffect];
     
     UIInterpolatingMotionEffect *verticalMotionEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y" type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
-    verticalMotionEffect.minimumRelativeValue = @-10;
-    verticalMotionEffect.maximumRelativeValue = @10;
+    verticalMotionEffect.minimumRelativeValue = @-15;
+    verticalMotionEffect.maximumRelativeValue = @15;
     
     [self.dialogView addMotionEffect:verticalMotionEffect];
-}
-
-- (void)viewDidLayoutSubviews
-{
-    [super viewDidLayoutSubviews];
-    self.dialogBackground.frame = CGRectMake(0, 0, self.dialogView.bounds.size.width, self.dialogView.bounds.size.height);
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -66,6 +73,7 @@
     [super viewWillAppear:animated];
     CGRect dialogFrame = self.dialogView.frame;
     dialogFrame.origin.y = -dialogFrame.size.height;
+    dialogFrame.origin.x = (self.view.bounds.size.width - dialogFrame.size.width) / 2;
     self.dialogView.frame = dialogFrame;
 }
 
@@ -111,13 +119,6 @@
 - (IBAction)exportCancelled:(id)sender
 {
     [self.delegate exportProgressViewControllerDidCancel:self];
-}
-
-#pragma mark - UIToolbarDelegate
-
-- (UIBarPosition)positionForBar:(id <UIBarPositioning>)bar
-{
-    return UIBarPositionTop;
 }
 
 @end

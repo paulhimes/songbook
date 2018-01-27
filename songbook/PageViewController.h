@@ -23,6 +23,7 @@
 - (void)showPageForModelObject:(id<SongbookModel>)modelObject
                 highlightRange:(NSRange)highlightRange
                       animated:(BOOL)animated;
+- (void)updateThemedElements;
 
 @end
 

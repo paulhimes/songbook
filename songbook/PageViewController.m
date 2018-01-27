@@ -33,7 +33,8 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
 	// Do any additional setup after loading the view.
     self.delegate = self;
     self.dataSource = self.pageServer;    
-    self.view.backgroundColor = [Theme paperColor];
+
+    [self updateThemedElements];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -57,6 +58,14 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+}
+
+- (void)updateThemedElements
+{
+    self.view.backgroundColor = [Theme paperColor];
+    for (PageController *pageController in self.viewControllers) {
+        [pageController updateThemedElements];
+    }
 }
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
@@ -121,23 +130,35 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
 
 - (NSManagedObjectID *)closestSongID
 {
-    PageController *currentController = self.viewControllers[0];
-    id<SongbookModel> modelObject = currentController.modelObject;
-    
-    id<SongbookModel> songbookModel = (id<SongbookModel>)modelObject;
-    return songbookModel.closestSong.objectID;
+    if (self.viewControllers.count > 0) {
+        PageController *currentController = self.viewControllers[0];
+        id<SongbookModel> modelObject = currentController.modelObject;
+        
+        id<SongbookModel> songbookModel = (id<SongbookModel>)modelObject;
+        return songbookModel.closestSong.objectID;
+    } else {
+        return nil;
+    }
 }
 
 - (id<SongbookModel>)pageModelObject
 {
-    PageController *currentController = self.viewControllers[0];
-    return currentController.modelObject;
+    if (self.viewControllers.count > 0) {
+        PageController *currentController = self.viewControllers[0];
+        return currentController.modelObject;
+    } else {
+        return nil;
+    }
 }
 
 - (UIColor *)pageControlColor
 {
-    PageController *currentController = self.viewControllers[0];
-    return currentController.pageControlColor;
+    if (self.viewControllers.count > 0) {
+        PageController *currentController = self.viewControllers[0];
+        return currentController.pageControlColor;
+    } else {
+        return nil;
+    }
 }
 
 - (void)setViewControllers:(NSArray<UIViewController *> *)viewControllers direction:(UIPageViewControllerNavigationDirection)direction animated:(BOOL)animated completion:(void (^)(BOOL))completion
