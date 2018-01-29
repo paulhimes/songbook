@@ -19,6 +19,14 @@
 		8B42030D17E7CAED00019A80 /* TokenInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42030C17E7CAED00019A80 /* TokenInstance.m */; };
 		8B42031017E7CAED00019A80 /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42030F17E7CAED00019A80 /* Song.m */; };
 		8B42031717E7D51C00019A80 /* TokenInstance+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42031617E7D51C00019A80 /* TokenInstance+Helpers.m */; };
+		8B66B548201F5115005BF413 /* BookmanStd-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8B66B540201F5114005BF413 /* BookmanStd-MediumItalic.otf */; };
+		8B66B549201F5115005BF413 /* BookmanStd-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8B66B541201F5114005BF413 /* BookmanStd-BoldItalic.otf */; };
+		8B66B54A201F5115005BF413 /* BookmanStd-Demi.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8B66B542201F5114005BF413 /* BookmanStd-Demi.otf */; };
+		8B66B54B201F5115005BF413 /* BookmanStd-DemiItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8B66B543201F5115005BF413 /* BookmanStd-DemiItalic.otf */; };
+		8B66B54C201F5115005BF413 /* BookmanStd-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8B66B544201F5115005BF413 /* BookmanStd-LightItalic.otf */; };
+		8B66B54D201F5115005BF413 /* BookmanStd-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8B66B545201F5115005BF413 /* BookmanStd-Bold.otf */; };
+		8B66B54E201F5115005BF413 /* BookmanStd-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8B66B546201F5115005BF413 /* BookmanStd-Light.otf */; };
+		8B66B54F201F5115005BF413 /* BookmanStd-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8B66B547201F5115005BF413 /* BookmanStd-Medium.otf */; };
 		8B6FC947181C88F900BACCCB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B6FC946181C88F900BACCCB /* MessageUI.framework */; };
 		8B7B42222018508800939C77 /* SearchExactMatchCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B42212018508800939C77 /* SearchExactMatchCellModel.swift */; };
 		8B7B42242018542500939C77 /* ExactMatchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B42232018542500939C77 /* ExactMatchCell.swift */; };
@@ -127,6 +135,14 @@
 		8B42031217E7CAEE00019A80 /* Token.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Token.m; sourceTree = "<group>"; };
 		8B42031517E7D51C00019A80 /* TokenInstance+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TokenInstance+Helpers.h"; sourceTree = "<group>"; };
 		8B42031617E7D51C00019A80 /* TokenInstance+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TokenInstance+Helpers.m"; sourceTree = "<group>"; };
+		8B66B540201F5114005BF413 /* BookmanStd-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BookmanStd-MediumItalic.otf"; sourceTree = "<group>"; };
+		8B66B541201F5114005BF413 /* BookmanStd-BoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BookmanStd-BoldItalic.otf"; sourceTree = "<group>"; };
+		8B66B542201F5114005BF413 /* BookmanStd-Demi.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BookmanStd-Demi.otf"; sourceTree = "<group>"; };
+		8B66B543201F5115005BF413 /* BookmanStd-DemiItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BookmanStd-DemiItalic.otf"; sourceTree = "<group>"; };
+		8B66B544201F5115005BF413 /* BookmanStd-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BookmanStd-LightItalic.otf"; sourceTree = "<group>"; };
+		8B66B545201F5115005BF413 /* BookmanStd-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BookmanStd-Bold.otf"; sourceTree = "<group>"; };
+		8B66B546201F5115005BF413 /* BookmanStd-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BookmanStd-Light.otf"; sourceTree = "<group>"; };
+		8B66B547201F5115005BF413 /* BookmanStd-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BookmanStd-Medium.otf"; sourceTree = "<group>"; };
 		8B6F1BED17ACB67D00F72C3D /* PageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageController.h; sourceTree = "<group>"; };
 		8B6F1BEE17ACB67D00F72C3D /* PageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageController.m; sourceTree = "<group>"; };
 		8B6F1BF217ACBBFB00F72C3D /* BookPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookPageController.h; sourceTree = "<group>"; };
@@ -306,6 +322,21 @@
 			name = Generated;
 			sourceTree = "<group>";
 		};
+		8B66B550201F5150005BF413 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				8B66B545201F5115005BF413 /* BookmanStd-Bold.otf */,
+				8B66B541201F5114005BF413 /* BookmanStd-BoldItalic.otf */,
+				8B66B542201F5114005BF413 /* BookmanStd-Demi.otf */,
+				8B66B543201F5115005BF413 /* BookmanStd-DemiItalic.otf */,
+				8B66B546201F5115005BF413 /* BookmanStd-Light.otf */,
+				8B66B544201F5115005BF413 /* BookmanStd-LightItalic.otf */,
+				8B66B547201F5115005BF413 /* BookmanStd-Medium.otf */,
+				8B66B540201F5114005BF413 /* BookmanStd-MediumItalic.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		8B6F1BEC17ACB4E100F72C3D /* Song Pages */ = {
 			isa = PBXGroup;
 			children = (
@@ -450,6 +481,7 @@
 				8BED9F0F17C9418400D834BE /* GradientView.m */,
 				8BD5141A18A856E7002DC6B1 /* UIColor+Helpers.h */,
 				8BD5141B18A856E7002DC6B1 /* UIColor+Helpers.m */,
+				8B66B550201F5150005BF413 /* Fonts */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -654,13 +686,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B66B54E201F5115005BF413 /* BookmanStd-Light.otf in Resources */,
+				8B66B548201F5115005BF413 /* BookmanStd-MediumItalic.otf in Resources */,
 				8B983C0617FE636900D1A4C7 /* Songbook~iPad.storyboard in Resources */,
 				8BA305F217A0BCF200A2ABDE /* InfoPlist.strings in Resources */,
+				8B66B54B201F5115005BF413 /* BookmanStd-DemiItalic.otf in Resources */,
 				8BA3061B17A0BDAD00A2ABDE /* Songbook.storyboard in Resources */,
 				8B0F610219CE2E4600B04BC4 /* LaunchScreen.xib in Resources */,
+				8B66B54D201F5115005BF413 /* BookmanStd-Bold.otf in Resources */,
+				8B66B54C201F5115005BF413 /* BookmanStd-LightItalic.otf in Resources */,
 				8BAF35FC181F285400D6A93E /* README.md in Resources */,
 				8BB4CBE918959EA0009F0FA1 /* default.songbook in Resources */,
+				8B66B549201F5115005BF413 /* BookmanStd-BoldItalic.otf in Resources */,
+				8B66B54A201F5115005BF413 /* BookmanStd-Demi.otf in Resources */,
 				8BA305FD17A0BCF200A2ABDE /* Images.xcassets in Resources */,
+				8B66B54F201F5115005BF413 /* BookmanStd-Medium.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

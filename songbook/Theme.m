@@ -8,18 +8,30 @@
 
 #import "Theme.h"
 
-NSString * const kThemeStyleKey = @"ThemeStyle";
+NSString * const kThemeColorKey = @"ThemeColor";
+NSString * const kThemeFontKey = @"ThemeFont";
 
 @implementation Theme
 
-+ (ThemeStyle)currentThemeStyle
++ (ThemeColor)currentThemeColor
 {
-    return [[NSUserDefaults standardUserDefaults] integerForKey:kThemeStyleKey];
+    return [[NSUserDefaults standardUserDefaults] integerForKey:kThemeColorKey];
 }
 
-+ (void)setCurrentThemeStyle:(ThemeStyle)themeStyle
++ (void)setCurrentThemeColor:(ThemeColor)themeColor
 {
-    [[NSUserDefaults standardUserDefaults] setInteger:themeStyle forKey:kThemeStyleKey];
+    [[NSUserDefaults standardUserDefaults] setInteger:themeColor forKey:kThemeColorKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (ThemeFont)currentThemeFont
+{
+    return [[NSUserDefaults standardUserDefaults] integerForKey:kThemeFontKey];
+}
+
++ (void)setCurrentThemeFont:(ThemeFont)themeFont
+{
+    [[NSUserDefaults standardUserDefaults] setInteger:themeFont forKey:kThemeFontKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -43,7 +55,7 @@ NSString * const kThemeStyleKey = @"ThemeStyle";
 
 + (UIColor *)grayTrimColor
 {
-    switch ([self currentThemeStyle]) {
+    switch ([self currentThemeColor]) {
         case Light:
             return [UIColor colorWithR:199 G:199 B:199 A:255];
         case Dark:
@@ -53,7 +65,7 @@ NSString * const kThemeStyleKey = @"ThemeStyle";
 
 + (UIColor *)fadedTextColor
 {
-    switch ([self currentThemeStyle]) {
+    switch ([self currentThemeColor]) {
         case Light:
             return [[Theme textColor] colorWithAlphaComponent:0.5];
         case Dark:
@@ -63,7 +75,7 @@ NSString * const kThemeStyleKey = @"ThemeStyle";
 
 + (UIColor *)paperColor
 {
-    switch ([self currentThemeStyle]) {
+    switch ([self currentThemeColor]) {
         case Light:
             return [UIColor whiteColor];
         case Dark:
@@ -73,11 +85,31 @@ NSString * const kThemeStyleKey = @"ThemeStyle";
 
 + (UIColor *)textColor
 {
-    switch ([self currentThemeStyle]) {
+    switch ([self currentThemeColor]) {
         case Light:
             return [UIColor blackColor];
         case Dark:
             return [UIColor whiteColor];
+    }
+}
+
++ (NSString *)normalFontFamily
+{
+    switch ([self currentThemeFont]) {
+        case Marion:
+            return @"Marion";
+        case Bookman:
+            return @"BookmanStd-Light";
+    }
+}
+
++ (NSString *)boldFontFamily
+{
+    switch ([self currentThemeFont]) {
+        case Marion:
+            return @"Marion-Bold";
+        case Bookman:
+            return @"BookmanStd-Medium";
     }
 }
 

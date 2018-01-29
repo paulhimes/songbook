@@ -108,5 +108,16 @@
 			</dict>
 		</dict>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>BookmanStd-Bold.otf</string>
+		<string>BookmanStd-BoldItalic.otf</string>
+		<string>BookmanStd-Demi.otf</string>
+		<string>BookmanStd-DemiItalic.otf</string>
+		<string>BookmanStd-Light.otf</string>
+		<string>BookmanStd-LightItalic.otf</string>
+		<string>BookmanStd-Medium.otf</string>
+		<string>BookmanStd-MediumItalic.otf</string>
+	</array>
 </dict>
 </plist>

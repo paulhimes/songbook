@@ -42,7 +42,7 @@
     self.dialogView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
     self.dialogView.layer.cornerRadius = 10;
 
-    switch ([Theme currentThemeStyle]) {
+    switch ([Theme currentThemeColor]) {
         case Light:
             self.dialogBackground.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
             break;

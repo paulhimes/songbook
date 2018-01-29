@@ -11,14 +11,22 @@
 typedef enum : NSUInteger {
     Light,
     Dark
-} ThemeStyle;
+} ThemeColor;
+
+typedef enum : NSUInteger {
+    Marion,
+    Bookman
+} ThemeFont;
 
 extern NSString * const kThemeStyleKey;
 
 @interface Theme : NSObject
 
-+ (ThemeStyle)currentThemeStyle;
-+ (void)setCurrentThemeStyle:(ThemeStyle)themeStyle;
++ (ThemeColor)currentThemeColor;
++ (void)setCurrentThemeColor:(ThemeColor)themeColor;
+
++ (ThemeFont)currentThemeFont;
++ (void)setCurrentThemeFont:(ThemeFont)themeFont;
 
 + (UIColor *)redColor;
 + (UIColor *)coverColorOne;
@@ -27,5 +35,8 @@ extern NSString * const kThemeStyleKey;
 + (UIColor *)fadedTextColor;
 + (UIColor *)paperColor;
 + (UIColor *)textColor;
+
++ (NSString *)normalFontFamily;
++ (NSString *)boldFontFamily;
 
 @end

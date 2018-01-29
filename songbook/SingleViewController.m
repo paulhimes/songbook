@@ -183,15 +183,28 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
         }]];
     }
     
-    switch ([Theme currentThemeStyle]) {
+    switch ([Theme currentThemeColor]) {
         case Light:
-            [alertController addAction:[UIAlertAction actionWithTitle:@"Dark Theme" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [Theme setCurrentThemeStyle:Dark];
+            [alertController addAction:[UIAlertAction actionWithTitle:@"Black Background" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [Theme setCurrentThemeColor:Dark];
             }]];
             break;
         case Dark:
-            [alertController addAction:[UIAlertAction actionWithTitle:@"Light Theme" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [Theme setCurrentThemeStyle:Light];
+            [alertController addAction:[UIAlertAction actionWithTitle:@"White Background" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [Theme setCurrentThemeColor:Light];
+            }]];
+            break;
+    }
+
+    switch ([Theme currentThemeFont]) {
+        case Marion:
+            [alertController addAction:[UIAlertAction actionWithTitle:@"Bookman Font" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [Theme setCurrentThemeFont:Bookman];
+            }]];
+            break;
+        case Bookman:
+            [alertController addAction:[UIAlertAction actionWithTitle:@"Marion Font" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [Theme setCurrentThemeFont:Marion];
             }]];
             break;
     }

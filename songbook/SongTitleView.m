@@ -29,7 +29,7 @@ static const CGFloat kSongComponentPadding = 8;
 
 - (UIFont *)numberFont
 {
-    return [UIFont fontWithName:@"Marion-Bold" size:kTitleNumberFontSize];
+    return [UIFont fontWithName:[Theme boldFontFamily] size:kTitleNumberFontSize];
 }
 
 - (NSDictionary *)numberAttributes
@@ -39,7 +39,7 @@ static const CGFloat kSongComponentPadding = 8;
 
 - (UIFont *)titleFont
 {
-    return [UIFont fontWithName:@"Marion" size:kTitleFontSize];
+    return [UIFont fontWithName:[Theme normalFontFamily] size:kTitleFontSize];
 }
 
 - (NSDictionary *)titleAttributes

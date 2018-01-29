@@ -138,7 +138,7 @@ static const float kTextScaleThreshold = 2;
     self.textView.backgroundColor = [Theme paperColor];
     [self.titleView setNeedsDisplay];
 
-    switch ([Theme currentThemeStyle]) {
+    switch ([Theme currentThemeColor]) {
         case Light:
             self.topBar.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
             self.bottomBarBackground.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
@@ -164,7 +164,7 @@ static const float kTextScaleThreshold = 2;
     if (lastTextRangeBeforeFooterValue) {
         NSRange lastTextRangeBeforeFooter = lastTextRangeBeforeFooterValue.rangeValue;
         CGFloat bottomInsetOfLastTextLineBeforeFooter = [self.textView distanceFromLastLineTopToContainerBottomForCharactersInRange:lastTextRangeBeforeFooter];
-        bottomSpace -= bottomInsetOfLastTextLineBeforeFooter + [UIFont fontWithName:@"Marion" size:standardTextSize].leading;
+        bottomSpace -= bottomInsetOfLastTextLineBeforeFooter + [UIFont fontWithName:[Theme normalFontFamily] size:standardTextSize].leading;
     }
     
     self.textView.textContainerInset = UIEdgeInsetsMake(0, self.view.layoutMargins.left, bottomSpace, self.view.layoutMargins.right);
@@ -189,17 +189,17 @@ static const float kTextScaleThreshold = 2;
 {
     NSNumber *standardTextSizeNumber = [[NSUserDefaults standardUserDefaults] objectForKey:kStandardTextSizeKey];
     CGFloat standardTextSize = [standardTextSizeNumber floatValue];
-    
+
     NSMutableDictionary *normalAttributes = [@{} mutableCopy];
-    normalAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion" size:standardTextSize];
+    normalAttributes[NSFontAttributeName] = [UIFont fontWithName:[Theme normalFontFamily] size:standardTextSize];
     normalAttributes[NSForegroundColorAttributeName] = [Theme textColor];
     
     NSMutableDictionary *numberAttributes = [normalAttributes mutableCopy];
-    numberAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion-Bold" size:kTitleNumberFontSize];
+    numberAttributes[NSFontAttributeName] = [UIFont fontWithName:[Theme boldFontFamily] size:kTitleNumberFontSize];
     numberAttributes[NSParagraphStyleAttributeName] = self.numberAndTitleParagraphStyle;
 
     NSMutableDictionary *titleAttributes = [normalAttributes mutableCopy];
-    titleAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion" size:kTitleFontSize];
+    titleAttributes[NSFontAttributeName] = [UIFont fontWithName:[Theme normalFontFamily] size:kTitleFontSize];
     titleAttributes[NSParagraphStyleAttributeName] = self.numberAndTitleParagraphStyle;
 
     NSMutableDictionary *ghostAttributes = [normalAttributes mutableCopy];
@@ -207,7 +207,7 @@ static const float kTextScaleThreshold = 2;
     
     NSMutableDictionary *subtitleAttributes = [normalAttributes mutableCopy];
     subtitleAttributes[NSParagraphStyleAttributeName] = self.subtitleParagraphStyle;
-    subtitleAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion" size:kSubtitleFontSize];
+    subtitleAttributes[NSFontAttributeName] = [UIFont fontWithName:[Theme normalFontFamily] size:kSubtitleFontSize];
     
     NSMutableDictionary *verseTitleAttributes = [normalAttributes mutableCopy];
     NSMutableParagraphStyle *verseTitleParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
@@ -224,7 +224,7 @@ static const float kTextScaleThreshold = 2;
     NSMutableParagraphStyle *footerParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     footerParagraphStyle.alignment = NSTextAlignmentRight;
     footerAttributes[NSParagraphStyleAttributeName] = footerParagraphStyle;
-    footerAttributes[NSFontAttributeName] = [UIFont fontWithName:@"Marion" size:kSubtitleFontSize];
+    footerAttributes[NSFontAttributeName] = [UIFont fontWithName:[Theme normalFontFamily] size:kSubtitleFontSize];
     
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[self.song string]];
     

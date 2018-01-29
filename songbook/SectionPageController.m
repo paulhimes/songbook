@@ -60,7 +60,7 @@
     CGFloat standardTextSize = [standardTextSizeNumber floatValue];
     
     return [[NSAttributedString alloc] initWithString:self.section.title
-                                           attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:standardTextSize * 2],
+                                           attributes:@{NSFontAttributeName: [UIFont fontWithName:[Theme normalFontFamily] size:standardTextSize * 2],
                                                         NSForegroundColorAttributeName: [Theme textColor]
                                                         }];
 }

@@ -208,7 +208,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
     self.activityIndicator.color = [Theme textColor];
     [self.scrollIndicator setNeedsDisplay];
     
-    switch ([Theme currentThemeStyle]) {
+    switch ([Theme currentThemeColor]) {
         case Light:
             self.topBarEffectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
             self.searchBar.keyboardAppearance = UIKeyboardAppearanceLight;

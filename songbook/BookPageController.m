@@ -64,7 +64,7 @@
     CGFloat standardTextSize = [standardTextSizeNumber floatValue];
 
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", self.book.title]
-                                                                             attributes:@{NSFontAttributeName: [UIFont fontWithName:@"Marion" size:standardTextSize * 2.5],
+                                                                             attributes:@{NSFontAttributeName: [UIFont fontWithName:[Theme normalFontFamily] size:standardTextSize * 2.5],
                                                                                           NSForegroundColorAttributeName: [Theme paperColor]
                                                                                           }];
     [text appendString:[NSString stringWithFormat:@"Version %@", self.book.version]
