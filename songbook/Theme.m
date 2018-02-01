@@ -109,7 +109,7 @@ NSString * const kThemeFontKey = @"ThemeFont";
         case Marion:
             return @"Marion-Bold";
         case Bookman:
-            return @"BookmanStd-Medium";
+            return @"BookmanStd-Demi";
     }
 }
 

@@ -12,7 +12,7 @@
 #import "Section+Helpers.h"
 #import "Song+Helpers.h"
 
-static const float kTextScaleThreshold = 2;
+static const float kTextScaleThreshold = 0.5;
 
 @interface SongPageController () <UITextViewDelegate, MFMailComposeViewControllerDelegate>
 
