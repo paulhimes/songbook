@@ -202,7 +202,7 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
                 // Adjust the standard text size to account for changed font metrics.
                 NSNumber *standardTextSizeNumber = [[NSUserDefaults standardUserDefaults] objectForKey:kStandardTextSizeKey];
                 CGFloat standardTextSize = [standardTextSizeNumber floatValue];
-                [[NSUserDefaults standardUserDefaults] setObject:@(standardTextSize - 2.5) forKey:kStandardTextSizeKey];
+                [[NSUserDefaults standardUserDefaults] setObject:@(standardTextSize * 0.87) forKey:kStandardTextSizeKey];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 
                 [Theme setCurrentThemeFont:Bookman];
@@ -213,7 +213,7 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
                 // Adjust the standard text size to account for changed font metrics.
                 NSNumber *standardTextSizeNumber = [[NSUserDefaults standardUserDefaults] objectForKey:kStandardTextSizeKey];
                 CGFloat standardTextSize = [standardTextSizeNumber floatValue];
-                [[NSUserDefaults standardUserDefaults] setObject:@(standardTextSize + 2.5) forKey:kStandardTextSizeKey];
+                [[NSUserDefaults standardUserDefaults] setObject:@(standardTextSize / 0.87) forKey:kStandardTextSizeKey];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 
                 [Theme setCurrentThemeFont:Marion];
