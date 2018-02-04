@@ -120,7 +120,7 @@
     } else if ([cellModel isKindOfClass:[SearchContextCellModel class]]) {
         SearchContextCellModel *searchContextCellModel = (SearchContextCellModel *)cellModel;
         ContextCell *contextCell = [tableView dequeueReusableCellWithIdentifier:@"ContextCell" forIndexPath:indexPath];
-        contextCell.contentLabel.attributedText = searchContextCellModel.content;
+        [contextCell setAttributedText:searchContextCellModel.content];
         cell = contextCell;
     }
     

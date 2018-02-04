@@ -8,6 +8,13 @@
 
 #import "ContextCell.h"
 
+@interface ContextCell()
+
+@property (weak, nonatomic) IBOutlet UILabel *contentLabel;
+@property (nonatomic, strong) NSAttributedString *attributedText;
+
+@end
+
 @implementation ContextCell
 
 - (void)awakeFromNib
@@ -16,6 +23,68 @@
     UIView *selectedBackgroundView = [[UIView alloc] init];
     selectedBackgroundView.backgroundColor = [Theme grayTrimColor];
     self.selectedBackgroundView = selectedBackgroundView;
+    
+    [self.contentLabel addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
+{
+    if (object == self.contentLabel) {
+        self.contentLabel.attributedText = [self textForWidth:self.contentLabel.bounds.size.width];
+    }
+}
+
+- (void)dealloc
+{
+    [self.contentLabel removeObserver:self forKeyPath:@"bounds"];
+}
+
+- (void)setAttributedText:(NSAttributedString *)attributedText
+{
+    _attributedText = attributedText;
+    self.contentLabel.attributedText = [self textForWidth:self.contentLabel.bounds.size.width];
+}
+
+- (NSAttributedString *)textForWidth:(CGFloat)width
+{
+    CGRect possibleFittedTextBoundingRect = CGRectMake(0, 0, 0, 0);
+    NSUInteger searchRangeStart = 0;
+    NSAttributedString *fittedText = [[NSAttributedString alloc] init];
+    NSMutableAttributedString *possibleFittedText = [[NSMutableAttributedString alloc] init];
+    
+    // As long as the possible fitted text is not larger than the desired width.
+    while (possibleFittedTextBoundingRect.size.width <= width) {
+        // Save the possible fitted text to return.
+        fittedText = [possibleFittedText copy];
+        
+        // Stop early if we run out of words from the source text.
+        if (searchRangeStart >= self.attributedText.length) {
+            break;
+        }
+        
+        // Find the next whitespace segment in the source text. This should be at the end of the next word.
+        NSRange rangeOfFirstWhitespaceSegment = [self.attributedText.string rangeOfString:@"\\s+" options:NSRegularExpressionSearch range:NSMakeRange(searchRangeStart, self.attributedText.length - searchRangeStart)];
+        
+        if (rangeOfFirstWhitespaceSegment.location == NSNotFound) {
+            // If no more words were found, just try to use the whole source text.
+            possibleFittedText = [self.attributedText mutableCopy];
+            // Set the search range past the end of the source text, this will cause the search to stop at the beginning of the next round.
+            searchRangeStart = self.attributedText.length;
+        } else {
+            // If an additional word was found, set the possible text to everything up through this word.
+            possibleFittedText = [[self.attributedText attributedSubstringFromRange:NSMakeRange(0, rangeOfFirstWhitespaceSegment.location)] mutableCopy];
+            // Add an ellipsis to the end of the possible text because we did not use the complete source text.
+            NSDictionary<NSAttributedStringKey, id> *attributesOfLastCharacter = [possibleFittedText attributesAtIndex:possibleFittedText.length - 1 effectiveRange:nil];
+            [possibleFittedText appendString:@"…" attributes:attributesOfLastCharacter];
+            // Continue looking for additional words a the end of this whitespace.
+            searchRangeStart = rangeOfFirstWhitespaceSegment.location + rangeOfFirstWhitespaceSegment.length;
+        }
+        
+        // Calcualte the bounding rect of the new possible fitted text.
+        possibleFittedTextBoundingRect = [possibleFittedText boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) options:0 context:nil];
+    }
+
+    return fittedText;
 }
 
 @end

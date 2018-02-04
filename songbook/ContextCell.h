@@ -10,6 +10,6 @@
 
 @interface ContextCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *contentLabel;
+- (void)setAttributedText:(NSAttributedString *)attributedText;
 
 @end
