@@ -119,7 +119,7 @@ static const float kTextScaleThreshold = 0.5;
 
     CGFloat titleContentOriginY = self.titleView.contentOriginY;
     
-    [self updateTextViewTextConteinerInset];
+    [self updateTextViewTextContainerInset];
     self.textView.contentInset = UIEdgeInsetsMake(titleContentOriginY, 0, self.bottomBarBackground.frame.size.height - self.view.layoutMargins.bottom, 0);
     self.textView.scrollIndicatorInsets = UIEdgeInsetsMake(self.titleView.frame.size.height, self.textView.scrollIndicatorInsets.left, self.bottomBarBackground.frame.size.height - self.view.layoutMargins.bottom, 0);
 
@@ -152,7 +152,7 @@ static const float kTextScaleThreshold = 0.5;
     }
 }
 
-- (void)updateTextViewTextConteinerInset
+- (void)updateTextViewTextContainerInset
 {
     // Calculate the bottom inset such that the last line of the last verse / chorus will be visible when you scroll all the way to the bottom.
     NSNumber *standardTextSizeNumber = [[NSUserDefaults standardUserDefaults] objectForKey:kStandardTextSizeKey];
@@ -430,7 +430,7 @@ static const float kTextScaleThreshold = 0.5;
         [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
         [self updateBookmark];
         
-        [self updateTextViewTextConteinerInset];
+        [self updateTextViewTextContainerInset];
         
     } else if (sender.state == UIGestureRecognizerStateChanged && sender.numberOfTouches > 1){
         CGPoint updatedTouchPoint = [sender locationInView:self.view];

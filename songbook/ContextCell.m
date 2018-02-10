@@ -62,22 +62,25 @@
             break;
         }
         
-        // Find the next whitespace segment in the source text. This should be at the end of the next word.
-        NSRange rangeOfFirstWhitespaceSegment = [self.attributedText.string rangeOfString:@"\\s+" options:NSRegularExpressionSearch range:NSMakeRange(searchRangeStart, self.attributedText.length - searchRangeStart)];
+        // Find the next ignored segment in the source text. Ignore segments containing only whitespace, punctuation, and digits. This should be at the end of the next word.
+        NSRange rangeOfFirstIgnoredSegment = [self.attributedText.string rangeOfString:@"[\\s\\d\\p{P}]+" options:NSRegularExpressionSearch range:NSMakeRange(searchRangeStart, self.attributedText.length - searchRangeStart)];
         
-        if (rangeOfFirstWhitespaceSegment.location == NSNotFound) {
+        if (rangeOfFirstIgnoredSegment.location == NSNotFound) {
             // If no more words were found, just try to use the whole source text.
             possibleFittedText = [self.attributedText mutableCopy];
             // Set the search range past the end of the source text, this will cause the search to stop at the beginning of the next round.
             searchRangeStart = self.attributedText.length;
+        } else if (rangeOfFirstIgnoredSegment.location == 0) {
+            // If the source text started with in ignored segment, continue looking for additional words a the end of this segment.
+            searchRangeStart = rangeOfFirstIgnoredSegment.location + rangeOfFirstIgnoredSegment.length;
         } else {
             // If an additional word was found, set the possible text to everything up through this word.
-            possibleFittedText = [[self.attributedText attributedSubstringFromRange:NSMakeRange(0, rangeOfFirstWhitespaceSegment.location)] mutableCopy];
+            possibleFittedText = [[self.attributedText attributedSubstringFromRange:NSMakeRange(0, rangeOfFirstIgnoredSegment.location)] mutableCopy];
             // Add an ellipsis to the end of the possible text because we did not use the complete source text.
             NSDictionary<NSAttributedStringKey, id> *attributesOfLastCharacter = [possibleFittedText attributesAtIndex:possibleFittedText.length - 1 effectiveRange:nil];
             [possibleFittedText appendString:@"…" attributes:attributesOfLastCharacter];
-            // Continue looking for additional words a the end of this whitespace.
-            searchRangeStart = rangeOfFirstWhitespaceSegment.location + rangeOfFirstWhitespaceSegment.length;
+            // Continue looking for additional words a the end of this ignored segment.
+            searchRangeStart = rangeOfFirstIgnoredSegment.location + rangeOfFirstIgnoredSegment.length;
         }
         
         // Calcualte the bounding rect of the new possible fitted text.

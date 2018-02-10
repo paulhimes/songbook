@@ -18,6 +18,8 @@
 
 @property (nonatomic, weak) id<SearchViewControllerDelegate> delegate;
 
+- (void)beginSearch;
+- (void)endSearch;
 - (void)updateThemedElements;
 
 @end

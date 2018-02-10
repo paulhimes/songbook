@@ -16,6 +16,8 @@
 		8B14432617F142190000A898 /* SearchTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B14432517F142190000A898 /* SearchTableModel.m */; };
 		8B191A051809CEB50071DF4D /* SafeTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B191A041809CEB50071DF4D /* SafeTextView.m */; };
 		8B191A9C180A4E290071DF4D /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B191A9B180A4E290071DF4D /* SplitViewController.m */; };
+		8B3DC5B7202BD5A2001EBA43 /* SimpleSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3DC5B6202BD5A1001EBA43 /* SimpleSplitViewController.swift */; };
+		8B3DC5BC202BDDBE001EBA43 /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3DC5BB202BDDBE001EBA43 /* BookViewController.swift */; };
 		8B42030D17E7CAED00019A80 /* TokenInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42030C17E7CAED00019A80 /* TokenInstance.m */; };
 		8B42031017E7CAED00019A80 /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42030F17E7CAED00019A80 /* Song.m */; };
 		8B42031717E7D51C00019A80 /* TokenInstance+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42031617E7D51C00019A80 /* TokenInstance+Helpers.m */; };
@@ -127,6 +129,8 @@
 		8B191A041809CEB50071DF4D /* SafeTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SafeTextView.m; sourceTree = "<group>"; };
 		8B191A9A180A4E290071DF4D /* SplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitViewController.h; sourceTree = "<group>"; };
 		8B191A9B180A4E290071DF4D /* SplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplitViewController.m; sourceTree = "<group>"; };
+		8B3DC5B6202BD5A1001EBA43 /* SimpleSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleSplitViewController.swift; sourceTree = "<group>"; };
+		8B3DC5BB202BDDBE001EBA43 /* BookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookViewController.swift; sourceTree = "<group>"; };
 		8B42030B17E7CAED00019A80 /* TokenInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TokenInstance.h; sourceTree = "<group>"; };
 		8B42030C17E7CAED00019A80 /* TokenInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenInstance.m; sourceTree = "<group>"; };
 		8B42030E17E7CAED00019A80 /* Song.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Song.h; sourceTree = "<group>"; };
@@ -435,6 +439,8 @@
 				8BA3061E17A0BE2B00A2ABDE /* Songbook~iPad.storyboard */,
 				8BAF3601182344DD00D6A93E /* BookManagerViewController.h */,
 				8BAF3602182344DD00D6A93E /* BookManagerViewController.m */,
+				8B3DC5B6202BD5A1001EBA43 /* SimpleSplitViewController.swift */,
+				8B3DC5BB202BDDBE001EBA43 /* BookViewController.swift */,
 				8B191A9A180A4E290071DF4D /* SplitViewController.h */,
 				8B191A9B180A4E290071DF4D /* SplitViewController.m */,
 				8BCA006D18457F9B00600947 /* SingleViewController.h */,
@@ -738,10 +744,12 @@
 				8BB0F592189CBD1E004D6377 /* BookManagerViewController.m in Sources */,
 				8B039AC219146590005F14B4 /* ExportProgressViewController.m in Sources */,
 				8BED9F1017C9418400D834BE /* GradientView.m in Sources */,
+				8B3DC5B7202BD5A2001EBA43 /* SimpleSplitViewController.swift in Sources */,
 				8BB0F586189CBC32004D6377 /* SimpleSearcher.m in Sources */,
 				8B42030D17E7CAED00019A80 /* TokenInstance.m in Sources */,
 				8BA305FB17A0BCF200A2ABDE /* songbook.xcdatamodeld in Sources */,
 				8B039ABF1911FAE6005F14B4 /* BookActivityItemSource.m in Sources */,
+				8B3DC5BC202BDDBE001EBA43 /* BookViewController.swift in Sources */,
 				8BD5141F18B1B638002DC6B1 /* SuperScrollIndicator.m in Sources */,
 				8B14432617F142190000A898 /* SearchTableModel.m in Sources */,
 				8BB0F588189CBC49004D6377 /* SearchOperation.m in Sources */,

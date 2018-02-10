@@ -8,3 +8,6 @@
 #import "Book+Helpers.h"
 #import "SearchCellModel.h"
 #import "Theme.h"
+#import "CoreDataStack.h"
+#import "SingleViewController.h"
+#import "SearchViewController.h"

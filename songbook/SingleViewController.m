@@ -18,14 +18,12 @@
 
 static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
 static NSString * const kPageViewControllerKey = @"PageViewControllerKey";
-static NSString * const kSearchViewControllerKey = @"SearchViewControllerKey";
 
 static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 
-@interface SingleViewController () <SearchViewControllerDelegate, ExportProgressViewControllerDelegate, AudioPlayerDelegate>
+@interface SingleViewController () <ExportProgressViewControllerDelegate, AudioPlayerDelegate>
 
 @property (nonatomic, strong) PageViewController *pageViewController;
-@property (nonatomic, strong) SearchViewController *searchViewController;
 
 @property (weak, nonatomic) IBOutlet UIToolbar *bottomBar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *activityButton;
@@ -42,6 +40,11 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 @end
 
 @implementation SingleViewController
+
+- (NSManagedObjectID *)closestSongID
+{
+    return self.pageViewController.closestSongID;
+}
 
 - (AudioPlayer *)audioPlayer
 {
@@ -60,10 +63,6 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     [self.bottomBar setBackgroundImage:clearImage forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     [self.bottomBar setShadowImage:clearImage forToolbarPosition:UIBarPositionAny];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(userDefaultsChanged:)
-                                                 name:NSUserDefaultsDidChangeNotification object:nil];
-
     [self updateThemedElements];
 }
 
@@ -71,18 +70,6 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 {
     [super viewWillLayoutSubviews];
     [self.bottomBar invalidateIntrinsicContentSize];
-}
-
-- (void)userDefaultsChanged:(NSNotification *)notification
-{
-    __weak SingleViewController *welf = self;
-    if ([[notification name] isEqualToString:NSUserDefaultsDidChangeNotification]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [UIViewPropertyAnimator runningPropertyAnimatorWithDuration:0.5 delay:0 options:0 animations:^{
-                [welf updateThemedElements];
-            } completion:^(UIViewAnimatingPosition finalPosition) {}];
-        });
-    }
 }
 
 - (void)updateThemedElements
@@ -93,19 +80,12 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     self.stopButton.tintColor = self.pageViewController.pageControlColor;
     
     [self.pageViewController updateThemedElements];
-    [self.searchViewController updateThemedElements];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"Search"] &&
-        [segue.destinationViewController isKindOfClass:[SearchViewController class]]) {
-        self.searchViewController = ((SearchViewController *)segue.destinationViewController);
-        self.searchViewController.delegate = self;
-        self.searchViewController.coreDataStack = self.coreDataStack;
-        self.searchViewController.closestSongID = self.pageViewController.closestSongID;
-    } else if ([segue.identifier isEqualToString:@"EmbedPageViewController"] &&
-               [segue.destinationViewController isKindOfClass:[PageViewController class]]) {
+    if ([segue.identifier isEqualToString:@"EmbedPageViewController"] &&
+        [segue.destinationViewController isKindOfClass:[PageViewController class]]) {
         self.pageViewController = segue.destinationViewController;
         self.pageViewController.pageViewControllerDelegate = self;
         self.pageViewController.coreDataStack = self.coreDataStack;
@@ -131,11 +111,6 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     if (self.pageViewController) {
         [coder encodeObject:self.pageViewController forKey:kPageViewControllerKey];
     }
-    
-    // Save the search view controller.
-    if (self.searchViewController) {
-        [coder encodeObject:self.searchViewController forKey:kSearchViewControllerKey];
-    }
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder
@@ -147,7 +122,7 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 
 - (IBAction)searchAction:(id)sender
 {
-    [self performSegueWithIdentifier:@"Search" sender:nil];
+    [self.delegate search:self];
 }
 
 - (IBAction)activityAction:(id)sender
@@ -363,16 +338,8 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     }
 }
 
-#pragma mark - SearchViewControllerDelegate
-
-- (void)searchCancelled:(SearchViewController *)searchViewController
-{
-    [self dismissViewControllerAnimated:YES completion:^{}];
-}
-
-- (void)searchViewController:(SearchViewController *)searchViewController
-                selectedSong:(NSManagedObjectID *)selectedSongID
-                   withRange:(NSRange)range
+- (void)selectSong:(NSManagedObjectID *)selectedSongID
+         withRange:(NSRange)range
 {
     if (selectedSongID) {
         Song *song = (Song *)[self.coreDataStack.managedObjectContext existingObjectWithID:selectedSongID error:nil];
@@ -382,7 +349,6 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
                                                    animated:NO];
         }
     }
-    [self dismissViewControllerAnimated:YES completion:^{}];
 }
 
 #pragma mark - ExportProgressViewControllerDelegate

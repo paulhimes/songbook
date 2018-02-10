@@ -20,6 +20,7 @@
 static NSString * const kTemporaryDatabaseDirectoryName = @"temporaryBook";
 static NSString * const kMainDatabaseDirectoryName = @"mainBook";
 static NSString * const kMainBookStackKey = @"mainBookStack";
+static NSString * const kOpenBookSegueIdentifier = @"OpenBook";
 
 @interface BookManagerViewController ()
 
@@ -86,7 +87,7 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"OpenBook"]) {
+    if ([segue.identifier isEqualToString:kOpenBookSegueIdentifier]) {
         if ([segue.destinationViewController respondsToSelector:@selector(setCoreDataStack:)]) {
             [segue.destinationViewController setCoreDataStack:self.mainBookStack];
         }
@@ -136,7 +137,7 @@ static NSString * const kMainBookStackKey = @"mainBookStack";
         // Begin tokenizing any untokenized songs in this book.
         [self tokenizeBook:book];
         
-        [self performSegueWithIdentifier:@"OpenBook" sender:nil];
+        [self performSegueWithIdentifier:kOpenBookSegueIdentifier sender:nil];
     } else {
         // Load the built-in book.
         [self loadBuiltInBook];

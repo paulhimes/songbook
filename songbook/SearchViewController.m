@@ -19,7 +19,6 @@ static NSString * const kPreferredSearchMethodKey = @"PreferredSearchMethodKey";
 static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
 static NSString * const kClosestSongIDKey = @"ClosestSongIDKey";
 static NSString * const kSearchStringKey = @"SearchStringKey";
-static NSString * const kSearchTimestampKey = @"SearchTimestampKey";
 static NSString * const kDelegateKey = @"DelegateKey";
 
 typedef enum PreferredSearchMethod : NSUInteger {
@@ -152,10 +151,8 @@ typedef enum PreferredSearchMethod : NSUInteger {
     self.tableView.contentInset = UIEdgeInsetsMake(self.topBar.frame.size.height - self.view.layoutMargins.top, 0, 0, 0);
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)beginSearch
 {
-    [super viewWillAppear:animated];
-    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSNumber *preferredSearchMethodNumber = [userDefaults objectForKey:kPreferredSearchMethodKey];
     if (preferredSearchMethodNumber) {
@@ -166,38 +163,22 @@ typedef enum PreferredSearchMethod : NSUInteger {
             self.searchBar.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
         }
     }
-    
-    NSDate *searchTimestamp = [userDefaults objectForKey:kSearchTimestampKey];
-    NSTimeInterval searchAge = [searchTimestamp timeIntervalSinceNow];
-    if (searchAge > -60) {
-        NSString *searchString = [userDefaults stringForKey:kSearchStringKey];
-        self.searchBar.text = searchString;
-    }
+
     [self searchBar:self.searchBar textDidChange:self.searchBar.text];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-
+    
     // This is only used to make the keyboard appear animated.
     [self.hiddenTextField becomeFirstResponder];
-
+    
     // Set search bar as first responder NOT animated to avoid strange cursor animation.
     [UIView setAnimationsEnabled:NO];
     [self.searchBar becomeFirstResponder];
     [UIView setAnimationsEnabled:YES];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
+- (void)endSearch
 {
-    [super viewDidDisappear:animated];
-    
-    // Save the search string and timestamp.
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:self.searchBar.text forKey:kSearchStringKey];
-    [userDefaults setObject:[NSDate date] forKey:kSearchTimestampKey];
-    [userDefaults synchronize];
+    [self.hiddenTextField resignFirstResponder];
+    [self.searchBar resignFirstResponder];
 }
 
 - (void)updateThemedElements
@@ -218,6 +199,8 @@ typedef enum PreferredSearchMethod : NSUInteger {
             self.searchBar.keyboardAppearance = UIKeyboardAppearanceDark;
             break;
     }
+    
+    [self.tableView reloadData];
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -269,6 +252,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
 
 - (IBAction)searchCancelled:(id)sender
 {
+    [self endSearch];
     [self.delegate searchCancelled:self];
 }
 
