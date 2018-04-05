@@ -14,8 +14,10 @@ class BookViewController: SimpleSplitViewController, SearchViewControllerDelegat
     
     private var pageContainerViewController: SingleViewController?
     private var searchViewController: SearchViewController?
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
         if let pageContainerViewController = segue.destination as? SingleViewController {
             self.pageContainerViewController = pageContainerViewController
             pageContainerViewController.delegate = self

@@ -55,9 +55,13 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewLayoutMarginsDidChange
 {
-    [super viewDidAppear:animated];
+    [super viewLayoutMarginsDidChange];
+    for (UIViewController *viewController in self.viewControllers) {
+        viewController.view.directionalLayoutMargins = self.view.directionalLayoutMargins;
+    }
+    return;
 }
 
 - (void)updateThemedElements
@@ -163,6 +167,12 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
 
 - (void)setViewControllers:(NSArray<UIViewController *> *)viewControllers direction:(UIPageViewControllerNavigationDirection)direction animated:(BOOL)animated completion:(void (^)(BOOL))completion
 {
+    for (UIViewController *viewController in viewControllers) {
+        viewController.viewRespectsSystemMinimumLayoutMargins = NO;
+        viewController.view.insetsLayoutMarginsFromSafeArea = NO;
+        viewController.view.directionalLayoutMargins = self.view.directionalLayoutMargins;
+    }
+    
     __weak PageViewController *welf = self;
     [super setViewControllers:viewControllers direction:direction animated:animated completion:^(BOOL completed) {
         [welf.pageViewControllerDelegate pageDidChange];
@@ -206,6 +216,14 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
 }
 
 #pragma mark - UIPageViewControllerDelegate
+
+- (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewControllers
+{
+    for (PageController *pendingPageController in pendingViewControllers) {
+        [pendingPageController updateThemedElements];
+        pendingPageController.view.directionalLayoutMargins = self.view.directionalLayoutMargins;
+    }
+}
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed
 {

@@ -107,6 +107,8 @@ const float kMinimumStandardTextSize = 8;
         controller.highlightRange = highlightRange;
         controller.bookmarkedGlyphIndex = bookmarkedGlyphIndex;
         controller.bookmarkedGlyphYOffset = bookmarkedGlyphYOffset;
+        controller.viewRespectsSystemMinimumLayoutMargins = NO;
+        controller.view.insetsLayoutMarginsFromSafeArea = NO;
     }
     
     return controller;

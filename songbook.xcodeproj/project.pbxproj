@@ -15,7 +15,6 @@
 		8B14432217F141770000A898 /* SearchSectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B14432117F141770000A898 /* SearchSectionModel.m */; };
 		8B14432617F142190000A898 /* SearchTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B14432517F142190000A898 /* SearchTableModel.m */; };
 		8B191A051809CEB50071DF4D /* SafeTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B191A041809CEB50071DF4D /* SafeTextView.m */; };
-		8B191A9C180A4E290071DF4D /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B191A9B180A4E290071DF4D /* SplitViewController.m */; };
 		8B3DC5B7202BD5A2001EBA43 /* SimpleSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3DC5B6202BD5A1001EBA43 /* SimpleSplitViewController.swift */; };
 		8B3DC5BC202BDDBE001EBA43 /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3DC5BB202BDDBE001EBA43 /* BookViewController.swift */; };
 		8B42030D17E7CAED00019A80 /* TokenInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42030C17E7CAED00019A80 /* TokenInstance.m */; };
@@ -37,7 +36,6 @@
 		8B94532217A5F3E500327479 /* Verse+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94532117A5F3E500327479 /* Verse+Helpers.m */; };
 		8B94532517A5F44000327479 /* Section+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94532417A5F43800327479 /* Section+Helpers.m */; };
 		8B94532817A5F4C900327479 /* Book+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94532717A5F4C900327479 /* Book+Helpers.m */; };
-		8B983C0617FE636900D1A4C7 /* Songbook~iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BA3061E17A0BE2B00A2ABDE /* Songbook~iPad.storyboard */; };
 		8BA305E617A0BCF200A2ABDE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305E517A0BCF200A2ABDE /* Foundation.framework */; };
 		8BA305E817A0BCF200A2ABDE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305E717A0BCF200A2ABDE /* CoreGraphics.framework */; };
 		8BA305EA17A0BCF200A2ABDE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305E917A0BCF200A2ABDE /* UIKit.framework */; };
@@ -127,8 +125,6 @@
 		8B14432817F68CDA0000A898 /* SearchTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableDataSource.m; sourceTree = "<group>"; };
 		8B191A031809CEB50071DF4D /* SafeTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SafeTextView.h; sourceTree = "<group>"; };
 		8B191A041809CEB50071DF4D /* SafeTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SafeTextView.m; sourceTree = "<group>"; };
-		8B191A9A180A4E290071DF4D /* SplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitViewController.h; sourceTree = "<group>"; };
-		8B191A9B180A4E290071DF4D /* SplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplitViewController.m; sourceTree = "<group>"; };
 		8B3DC5B6202BD5A1001EBA43 /* SimpleSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleSplitViewController.swift; sourceTree = "<group>"; };
 		8B3DC5BB202BDDBE001EBA43 /* BookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookViewController.swift; sourceTree = "<group>"; };
 		8B42030B17E7CAED00019A80 /* TokenInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TokenInstance.h; sourceTree = "<group>"; };
@@ -184,7 +180,6 @@
 		8BA3060E17A0BCF200A2ABDE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8BA3061017A0BCF200A2ABDE /* songbookTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = songbookTests.m; sourceTree = "<group>"; };
 		8BA3061A17A0BDAD00A2ABDE /* Songbook.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Songbook.storyboard; sourceTree = "<group>"; };
-		8BA3061E17A0BE2B00A2ABDE /* Songbook~iPad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Songbook~iPad.storyboard"; sourceTree = "<group>"; };
 		8BA3061F17A1640B00A2ABDE /* PageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PageViewController.h; sourceTree = "<group>"; };
 		8BA3062017A1640B00A2ABDE /* PageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PageViewController.m; sourceTree = "<group>"; };
 		8BA5142717ADA275009E960D /* UIView+Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Debug.h"; sourceTree = "<group>"; };
@@ -436,13 +431,10 @@
 				8B6F1BFE17AD519300F72C3D /* Pages */,
 				8BA305FC17A0BCF200A2ABDE /* Images.xcassets */,
 				8BA3061A17A0BDAD00A2ABDE /* Songbook.storyboard */,
-				8BA3061E17A0BE2B00A2ABDE /* Songbook~iPad.storyboard */,
 				8BAF3601182344DD00D6A93E /* BookManagerViewController.h */,
 				8BAF3602182344DD00D6A93E /* BookManagerViewController.m */,
 				8B3DC5B6202BD5A1001EBA43 /* SimpleSplitViewController.swift */,
 				8B3DC5BB202BDDBE001EBA43 /* BookViewController.swift */,
-				8B191A9A180A4E290071DF4D /* SplitViewController.h */,
-				8B191A9B180A4E290071DF4D /* SplitViewController.m */,
 				8BCA006D18457F9B00600947 /* SingleViewController.h */,
 				8BCA006E18457F9B00600947 /* SingleViewController.m */,
 				8BBFC36B20103F8E00A8DEF0 /* AudioPlayer.swift */,
@@ -694,7 +686,6 @@
 			files = (
 				8B66B54E201F5115005BF413 /* BookmanStd-Light.otf in Resources */,
 				8B66B548201F5115005BF413 /* BookmanStd-MediumItalic.otf in Resources */,
-				8B983C0617FE636900D1A4C7 /* Songbook~iPad.storyboard in Resources */,
 				8BA305F217A0BCF200A2ABDE /* InfoPlist.strings in Resources */,
 				8B66B54B201F5115005BF413 /* BookmanStd-DemiItalic.otf in Resources */,
 				8BA3061B17A0BDAD00A2ABDE /* Songbook.storyboard in Resources */,
@@ -735,7 +726,6 @@
 				8BAF36111824D95200D6A93E /* OrderedDictionary.m in Sources */,
 				8BB0F584189CBC1D004D6377 /* SmartSearcher.m in Sources */,
 				8BA5142917ADA275009E960D /* UIView+Debug.m in Sources */,
-				8B191A9C180A4E290071DF4D /* SplitViewController.m in Sources */,
 				8BC7D648188344DD008F2289 /* Book.m in Sources */,
 				8BB0F58B189CBC5E004D6377 /* PageController.m in Sources */,
 				8BA305F817A0BCF200A2ABDE /* AppDelegate.m in Sources */,

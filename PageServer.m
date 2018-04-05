@@ -62,6 +62,9 @@
     pageController.delegate = pageViewController;
     pageController.coreDataStack = [pageViewController coreDataStack];
     pageController.modelID = modelObject.objectID;
+    pageController.viewRespectsSystemMinimumLayoutMargins = NO;
+    pageController.view.insetsLayoutMarginsFromSafeArea = NO;
+    pageController.view.directionalLayoutMargins = pageViewController.view.directionalLayoutMargins;
     
     return pageController;
 }

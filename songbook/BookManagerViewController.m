@@ -10,12 +10,9 @@
 #import "BookCodec.h"
 #import "TokenizeOperation.h"
 #import "CoreDataStack.h"
-#import "SplitViewController.h"
 #import "GradientView.h"
 #import "Book+Helpers.h"
-
-#import "SingleViewController.h"
-#import "SplitViewController.h"
+#import "songbook-Swift.h"
 
 static NSString * const kTemporaryDatabaseDirectoryName = @"temporaryBook";
 static NSString * const kMainDatabaseDirectoryName = @"mainBook";
@@ -90,14 +87,6 @@ static NSString * const kOpenBookSegueIdentifier = @"OpenBook";
     if ([segue.identifier isEqualToString:kOpenBookSegueIdentifier]) {
         if ([segue.destinationViewController respondsToSelector:@selector(setCoreDataStack:)]) {
             [segue.destinationViewController setCoreDataStack:self.mainBookStack];
-        }
-        
-        if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad &&
-            [segue.destinationViewController isKindOfClass:[SingleViewController class]]) {
-            NSLog(@"Storyboard Error: Opening book with SingleViewController on iPad!");
-        } else if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone &&
-                   [segue.destinationViewController isKindOfClass:[SplitViewController class]]) {
-            NSLog(@"Storyboard Error: Opening book with SplitViewController on iPhone!");
         }
     }
 }

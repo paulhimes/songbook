@@ -72,6 +72,12 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     [self.bottomBar invalidateIntrinsicContentSize];
 }
 
+- (void)viewLayoutMarginsDidChange
+{
+    [super viewLayoutMarginsDidChange];
+    self.pageViewController.view.directionalLayoutMargins = self.view.directionalLayoutMargins;
+}
+
 - (void)updateThemedElements
 {
     self.bottomBar.tintColor = self.pageViewController.pageControlColor;
@@ -87,6 +93,10 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     if ([segue.identifier isEqualToString:@"EmbedPageViewController"] &&
         [segue.destinationViewController isKindOfClass:[PageViewController class]]) {
         self.pageViewController = segue.destinationViewController;
+        self.pageViewController.viewRespectsSystemMinimumLayoutMargins = NO;
+        self.pageViewController.view.insetsLayoutMarginsFromSafeArea = NO;
+        self.pageViewController.view.directionalLayoutMargins = self.view.directionalLayoutMargins;
+
         self.pageViewController.pageViewControllerDelegate = self;
         self.pageViewController.coreDataStack = self.coreDataStack;
     }

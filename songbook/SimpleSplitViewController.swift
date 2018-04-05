@@ -26,6 +26,17 @@ class SimpleSplitViewController: UIViewController {
         }
     }
 
+    private var primaryViewController: UIViewController? {
+        didSet {
+            primaryViewController?.viewRespectsSystemMinimumLayoutMargins = false
+        }
+    }
+    private var secondaryViewController: UIViewController? {
+        didSet {
+            secondaryViewController?.viewRespectsSystemMinimumLayoutMargins = false
+        }
+    }
+
     private let dividerWidth: CGFloat = 1
     
     private(set) var isOpen = false
@@ -56,6 +67,13 @@ class SimpleSplitViewController: UIViewController {
     }
 
     private func updateFrames() {
+        var evenSideInsets = max(view.safeAreaInsets.left, view.safeAreaInsets.right)
+        if evenSideInsets > 0 {
+            evenSideInsets = 0
+        } else {
+            evenSideInsets = 8
+        }
+
         switch traitCollection.horizontalSizeClass {
         case .compact:
             // Secondary view is presented full screen.
@@ -66,18 +84,32 @@ class SimpleSplitViewController: UIViewController {
                 secondaryContainer.frame = CGRect(x: 0, y: view.bounds.size.height, width: secondaryWidth, height: view.bounds.size.height)
             }
             primaryContainer.frame = view.bounds
+
+            primaryViewController?.view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: evenSideInsets, bottom: 0, trailing: evenSideInsets)
+            secondaryViewController?.view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: evenSideInsets, bottom: 0, trailing: evenSideInsets)
         case .regular, .unspecified:
             // Secondary view is presented as a left-side split view.
             let secondaryWidth = ceil(view.bounds.size.width * 1.0/3.0)
             if isOpen {
                 primaryContainer.frame = CGRect(x: secondaryWidth, y: 0, width: view.bounds.size.width - secondaryWidth, height: view.bounds.size.height)
                 secondaryContainer.frame = CGRect(x: 0, y: 0, width: secondaryWidth, height: view.bounds.size.height)
+                primaryViewController?.view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 0, trailing: evenSideInsets)
             } else {
                 primaryContainer.frame = view.bounds
                 secondaryContainer.frame = CGRect(x: -secondaryWidth, y: 0, width: secondaryWidth, height: view.bounds.size.height)
+                primaryViewController?.view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: evenSideInsets, bottom: 0, trailing: evenSideInsets)
             }
+            secondaryViewController?.view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: evenSideInsets, bottom: 0, trailing: 4)
         }
         secondarySubContainer.frame = CGRect(x: 0, y: 0, width: secondaryContainer.bounds.size.width - dividerWidth, height: secondaryContainer.bounds.size.height)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "Primary" {
+            primaryViewController = segue.destination
+        } else if segue.identifier == "Secondary" {
+            secondaryViewController = segue.destination
+        }
     }
 
     private var observation: NSKeyValueObservation?
@@ -87,6 +119,11 @@ class SimpleSplitViewController: UIViewController {
             guard let stelf = self else { return }
             stelf.setOpen(stelf.isOpen, animated: false)
         }
+    }
+
+    override func viewLayoutMarginsDidChange() {
+        super.viewLayoutMarginsDidChange()
+        updateFrames()
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
