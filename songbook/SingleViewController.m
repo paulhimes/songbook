@@ -181,31 +181,6 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
             break;
     }
 
-    switch ([Theme currentThemeFont]) {
-        case Marion:
-            [alertController addAction:[UIAlertAction actionWithTitle:@"Bookman Font" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                // Adjust the standard text size to account for changed font metrics.
-                NSNumber *standardTextSizeNumber = [[NSUserDefaults standardUserDefaults] objectForKey:kStandardTextSizeKey];
-                CGFloat standardTextSize = [standardTextSizeNumber floatValue];
-                [[NSUserDefaults standardUserDefaults] setObject:@(standardTextSize * 0.87) forKey:kStandardTextSizeKey];
-                [[NSUserDefaults standardUserDefaults] synchronize];
-                
-                [Theme setCurrentThemeFont:Bookman];
-            }]];
-            break;
-        case Bookman:
-            [alertController addAction:[UIAlertAction actionWithTitle:@"Marion Font" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                // Adjust the standard text size to account for changed font metrics.
-                NSNumber *standardTextSizeNumber = [[NSUserDefaults standardUserDefaults] objectForKey:kStandardTextSizeKey];
-                CGFloat standardTextSize = [standardTextSizeNumber floatValue];
-                [[NSUserDefaults standardUserDefaults] setObject:@(standardTextSize / 0.87) forKey:kStandardTextSizeKey];
-                [[NSUserDefaults standardUserDefaults] synchronize];
-                
-                [Theme setCurrentThemeFont:Marion];
-            }]];
-            break;
-    }
-    
     [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}]];
     
     alertController.popoverPresentationController.barButtonItem = self.activityButton;

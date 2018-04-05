@@ -9,7 +9,6 @@
 #import "Theme.h"
 
 NSString * const kThemeColorKey = @"ThemeColor";
-NSString * const kThemeFontKey = @"ThemeFont";
 
 @implementation Theme
 
@@ -21,17 +20,6 @@ NSString * const kThemeFontKey = @"ThemeFont";
 + (void)setCurrentThemeColor:(ThemeColor)themeColor
 {
     [[NSUserDefaults standardUserDefaults] setInteger:themeColor forKey:kThemeColorKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-+ (ThemeFont)currentThemeFont
-{
-    return [[NSUserDefaults standardUserDefaults] integerForKey:kThemeFontKey];
-}
-
-+ (void)setCurrentThemeFont:(ThemeFont)themeFont
-{
-    [[NSUserDefaults standardUserDefaults] setInteger:themeFont forKey:kThemeFontKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -95,22 +83,12 @@ NSString * const kThemeFontKey = @"ThemeFont";
 
 + (NSString *)normalFontFamily
 {
-    switch ([self currentThemeFont]) {
-        case Marion:
-            return @"Marion";
-        case Bookman:
-            return @"BookmanStd-Light";
-    }
+    return @"Marion";
 }
 
 + (NSString *)boldFontFamily
 {
-    switch ([self currentThemeFont]) {
-        case Marion:
-            return @"Marion-Bold";
-        case Bookman:
-            return @"BookmanStd-Demi";
-    }
+    return @"Marion-Bold";
 }
 
 @end
