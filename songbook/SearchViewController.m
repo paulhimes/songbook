@@ -19,6 +19,7 @@ static NSString * const kPreferredSearchMethodKey = @"PreferredSearchMethodKey";
 static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
 static NSString * const kClosestSongIDKey = @"ClosestSongIDKey";
 static NSString * const kSearchStringKey = @"SearchStringKey";
+static NSString * const kSearchTimestampKey = @"SearchTimestampKey";
 static NSString * const kDelegateKey = @"DelegateKey";
 
 typedef enum PreferredSearchMethod : NSUInteger {
@@ -163,7 +164,12 @@ typedef enum PreferredSearchMethod : NSUInteger {
             self.searchBar.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
         }
     }
-
+    
+    NSDate *searchTimestamp = [userDefaults objectForKey:kSearchTimestampKey];
+    NSTimeInterval searchAge = [[NSDate date] timeIntervalSinceDate:searchTimestamp];
+    if (searchAge > 60) {
+        self.searchBar.text = nil;
+    }
     [self searchBar:self.searchBar textDidChange:self.searchBar.text];
     
     // This is only used to make the keyboard appear animated.
@@ -291,16 +297,23 @@ typedef enum PreferredSearchMethod : NSUInteger {
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
+    if (searchText.length == 0) {
+        searchText = nil;
+    }
+    
     // Trim whitespace.
     searchText = [searchText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
+    // Save the search timestamp.
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:[NSDate date] forKey:kSearchTimestampKey];
+    
     self.searchField.rightViewMode = UITextFieldViewModeAlways;
     self.searchField.clearButtonMode = UITextFieldViewModeNever;
 
     NSString *letterOnlyString = [searchText stringLimitedToCharacterSet:[NSCharacterSet letterCharacterSet]];
     NSString *decimalDigitOnlyString = [searchText stringLimitedToCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
 
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     // Save the preferred search method.
     if ([letterOnlyString length] > 0) {
         // Letter Search

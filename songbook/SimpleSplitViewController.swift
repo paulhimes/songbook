@@ -71,7 +71,7 @@ class SimpleSplitViewController: UIViewController {
         if evenSideInsets > 0 {
             evenSideInsets = 0
         } else {
-            evenSideInsets = 8
+            evenSideInsets = 16
         }
 
         switch traitCollection.horizontalSizeClass {
