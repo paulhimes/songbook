@@ -7,13 +7,13 @@
 //
 
 #import "SongTitleView.h"
+#import "songbook-Swift.h"
 
-const CGFloat kMinimumTitleViewHeight = 44;
-const CGFloat kTitleNumberFontSize = 30;
-const CGFloat kTitleFontSize = 22;
+const CGFloat kTitleNumberFontSize = 36;
+const CGFloat kTitleFontSize = 24;
 const CGFloat kSubtitleFontSize = 15;
 
-static const NSInteger kTopMargin = 16;
+static const NSInteger kTopMargin = 0;
 static const CGFloat kSongComponentPadding = 8;
 
 @interface SongTitleView()
@@ -29,7 +29,7 @@ static const CGFloat kSongComponentPadding = 8;
 
 - (UIFont *)numberFont
 {
-    return [UIFont fontWithName:[Theme boldFontFamily] size:kTitleNumberFontSize];
+    return [UIFont fontWithDynamicName:[Theme titleNumberFontName] size:kTitleNumberFontSize];
 }
 
 - (NSDictionary *)numberAttributes
@@ -39,7 +39,7 @@ static const CGFloat kSongComponentPadding = 8;
 
 - (UIFont *)titleFont
 {
-    return [UIFont fontWithName:[Theme normalFontFamily] size:kTitleFontSize];
+    return [UIFont fontWithDynamicName:[Theme normalFontName] size:kTitleFontSize];
 }
 
 - (NSDictionary *)titleAttributes
@@ -88,11 +88,7 @@ static const CGFloat kSongComponentPadding = 8;
 - (CGRect)placedTextRectForWidth:(CGFloat)width
 {
     CGRect textRect = [self textRectForWidth:width];
-    CGFloat titleLowestBaseline = CGRectGetMaxY(textRect) + self.titleFont.descender;
-    CGFloat proposedBottom = kTopMargin + titleLowestBaseline + kSongComponentPadding;
-    CGFloat additionalTopMargin = MAX(kMinimumTitleViewHeight - proposedBottom, 0);
-    
-    CGRect placedRect = CGRectMake(0, additionalTopMargin + kTopMargin, textRect.size.width, textRect.size.height);
+    CGRect placedRect = CGRectMake(0, kTopMargin, textRect.size.width, textRect.size.height);
     return placedRect;
 }
 

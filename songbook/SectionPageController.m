@@ -8,6 +8,7 @@
 
 #import "SectionPageController.h"
 #import "Section+Helpers.h"
+#import "songbook-Swift.h"
 
 @interface SectionPageController ()
 
@@ -60,7 +61,7 @@
     CGFloat standardTextSize = [standardTextSizeNumber floatValue];
     
     return [[NSAttributedString alloc] initWithString:self.section.title
-                                           attributes:@{NSFontAttributeName: [UIFont fontWithName:[Theme normalFontFamily] size:standardTextSize * 2],
+                                           attributes:@{NSFontAttributeName: [UIFont fontWithDynamicName:[Theme normalFontName] size:standardTextSize * 2],
                                                         NSForegroundColorAttributeName: [Theme textColor]
                                                         }];
 }

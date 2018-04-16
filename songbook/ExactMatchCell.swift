@@ -17,7 +17,7 @@ class ExactMatchCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         let selectedBackgroundView = UIView()
-        selectedBackgroundView.backgroundColor = Theme.grayTrimColor()
+        selectedBackgroundView.backgroundColor = Theme.grayTrimColor
         self.selectedBackgroundView = selectedBackgroundView
     }
 }

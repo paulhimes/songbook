@@ -20,6 +20,7 @@
 		8B42030D17E7CAED00019A80 /* TokenInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42030C17E7CAED00019A80 /* TokenInstance.m */; };
 		8B42031017E7CAED00019A80 /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42030F17E7CAED00019A80 /* Song.m */; };
 		8B42031717E7D51C00019A80 /* TokenInstance+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42031617E7D51C00019A80 /* TokenInstance+Helpers.m */; };
+		8B5203BD208397380021DCF7 /* UIFontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5203BC208397380021DCF7 /* UIFontExtension.swift */; };
 		8B6FC947181C88F900BACCCB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B6FC946181C88F900BACCCB /* MessageUI.framework */; };
 		8B7B42222018508800939C77 /* SearchExactMatchCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B42212018508800939C77 /* SearchExactMatchCellModel.swift */; };
 		8B7B42242018542500939C77 /* ExactMatchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B42232018542500939C77 /* ExactMatchCell.swift */; };
@@ -55,7 +56,6 @@
 		8BAF35FD181F285400D6A93E /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF35F7181F285400D6A93E /* ZipArchive.mm */; };
 		8BAF36081824C41700D6A93E /* CoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF36071824C41700D6A93E /* CoreDataStack.m */; };
 		8BAF36111824D95200D6A93E /* OrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF36101824D95200D6A93E /* OrderedDictionary.m */; };
-		8BAF6ADE180E3C6B00BFC813 /* Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF6ADD180E3C6B00BFC813 /* Theme.m */; };
 		8BAF6AE41816196200BFC813 /* BookCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF6AE31816196200BFC813 /* BookCodec.m */; };
 		8BB0F584189CBC1D004D6377 /* SmartSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE5A65417CD8FA2002028E5 /* SmartSearcher.m */; };
 		8BB0F585189CBC27004D6377 /* FilteredSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE5A65117CD2356002028E5 /* FilteredSearcher.m */; };
@@ -76,6 +76,7 @@
 		8BB4CBE918959EA0009F0FA1 /* default.songbook in Resources */ = {isa = PBXBuildFile; fileRef = 8BB4CBE818959EA0009F0FA1 /* default.songbook */; };
 		8BB54D5C17A4C60700FD2914 /* PageServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB54D5B17A4C60700FD2914 /* PageServer.m */; };
 		8BBFC36C20103F8E00A8DEF0 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBFC36B20103F8E00A8DEF0 /* AudioPlayer.swift */; };
+		8BC10FF520804AF0000E274B /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC10FF420804AF0000E274B /* Theme.swift */; };
 		8BC674CA17BC912C001E71B1 /* NSMutableAttributedString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */; };
 		8BC7D648188344DD008F2289 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7D647188344DD008F2289 /* Book.m */; };
 		8BCA006F18457F9B00600947 /* SingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BCA006E18457F9B00600947 /* SingleViewController.m */; };
@@ -127,6 +128,7 @@
 		8B42031217E7CAEE00019A80 /* Token.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Token.m; sourceTree = "<group>"; };
 		8B42031517E7D51C00019A80 /* TokenInstance+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TokenInstance+Helpers.h"; sourceTree = "<group>"; };
 		8B42031617E7D51C00019A80 /* TokenInstance+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TokenInstance+Helpers.m"; sourceTree = "<group>"; };
+		8B5203BC208397380021DCF7 /* UIFontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFontExtension.swift; sourceTree = "<group>"; };
 		8B6F1BED17ACB67D00F72C3D /* PageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageController.h; sourceTree = "<group>"; };
 		8B6F1BEE17ACB67D00F72C3D /* PageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageController.m; sourceTree = "<group>"; };
 		8B6F1BF217ACBBFB00F72C3D /* BookPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookPageController.h; sourceTree = "<group>"; };
@@ -194,8 +196,6 @@
 		8BAF36101824D95200D6A93E /* OrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedDictionary.m; sourceTree = "<group>"; };
 		8BAF3612182B3EDA00D6A93E /* TokenizeOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TokenizeOperation.h; sourceTree = "<group>"; };
 		8BAF3613182B3EDA00D6A93E /* TokenizeOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenizeOperation.m; sourceTree = "<group>"; };
-		8BAF6ADC180E3C6B00BFC813 /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Theme.h; sourceTree = "<group>"; };
-		8BAF6ADD180E3C6B00BFC813 /* Theme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Theme.m; sourceTree = "<group>"; };
 		8BAF6AE21816196200BFC813 /* BookCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookCodec.h; sourceTree = "<group>"; };
 		8BAF6AE31816196200BFC813 /* BookCodec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookCodec.m; sourceTree = "<group>"; };
 		8BB02AE017CB97BE001CCB6C /* SimpleSearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleSearcher.h; sourceTree = "<group>"; };
@@ -212,6 +212,7 @@
 		8BB54D5E17A4C79300FD2914 /* SongPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongPageController.m; sourceTree = "<group>"; };
 		8BBFC36A20103F8E00A8DEF0 /* songbook-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "songbook-Bridging-Header.h"; sourceTree = "<group>"; };
 		8BBFC36B20103F8E00A8DEF0 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		8BC10FF420804AF0000E274B /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		8BC674C517B9E1D8001E71B1 /* SongTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongTitleView.h; sourceTree = "<group>"; };
 		8BC674C617B9E1D8001E71B1 /* SongTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongTitleView.m; sourceTree = "<group>"; };
 		8BC674C817BC912C001E71B1 /* NSMutableAttributedString+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+Helpers.h"; sourceTree = "<group>"; };
@@ -432,6 +433,7 @@
 				8BA305F517A0BCF200A2ABDE /* songbook-Prefix.pch */,
 				8BA5142717ADA275009E960D /* UIView+Debug.h */,
 				8BA5142817ADA275009E960D /* UIView+Debug.m */,
+				8B5203BC208397380021DCF7 /* UIFontExtension.swift */,
 				8BA785B117D5864D00BEF4D9 /* NSString+Helpers.h */,
 				8BA785B217D5864D00BEF4D9 /* NSString+Helpers.m */,
 				8BC674C817BC912C001E71B1 /* NSMutableAttributedString+Helpers.h */,
@@ -440,8 +442,7 @@
 				8B088FC117C867440043341D /* UIView+Helpers.m */,
 				8B191A031809CEB50071DF4D /* SafeTextView.h */,
 				8B191A041809CEB50071DF4D /* SafeTextView.m */,
-				8BAF6ADC180E3C6B00BFC813 /* Theme.h */,
-				8BAF6ADD180E3C6B00BFC813 /* Theme.m */,
+				8BC10FF420804AF0000E274B /* Theme.swift */,
 				8BAF360F1824D95200D6A93E /* OrderedDictionary.h */,
 				8BAF36101824D95200D6A93E /* OrderedDictionary.m */,
 				8BED9F0E17C9418400D834BE /* GradientView.h */,
@@ -681,12 +682,12 @@
 				8B14432217F141770000A898 /* SearchSectionModel.m in Sources */,
 				8BB0F58F189CBCFC004D6377 /* BookPageController.m in Sources */,
 				8BAF35F9181F285400D6A93E /* mztools.c in Sources */,
-				8BAF6ADE180E3C6B00BFC813 /* Theme.m in Sources */,
 				8BA785B317D5864D00BEF4D9 /* NSString+Helpers.m in Sources */,
 				8BAF36111824D95200D6A93E /* OrderedDictionary.m in Sources */,
 				8BB0F584189CBC1D004D6377 /* SmartSearcher.m in Sources */,
 				8BA5142917ADA275009E960D /* UIView+Debug.m in Sources */,
 				8BC7D648188344DD008F2289 /* Book.m in Sources */,
+				8B5203BD208397380021DCF7 /* UIFontExtension.swift in Sources */,
 				8BB0F58B189CBC5E004D6377 /* PageController.m in Sources */,
 				8BA305F817A0BCF200A2ABDE /* AppDelegate.m in Sources */,
 				8BD5141618A7FB3C002DC6B1 /* SearchContextCellModel.m in Sources */,
@@ -703,6 +704,7 @@
 				8BD5141F18B1B638002DC6B1 /* SuperScrollIndicator.m in Sources */,
 				8B14432617F142190000A898 /* SearchTableModel.m in Sources */,
 				8BB0F588189CBC49004D6377 /* SearchOperation.m in Sources */,
+				8BC10FF520804AF0000E274B /* Theme.swift in Sources */,
 				8BAF6AE41816196200BFC813 /* BookCodec.m in Sources */,
 				8B94532517A5F44000327479 /* Section+Helpers.m in Sources */,
 				8BB18ADF17A5DB77006E257C /* Verse.m in Sources */,

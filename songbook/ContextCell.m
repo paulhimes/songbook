@@ -7,6 +7,7 @@
 //
 
 #import "ContextCell.h"
+#import "songbook-Swift.h"
 
 @interface ContextCell()
 

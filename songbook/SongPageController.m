@@ -11,6 +11,7 @@
 #import "BookCodec.h"
 #import "Section+Helpers.h"
 #import "Song+Helpers.h"
+#import "songbook-Swift.h"
 
 static const float kTextScaleThreshold = 0.5;
 
@@ -50,6 +51,9 @@ static const float kTextScaleThreshold = 0.5;
     if (!_numberAndTitleParagraphStyle) {
         _numberAndTitleParagraphStyle = [self paragraphStyleFirstLineIndent:0
                                                             andNormalIndent:self.titleView.titleOriginX];
+        NSMutableParagraphStyle *mutableParagraphStyle = [_numberAndTitleParagraphStyle mutableCopy];
+        mutableParagraphStyle.lineSpacing = -8;
+        _numberAndTitleParagraphStyle = [mutableParagraphStyle copy];
     }
     return _numberAndTitleParagraphStyle;
 }
@@ -139,12 +143,12 @@ static const float kTextScaleThreshold = 0.5;
     [self.titleView setNeedsDisplay];
 
     switch ([Theme currentThemeColor]) {
-        case Light:
+        case ThemeColorLight:
             self.topBar.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
             self.bottomBarBackground.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
             self.textView.indicatorStyle = UIScrollViewIndicatorStyleBlack;
             break;
-        case Dark:
+        case ThemeColorDark:
             self.topBar.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
             self.bottomBarBackground.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
             self.textView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
@@ -164,7 +168,7 @@ static const float kTextScaleThreshold = 0.5;
     if (lastTextRangeBeforeFooterValue) {
         NSRange lastTextRangeBeforeFooter = lastTextRangeBeforeFooterValue.rangeValue;
         CGFloat bottomInsetOfLastTextLineBeforeFooter = [self.textView distanceFromLastLineTopToContainerBottomForCharactersInRange:lastTextRangeBeforeFooter];
-        bottomSpace -= bottomInsetOfLastTextLineBeforeFooter + [UIFont fontWithName:[Theme normalFontFamily] size:standardTextSize].leading;
+        bottomSpace -= bottomInsetOfLastTextLineBeforeFooter + [UIFont fontWithDynamicName:[Theme normalFontName] size:standardTextSize].leading;
     }
     
     self.textView.textContainerInset = UIEdgeInsetsMake(0, self.view.layoutMargins.left, bottomSpace, self.view.layoutMargins.right);
@@ -191,15 +195,15 @@ static const float kTextScaleThreshold = 0.5;
     CGFloat standardTextSize = [standardTextSizeNumber floatValue];
 
     NSMutableDictionary *normalAttributes = [@{} mutableCopy];
-    normalAttributes[NSFontAttributeName] = [UIFont fontWithName:[Theme normalFontFamily] size:standardTextSize];
+    normalAttributes[NSFontAttributeName] = [UIFont fontWithDynamicName:[Theme normalFontName] size:standardTextSize];
     normalAttributes[NSForegroundColorAttributeName] = [Theme textColor];
     
     NSMutableDictionary *numberAttributes = [normalAttributes mutableCopy];
-    numberAttributes[NSFontAttributeName] = [UIFont fontWithName:[Theme boldFontFamily] size:kTitleNumberFontSize];
+    numberAttributes[NSFontAttributeName] = [UIFont fontWithDynamicName:[Theme titleNumberFontName] size:kTitleNumberFontSize];
     numberAttributes[NSParagraphStyleAttributeName] = self.numberAndTitleParagraphStyle;
 
     NSMutableDictionary *titleAttributes = [normalAttributes mutableCopy];
-    titleAttributes[NSFontAttributeName] = [UIFont fontWithName:[Theme normalFontFamily] size:kTitleFontSize];
+    titleAttributes[NSFontAttributeName] = [UIFont fontWithDynamicName:[Theme normalFontName] size:kTitleFontSize];
     titleAttributes[NSParagraphStyleAttributeName] = self.numberAndTitleParagraphStyle;
 
     NSMutableDictionary *ghostAttributes = [normalAttributes mutableCopy];
@@ -207,7 +211,7 @@ static const float kTextScaleThreshold = 0.5;
     
     NSMutableDictionary *subtitleAttributes = [normalAttributes mutableCopy];
     subtitleAttributes[NSParagraphStyleAttributeName] = self.subtitleParagraphStyle;
-    subtitleAttributes[NSFontAttributeName] = [UIFont fontWithName:[Theme normalFontFamily] size:kSubtitleFontSize];
+    subtitleAttributes[NSFontAttributeName] = [UIFont fontWithDynamicName:[Theme normalFontName] size:kSubtitleFontSize];
     
     NSMutableDictionary *verseTitleAttributes = [normalAttributes mutableCopy];
     NSMutableParagraphStyle *verseTitleParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
@@ -224,7 +228,7 @@ static const float kTextScaleThreshold = 0.5;
     NSMutableParagraphStyle *footerParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     footerParagraphStyle.alignment = NSTextAlignmentRight;
     footerAttributes[NSParagraphStyleAttributeName] = footerParagraphStyle;
-    footerAttributes[NSFontAttributeName] = [UIFont fontWithName:[Theme normalFontFamily] size:kSubtitleFontSize];
+    footerAttributes[NSFontAttributeName] = [UIFont fontWithDynamicName:[Theme normalFontName] size:kSubtitleFontSize];
     
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[self.song string]];
     

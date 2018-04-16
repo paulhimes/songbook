@@ -7,6 +7,7 @@
 //
 
 #import "SuperScrollIndicator.h"
+#import "songbook-Swift.h"
 
 static const NSUInteger kMinimumIndicatorHeight = 88;
 static const NSUInteger kIndicatorMinimumMargin = 4;

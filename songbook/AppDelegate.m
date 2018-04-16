@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "PageController.h"
 #import "BookManagerViewController.h"
+#import "songbook-Swift.h"
 
 @implementation AppDelegate
 
@@ -24,6 +25,20 @@
     // Disable screen sleeping.
     application.idleTimerDisabled = YES;
     
+    // Set the fallback local fonts. Then try to load the (possibly remote / downloadable) desired fonts.
+//    NSString *desiredNormalFontName = Theme.normalFontName;
+    Theme.normalFontName = @"Charter-Roman";
+    NSString *desiredTitleNumberFontName = @"IowanOldStyle-Black";//Theme.titleNumberFontName;
+    Theme.titleNumberFontName = @"Charter-Black";
+    
+//    [Theme loadFontNamed:desiredNormalFontName completion:^{
+//        Theme.normalFontName = desiredNormalFontName;
+//    }];
+    
+    [Theme loadFontNamed:desiredTitleNumberFontName completion:^{
+        Theme.titleNumberFontName = desiredTitleNumberFontName;
+    }];
+
     return YES;
 }
 

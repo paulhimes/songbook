@@ -7,6 +7,7 @@
 //
 
 #import "PageController.h"
+#import "songbook-Swift.h"
 
 NSString * const kStandardTextSizeKey = @"StandardTextSize";
 

@@ -7,6 +7,7 @@
 //
 
 #import "GradientView.h"
+#import "songbook-Swift.h"
 
 @implementation GradientView
 

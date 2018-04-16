@@ -7,6 +7,7 @@
 //
 
 #import "ExportProgressViewController.h"
+#import "songbook-Swift.h"
 
 @interface ExportProgressViewController ()
 
@@ -43,10 +44,10 @@
     self.dialogView.layer.cornerRadius = 10;
 
     switch ([Theme currentThemeColor]) {
-        case Light:
+        case ThemeColorLight:
             self.dialogBackground.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
             break;
-        case Dark:
+        case ThemeColorDark:
             self.dialogBackground.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
             break;
     }

@@ -9,6 +9,7 @@
 #import "BookPageController.h"
 #import "GradientView.h"
 #import "Book+Helpers.h"
+#import "songbook-Swift.h"
 
 @interface BookPageController ()
 
@@ -64,7 +65,7 @@
     CGFloat standardTextSize = [standardTextSizeNumber floatValue];
 
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", self.book.title]
-                                                                             attributes:@{NSFontAttributeName: [UIFont fontWithName:[Theme normalFontFamily] size:standardTextSize * 2.5],
+                                                                             attributes:@{NSFontAttributeName: [UIFont fontWithDynamicName:[Theme normalFontName] size:standardTextSize * 2.5],
                                                                                           NSForegroundColorAttributeName: [Theme paperColor]
                                                                                           }];
     [text appendString:[NSString stringWithFormat:@"Version %@", self.book.version]

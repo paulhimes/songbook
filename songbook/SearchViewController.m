@@ -14,6 +14,7 @@
 #import "SearchTableDataSource.h"
 #import "TokenizeOperation.h"
 #import "SuperScrollIndicator.h"
+#import "songbook-Swift.h"
 
 static NSString * const kPreferredSearchMethodKey = @"PreferredSearchMethodKey";
 static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
@@ -196,11 +197,11 @@ typedef enum PreferredSearchMethod : NSUInteger {
     [self.scrollIndicator setNeedsDisplay];
     
     switch ([Theme currentThemeColor]) {
-        case Light:
+        case ThemeColorLight:
             self.topBarEffectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
             self.searchBar.keyboardAppearance = UIKeyboardAppearanceLight;
             break;
-        case Dark:
+        case ThemeColorDark:
             self.topBarEffectView.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
             self.searchBar.keyboardAppearance = UIKeyboardAppearanceDark;
             break;

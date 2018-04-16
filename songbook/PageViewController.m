@@ -8,6 +8,7 @@
 
 #import "PageViewController.h"
 #import "Book+Helpers.h"
+#import "songbook-Swift.h"
 
 static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
 static NSString * const kDelegateKey = @"DelegateKey";

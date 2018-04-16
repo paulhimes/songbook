@@ -19,7 +19,6 @@
     #import "UIView+Helpers.h"
     #import "NSMutableAttributedString+Helpers.h"
     #import "NSString+Helpers.h"
-    #import "Theme.h"
     #import "UIColor+Helpers.h"
     #import "ZipArchive.h"
 
