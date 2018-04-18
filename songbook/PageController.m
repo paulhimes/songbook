@@ -35,6 +35,12 @@ const float kMinimumStandardTextSize = 8;
     return [[NSAttributedString alloc] initWithString:@""];
 }
 
+- (void)setHighlightRange:(NSRange)highlightRange
+{
+    _highlightRange = highlightRange;
+    [self textContentChanged];
+}
+
 - (UIPinchGestureRecognizer *)pinchGestureRecognizer
 {
     if (!_pinchGestureRecognizer) {
