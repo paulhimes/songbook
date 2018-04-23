@@ -132,14 +132,14 @@ static const NSString * const kRangeKey = @"RangeKey";
     // Add an "Exact Matches" section if appropriate.
     NSString *letterOnlyString = [searchString stringLimitedToCharacterSet:[NSCharacterSet letterCharacterSet]];
     NSString *decimalDigitOnlyString = [searchString stringLimitedToCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
-    NSMutableArray<SearchExactMatchCellModel *> *exactMatchSongModels = [@[] mutableCopy];
+    NSMutableArray<SearchExactMatchCellModel *> *exactMatchCellModels = [@[] mutableCopy];
     if (letterOnlyString.length == 0 && decimalDigitOnlyString.length > 0) {
         for (Section *section in book.sections) {
             for (Song *song in section.songs) {
                 if (song.number) {
                     NSString *songNumberDecimalOnly = [[song.number stringValue] stringLimitedToCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
                     if ([songNumberDecimalOnly isEqualToString:decimalDigitOnlyString]) {
-                        [exactMatchSongModels addObject:[[SearchExactMatchCellModel alloc] initWithSongID:song.objectID
+                        [exactMatchCellModels addObject:[[SearchExactMatchCellModel alloc] initWithSongID:song.objectID
                                                                                                    number:[song.number unsignedIntegerValue]
                                                                                                 songTitle:song.title
                                                                                              sectionTitle:song.section.title]];
@@ -148,8 +148,28 @@ static const NSString * const kRangeKey = @"RangeKey";
             }
         }
     }
-    if (exactMatchSongModels.count > 0) {
-        [sectionModels insertObject:[[SearchSectionModel alloc] initWithTitle:@"Exact Matches" cellModels:[exactMatchSongModels copy]] atIndex:0];
+    // Don't show the exact matches section if it contains nothing but the exact same collection of songs as the other sections.
+    BOOL nonExactCellModelFound = NO;
+    for (SearchSectionModel *sectionModel in sectionModels) {
+        for (id<SearchCellModel> cellModel in sectionModel.cellModels) {
+            BOOL matchingSongFound = NO;
+            for (id<SearchCellModel> exactMatchCellModel in exactMatchCellModels) {
+                if ([cellModel.songID isEqual:exactMatchCellModel.songID]) {
+                    matchingSongFound = YES;
+                    break;
+                }
+            }
+            if (!matchingSongFound) {
+                nonExactCellModelFound = YES;
+                break;
+            }
+        }
+        if (nonExactCellModelFound) {
+            break;
+        }
+    }
+    if (exactMatchCellModels.count > 0 && nonExactCellModelFound) {
+        [sectionModels insertObject:[[SearchSectionModel alloc] initWithTitle:@"Exact Matches" cellModels:[exactMatchCellModels copy]] atIndex:0];
     }
     
     SearchTableModel *table = [[SearchTableModel alloc] initWithSectionModels:[sectionModels copy] persistentStoreCoordinator:book.managedObjectContext.persistentStoreCoordinator];
