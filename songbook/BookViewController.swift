@@ -10,7 +10,7 @@ import UIKit
 
 class BookViewController: SimpleSplitViewController, SearchViewControllerDelegate, SingleViewControllerDelegate {
 
-    var coreDataStack: CoreDataStack?
+    @objc var coreDataStack: CoreDataStack?
     
     private var pageContainerViewController: SingleViewController?
     private var searchViewController: SearchViewController?

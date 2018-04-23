@@ -199,7 +199,7 @@ static const float kTextScaleThreshold = 0.5;
     normalAttributes[NSForegroundColorAttributeName] = [Theme textColor];
     
     NSMutableDictionary *numberAttributes = [normalAttributes mutableCopy];
-    numberAttributes[NSFontAttributeName] = [UIFont fontWithDynamicName:[Theme titleNumberFontName] size:kTitleNumberFontSize];
+    numberAttributes[NSFontAttributeName] = [UIFont fontWithDynamicName:[Theme titleNumberFontName] size:kTitleNumberFontSize numberSpacing:NumberSpacingProportional];
     numberAttributes[NSParagraphStyleAttributeName] = self.numberAndTitleParagraphStyle;
 
     NSMutableDictionary *titleAttributes = [normalAttributes mutableCopy];

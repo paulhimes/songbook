@@ -29,7 +29,7 @@ static const CGFloat kSongComponentPadding = 8;
 
 - (UIFont *)numberFont
 {
-    return [UIFont fontWithDynamicName:[Theme titleNumberFontName] size:kTitleNumberFontSize];
+    return [UIFont fontWithDynamicName:[Theme titleNumberFontName] size:kTitleNumberFontSize numberSpacing:NumberSpacingProportional];
 }
 
 - (NSDictionary *)numberAttributes

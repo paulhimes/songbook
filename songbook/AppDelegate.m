@@ -44,27 +44,29 @@
 
 - (BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder
 {
-    return YES;
+//    return YES;
+    return NO;
 }
 
 - (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder
 {
-    // Only restore state if the device type hasn't changed.
-    NSNumber *savedIdiom = [coder decodeObjectForKey:UIApplicationStateRestorationUserInterfaceIdiomKey];
-    UIUserInterfaceIdiom idiom = [[UIDevice currentDevice] userInterfaceIdiom];
-    BOOL equalIdioms = [savedIdiom integerValue] == idiom;
-    
-    // Only restore state if the app version hasn't changed.
-    NSString *savedAppVersion = [coder decodeObjectForKey:UIApplicationStateRestorationBundleVersionKey];
-    NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString *)kCFBundleVersionKey];
-    BOOL equalAppVersions = [savedAppVersion isEqualToString:appVersion];
-    
-    // Only restore state if the system version hasn't changed.
-    NSString *savedSystemVersion = [coder decodeObjectForKey:UIApplicationStateRestorationSystemVersionKey];
-    NSString *systemVersion = [UIDevice currentDevice].systemVersion;
-    BOOL equalSystemVersions = [savedSystemVersion isEqualToString:systemVersion];
-    
-    return equalIdioms && equalAppVersions && equalSystemVersions;
+//    // Only restore state if the device type hasn't changed.
+//    NSNumber *savedIdiom = [coder decodeObjectForKey:UIApplicationStateRestorationUserInterfaceIdiomKey];
+//    UIUserInterfaceIdiom idiom = [[UIDevice currentDevice] userInterfaceIdiom];
+//    BOOL equalIdioms = [savedIdiom integerValue] == idiom;
+//
+//    // Only restore state if the app version hasn't changed.
+//    NSString *savedAppVersion = [coder decodeObjectForKey:UIApplicationStateRestorationBundleVersionKey];
+//    NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString *)kCFBundleVersionKey];
+//    BOOL equalAppVersions = [savedAppVersion isEqualToString:appVersion];
+//
+//    // Only restore state if the system version hasn't changed.
+//    NSString *savedSystemVersion = [coder decodeObjectForKey:UIApplicationStateRestorationSystemVersionKey];
+//    NSString *systemVersion = [UIDevice currentDevice].systemVersion;
+//    BOOL equalSystemVersions = [savedSystemVersion isEqualToString:systemVersion];
+//
+//    return equalIdioms && equalAppVersions && equalSystemVersions;
+    return NO;
 }
 
 - (void)application:(UIApplication *)application didDecodeRestorableStateWithCoder:(NSCoder *)coder
@@ -72,7 +74,7 @@
     NSLog(@"State restoration complete.");
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
 {
     [self handoffImportFile:url];
     return YES;

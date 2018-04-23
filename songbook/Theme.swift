@@ -14,7 +14,7 @@ import UIKit
 }
 
 @objc class Theme: NSObject {
-    static let defaultPairs: [String: String] = ["Marion": "Marion-Bold",
+    @objc static let defaultPairs: [String: String] = ["Marion": "Marion-Bold",
                                                  "Iowan Old Style": "IowanOldStyle-Black",
 //                                                 "Baskerville": "Baskerville-Bold",
 //                                                 "BodoniSvtyTwoITCTT-Book": "BodoniSvtyTwoITCTT-Bold",
@@ -26,7 +26,7 @@ import UIKit
 //                                                 "TimesNewRomanPSMT": "TimesNewRomanPS-BoldMT"
     ]
     
-    static let normalFontNames = ["Marion",
+    @objc static let normalFontNames = ["Marion",
                               "Iowan Old Style",
 //                              "Baskerville",
 //                              "BodoniSvtyTwoITCTT-Book",
@@ -38,7 +38,7 @@ import UIKit
 //                              "TimesNewRomanPSMT"
     ]
     
-    static let titleNumberFontNames = ["Marion-Bold",
+    @objc static let titleNumberFontNames = ["Marion-Bold",
                                    "IowanOldStyle-Black",
 //                                   "Baskerville-Bold",
 //                                   "Baskerville-SemiBold",
@@ -55,7 +55,7 @@ import UIKit
     ]
     
     private static let themeColorKey = "ThemeColor"
-    static var currentThemeColor: ThemeColor {
+    @objc static var currentThemeColor: ThemeColor {
         get {
             return ThemeColor(rawValue: UserDefaults.standard.integer(forKey: themeColorKey)) ?? .light
         }
@@ -64,10 +64,10 @@ import UIKit
         }
     }
     
-    static let redColor = UIColor(r: 190, g: 25, b: 49, a: 255)
-    static let coverColorOne = UIColor(r: 126, g: 25, b: 40, a: 255)
-    static let coverColorTwo = UIColor(r: 124, g: 16, b: 32, a: 255)
-    static var grayTrimColor: UIColor {
+    @objc static let redColor = UIColor(r: 190, g: 25, b: 49, a: 255)
+    @objc static let coverColorOne = UIColor(r: 126, g: 25, b: 40, a: 255)
+    @objc static let coverColorTwo = UIColor(r: 124, g: 16, b: 32, a: 255)
+    @objc static var grayTrimColor: UIColor {
         get {
             switch currentThemeColor {
             case .light:
@@ -77,7 +77,7 @@ import UIKit
             }
         }
     }
-    static var textColor: UIColor {
+    @objc static var textColor: UIColor {
         get {
             switch currentThemeColor {
             case .light:
@@ -87,7 +87,7 @@ import UIKit
             }
         }
     }
-    static var fadedTextColor: UIColor {
+    @objc static var fadedTextColor: UIColor {
         get {
             switch currentThemeColor {
             case .light:
@@ -97,7 +97,7 @@ import UIKit
             }
         }
     }
-    static var paperColor: UIColor {
+    @objc static var paperColor: UIColor {
         get {
             switch currentThemeColor {
             case .light:
@@ -109,7 +109,7 @@ import UIKit
     }
     
     private static let normalFontNameKey = "NormalFontName"
-    static var normalFontName: String {
+    @objc static var normalFontName: String {
         get {
             return UserDefaults.standard.string(forKey: normalFontNameKey) ?? "Charter-Roman"
         }
@@ -119,7 +119,7 @@ import UIKit
     }
     
     private static let titleNumberFontNameKey = "TitleNumberFontName"
-    static var titleNumberFontName: String {
+    @objc static var titleNumberFontName: String {
         get {
             return UserDefaults.standard.string(forKey: titleNumberFontNameKey) ?? "Charter-Black"
         }
@@ -128,7 +128,7 @@ import UIKit
         }
     }
     
-    static func loadFontNamed(_ name: String, completion: (()->Void)?) {
+    @objc static func loadFontNamed(_ name: String, completion: (()->Void)?) {
         let cfName = name as CFString
         let cfDescriptors = [ CTFontDescriptorCreateWithNameAndSize(cfName, 50) ] as CFArray
         
