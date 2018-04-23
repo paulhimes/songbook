@@ -131,11 +131,17 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
 
             let albumString = [song.section.title ?? "", song.section.book.title ?? ""].filter { $0.count > 0 }.joined(separator: " - ")
 
-            MPNowPlayingInfoCenter.default().nowPlayingInfo = [MPMediaItemPropertyTitle: titleString,
-                                                               MPMediaItemPropertyAlbumTitle: albumString,
-                                                               MPNowPlayingInfoPropertyMediaType: MPNowPlayingInfoMediaType.audio.rawValue,
-                                                               MPMediaItemPropertyPlaybackDuration: audioPlayer?.duration ?? 0,
-                                                               MPNowPlayingInfoPropertyPlaybackRate: 1]
+            var nowPlayingInfo: [String: Any] = [MPMediaItemPropertyTitle: titleString,
+                                                 MPMediaItemPropertyAlbumTitle: albumString,
+                                                 MPNowPlayingInfoPropertyMediaType: MPNowPlayingInfoMediaType.audio.rawValue,
+                                                 MPMediaItemPropertyPlaybackDuration: audioPlayer?.duration ?? 0,
+                                                 MPNowPlayingInfoPropertyPlaybackRate: 1]
+            
+            if let author = song.author {
+                nowPlayingInfo[MPMediaItemPropertyArtist] = author
+            }
+            
+            MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
 
             delegate?.audioPlayerStartedPlayingSong(song, tuneIndex: tuneIndex)
             
