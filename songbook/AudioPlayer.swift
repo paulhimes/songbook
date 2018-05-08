@@ -56,6 +56,17 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
         
         return audioFileURLs
     }()
+    
+    private static let playbackModeKey = "PlaybackMode"
+    @objc static var playbackMode: PlaybackMode {
+        get {
+            return PlaybackMode(rawValue: UserDefaults.standard.integer(forKey: playbackModeKey)) ?? .single
+        }
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: playbackModeKey)
+            UserDefaults.standard.synchronize()
+        }
+    }
 
     @objc init(directory: URL) {
         audioFileDirectory = directory
@@ -72,8 +83,7 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
         MPRemoteCommandCenter.shared().playCommand.addTarget() { [weak self] (event) -> MPRemoteCommandHandlerStatus in
             if !(self?.audioPlayer?.isPlaying ?? false) {
                 self?.audioPlayer?.play()
-                MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = 1
-                MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = self?.audioPlayer?.currentTime ?? 0
+                self?.resetNowPlayingInfoCenterProgress()
                 if let song = self?.currentSong, let tuneIndex = self?.currentTuneIndex {
                     self?.delegate?.audioPlayerStartedPlayingSong(song, tuneIndex: tuneIndex)
                 }
@@ -85,8 +95,7 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
         MPRemoteCommandCenter.shared().pauseCommand.addTarget() { [weak self] (event) -> MPRemoteCommandHandlerStatus in
             if (self?.audioPlayer?.isPlaying ?? false) {
                 self?.audioPlayer?.pause()
-                MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = self?.audioPlayer?.currentTime ?? 0
-                MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = 0
+                self?.resetNowPlayingInfoCenterProgress()
                 self?.delegate?.audioPlayerStopped()
                 return .success
             } else {
@@ -105,7 +114,9 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
         
         let songAudioFiles = audioFileURLsForSong(song)
         guard tuneIndex >= 0 && tuneIndex < songAudioFiles.count else {
-            playNext()
+            if AudioPlayer.playbackMode == .continuous {
+                playNext()
+            }
             return
         }
         
@@ -131,8 +142,29 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
 
             let albumString = [song.section.title ?? "", song.section.book.title ?? ""].filter { $0.count > 0 }.joined(separator: " - ")
 
+            let artworkSize = CGSize(width: 10, height: 10)
+            let albumArt = MPMediaItemArtwork(boundsSize: artworkSize) { (size) -> UIImage in
+                UIGraphicsBeginImageContextWithOptions(artworkSize, true, 0)
+                
+                let colorSpace = CGColorSpaceCreateDeviceRGB()
+                let startColorComp = Theme.coverColorOne.cgColor.components ?? []
+                let endColorComp = Theme.coverColorTwo.cgColor.components ?? []
+                let colorComps =  startColorComp + endColorComp
+                let locations:[CGFloat] = [0.0, 1.0]
+                let gradient = CGGradient(colorSpace: colorSpace, colorComponents: colorComps, locations: locations, count: 2)!
+                
+                let startPoint = CGPoint(x: 0, y: 0)
+                let endPoint = CGPoint(x: 0, y: artworkSize.height)
+                UIGraphicsGetCurrentContext()?.drawLinearGradient(gradient, start: startPoint, end: endPoint, options: [])
+                
+                let image = UIGraphicsGetImageFromCurrentImageContext()!
+                UIGraphicsEndImageContext()
+                return image
+            }
+            
             var nowPlayingInfo: [String: Any] = [MPMediaItemPropertyTitle: titleString,
                                                  MPMediaItemPropertyAlbumTitle: albumString,
+                                                 MPMediaItemPropertyArtwork: albumArt,
                                                  MPNowPlayingInfoPropertyMediaType: MPNowPlayingInfoMediaType.audio.rawValue,
                                                  MPMediaItemPropertyPlaybackDuration: audioPlayer?.duration ?? 0,
                                                  MPNowPlayingInfoPropertyPlaybackRate: 1]
@@ -245,10 +277,27 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
         return matchingAudioFileURLs
     }
     
+    private func resetNowPlayingInfoCenterProgress() {
+        MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = (audioPlayer?.isPlaying ?? false) ? 1 : 0
+        MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = audioPlayer?.currentTime ?? 0
+    }
+    
     // MARK: - AVAudioPlayerDelegate
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        playNext()
+        switch AudioPlayer.playbackMode {
+        case .single:
+            stopPlayback()
+        case .continuous:
+            playNext()
+        case .repeatOne:
+            if let currentSong = currentSong {
+                startPlayingAtSong(currentSong, tuneIndex: currentTuneIndex)
+                resetNowPlayingInfoCenterProgress()
+            } else {
+                stopPlayback()
+            }
+        }
     }
     
     func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
@@ -259,4 +308,10 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
 @objc protocol AudioPlayerDelegate {
     func audioPlayerStopped()
     func audioPlayerStartedPlayingSong(_ song: Song, tuneIndex: Int)
+}
+
+@objc enum PlaybackMode: Int {
+    case single = 0
+    case continuous = 1
+    case repeatOne = 2
 }

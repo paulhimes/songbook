@@ -26,16 +26,25 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 @property (nonatomic, strong) PageViewController *pageViewController;
 
 @property (weak, nonatomic) IBOutlet UIToolbar *bottomBar;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *activityButton;
 @property (nonatomic, strong) UIWindow *alertWindow;
 @property (nonatomic, strong) ExportProgressViewController *exportProgressViewController;
 @property (nonatomic) BOOL exportCancelled;
 @property (nonatomic, strong) NSNumber *previousExportIncludedExtraFiles;
 @property (nonatomic, strong) NSTimer *playbackTimer;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
-@property (weak, nonatomic) IBOutlet UIButton *stopButton;
-@property (weak, nonatomic) IBOutlet UIView *playerView;
 @property (nonatomic, strong) AudioPlayer *audioPlayer;
+
+// Default Toolbar Items
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *searchButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *activityButton;
+
+// Playback Toolbar Items
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *stopButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *continuousPlaybackButton;
+
+// Spacers
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *flexibleSpaceOne;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *flexibleSpaceTwo;
 
 @end
 
@@ -62,8 +71,11 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     UIImage *clearImage = [[UIImage alloc] init];
     [self.bottomBar setBackgroundImage:clearImage forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     [self.bottomBar setShadowImage:clearImage forToolbarPosition:UIBarPositionAny];
-    
     [self updateThemedElements];
+
+    [self.bottomBar setItems:@[self.searchButton, self.flexibleSpaceOne, self.activityButton] animated:NO];
+    
+    [self updateContinuousPlaybackButton];
 }
 
 - (void)viewWillLayoutSubviews
@@ -83,9 +95,26 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     self.bottomBar.tintColor = self.pageViewController.pageControlColor;
     self.progressView.progressTintColor = self.pageViewController.pageControlColor;
     self.progressView.trackTintColor = [UIColor clearColor];
-    self.stopButton.tintColor = self.pageViewController.pageControlColor;
-    
+
     [self.pageViewController updateThemedElements];
+}
+
+- (void)updateContinuousPlaybackButton
+{
+    switch (AudioPlayer.playbackMode) {
+        case PlaybackModeSingle:
+            self.continuousPlaybackButton.image = [UIImage imageNamed:@"continuousPlayback"];
+            self.continuousPlaybackButton.tintColor = Theme.grayTrimColor;
+            break;
+        case PlaybackModeContinuous:
+            self.continuousPlaybackButton.image = [UIImage imageNamed:@"continuousPlayback"];
+            self.continuousPlaybackButton.tintColor = Theme.redColor;
+            break;
+        case PlaybackModeRepeatOne:
+            self.continuousPlaybackButton.image = [UIImage imageNamed:@"repeat"];
+            self.continuousPlaybackButton.tintColor = Theme.redColor;
+            break;
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -332,6 +361,22 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     [self.audioPlayer stopPlayback];
 }
 
+- (IBAction)continuousPlaybackAction:(UIBarButtonItem *)sender
+{
+    switch (AudioPlayer.playbackMode) {
+        case PlaybackModeSingle:
+            AudioPlayer.playbackMode = PlaybackModeContinuous;
+            break;
+        case PlaybackModeContinuous:
+            AudioPlayer.playbackMode = PlaybackModeRepeatOne;
+            break;
+        case PlaybackModeRepeatOne:
+            AudioPlayer.playbackMode = PlaybackModeSingle;
+            break;
+    }
+    [self updateContinuousPlaybackButton];
+}
+
 - (void)playbackTimerUpdate
 {
     float progress = 0.0;
@@ -394,9 +439,9 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     
     self.progressView.progress = 0;
     
+    [self.bottomBar setItems:@[self.flexibleSpaceOne, self.stopButton, self.flexibleSpaceTwo, self.continuousPlaybackButton] animated:YES];
     [UIView animateWithDuration:kPlayerAnimationDuration animations:^{
-        self.playerView.alpha = 1;
-        self.bottomBar.alpha = 0;
+        self.progressView.alpha = 1;
     } completion:^(BOOL finished) {
         NSTimeInterval interval = 0.01;
         if (self.audioPlayer.duration > 0) {
@@ -420,9 +465,9 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 
 - (void)audioPlayerStopped
 {
+    [self.bottomBar setItems:@[self.searchButton, self.flexibleSpaceOne, self.activityButton] animated:YES];
     [UIView animateWithDuration:kPlayerAnimationDuration animations:^{
-        self.playerView.alpha = 0;
-        self.bottomBar.alpha = 1;
+        self.progressView.alpha = 0;
     } completion:^(BOOL finished) {
         [self.playbackTimer invalidate];
         self.playbackTimer = nil;

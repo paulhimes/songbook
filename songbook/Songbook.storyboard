@@ -25,63 +25,48 @@
                                     <segue destination="POr-aa-yjp" kind="embed" identifier="EmbedPageViewController" id="LNa-o6-fot"/>
                                 </connections>
                             </containerView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xfz-tE-Oee" userLabel="Bottom Toolbar">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Xfz-tE-Oee" userLabel="Bottom Toolbar">
                                 <rect key="frame" x="0.0" y="790" width="688" height="44"/>
                                 <items>
+                                    <barButtonItem systemItem="flexibleSpace" id="y0E-wr-uFn"/>
+                                    <barButtonItem systemItem="flexibleSpace" id="RVz-xb-4rJ"/>
                                     <barButtonItem systemItem="search" id="nqW-MI-wLw">
                                         <connections>
                                             <action selector="searchAction:" destination="V7H-QJ-amo" id="w8y-b5-dVZ"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="ho9-ta-Hto"/>
                                     <barButtonItem systemItem="action" id="MjF-Cz-FmT">
                                         <connections>
                                             <action selector="activityAction:" destination="V7H-QJ-amo" id="TMZ-ON-3d8"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem title="Stop" id="CCj-4R-Lng">
+                                        <connections>
+                                            <action selector="stopPlayingAction:" destination="V7H-QJ-amo" id="uMH-bJ-zpF"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Continuous" image="continuousPlayback" id="9Du-W2-n4s">
+                                        <connections>
+                                            <action selector="continuousPlaybackAction:" destination="V7H-QJ-amo" id="fAa-y9-g6S"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
-                            <view opaque="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hp4-cc-nJu" userLabel="PlayerView">
-                                <rect key="frame" x="0.0" y="790" width="688" height="44"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kDz-bJ-H5d">
-                                        <rect key="frame" x="0.0" y="0.0" width="688" height="44"/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" title="Stop">
-                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="stopPlayingAction:" destination="V7H-QJ-amo" eventType="touchUpInside" id="1fX-C6-jOI"/>
-                                        </connections>
-                                    </button>
-                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fkV-FJ-9TP">
-                                        <rect key="frame" x="0.0" y="0.0" width="688" height="2"/>
-                                        <color key="trackTintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </progressView>
-                                </subviews>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstItem="kDz-bJ-H5d" firstAttribute="top" secondItem="Hp4-cc-nJu" secondAttribute="top" id="6mA-0v-Wvc"/>
-                                    <constraint firstAttribute="bottom" secondItem="kDz-bJ-H5d" secondAttribute="bottom" id="AU1-gG-ynj"/>
-                                    <constraint firstAttribute="trailing" secondItem="fkV-FJ-9TP" secondAttribute="trailing" id="YzC-TP-McN"/>
-                                    <constraint firstItem="fkV-FJ-9TP" firstAttribute="leading" secondItem="Hp4-cc-nJu" secondAttribute="leading" id="d4Y-sd-fOq"/>
-                                    <constraint firstAttribute="trailing" secondItem="kDz-bJ-H5d" secondAttribute="trailing" id="do3-vX-F4n"/>
-                                    <constraint firstItem="fkV-FJ-9TP" firstAttribute="top" secondItem="Hp4-cc-nJu" secondAttribute="top" id="vHl-0w-Vpw"/>
-                                    <constraint firstItem="kDz-bJ-H5d" firstAttribute="leading" secondItem="Hp4-cc-nJu" secondAttribute="leading" id="xSZ-wo-wxn"/>
-                                </constraints>
-                            </view>
+                            <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fkV-FJ-9TP">
+                                <rect key="frame" x="0.0" y="790" width="688" height="2"/>
+                                <color key="trackTintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                            </progressView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="J57-gg-R16" firstAttribute="bottom" secondItem="Xfz-tE-Oee" secondAttribute="bottom" id="4bL-ok-FCF"/>
                             <constraint firstItem="Xfz-tE-Oee" firstAttribute="leading" secondItem="kIM-zc-2bf" secondAttribute="leading" id="66y-LA-Xz1"/>
-                            <constraint firstItem="Hp4-cc-nJu" firstAttribute="bottom" secondItem="Xfz-tE-Oee" secondAttribute="bottom" id="8CN-r3-u7z"/>
-                            <constraint firstItem="Xfz-tE-Oee" firstAttribute="top" secondItem="Hp4-cc-nJu" secondAttribute="top" id="8Qy-M5-ZSX"/>
+                            <constraint firstItem="fkV-FJ-9TP" firstAttribute="trailing" secondItem="Xfz-tE-Oee" secondAttribute="trailing" id="9zb-WX-H4N"/>
                             <constraint firstItem="5Ey-ad-7q1" firstAttribute="top" secondItem="kIM-zc-2bf" secondAttribute="top" id="DJR-qJ-c0j"/>
                             <constraint firstItem="5Ey-ad-7q1" firstAttribute="leading" secondItem="kIM-zc-2bf" secondAttribute="leading" id="GnB-zt-yRf"/>
-                            <constraint firstItem="Hp4-cc-nJu" firstAttribute="leading" secondItem="kIM-zc-2bf" secondAttribute="leading" id="M4r-Wh-210"/>
+                            <constraint firstItem="fkV-FJ-9TP" firstAttribute="top" secondItem="Xfz-tE-Oee" secondAttribute="top" id="LRQ-hY-aKW"/>
                             <constraint firstAttribute="trailing" secondItem="Xfz-tE-Oee" secondAttribute="trailing" id="N5z-pY-C9U"/>
-                            <constraint firstAttribute="trailing" secondItem="Hp4-cc-nJu" secondAttribute="trailing" id="Sfe-fl-BnF"/>
+                            <constraint firstItem="fkV-FJ-9TP" firstAttribute="leading" secondItem="Xfz-tE-Oee" secondAttribute="leading" id="RDP-jD-shO"/>
                             <constraint firstAttribute="trailing" secondItem="5Ey-ad-7q1" secondAttribute="trailing" id="cce-4o-J5a"/>
                             <constraint firstAttribute="bottom" secondItem="5Ey-ad-7q1" secondAttribute="bottom" id="p8Z-rc-PRm"/>
                         </constraints>
@@ -91,9 +76,12 @@
                     <connections>
                         <outlet property="activityButton" destination="MjF-Cz-FmT" id="gmV-x2-R7s"/>
                         <outlet property="bottomBar" destination="Xfz-tE-Oee" id="nPl-WQ-Mss"/>
-                        <outlet property="playerView" destination="Hp4-cc-nJu" id="9oq-ff-Cdn"/>
+                        <outlet property="continuousPlaybackButton" destination="9Du-W2-n4s" id="RE8-Jn-rpM"/>
+                        <outlet property="flexibleSpaceOne" destination="y0E-wr-uFn" id="AAP-LZ-daa"/>
+                        <outlet property="flexibleSpaceTwo" destination="RVz-xb-4rJ" id="yeO-aD-2cf"/>
                         <outlet property="progressView" destination="fkV-FJ-9TP" id="Yjc-d7-PmL"/>
-                        <outlet property="stopButton" destination="kDz-bJ-H5d" id="pnO-FE-lqV"/>
+                        <outlet property="searchButton" destination="nqW-MI-wLw" id="GTZ-yT-IAi"/>
+                        <outlet property="stopButton" destination="CCj-4R-Lng" id="a3J-Wq-hHe"/>
                         <segue destination="PRR-wm-QWt" kind="unwind" identifier="CloseBook" unwindAction="closeBook:" id="Vw1-J7-5xZ"/>
                     </connections>
                 </viewController>
@@ -709,4 +697,7 @@
             <point key="canvasLocation" x="-2048" y="-518"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="continuousPlayback" width="28" height="28"/>
+    </resources>
 </document>
