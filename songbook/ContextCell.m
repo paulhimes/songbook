@@ -78,8 +78,8 @@
             // If an additional word was found, set the possible text to everything up through this word.
             possibleFittedText = [[self.attributedText attributedSubstringFromRange:NSMakeRange(0, rangeOfFirstIgnoredSegment.location)] mutableCopy];
             // Add an ellipsis to the end of the possible text because we did not use the complete source text.
-            NSDictionary<NSAttributedStringKey, id> *attributesOfLastCharacter = [possibleFittedText attributesAtIndex:possibleFittedText.length - 1 effectiveRange:nil];
-            [possibleFittedText appendString:@"…" attributes:attributesOfLastCharacter];
+            NSDictionary<NSAttributedStringKey, id> *attributesOfNextCharacter = [self.attributedText attributesAtIndex:rangeOfFirstIgnoredSegment.location effectiveRange:nil];
+            [possibleFittedText appendString:@"…" attributes:attributesOfNextCharacter];
             // Continue looking for additional words a the end of this ignored segment.
             searchRangeStart = rangeOfFirstIgnoredSegment.location + rangeOfFirstIgnoredSegment.length;
         }

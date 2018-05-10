@@ -247,14 +247,12 @@ static const NSString * const kRangeKey = @"RangeKey";
                             NSString *fragmentString = [stringForSearching substringWithRange:fragmentRange];
                             NSMutableAttributedString *fragment = [[NSMutableAttributedString alloc] initWithString:fragmentString attributes:normalFragmentAttributes];
                             
-                            for (TokenInstance *songTokenInstance in songTokenInstances) {
-                                // Make matching text black and bold.
-                                [fragment setAttributes:matchingFragmentAttributes range:NSMakeRange([songTokenInstance.location unsignedIntegerValue] - [firstSongTokenInstance.location unsignedIntegerValue], [songTokenInstance.length unsignedIntegerValue])];
-                            }
-                            
                             // Calculate the range of the matching text within the song.
                             TokenInstance *lastSongTokenInstance = [songTokenInstances lastObject];
                             NSRange matchingRange = NSMakeRange([firstSongTokenInstance.location unsignedIntegerValue], [lastSongTokenInstance.location unsignedIntegerValue] + [lastSongTokenInstance.length unsignedIntegerValue] - [firstSongTokenInstance.location unsignedIntegerValue]);
+                            
+                            // Highlight the matching text.
+                            [fragment setAttributes:matchingFragmentAttributes range:NSMakeRange(0, [lastSongTokenInstance.location unsignedIntegerValue] + [lastSongTokenInstance.length unsignedIntegerValue] - [firstSongTokenInstance.location unsignedIntegerValue])];
                             
                             // Prepend the "..."
                             NSAttributedString *ellipsis = [[NSAttributedString alloc] initWithString:@"…" attributes:normalFragmentAttributes];
