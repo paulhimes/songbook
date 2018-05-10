@@ -47,6 +47,7 @@ class BookViewController: SimpleSplitViewController, SearchViewControllerDelegat
             UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.5, delay: 0, options: [], animations: {
                 self?.pageContainerViewController?.updateThemedElements()
                 self?.searchViewController?.updateThemedElements()
+                self?.view.backgroundColor = Theme.grayTrimColor
             }, completion: nil)
         }
     }
