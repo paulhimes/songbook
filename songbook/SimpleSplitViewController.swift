@@ -67,13 +67,15 @@ class SimpleSplitViewController: UIViewController {
     }
 
     private func updateFrames() {
-        var evenSideInsets = max(view.safeAreaInsets.left, view.safeAreaInsets.right)
-        if evenSideInsets > 0 {
-            evenSideInsets = 0
+        let maxSideSafeAreaInsets = max(view.safeAreaInsets.left, view.safeAreaInsets.right)
+        let outsideInsets: CGFloat
+        if maxSideSafeAreaInsets > 0 {
+            outsideInsets = 0
         } else {
-            evenSideInsets = 16
+            outsideInsets = 16
         }
-
+        let insideInsets: CGFloat = 16
+        
         switch traitCollection.horizontalSizeClass {
         case .compact:
             // Secondary view is presented full screen.
@@ -85,21 +87,21 @@ class SimpleSplitViewController: UIViewController {
             }
             primaryContainer.frame = view.bounds
 
-            primaryViewController?.view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: evenSideInsets, bottom: 0, trailing: evenSideInsets)
-            secondaryViewController?.view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: evenSideInsets, bottom: 0, trailing: evenSideInsets)
+            primaryViewController?.view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: outsideInsets, bottom: 0, trailing: outsideInsets)
+            secondaryViewController?.view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: outsideInsets, bottom: 0, trailing: outsideInsets)
         case .regular, .unspecified:
             // Secondary view is presented as a left-side split view.
             let secondaryWidth = ceil(view.bounds.size.width * 1.0/3.0)
             if isOpen {
                 primaryContainer.frame = CGRect(x: secondaryWidth, y: 0, width: view.bounds.size.width - secondaryWidth, height: view.bounds.size.height)
                 secondaryContainer.frame = CGRect(x: 0, y: 0, width: secondaryWidth, height: view.bounds.size.height)
-                primaryViewController?.view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 0, trailing: evenSideInsets)
+                primaryViewController?.view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: insideInsets, bottom: 0, trailing: outsideInsets)
             } else {
                 primaryContainer.frame = view.bounds
                 secondaryContainer.frame = CGRect(x: -secondaryWidth, y: 0, width: secondaryWidth, height: view.bounds.size.height)
-                primaryViewController?.view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: evenSideInsets, bottom: 0, trailing: evenSideInsets)
+                primaryViewController?.view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: outsideInsets, bottom: 0, trailing: outsideInsets)
             }
-            secondaryViewController?.view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: evenSideInsets, bottom: 0, trailing: 4)
+            secondaryViewController?.view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: outsideInsets, bottom: 0, trailing: insideInsets)
         }
         secondarySubContainer.frame = CGRect(x: 0, y: 0, width: secondaryContainer.bounds.size.width - dividerWidth, height: secondaryContainer.bounds.size.height)
     }

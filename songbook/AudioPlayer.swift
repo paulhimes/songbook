@@ -58,9 +58,11 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
     }()
     
     private static let playbackModeKey = "PlaybackMode"
+    private static let defaultPlaybackMode: PlaybackMode = .continuous
     @objc static var playbackMode: PlaybackMode {
         get {
-            return PlaybackMode(rawValue: UserDefaults.standard.integer(forKey: playbackModeKey)) ?? .single
+            guard UserDefaults.standard.value(forKey: playbackModeKey) != nil else { return defaultPlaybackMode }
+            return PlaybackMode(rawValue: UserDefaults.standard.integer(forKey: playbackModeKey)) ?? defaultPlaybackMode
         }
         set {
             UserDefaults.standard.set(newValue.rawValue, forKey: playbackModeKey)
