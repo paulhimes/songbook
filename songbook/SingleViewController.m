@@ -402,7 +402,8 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
         [welf updateThemedElements];
     } completion:^(UIViewAnimatingPosition finalPosition) {}];
     
-    if (self.audioPlayer.currentSong &&
+    if (self.audioPlayer.isPlaying &&
+        self.audioPlayer.currentSong &&
         self.audioPlayer.currentSong != self.pageViewController.pageModelObject &&
         [self.pageViewController.pageModelObject isKindOfClass:[Song class]] &&
         [self.audioPlayer audioFileURLsForSong:((Song *)self.pageViewController.pageModelObject)].count > 0) {

@@ -30,6 +30,12 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
             return audioPlayer.duration
         }
     }
+    @objc var isPlaying: Bool {
+        get {
+            guard let audioPlayer = audioPlayer else { return false }
+            return audioPlayer.isPlaying
+        }
+    }
     
     private let audioFileDirectory: URL
     private var audioPlayer: AVAudioPlayer?
