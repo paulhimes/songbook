@@ -13,7 +13,7 @@
 #import "Song+Helpers.h"
 #import "songbook-Swift.h"
 
-static const float kTextScaleThreshold = 0.5;
+static const float kTextScaleThreshold = 1;
 
 @interface SongPageController () <UITextViewDelegate, MFMailComposeViewControllerDelegate>
 
@@ -32,7 +32,6 @@ static const float kTextScaleThreshold = 0.5;
 @property (nonatomic) CGFloat glyphOriginalYCoordinateInMainView;
 @property (nonatomic) CGFloat glyphYCoordinateInMainView;
 @property (nonatomic) CGPoint touchStartPoint;
-@property (nonatomic) CGPoint latestTouchPoint;
 
 @property (nonatomic, readonly) CGFloat minimumContentOffset;
 @property (nonatomic, readonly) CGFloat maximumContentOffset;
@@ -415,7 +414,6 @@ static const float kTextScaleThreshold = 0.5;
         self.glyphOriginalYCoordinateInMainView = [self locationInMainViewOfGlyphAtIndex:self.glyphIndex].y;
         
         self.touchStartPoint = [sender locationInView:self.view];
-        self.latestTouchPoint = self.touchStartPoint;
         
     } else if (sender.state == UIGestureRecognizerStateEnded ||
                sender.state == UIGestureRecognizerStateCancelled ||
@@ -425,7 +423,6 @@ static const float kTextScaleThreshold = 0.5;
         self.glyphOriginalYCoordinateInMainView = 0;
         self.glyphYCoordinateInMainView = 0;
         self.touchStartPoint = CGPointZero;
-        self.latestTouchPoint = CGPointZero;
         
         // Limit the content offset to the actual content size.
         CGFloat contentOffsetY = self.textView.contentOffset.y;
@@ -438,8 +435,7 @@ static const float kTextScaleThreshold = 0.5;
         
     } else if (sender.state == UIGestureRecognizerStateChanged && sender.numberOfTouches > 1){
         CGPoint updatedTouchPoint = [sender locationInView:self.view];
-        self.latestTouchPoint = updatedTouchPoint;
-        
+
         [self scaleTextWithScale:sender.scale
                       touchPoint:updatedTouchPoint
                  minimumFontSize:kMinimumStandardTextSize

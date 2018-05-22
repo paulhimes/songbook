@@ -18,8 +18,8 @@ static NSString * const kHighlightRangeKey = @"HighlightRangeKey";
 static NSString * const kBookmarkedGlyphIndexKey = @"BookmarkedGlyphIndexKey";
 static NSString * const kBookmarkedGlyphYOffsetKey = @"BookmarkedGlyphYOffsetKey";
 
-const float kSuperMaximumStandardTextSize = 60;
-const float kMaximumStandardTextSize = 60;
+const float kSuperMaximumStandardTextSize = 100;
+const float kMaximumStandardTextSize = 100;
 const float kMinimumStandardTextSize = 8;
 
 @interface PageController () <UIScrollViewDelegate, UIViewControllerRestoration>
