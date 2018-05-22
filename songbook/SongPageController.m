@@ -228,7 +228,7 @@ static const float kTextScaleThreshold = 0.5;
     NSMutableParagraphStyle *footerParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     footerParagraphStyle.alignment = NSTextAlignmentRight;
     footerAttributes[NSParagraphStyleAttributeName] = footerParagraphStyle;
-    footerAttributes[NSFontAttributeName] = [UIFont fontWithDynamicName:[Theme normalFontName] size:kSubtitleFontSize];
+    footerAttributes[NSFontAttributeName] = [UIFont fontWithDynamicName:[Theme normalFontName] size:standardTextSize * 0.8];
     
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[self.song string]];
     
