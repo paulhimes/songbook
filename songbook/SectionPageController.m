@@ -59,9 +59,10 @@
 {
     NSNumber *standardTextSizeNumber = [[NSUserDefaults standardUserDefaults] objectForKey:kStandardTextSizeKey];
     CGFloat standardTextSize = [standardTextSizeNumber floatValue];
-    
+    CGFloat limitedStandardTextSize = MIN(25, standardTextSize);
+
     return [[NSAttributedString alloc] initWithString:self.section.title
-                                           attributes:@{NSFontAttributeName: [UIFont fontWithDynamicName:[Theme normalFontName] size:standardTextSize * 2],
+                                           attributes:@{NSFontAttributeName: [UIFont fontWithDynamicName:[Theme normalFontName] size:limitedStandardTextSize * 2],
                                                         NSForegroundColorAttributeName: [Theme textColor]
                                                         }];
 }

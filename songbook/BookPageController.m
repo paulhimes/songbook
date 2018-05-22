@@ -63,13 +63,14 @@
 {
     NSNumber *standardTextSizeNumber = [[NSUserDefaults standardUserDefaults] objectForKey:kStandardTextSizeKey];
     CGFloat standardTextSize = [standardTextSizeNumber floatValue];
-
+    CGFloat limitedStandardTextSize = MIN(25, standardTextSize);
+    
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", self.book.title]
-                                                                             attributes:@{NSFontAttributeName: [UIFont fontWithDynamicName:[Theme normalFontName] size:standardTextSize * 2.5],
+                                                                             attributes:@{NSFontAttributeName: [UIFont fontWithDynamicName:[Theme normalFontName] size:limitedStandardTextSize * 2.5],
                                                                                           NSForegroundColorAttributeName: [Theme paperColor]
                                                                                           }];
     [text appendString:[NSString stringWithFormat:@"Version %@", self.book.version]
-            attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:standardTextSize * 0.75],
+            attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:limitedStandardTextSize * 0.75],
                          NSForegroundColorAttributeName: [[Theme paperColor] colorWithAlphaComponent:0.5]
                          }];
 
