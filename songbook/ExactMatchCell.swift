@@ -14,10 +14,10 @@ class ExactMatchCell: UITableViewCell {
     @objc @IBOutlet weak var numberLabel: UILabel!
     @objc @IBOutlet weak var songTitleLabel: UILabel!
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override func setSelected(_ selected: Bool, animated: Bool) {
         let selectedBackgroundView = UIView()
         selectedBackgroundView.backgroundColor = Theme.grayTrimColor
         self.selectedBackgroundView = selectedBackgroundView
+        super.setSelected(selected, animated: animated)
     }
 }

@@ -21,11 +21,15 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
+    [self.contentLabel addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
     UIView *selectedBackgroundView = [[UIView alloc] init];
     selectedBackgroundView.backgroundColor = [Theme grayTrimColor];
     self.selectedBackgroundView = selectedBackgroundView;
-    
-    [self.contentLabel addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:nil];
+    [super setSelected:selected animated:animated];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context

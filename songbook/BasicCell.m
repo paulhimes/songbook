@@ -11,12 +11,12 @@
 
 @implementation BasicCell
 
-- (void)awakeFromNib
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
-    [super awakeFromNib];
     UIView *selectedBackgroundView = [[UIView alloc] init];
     selectedBackgroundView.backgroundColor = [Theme grayTrimColor];
     self.selectedBackgroundView = selectedBackgroundView;
+    [super setSelected:selected animated:animated];
 }
 
 @end
