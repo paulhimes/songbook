@@ -63,8 +63,8 @@ static NSString * const kOpenBookSegueIdentifier = @"OpenBook";
     gradientView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view insertSubview:gradientView atIndex:0];
     
-    self.busyMessageLabel.textColor = [Theme paperColor];
-    self.busySpinner.color = [Theme paperColor];
+    self.busyMessageLabel.textColor = UIColor.whiteColor;
+    self.busySpinner.color = UIColor.whiteColor;
 }
 
 - (void)viewDidAppear:(BOOL)animated

@@ -75,6 +75,8 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 
     [self.bottomBar setItems:@[self.searchButton, self.flexibleSpaceOne, self.activityButton] animated:NO];
     
+    self.activityButton.accessibilityLabel = @"Actions";
+    
     [self updateContinuousPlaybackButton];
 }
 
@@ -105,14 +107,17 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
         case PlaybackModeSingle:
             self.continuousPlaybackButton.image = [UIImage imageNamed:@"continuousPlayback"];
             self.continuousPlaybackButton.tintColor = Theme.grayTrimColor;
+            self.continuousPlaybackButton.title = @"Play Single";
             break;
         case PlaybackModeContinuous:
             self.continuousPlaybackButton.image = [UIImage imageNamed:@"continuousPlayback"];
             self.continuousPlaybackButton.tintColor = Theme.redColor;
+            self.continuousPlaybackButton.title = @"Play Continuously";
             break;
         case PlaybackModeRepeatOne:
             self.continuousPlaybackButton.image = [UIImage imageNamed:@"repeat"];
             self.continuousPlaybackButton.tintColor = Theme.redColor;
+            self.continuousPlaybackButton.title = @"Repeat";
             break;
     }
 }
@@ -439,6 +444,7 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     self.playbackTimer = nil;
     
     self.progressView.progress = 0;
+    self.progressView.alpha = 0;
     
     [self.bottomBar setItems:@[self.flexibleSpaceOne, self.stopButton, self.flexibleSpaceTwo, self.continuousPlaybackButton] animated:YES];
     [UIView animateWithDuration:kPlayerAnimationDuration animations:^{

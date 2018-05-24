@@ -26,15 +26,9 @@
     application.idleTimerDisabled = YES;
     
     // Set the fallback local fonts. Then try to load the (possibly remote / downloadable) desired fonts.
-//    NSString *desiredNormalFontName = Theme.normalFontName;
     Theme.normalFontName = @"Charter-Roman";
-    NSString *desiredTitleNumberFontName = @"IowanOldStyle-Black";//Theme.titleNumberFontName;
     Theme.titleNumberFontName = @"Charter-Black";
-    
-//    [Theme loadFontNamed:desiredNormalFontName completion:^{
-//        Theme.normalFontName = desiredNormalFontName;
-//    }];
-    
+    NSString *desiredTitleNumberFontName = @"IowanOldStyle-Black";
     [Theme loadFontNamed:desiredTitleNumberFontName completion:^{
         Theme.titleNumberFontName = desiredTitleNumberFontName;
     }];
@@ -44,29 +38,27 @@
 
 - (BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder
 {
-//    return YES;
-    return NO;
+    return YES;
 }
 
 - (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder
 {
-//    // Only restore state if the device type hasn't changed.
-//    NSNumber *savedIdiom = [coder decodeObjectForKey:UIApplicationStateRestorationUserInterfaceIdiomKey];
-//    UIUserInterfaceIdiom idiom = [[UIDevice currentDevice] userInterfaceIdiom];
-//    BOOL equalIdioms = [savedIdiom integerValue] == idiom;
-//
-//    // Only restore state if the app version hasn't changed.
-//    NSString *savedAppVersion = [coder decodeObjectForKey:UIApplicationStateRestorationBundleVersionKey];
-//    NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString *)kCFBundleVersionKey];
-//    BOOL equalAppVersions = [savedAppVersion isEqualToString:appVersion];
-//
-//    // Only restore state if the system version hasn't changed.
-//    NSString *savedSystemVersion = [coder decodeObjectForKey:UIApplicationStateRestorationSystemVersionKey];
-//    NSString *systemVersion = [UIDevice currentDevice].systemVersion;
-//    BOOL equalSystemVersions = [savedSystemVersion isEqualToString:systemVersion];
-//
-//    return equalIdioms && equalAppVersions && equalSystemVersions;
-    return NO;
+    // Only restore state if the device type hasn't changed.
+    NSNumber *savedIdiom = [coder decodeObjectForKey:UIApplicationStateRestorationUserInterfaceIdiomKey];
+    UIUserInterfaceIdiom idiom = [[UIDevice currentDevice] userInterfaceIdiom];
+    BOOL equalIdioms = [savedIdiom integerValue] == idiom;
+
+    // Only restore state if the app version hasn't changed.
+    NSString *savedAppVersion = [coder decodeObjectForKey:UIApplicationStateRestorationBundleVersionKey];
+    NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString *)kCFBundleVersionKey];
+    BOOL equalAppVersions = [savedAppVersion isEqualToString:appVersion];
+
+    // Only restore state if the system version hasn't changed.
+    NSString *savedSystemVersion = [coder decodeObjectForKey:UIApplicationStateRestorationSystemVersionKey];
+    NSString *systemVersion = [UIDevice currentDevice].systemVersion;
+    BOOL equalSystemVersions = [savedSystemVersion isEqualToString:systemVersion];
+
+    return equalIdioms && equalAppVersions && equalSystemVersions;
 }
 
 - (void)application:(UIApplication *)application didDecodeRestorableStateWithCoder:(NSCoder *)coder

@@ -39,11 +39,6 @@
     [self.bottomBar invalidateIntrinsicContentSize];
 }
 
-- (void)updateThemedElements
-{
-    self.bottomBar.tintColor = [Theme paperColor];
-}
-
 - (id<SongbookModel>)modelObject
 {
     return self.book;
@@ -67,11 +62,11 @@
     
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", self.book.title]
                                                                              attributes:@{NSFontAttributeName: [UIFont fontWithDynamicName:[Theme normalFontName] size:limitedStandardTextSize * 2.5],
-                                                                                          NSForegroundColorAttributeName: [Theme paperColor]
+                                                                                          NSForegroundColorAttributeName: UIColor.whiteColor
                                                                                           }];
     [text appendString:[NSString stringWithFormat:@"Version %@", self.book.version]
             attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:limitedStandardTextSize * 0.75],
-                         NSForegroundColorAttributeName: [[Theme paperColor] colorWithAlphaComponent:0.5]
+                         NSForegroundColorAttributeName: [UIColor.whiteColor colorWithAlphaComponent:0.5]
                          }];
 
     return text;
@@ -79,7 +74,7 @@
 
 - (UIColor *)pageControlColor
 {
-    return [Theme paperColor];
+    return UIColor.whiteColor;
 }
 
 @end

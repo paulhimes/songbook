@@ -45,14 +45,14 @@
                                             <action selector="stopPlayingAction:" destination="V7H-QJ-amo" id="uMH-bJ-zpF"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem title="Continuous" image="continuousPlayback" id="9Du-W2-n4s">
+                                    <barButtonItem title="Continuous Playback" image="continuousPlayback" id="9Du-W2-n4s">
                                         <connections>
                                             <action selector="continuousPlaybackAction:" destination="V7H-QJ-amo" id="fAa-y9-g6S"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fkV-FJ-9TP">
+                            <progressView opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fkV-FJ-9TP">
                                 <rect key="frame" x="0.0" y="790" width="688" height="2"/>
                                 <color key="trackTintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             </progressView>
