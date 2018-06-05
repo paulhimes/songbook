@@ -15,10 +15,10 @@ static const NSUInteger kIndicatorMinimumMargin = 4;
 
 @interface SuperScrollIndicator()
 
-@property (nonatomic, strong) UIColor *normalBackgroudColor;
-@property (nonatomic, strong) UIColor *normalScrollIndicatorColor;
-@property (nonatomic, strong) UIColor *highlightedBackgroundColor;
-@property (nonatomic, strong) UIColor *highlightedScrollIndicatorColor;
+@property (nonatomic, readonly) UIColor *normalBackgroudColor;
+@property (nonatomic, readonly) UIColor *normalScrollIndicatorColor;
+@property (nonatomic, readonly) UIColor *highlightedBackgroundColor;
+@property (nonatomic, readonly) UIColor *highlightedScrollIndicatorColor;
 
 @property (nonatomic) BOOL highlighted;
 @property (nonatomic) BOOL enabled;
@@ -45,34 +45,22 @@ static const NSUInteger kIndicatorMinimumMargin = 4;
 
 - (UIColor *)normalBackgroudColor
 {
-    if (!_normalBackgroudColor) {
-        _normalBackgroudColor = [UIColor clearColor];
-    }
-    return _normalBackgroudColor;
+    return [UIColor clearColor];
 }
 
 - (UIColor *)normalScrollIndicatorColor
 {
-    if (!_normalScrollIndicatorColor) {
-        _normalScrollIndicatorColor = [[Theme fadedTextColor] colorWithAlphaComponent:0.25];
-    }
-    return _normalScrollIndicatorColor;
+    return [[Theme fadedTextColor] colorWithAlphaComponent:0.25];
 }
 
 - (UIColor *)highlightedBackgroundColor
 {
-    if (!_highlightedBackgroundColor) {
-        _highlightedBackgroundColor = [Theme grayTrimColor];
-    }
-    return _highlightedBackgroundColor;
+    return [Theme grayTrimColor];
 }
 
 - (UIColor *)highlightedScrollIndicatorColor
 {
-    if (!_highlightedScrollIndicatorColor) {
-        _highlightedScrollIndicatorColor = self.tintColor;
-    }
-    return _highlightedScrollIndicatorColor;
+    return self.tintColor;
 }
 
 - (NSUInteger)scrollIndicatorHeight
