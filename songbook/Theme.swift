@@ -14,17 +14,17 @@ import UIKit
 }
 
 @objc class Theme: NSObject {
-    @objc static let defaultPairs: [String: String] = ["Marion": "Marion-Bold",
-                                                 "Iowan Old Style": "IowanOldStyle-Black",
-//                                                 "Baskerville": "Baskerville-Bold",
-//                                                 "BodoniSvtyTwoITCTT-Book": "BodoniSvtyTwoITCTT-Bold",
-                                                 "BookmanOldStyle": "BookmanOldStyle-Bold",
-                                                 "Charter-Roman": "Charter-Black",
-//                                                 "Cochin": "Cochin-Bold",
-//                                                 "HiraMinProN-W3": "HiraMinProN-W6",
-                                                 "Palatino-Roman": "Palatino-Bold",
-//                                                 "TimesNewRomanPSMT": "TimesNewRomanPS-BoldMT"
-    ]
+//    @objc static let defaultPairs: [String: String] = ["Marion": "Marion-Bold",
+//                                                 "Iowan Old Style": "IowanOldStyle-Black",
+////                                                 "Baskerville": "Baskerville-Bold",
+////                                                 "BodoniSvtyTwoITCTT-Book": "BodoniSvtyTwoITCTT-Bold",
+//                                                 "BookmanOldStyle": "BookmanOldStyle-Bold",
+//                                                 "Charter-Roman": "Charter-Black",
+////                                                 "Cochin": "Cochin-Bold",
+////                                                 "HiraMinProN-W3": "HiraMinProN-W6",
+//                                                 "Palatino-Roman": "Palatino-Bold",
+////                                                 "TimesNewRomanPSMT": "TimesNewRomanPS-BoldMT"
+//    ]
     
     @objc static let normalFontNames = ["Marion",
                               "Iowan Old Style",
@@ -38,21 +38,21 @@ import UIKit
 //                              "TimesNewRomanPSMT"
     ]
     
-    @objc static let titleNumberFontNames = ["Marion-Bold",
-                                   "IowanOldStyle-Black",
-//                                   "Baskerville-Bold",
-//                                   "Baskerville-SemiBold",
-//                                   "BodoniSvtyTwoITCTT-Bold",
-                                   "BookmanOldStyle-Bold",
-                                   "Charter-Black",
-//                                   "Charter-Bold",
-//                                   "Cochin-Bold",
-//                                   "HiraMinProN-W6",
-//                                   "Optima-Bold",
-//                                   "Optima-ExtraBlack",
-                                   "Palatino-Bold",
-//                                   "TimesNewRomanPS-BoldMT"
-    ]
+//    @objc static let titleNumberFontNames = ["Marion-Bold",
+//                                   "IowanOldStyle-Black",
+////                                   "Baskerville-Bold",
+////                                   "Baskerville-SemiBold",
+////                                   "BodoniSvtyTwoITCTT-Bold",
+//                                   "BookmanOldStyle-Bold",
+//                                   "Charter-Black",
+////                                   "Charter-Bold",
+////                                   "Cochin-Bold",
+////                                   "HiraMinProN-W6",
+////                                   "Optima-Bold",
+////                                   "Optima-ExtraBlack",
+//                                   "Palatino-Bold",
+////                                   "TimesNewRomanPS-BoldMT"
+//    ]
     
     private static let themeColorKey = "ThemeColor"
     @objc static var currentThemeColor: ThemeColor {
