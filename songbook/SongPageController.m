@@ -118,7 +118,6 @@ static const float kTextScaleThreshold = 1;
     [super viewDidLayoutSubviews];
     
     [self.titleView setNeedsDisplay];
-    [self updateBarVisibility];
 
     CGFloat titleContentOriginY = self.titleView.contentOriginY;
     
@@ -314,9 +313,15 @@ static const float kTextScaleThreshold = 1;
     return matchingSongFiles;
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
-    [self updateBarVisibility];
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+        [self updateBarVisibility];
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+        [self updateBookmark];
+    }];
 }
 
 #pragma mark - UITextViewDelegate
@@ -324,6 +329,7 @@ static const float kTextScaleThreshold = 1;
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [self updateBarVisibility];
+    [self updateBookmark];
 }
 
 - (void)updateBarVisibility
@@ -429,6 +435,7 @@ static const float kTextScaleThreshold = 1;
         contentOffsetY = MIN(self.maximumContentOffset, MAX(self.minimumContentOffset, contentOffsetY));
 
         [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
+        [self updateBarVisibility];
         [self updateBookmark];
         
         [self updateTextViewTextContainerInset];
@@ -481,6 +488,8 @@ static const float kTextScaleThreshold = 1;
     CGFloat contentOffsetY = self.textView.contentOffset.y - glyphVerticalError;
     
     [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
+    [self updateBarVisibility];
+    [self updateBookmark];
 }
 
 - (void)scrollToGlyphAtIndex:(NSUInteger)glyphIndex
@@ -501,6 +510,7 @@ static const float kTextScaleThreshold = 1;
     contentOffsetY = MIN(self.maximumContentOffset, MAX(self.minimumContentOffset, contentOffsetY));
     
     [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
+    [self updateBarVisibility];
     [self updateBookmark];
 }
 
