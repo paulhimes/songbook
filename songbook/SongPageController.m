@@ -334,27 +334,15 @@ static const float kTextScaleThreshold = 1;
 
 - (void)updateBarVisibility
 {
-    BOOL shouldShowScrollIndicator = YES;
-    
     CGFloat offsetY = self.textView.contentOffset.y;
 
     if (offsetY <= self.minimumContentOffset) {
         self.topBar.hidden = YES;
         self.titleView.hidden = YES;
-        shouldShowScrollIndicator = NO;
     } else {
         self.topBar.hidden = NO;
         self.titleView.hidden = NO;
     }
-    
-    if (offsetY >= self.maximumContentOffset) {
-        shouldShowScrollIndicator = NO;
-        self.bottomBarBackground.hidden = YES;
-    } else {
-        self.bottomBarBackground.hidden = NO;
-    }
-
-    self.textView.showsVerticalScrollIndicator = shouldShowScrollIndicator;
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
