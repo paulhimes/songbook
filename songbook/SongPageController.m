@@ -507,7 +507,7 @@ static const float kTextScaleThreshold = 1;
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender
 {
     if (action == @selector(reportError:)) {
-        return [self.song.section.book.contactEmail length] && [MFMailComposeViewController canSendMail];
+        return self.textView.selectedRange.length && self.song.section.book.contactEmail.length && [MFMailComposeViewController canSendMail];
     } else {
         return [super canPerformAction:action withSender:sender];
     }
