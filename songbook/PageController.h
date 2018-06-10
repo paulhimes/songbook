@@ -27,8 +27,8 @@ extern const float kMinimumStandardTextSize;
 @property (weak, nonatomic) IBOutlet SafeTextView *textView;
 @property (nonatomic, readonly) NSAttributedString *text;
 @property (nonatomic) NSRange highlightRange;
-@property (nonatomic) NSUInteger bookmarkedGlyphIndex;
-@property (nonatomic) CGFloat bookmarkedGlyphYOffset;
+@property (nonatomic) NSNumber *bookmarkedGlyphIndex;
+@property (nonatomic) NSNumber *bookmarkedGlyphYOffset;
 @property (nonatomic, readonly) UIColor *pageControlColor;
 
 - (void)handleGesture:(UIPinchGestureRecognizer *)sender;

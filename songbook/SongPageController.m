@@ -126,11 +126,11 @@ static const float kTextScaleThreshold = 1;
     self.textView.scrollIndicatorInsets = UIEdgeInsetsMake(self.titleView.frame.size.height, self.textView.scrollIndicatorInsets.left, self.bottomBarBackground.frame.size.height - self.view.layoutMargins.bottom, 0);
 
     // Auto scroll to the highlight if there is no bookmark.
-    if (self.bookmarkedGlyphIndex == 0 && self.bookmarkedGlyphYOffset == 0) {
+    if (self.bookmarkedGlyphIndex == nil && self.bookmarkedGlyphYOffset == nil) {
         NSUInteger glyphIndex = [self.textView.layoutManager glyphIndexForCharacterAtIndex:self.highlightRange.location];
         [self scrollToGlyphAtIndex:glyphIndex];
     } else {
-        [self scrollGlyphAtIndex:self.bookmarkedGlyphIndex toYCoordinate:self.bookmarkedGlyphYOffset];
+        [self scrollGlyphAtIndex:[self.bookmarkedGlyphIndex unsignedIntegerValue] toYCoordinate:[self.bookmarkedGlyphYOffset floatValue]];
     }
 }
 
@@ -319,9 +319,7 @@ static const float kTextScaleThreshold = 1;
 
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
         [self updateBarVisibility];
-    } completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
-        [self updateBookmark];
-    }];
+    } completion:nil];
 }
 
 #pragma mark - UITextViewDelegate
@@ -329,7 +327,6 @@ static const float kTextScaleThreshold = 1;
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [self updateBarVisibility];
-    [self updateBookmark];
 }
 
 - (void)updateBarVisibility
@@ -384,13 +381,13 @@ static const float kTextScaleThreshold = 1;
     NSUInteger glyphIndex = [self.textView glyphIndexClosestToPoint:topLeftVisibleCornerOfTextView];
 
     // Convert to character index.
-    self.bookmarkedGlyphIndex = glyphIndex;
+    self.bookmarkedGlyphIndex = @(glyphIndex);
     
     // Get the glyph's location relative to the frame origin of the text view.
     CGPoint glyphLocationInTextView = [self.textView locationForGlyphAtIndex:glyphIndex];
 
     // Save the y offset of the glyph relative to the frame origin of the text view.
-    self.bookmarkedGlyphYOffset = glyphLocationInTextView.y;
+    self.bookmarkedGlyphYOffset = @(glyphLocationInTextView.y);
 }
 
 #pragma mark - UIGestureRecognizer target
@@ -477,7 +474,6 @@ static const float kTextScaleThreshold = 1;
     
     [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
     [self updateBarVisibility];
-    [self updateBookmark];
 }
 
 - (void)scrollToGlyphAtIndex:(NSUInteger)glyphIndex
@@ -499,7 +495,6 @@ static const float kTextScaleThreshold = 1;
     
     [self.textView forceContentOffset:CGPointMake(self.textView.contentOffset.x, contentOffsetY)];
     [self updateBarVisibility];
-    [self updateBookmark];
 }
 
 #pragma mark - Menu actions.

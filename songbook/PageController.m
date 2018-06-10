@@ -90,8 +90,12 @@ const float kMinimumStandardTextSize = 8;
     
     [coder encodeObject:[NSValue valueWithRange:self.highlightRange] forKey:kHighlightRangeKey];
     
-    [coder encodeObject:@(self.bookmarkedGlyphIndex) forKey:kBookmarkedGlyphIndexKey];
-    [coder encodeDouble:self.bookmarkedGlyphYOffset forKey:kBookmarkedGlyphYOffsetKey];
+    if (self.bookmarkedGlyphIndex) {
+        [coder encodeObject:self.bookmarkedGlyphIndex forKey:kBookmarkedGlyphIndexKey];
+    }
+    if (self.bookmarkedGlyphYOffset) {
+        [coder encodeObject:self.bookmarkedGlyphYOffset forKey:kBookmarkedGlyphYOffsetKey];
+    }
 }
 
 + (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
@@ -103,8 +107,8 @@ const float kMinimumStandardTextSize = 8;
     NSManagedObjectID *modelID = [coreDataStack.managedObjectContext.persistentStoreCoordinator managedObjectIDForURIRepresentation:modelIDURL];
     id<PageControllerDelegate> delegate = [coder decodeObjectForKey:kDelegateKey];
     NSRange highlightRange = [[coder decodeObjectForKey:kHighlightRangeKey] rangeValue];
-    NSUInteger bookmarkedGlyphIndex = [[coder decodeObjectForKey:kBookmarkedGlyphIndexKey] unsignedIntegerValue];
-    CGFloat bookmarkedGlyphYOffset = [coder decodeDoubleForKey:kBookmarkedGlyphYOffsetKey];
+    NSNumber *bookmarkedGlyphIndex = [coder decodeObjectForKey:kBookmarkedGlyphIndexKey];
+    NSNumber *bookmarkedGlyphYOffset = [coder decodeObjectForKey:kBookmarkedGlyphYOffsetKey];
     
     if (storyboard && coreDataStack && modelID && delegate) {
         controller = (PageController *)[storyboard instantiateViewControllerWithIdentifier:[identifierComponents lastObject]];
