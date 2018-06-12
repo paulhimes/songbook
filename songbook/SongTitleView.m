@@ -126,7 +126,7 @@ static const CGFloat kSongComponentPadding = 8;
             break;
         }
 
-        [attributedString addAttributes:@{NSParagraphStyleAttributeName: [self paragraphStyleFirstLineIndent:0 andNormalIndent:self.titleOriginX]}
+        [attributedString addAttributes:@{NSParagraphStyleAttributeName: [self paragraphStyleFirstLineIndent:0 andNormalIndent:self.titleOriginX lineSpacing:0]}
                                   range:NSMakeRange(0, attributedString.length)];
 
         boundingRect = [attributedString boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, self.numberFont.lineHeight)
@@ -146,10 +146,12 @@ static const CGFloat kSongComponentPadding = 8;
 
 - (NSParagraphStyle *)paragraphStyleFirstLineIndent:(CGFloat)firstLineIndent
                                     andNormalIndent:(CGFloat)normalIndent
+                                        lineSpacing:(CGFloat)lineSpacing
 {
     NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     paragraphStyle.firstLineHeadIndent = firstLineIndent;
     paragraphStyle.headIndent = normalIndent;
+    paragraphStyle.lineSpacing = lineSpacing;
     return paragraphStyle;
 }
 

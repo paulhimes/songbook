@@ -37,34 +37,11 @@ static const float kTextScaleThreshold = 1;
 @property (nonatomic, readonly) CGFloat maximumContentOffset;
 
 // Caching for speed optimization.
-@property (nonatomic, strong) NSParagraphStyle *numberAndTitleParagraphStyle;
-@property (nonatomic, strong) NSParagraphStyle *subtitleParagraphStyle;
 @property (nonatomic, strong) NSDictionary *songComponentRanges;
 
 @end
 
 @implementation SongPageController
-
-- (NSParagraphStyle *)numberAndTitleParagraphStyle
-{
-    if (!_numberAndTitleParagraphStyle) {
-        _numberAndTitleParagraphStyle = [self paragraphStyleFirstLineIndent:0
-                                                            andNormalIndent:self.titleView.titleOriginX];
-        NSMutableParagraphStyle *mutableParagraphStyle = [_numberAndTitleParagraphStyle mutableCopy];
-        mutableParagraphStyle.lineSpacing = -8;
-        _numberAndTitleParagraphStyle = [mutableParagraphStyle copy];
-    }
-    return _numberAndTitleParagraphStyle;
-}
-
-- (NSParagraphStyle *)subtitleParagraphStyle
-{
-    if (!_subtitleParagraphStyle) {
-        _subtitleParagraphStyle = [self paragraphStyleFirstLineIndent:self.titleView.titleOriginX
-                                                      andNormalIndent:self.titleView.titleOriginX];
-    }
-    return _subtitleParagraphStyle;
-}
 
 - (NSDictionary *)songComponentRanges
 {
@@ -191,42 +168,59 @@ static const float kTextScaleThreshold = 1;
 {
     NSNumber *standardTextSizeNumber = [[NSUserDefaults standardUserDefaults] objectForKey:kStandardTextSizeKey];
     CGFloat standardTextSize = [standardTextSizeNumber floatValue];
-
-    NSMutableDictionary *normalAttributes = [@{} mutableCopy];
-    normalAttributes[NSFontAttributeName] = [UIFont fontWithDynamicName:[Theme normalFontName] size:standardTextSize];
-    normalAttributes[NSForegroundColorAttributeName] = [Theme textColor];
     
+    CGFloat lineSpacingMultiple = [[Theme normalFontName] containsString:@"APHont"] ? 0.75 : 0;
+    
+    NSMutableDictionary *normalAttributes = [@{} mutableCopy];
+    UIFont *normalFont = [UIFont fontWithDynamicName:[Theme normalFontName] size:standardTextSize];
+    normalAttributes[NSFontAttributeName] = normalFont;
+    normalAttributes[NSForegroundColorAttributeName] = [Theme textColor];
+    normalAttributes[NSParagraphStyleAttributeName] = [self paragraphStyleFirstLineIndent:0
+                                                                          andNormalIndent:0
+                                                                              lineSpacing:normalFont.lineHeight * lineSpacingMultiple];
+    
+    UIFont *titleFont = [UIFont fontWithDynamicName:[Theme normalFontName] size:kTitleFontSize];
     NSMutableDictionary *numberAttributes = [normalAttributes mutableCopy];
     numberAttributes[NSFontAttributeName] = [UIFont fontWithDynamicName:[Theme titleNumberFontName] size:kTitleNumberFontSize numberSpacing:NumberSpacingProportional];
-    numberAttributes[NSParagraphStyleAttributeName] = self.numberAndTitleParagraphStyle;
+    numberAttributes[NSParagraphStyleAttributeName] = [self paragraphStyleFirstLineIndent:0
+                                                                          andNormalIndent:self.titleView.titleOriginX
+                                                                              lineSpacing:titleFont.lineHeight * lineSpacingMultiple];
 
     NSMutableDictionary *titleAttributes = [normalAttributes mutableCopy];
-    titleAttributes[NSFontAttributeName] = [UIFont fontWithDynamicName:[Theme normalFontName] size:kTitleFontSize];
-    titleAttributes[NSParagraphStyleAttributeName] = self.numberAndTitleParagraphStyle;
+    titleAttributes[NSFontAttributeName] = titleFont;
+    titleAttributes[NSParagraphStyleAttributeName] = [self paragraphStyleFirstLineIndent:0
+                                                                         andNormalIndent:self.titleView.titleOriginX
+                                                                             lineSpacing:titleFont.lineHeight * lineSpacingMultiple];
 
-    NSMutableDictionary *ghostAttributes = [normalAttributes mutableCopy];
-    ghostAttributes[NSForegroundColorAttributeName] = [Theme fadedTextColor];
+    NSDictionary *ghostAttributes = @{NSForegroundColorAttributeName: [Theme fadedTextColor]};
     
     NSMutableDictionary *subtitleAttributes = [normalAttributes mutableCopy];
-    subtitleAttributes[NSParagraphStyleAttributeName] = self.subtitleParagraphStyle;
-    subtitleAttributes[NSFontAttributeName] = [UIFont fontWithDynamicName:[Theme normalFontName] size:kSubtitleFontSize];
+    UIFont *subtitleFont = [UIFont fontWithDynamicName:[Theme normalFontName] size:kSubtitleFontSize];
+    subtitleAttributes[NSFontAttributeName] = subtitleFont;
+    subtitleAttributes[NSParagraphStyleAttributeName] = [self paragraphStyleFirstLineIndent:self.titleView.titleOriginX
+                                                                            andNormalIndent:self.titleView.titleOriginX
+                                                                                lineSpacing:subtitleFont.lineHeight * lineSpacingMultiple];
     
     NSMutableDictionary *verseTitleAttributes = [normalAttributes mutableCopy];
-    NSMutableParagraphStyle *verseTitleParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    NSMutableParagraphStyle *verseTitleParagraphStyle = [self paragraphStyleFirstLineIndent:0
+                                                                            andNormalIndent:0
+                                                                                lineSpacing:normalFont.lineHeight * lineSpacingMultiple];
     verseTitleParagraphStyle.alignment = NSTextAlignmentCenter;
     verseTitleAttributes[NSParagraphStyleAttributeName] = verseTitleParagraphStyle;
     
     NSMutableDictionary *chorusAttributes = [normalAttributes mutableCopy];
-    chorusAttributes[NSParagraphStyleAttributeName] = [self paragraphStyleFirstLineIndent:standardTextSize andNormalIndent:0];
-    
-    NSMutableDictionary *ghostChorusAttributes = [chorusAttributes mutableCopy];
-    [ghostChorusAttributes addEntriesFromDictionary:ghostAttributes];
+    chorusAttributes[NSParagraphStyleAttributeName] = [self paragraphStyleFirstLineIndent:standardTextSize
+                                                                          andNormalIndent:0
+                                                                              lineSpacing:normalFont.lineHeight * lineSpacingMultiple];
     
     NSMutableDictionary *footerAttributes = [normalAttributes mutableCopy];
-    NSMutableParagraphStyle *footerParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    UIFont *footerFont = [UIFont fontWithDynamicName:[Theme normalFontName] size:standardTextSize * 0.8];
+    NSMutableParagraphStyle *footerParagraphStyle = [self paragraphStyleFirstLineIndent:0
+                                                                        andNormalIndent:0
+                                                                            lineSpacing:footerFont.lineHeight * lineSpacingMultiple];
     footerParagraphStyle.alignment = NSTextAlignmentRight;
     footerAttributes[NSParagraphStyleAttributeName] = footerParagraphStyle;
-    footerAttributes[NSFontAttributeName] = [UIFont fontWithDynamicName:[Theme normalFontName] size:standardTextSize * 0.8];
+    footerAttributes[NSFontAttributeName] = footerFont;
     
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[self.song string]];
     
@@ -256,12 +250,14 @@ static const float kTextScaleThreshold = 1;
     }
 }
 
-- (NSParagraphStyle *)paragraphStyleFirstLineIndent:(CGFloat)firstLineIndent
-                                    andNormalIndent:(CGFloat)normalIndent
+- (NSMutableParagraphStyle *)paragraphStyleFirstLineIndent:(CGFloat)firstLineIndent
+                                           andNormalIndent:(CGFloat)normalIndent
+                                               lineSpacing:(CGFloat)lineSpacing
 {
     NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     paragraphStyle.firstLineHeadIndent = firstLineIndent;
     paragraphStyle.headIndent = normalIndent;
+    paragraphStyle.lineSpacing = lineSpacing;
     return paragraphStyle;
 }
 

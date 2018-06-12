@@ -128,9 +128,9 @@ const float kMinimumStandardTextSize = 8;
 - (void)userDefaultsChanged:(NSNotification *)notification
 {
     if ([[notification name] isEqualToString:NSUserDefaultsDidChangeNotification]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+        [Theme loadFontNamed:Theme.normalFontName completion:^{
             [self textContentChanged];
-        });
+        }];
     }
 }
 

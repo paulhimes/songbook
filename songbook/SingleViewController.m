@@ -215,54 +215,10 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
             break;
     }
     
-    // Add options to set the normal font and the title number font.
-    [alertController addAction:[UIAlertAction actionWithTitle:@"Font" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-        
-        for (NSString *normalFontName in Theme.normalFontNames) {
-            NSString *displayName = normalFontName;
-            if ([displayName isEqualToString:@"Marion"]) {
-                displayName = @"Marion (Can't Use Anymore)";
-            }
-            
-            NSString *title = [NSString stringWithFormat:@"%@%@", displayName, [Theme.normalFontName isEqualToString:normalFontName]  ? @" ✓" : @""];
-            
-            
-            [alertController addAction:[UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                
-                [Theme loadFontNamed:normalFontName completion:^{
-                    Theme.normalFontName = normalFontName;
-                }];
-                
-//                NSString *titleNumberFontName = Theme.defaultPairs[normalFontName];
-//                [Theme loadFontNamed:titleNumberFontName completion:^{
-//                    Theme.titleNumberFontName = titleNumberFontName;
-//                }];
-                
-            }]];
-        }
-        
-        [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}]];
-        [welf presentViewController:alertController animated:YES completion:nil];
+    [alertController addAction:[UIAlertAction actionWithTitle:Theme.isLowVisionFontModeActive ? @"Standard Font" : @"Low Vision Font" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [Theme setIsLowVisionFontModeActive:!Theme.isLowVisionFontModeActive];
     }]];
-//
-//    [alertController addAction:[UIAlertAction actionWithTitle:@"Title Number Font" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-//        
-//        for (NSString *titleNumberFontName in Theme.titleNumberFontNames) {
-//            NSString *title = [NSString stringWithFormat:@"%@%@", titleNumberFontName, [Theme.titleNumberFontName isEqualToString:titleNumberFontName] ? @" ✓" : @""];
-//
-//            [alertController addAction:[UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//                [Theme loadFontNamed:titleNumberFontName completion:^{
-//                    Theme.titleNumberFontName = titleNumberFontName;
-//                }];
-//            }]];
-//        }
-//        
-//        [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}]];
-//        [welf presentViewController:alertController animated:YES completion:nil];
-//    }]];
-    
+
     [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}]];
     
     alertController.popoverPresentationController.barButtonItem = self.activityButton;

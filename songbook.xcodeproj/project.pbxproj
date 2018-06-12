@@ -25,6 +25,8 @@
 		8B7B42222018508800939C77 /* SearchExactMatchCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B42212018508800939C77 /* SearchExactMatchCellModel.swift */; };
 		8B7B42242018542500939C77 /* ExactMatchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B42232018542500939C77 /* ExactMatchCell.swift */; };
 		8B810A5517D9519A00F339CE /* Token+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B810A5417D9519A00F339CE /* Token+Helpers.m */; };
+		8B836BD220CE0B3F00714E6E /* APHont-Bold_q15c.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B836BCF20CE0B3800714E6E /* APHont-Bold_q15c.ttf */; };
+		8B836BD520CE0B3F00714E6E /* APHont-Regular_q15c.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B836BD020CE0B3800714E6E /* APHont-Regular_q15c.ttf */; };
 		8B94531F17A5F15D00327479 /* Song+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94531E17A5F15D00327479 /* Song+Helpers.m */; };
 		8B94532217A5F3E500327479 /* Verse+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94532117A5F3E500327479 /* Verse+Helpers.m */; };
 		8B94532517A5F44000327479 /* Section+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94532417A5F43800327479 /* Section+Helpers.m */; };
@@ -75,6 +77,7 @@
 		8BB18ADF17A5DB77006E257C /* Verse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB18ADE17A5DB77006E257C /* Verse.m */; };
 		8BB4CBE918959EA0009F0FA1 /* default.songbook in Resources */ = {isa = PBXBuildFile; fileRef = 8BB4CBE818959EA0009F0FA1 /* default.songbook */; };
 		8BB54D5C17A4C60700FD2914 /* PageServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB54D5B17A4C60700FD2914 /* PageServer.m */; };
+		8BBF1D1220CF4EFA004AD08D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8BBF1D1120CF4EFA004AD08D /* Settings.bundle */; };
 		8BBFC36C20103F8E00A8DEF0 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBFC36B20103F8E00A8DEF0 /* AudioPlayer.swift */; };
 		8BC10FF520804AF0000E274B /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC10FF420804AF0000E274B /* Theme.swift */; };
 		8BC674CA17BC912C001E71B1 /* NSMutableAttributedString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */; };
@@ -140,6 +143,8 @@
 		8B7B42232018542500939C77 /* ExactMatchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExactMatchCell.swift; sourceTree = "<group>"; };
 		8B810A5317D9519A00F339CE /* Token+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Token+Helpers.h"; sourceTree = "<group>"; };
 		8B810A5417D9519A00F339CE /* Token+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Token+Helpers.m"; sourceTree = "<group>"; };
+		8B836BCF20CE0B3800714E6E /* APHont-Bold_q15c.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "APHont-Bold_q15c.ttf"; sourceTree = "<group>"; };
+		8B836BD020CE0B3800714E6E /* APHont-Regular_q15c.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "APHont-Regular_q15c.ttf"; sourceTree = "<group>"; };
 		8B94531D17A5F15D00327479 /* Song+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Song+Helpers.h"; sourceTree = "<group>"; };
 		8B94531E17A5F15D00327479 /* Song+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Song+Helpers.m"; sourceTree = "<group>"; };
 		8B94532017A5F3E500327479 /* Verse+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Verse+Helpers.h"; sourceTree = "<group>"; };
@@ -210,6 +215,7 @@
 		8BB54D5B17A4C60700FD2914 /* PageServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PageServer.m; path = ../PageServer.m; sourceTree = "<group>"; };
 		8BB54D5D17A4C79300FD2914 /* SongPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongPageController.h; sourceTree = "<group>"; };
 		8BB54D5E17A4C79300FD2914 /* SongPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongPageController.m; sourceTree = "<group>"; };
+		8BBF1D1120CF4EFA004AD08D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		8BBFC36A20103F8E00A8DEF0 /* songbook-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "songbook-Bridging-Header.h"; sourceTree = "<group>"; };
 		8BBFC36B20103F8E00A8DEF0 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		8BC10FF420804AF0000E274B /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -353,6 +359,15 @@
 			name = Pages;
 			sourceTree = "<group>";
 		};
+		8B836BCD20CE0B2100714E6E /* Custom Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				8B836BCF20CE0B3800714E6E /* APHont-Bold_q15c.ttf */,
+				8B836BD020CE0B3800714E6E /* APHont-Regular_q15c.ttf */,
+			);
+			name = "Custom Fonts";
+			sourceTree = "<group>";
+		};
 		8BA0DB5317D7607E00CF7CBB /* SmartSearcher */ = {
 			isa = PBXGroup;
 			children = (
@@ -421,6 +436,7 @@
 		8BA305EE17A0BCF200A2ABDE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				8B836BCD20CE0B2100714E6E /* Custom Fonts */,
 				8B0F610119CE2E4600B04BC4 /* LaunchScreen.xib */,
 				8BAF35EA181F285400D6A93E /* ZipArchive */,
 				8BB4CBE818959EA0009F0FA1 /* default.songbook */,
@@ -449,6 +465,7 @@
 				8BED9F0F17C9418400D834BE /* GradientView.m */,
 				8BD5141A18A856E7002DC6B1 /* UIColor+Helpers.h */,
 				8BD5141B18A856E7002DC6B1 /* UIColor+Helpers.m */,
+				8BBF1D1120CF4EFA004AD08D /* Settings.bundle */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -654,11 +671,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				8BA305F217A0BCF200A2ABDE /* InfoPlist.strings in Resources */,
+				8B836BD220CE0B3F00714E6E /* APHont-Bold_q15c.ttf in Resources */,
 				8BA3061B17A0BDAD00A2ABDE /* Songbook.storyboard in Resources */,
 				8B0F610219CE2E4600B04BC4 /* LaunchScreen.xib in Resources */,
 				8BAF35FC181F285400D6A93E /* README.md in Resources */,
+				8B836BD520CE0B3F00714E6E /* APHont-Regular_q15c.ttf in Resources */,
 				8BB4CBE918959EA0009F0FA1 /* default.songbook in Resources */,
 				8BA305FD17A0BCF200A2ABDE /* Images.xcassets in Resources */,
+				8BBF1D1220CF4EFA004AD08D /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

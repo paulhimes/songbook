@@ -14,45 +14,6 @@ import UIKit
 }
 
 @objc class Theme: NSObject {
-//    @objc static let defaultPairs: [String: String] = ["Marion": "Marion-Bold",
-//                                                 "Iowan Old Style": "IowanOldStyle-Black",
-////                                                 "Baskerville": "Baskerville-Bold",
-////                                                 "BodoniSvtyTwoITCTT-Book": "BodoniSvtyTwoITCTT-Bold",
-//                                                 "BookmanOldStyle": "BookmanOldStyle-Bold",
-//                                                 "Charter-Roman": "Charter-Black",
-////                                                 "Cochin": "Cochin-Bold",
-////                                                 "HiraMinProN-W3": "HiraMinProN-W6",
-//                                                 "Palatino-Roman": "Palatino-Bold",
-////                                                 "TimesNewRomanPSMT": "TimesNewRomanPS-BoldMT"
-//    ]
-    
-    @objc static let normalFontNames = ["Marion",
-                              "Iowan Old Style",
-//                              "Baskerville",
-//                              "BodoniSvtyTwoITCTT-Book",
-                              "BookmanOldStyle",
-                              "Charter-Roman",
-//                              "Cochin",
-//                              "HiraMinProN-W3",
-                              "Palatino-Roman",
-//                              "TimesNewRomanPSMT"
-    ]
-    
-//    @objc static let titleNumberFontNames = ["Marion-Bold",
-//                                   "IowanOldStyle-Black",
-////                                   "Baskerville-Bold",
-////                                   "Baskerville-SemiBold",
-////                                   "BodoniSvtyTwoITCTT-Bold",
-//                                   "BookmanOldStyle-Bold",
-//                                   "Charter-Black",
-////                                   "Charter-Bold",
-////                                   "Cochin-Bold",
-////                                   "HiraMinProN-W6",
-////                                   "Optima-Bold",
-////                                   "Optima-ExtraBlack",
-//                                   "Palatino-Bold",
-////                                   "TimesNewRomanPS-BoldMT"
-//    ]
     
     private static let themeColorKey = "ThemeColor"
     @objc static var currentThemeColor: ThemeColor {
@@ -108,20 +69,44 @@ import UIKit
         }
     }
     
-    private static let normalFontNameKey = "NormalFontName"
-    @objc static var normalFontName: String {
+    private static let lowVisionFontModeKey = "LowVisionFontMode" // true = low vision mode, false = standard mode
+    @objc static var isLowVisionFontModeActive: Bool {
         get {
-            return UserDefaults.standard.string(forKey: normalFontNameKey) ?? "Charter-Roman"
+            return UserDefaults.standard.bool(forKey: lowVisionFontModeKey)
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: normalFontNameKey)
+            UserDefaults.standard.set(newValue, forKey: lowVisionFontModeKey)
+        }
+    }
+    
+    @objc static var normalFontName: String {
+        get {
+            if isLowVisionFontModeActive {
+                return "APHont"
+            } else {
+                return standardFontName
+            }
+        }
+    }
+    
+    private static let standardFontNameKey = "StandardFontName"
+    @objc static var standardFontName: String {
+        get {
+            return UserDefaults.standard.string(forKey: standardFontNameKey) ?? "Charter-Roman"
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: standardFontNameKey)
         }
     }
     
     private static let titleNumberFontNameKey = "TitleNumberFontName"
     @objc static var titleNumberFontName: String {
         get {
-            return UserDefaults.standard.string(forKey: titleNumberFontNameKey) ?? "Charter-Black"
+            if isLowVisionFontModeActive {
+                return "APHont-Bold"
+            } else {
+                return UserDefaults.standard.string(forKey: titleNumberFontNameKey) ?? "Charter-Black"
+            }
         }
         set {
             UserDefaults.standard.set(newValue, forKey: titleNumberFontNameKey)

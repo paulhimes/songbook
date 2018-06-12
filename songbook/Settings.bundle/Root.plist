@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>StringsTable</key>
+	<string>Root</string>
+	<key>PreferenceSpecifiers</key>
+	<array>
+		<dict>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Title</key>
+			<string>Standard Font</string>
+			<key>Key</key>
+			<string>StandardFontName</string>
+			<key>DefaultValue</key>
+			<string>Charter-Roman</string>
+			<key>Values</key>
+			<array>
+				<string>Charter-Roman</string>
+				<string>BookmanOldStyle</string>
+				<string>Palatino-Roman</string>
+			</array>
+			<key>Titles</key>
+			<array>
+				<string>Charter</string>
+				<string>Bookman</string>
+				<string>Palatino</string>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>

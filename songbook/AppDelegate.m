@@ -27,10 +27,10 @@
     
     // Set the fallback local fonts. Then try to load the (possibly remote / downloadable) desired fonts.
     // Normal Font
-    NSString *desiredNormalFontName = Theme.normalFontName;
-    Theme.normalFontName = @"Charter-Roman";
-    [Theme loadFontNamed:desiredNormalFontName completion:^{
-        Theme.normalFontName = desiredNormalFontName;
+    NSString *desiredStandardFontName = Theme.standardFontName;
+    Theme.standardFontName = @"Charter-Roman";
+    [Theme loadFontNamed:desiredStandardFontName completion:^{
+        Theme.standardFontName = desiredStandardFontName;
     }];
     // Title Number Font
     NSString *desiredTitleNumberFontName = @"IowanOldStyle-Black";
