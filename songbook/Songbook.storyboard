@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="IJS-i7-pDq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="IJS-i7-pDq">
     <device id="ipad10_5" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
@@ -103,7 +103,7 @@
         <!--Song Page Controller-->
         <scene sceneID="7wM-0O-W7s">
             <objects>
-                <viewController storyboardIdentifier="SongPage" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BLr-Sz-4hc" customClass="SongPageController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SongPageController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BLr-Sz-4hc" customClass="SongPageController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8NI-aE-eQr">
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -227,10 +227,10 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="Zg8-7s-vP5">
-                                                    <rect key="frame" x="8" y="12" width="496" height="19.5"/>
+                                                    <rect key="frame" x="15" y="15" width="482" height="14"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="afa-hb-OIy">
-                                                            <rect key="frame" x="0.0" y="0.0" width="496" height="12"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="482" height="12"/>
                                                             <subviews>
                                                                 <view contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vhM-PL-LJw">
                                                                     <rect key="frame" x="0.0" y="0.0" width="47" height="12"/>
@@ -240,17 +240,17 @@
                                                                     </constraints>
                                                                 </view>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1RW-bw-5Jf">
-                                                                    <rect key="frame" x="57" y="0.0" width="439" height="12"/>
+                                                                    <rect key="frame" x="57" y="0.0" width="425" height="12"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="firstBaseline" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="gSR-xZ-lzJ">
-                                                            <rect key="frame" x="0.0" y="14" width="496" height="5.5"/>
+                                                            <rect key="frame" x="0.0" y="14" width="482" height="0.0"/>
                                                             <subviews>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="888" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zMZ-tl-By7">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="47" height="5.5"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="47" height="0.0"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="47" id="IXe-gC-etP"/>
                                                                     </constraints>
@@ -259,7 +259,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sJL-Pf-ciT">
-                                                                    <rect key="frame" x="57" y="0.0" width="439" height="5.5"/>
+                                                                    <rect key="frame" x="57" y="0.0" width="425" height="0.0"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
@@ -289,10 +289,10 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="firstBaseline" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="hF6-yi-qfF">
-                                                    <rect key="frame" x="8" y="12" width="496" height="19.5"/>
+                                                    <rect key="frame" x="15" y="15" width="482" height="14"/>
                                                     <subviews>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="888" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xST-sq-xJN">
-                                                            <rect key="frame" x="0.0" y="0.0" width="47" height="19.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="47" height="14"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="47" id="pJI-eF-gNi"/>
                                                             </constraints>
@@ -301,7 +301,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A1W-k5-zBM">
-                                                            <rect key="frame" x="57" y="0.0" width="439" height="19.5"/>
+                                                            <rect key="frame" x="57" y="0.0" width="425" height="14"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -328,17 +328,17 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="zwF-SS-K5A">
-                                                    <rect key="frame" x="8" y="8" width="496" height="18.5"/>
+                                                    <rect key="frame" x="15" y="11" width="482" height="13"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UbZ-Me-EXw">
-                                                            <rect key="frame" x="0.0" y="0.0" width="47" height="18.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="47" height="13"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="47" id="JMQ-8e-FfP"/>
                                                             </constraints>
                                                         </view>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B8P-FD-ByF">
-                                                            <rect key="frame" x="57" y="0.0" width="439" height="18.5"/>
+                                                            <rect key="frame" x="57" y="0.0" width="425" height="13"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
@@ -448,7 +448,7 @@
         <!--Book Manager View Controller-->
         <scene sceneID="sOI-yA-X9q">
             <objects>
-                <viewController storyboardIdentifier="BookManager" useStoryboardIdentifierAsRestorationIdentifier="YES" id="IJS-i7-pDq" customClass="BookManagerViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BookManagerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="IJS-i7-pDq" customClass="BookManagerViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FCZ-0B-DnX">
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -573,7 +573,7 @@
         <!--Book Page Controller-->
         <scene sceneID="WJe-PV-CjR">
             <objects>
-                <viewController storyboardIdentifier="BookPage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="e5b-Wd-exR" customClass="BookPageController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BookPageController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="e5b-Wd-exR" customClass="BookPageController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CM7-69-SWi">
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -613,7 +613,7 @@
         <!--Section Page Controller-->
         <scene sceneID="2E3-5H-GhD">
             <objects>
-                <viewController storyboardIdentifier="SectionPage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="JX1-xR-aBA" customClass="SectionPageController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SectionPageController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="JX1-xR-aBA" customClass="SectionPageController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Mha-i6-HMs">
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -654,7 +654,7 @@
         <!--Book View Controller-->
         <scene sceneID="w0R-8G-IJ7">
             <objects>
-                <viewController id="eP7-bf-s2X" customClass="BookViewController" customModule="songbook" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BookViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="eP7-bf-s2X" customClass="BookViewController" customModule="songbook" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bdg-8X-flO">
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

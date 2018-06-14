@@ -132,6 +132,23 @@ class SimpleSplitViewController: UIViewController {
         super.traitCollectionDidChange(previousTraitCollection)
         setOpen(isOpen, animated: false)
     }
+    
+    // MARK: - State Restoration
+    private let primaryViewControllerKey = "PrimaryViewControllerKey"
+    private let secondaryViewControllerKey = "SecondaryViewControllerKey"
+    private let isOpenKey = "IsOpenKey"
+
+    override func encodeRestorableState(with coder: NSCoder) {
+        if let primaryViewController = primaryViewController { coder.encode(primaryViewController, forKey: primaryViewControllerKey) }
+        if let secondaryViewController = secondaryViewController { coder.encode(secondaryViewController, forKey: secondaryViewControllerKey) }
+        coder.encode(isOpen, forKey: isOpenKey)
+        super.encodeRestorableState(with: coder)
+    }
+    
+    override func decodeRestorableState(with coder: NSCoder) {
+        super.decodeRestorableState(with: coder)
+        setOpen(coder.decodeBool(forKey: isOpenKey), animated: false)
+    }
 }
 
 extension UIViewController {

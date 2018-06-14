@@ -11,6 +11,8 @@
 #import "BookManagerViewController.h"
 #import "songbook-Swift.h"
 
+static NSString * const kCFBundleShortVersionKey = @"CFBundleShortVersionString";
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -44,7 +46,7 @@
 
 - (BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder
 {
-    return NO;//YES;
+    return YES;
 }
 
 - (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder
@@ -54,17 +56,23 @@
     UIUserInterfaceIdiom idiom = [[UIDevice currentDevice] userInterfaceIdiom];
     BOOL equalIdioms = [savedIdiom integerValue] == idiom;
 
-    // Only restore state if the app version hasn't changed.
-    NSString *savedAppVersion = [coder decodeObjectForKey:UIApplicationStateRestorationBundleVersionKey];
-    NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString *)kCFBundleVersionKey];
-    BOOL equalAppVersions = YES;//[savedAppVersion isEqualToString:appVersion];
+    // Only restore state if the app short version hasn't changed.
+    NSString *savedAppShortVersion = [coder decodeObjectForKey:kCFBundleShortVersionKey];
+    NSString *appShortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:kCFBundleShortVersionKey];
+    BOOL equalAppShortVersions = [savedAppShortVersion isEqualToString:appShortVersion];
 
     // Only restore state if the system version hasn't changed.
     NSString *savedSystemVersion = [coder decodeObjectForKey:UIApplicationStateRestorationSystemVersionKey];
     NSString *systemVersion = [UIDevice currentDevice].systemVersion;
     BOOL equalSystemVersions = [savedSystemVersion isEqualToString:systemVersion];
 
-    return NO;//equalIdioms && equalAppVersions && equalSystemVersions;
+    return equalIdioms && equalAppShortVersions && equalSystemVersions;
+}
+
+- (void)application:(UIApplication *)application willEncodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    NSString *appShortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:kCFBundleShortVersionKey];
+    [coder encodeObject:appShortVersion forKey:kCFBundleShortVersionKey];
 }
 
 - (void)application:(UIApplication *)application didDecodeRestorableStateWithCoder:(NSCoder *)coder
