@@ -52,11 +52,11 @@
 {
     PageController *pageController;
     if ([modelObject isKindOfClass:[Book class]]) {
-        pageController = [pageViewController.storyboard instantiateViewControllerWithIdentifier:@"BookPage"];
+        pageController = [pageViewController.storyboard instantiateViewControllerWithIdentifier:@"BookPageController"];
     } else if ([modelObject isKindOfClass:[Section class]]) {
-        pageController = [pageViewController.storyboard instantiateViewControllerWithIdentifier:@"SectionPage"];
+        pageController = [pageViewController.storyboard instantiateViewControllerWithIdentifier:@"SectionPageController"];
     } else if ([modelObject isKindOfClass:[Song class]]) {
-        pageController = [pageViewController.storyboard instantiateViewControllerWithIdentifier:@"SongPage"];
+        pageController = [pageViewController.storyboard instantiateViewControllerWithIdentifier:@"SongPageController"];
     }
     
     pageController.delegate = pageViewController;
