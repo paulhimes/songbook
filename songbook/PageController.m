@@ -11,10 +11,6 @@
 
 NSString * const kStandardTextSizeKey = @"StandardTextSize";
 
-static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
-static NSString * const kModelIDURLKey = @"ModelIDURLKey";
-static NSString * const kDelegateKey = @"DelegateKey";
-static NSString * const kHighlightRangeKey = @"HighlightRangeKey";
 static NSString * const kBookmarkedGlyphIndexKey = @"BookmarkedGlyphIndexKey";
 static NSString * const kBookmarkedGlyphYOffsetKey = @"BookmarkedGlyphYOffsetKey";
 
@@ -22,7 +18,7 @@ const float kSuperMaximumStandardTextSize = 100;
 const float kMaximumStandardTextSize = 100;
 const float kMinimumStandardTextSize = 8;
 
-@interface PageController () <UIScrollViewDelegate, UIViewControllerRestoration>
+@interface PageController () <UIScrollViewDelegate>
 
 @property (nonatomic, strong) UIPinchGestureRecognizer *pinchGestureRecognizer;
 
@@ -50,12 +46,6 @@ const float kMinimumStandardTextSize = 8;
     return _pinchGestureRecognizer;
 }
 
-- (void)awakeFromNib
-{
-    [super awakeFromNib];
-    self.restorationClass = [self class];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -74,55 +64,6 @@ const float kMinimumStandardTextSize = 8;
                                                  name:NSUserDefaultsDidChangeNotification object:nil];
 
     [self updateThemedElements];
-}
-
-- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
-{
-    [super encodeRestorableStateWithCoder:coder];
-
-    [coder encodeObject:self.coreDataStack forKey:kCoreDataStackKey];
-    
-    [coder encodeObject:[self.modelID URIRepresentation] forKey:kModelIDURLKey];
-    
-    if (self.delegate) {
-        [coder encodeObject:self.delegate forKey:kDelegateKey];
-    }
-    
-    [coder encodeObject:[NSValue valueWithRange:self.highlightRange] forKey:kHighlightRangeKey];
-    
-    if (self.bookmarkedGlyphIndex) {
-        [coder encodeObject:self.bookmarkedGlyphIndex forKey:kBookmarkedGlyphIndexKey];
-    }
-    if (self.bookmarkedGlyphYOffset) {
-        [coder encodeObject:self.bookmarkedGlyphYOffset forKey:kBookmarkedGlyphYOffsetKey];
-    }
-}
-
-+ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
-{
-    PageController *controller;
-    UIStoryboard *storyboard = [coder decodeObjectForKey:UIStateRestorationViewControllerStoryboardKey];
-    CoreDataStack *coreDataStack = [coder decodeObjectForKey:kCoreDataStackKey];
-    NSURL *modelIDURL = [coder decodeObjectForKey:kModelIDURLKey];
-    NSManagedObjectID *modelID = [coreDataStack.managedObjectContext.persistentStoreCoordinator managedObjectIDForURIRepresentation:modelIDURL];
-    id<PageControllerDelegate> delegate = [coder decodeObjectForKey:kDelegateKey];
-    NSRange highlightRange = [[coder decodeObjectForKey:kHighlightRangeKey] rangeValue];
-    NSNumber *bookmarkedGlyphIndex = [coder decodeObjectForKey:kBookmarkedGlyphIndexKey];
-    NSNumber *bookmarkedGlyphYOffset = [coder decodeObjectForKey:kBookmarkedGlyphYOffsetKey];
-    
-    if (storyboard && coreDataStack && modelID && delegate) {
-        controller = (PageController *)[storyboard instantiateViewControllerWithIdentifier:[identifierComponents lastObject]];
-        controller.coreDataStack = coreDataStack;
-        controller.modelID = modelID;
-        controller.delegate = delegate;
-        controller.highlightRange = highlightRange;
-        controller.bookmarkedGlyphIndex = bookmarkedGlyphIndex;
-        controller.bookmarkedGlyphYOffset = bookmarkedGlyphYOffset;
-        controller.viewRespectsSystemMinimumLayoutMargins = NO;
-        controller.view.insetsLayoutMarginsFromSafeArea = NO;
-    }
-    
-    return controller;
 }
 
 - (void)userDefaultsChanged:(NSNotification *)notification

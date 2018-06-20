@@ -82,21 +82,4 @@ class BookViewController: SimpleSplitViewController, SearchViewControllerDelegat
             setOpen(true, animated: true)
         }
     }
-    
-    // MARK: - State Restoration
-    private let coreDataStackKey = "CoreDataStackKey"
-    private let pageContainerViewControllerKey = "PageContainerViewControllerKey"
-    private let searchViewControllerKey = "SearchViewControllerKey"
-
-    override func encodeRestorableState(with coder: NSCoder) {
-        if let coreDataStack = coreDataStack { coder.encode(coreDataStack, forKey: coreDataStackKey) }
-        if let pageContainerViewController = pageContainerViewController { coder.encode(pageContainerViewController, forKey: pageContainerViewControllerKey) }
-        if let searchViewController = searchViewController { coder.encode(searchViewController, forKey: searchViewControllerKey) }
-        super.encodeRestorableState(with: coder)
-    }
-    
-    override func decodeRestorableState(with coder: NSCoder) {
-        super.decodeRestorableState(with: coder)
-        if let coreDataStack = coder.decodeObject(forKey: coreDataStackKey) as? CoreDataStack { self.coreDataStack = coreDataStack }
-    }
 }

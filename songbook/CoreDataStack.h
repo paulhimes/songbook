@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface CoreDataStack : NSObject <UIStateRestoring>
+@interface CoreDataStack : NSObject
 
 @property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, readonly) NSURL *databaseDirectory;

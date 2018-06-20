@@ -17,11 +17,7 @@
 #import "songbook-Swift.h"
 
 static NSString * const kPreferredSearchMethodKey = @"PreferredSearchMethodKey";
-static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
-static NSString * const kClosestSongIDKey = @"ClosestSongIDKey";
-static NSString * const kSearchStringKey = @"SearchStringKey";
 static NSString * const kSearchTimestampKey = @"SearchTimestampKey";
-static NSString * const kDelegateKey = @"DelegateKey";
 
 typedef enum PreferredSearchMethod : NSUInteger {
     PreferredSearchMethodNumbers,
@@ -219,41 +215,6 @@ typedef enum PreferredSearchMethod : NSUInteger {
 {
     if (self.observerToken) {
         [[NSNotificationCenter defaultCenter] removeObserver:self.observerToken];
-    }
-}
-
-- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
-{
-    [coder encodeObject:self.coreDataStack forKey:kCoreDataStackKey];
-    
-    if (self.closestSongID) {
-        [coder encodeObject:[self.closestSongID URIRepresentation] forKey:kClosestSongIDKey];
-    }
-    
-    [coder encodeObject:self.searchBar.text forKey:kSearchStringKey];
-
-    // Save the delegate
-    if (self.delegate) {
-        [coder encodeObject:self.delegate forKey:kDelegateKey];
-    }
-    
-    [super encodeRestorableStateWithCoder:coder];
-}
-
-- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
-{
-    [super decodeRestorableStateWithCoder:coder];
-    
-    self.delegate = [coder decodeObjectForKey:kDelegateKey];
-    
-    self.coreDataStack = [coder decodeObjectForKey:kCoreDataStackKey];
-    NSURL *closestSongIDURL = [coder decodeObjectForKey:kClosestSongIDKey];
-    self.closestSongID = [self.coreDataStack.managedObjectContext.persistentStoreCoordinator managedObjectIDForURIRepresentation:closestSongIDURL];
-    
-    NSString *searchString = [coder decodeObjectForKey:kSearchStringKey];
-    if (searchString) {
-        self.searchBar.text = searchString;
-        [self searchBar:self.searchBar textDidChange:self.searchBar.text];
     }
 }
 

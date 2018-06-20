@@ -16,9 +16,6 @@
 #import "Song+Helpers.h"
 #import "songbook-Swift.h"
 
-static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
-static NSString * const kPageViewControllerKey = @"PageViewControllerKey";
-
 static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 
 @interface PageContainerViewController () <ExportProgressViewControllerDelegate, AudioPlayerDelegate>
@@ -140,28 +137,6 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
-}
-
-- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
-{
-    [super encodeRestorableStateWithCoder:coder];
-    
-    // Save the core data stack.
-    if (self.coreDataStack) {
-        [coder encodeObject:self.coreDataStack forKey:kCoreDataStackKey];
-    }
-    
-    // Save the page view controller.
-    if (self.pageViewController) {
-        [coder encodeObject:self.pageViewController forKey:kPageViewControllerKey];
-    }
-}
-
-- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
-{
-    [super decodeRestorableStateWithCoder:coder];
-    
-    self.coreDataStack = [coder decodeObjectForKey:kCoreDataStackKey];
 }
 
 - (IBAction)searchAction:(id)sender

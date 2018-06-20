@@ -16,7 +16,6 @@
 
 static NSString * const kTemporaryDatabaseDirectoryName = @"temporaryBook";
 static NSString * const kMainDatabaseDirectoryName = @"mainBook";
-static NSString * const kMainBookStackKey = @"mainBookStack";
 static NSString * const kOpenBookSegueIdentifier = @"OpenBook";
 
 @interface BookManagerViewController ()
@@ -45,10 +44,6 @@ static NSString * const kOpenBookSegueIdentifier = @"OpenBook";
     if (!_mainBookStack) {
         _mainBookStack = [BookCodec coreDataStackFromBookDirectory:[self mainBookDirectory]
                                                    concurrencyType:NSMainQueueConcurrencyType];
-        if (_mainBookStack) {
-            [UIApplication registerObjectForStateRestoration:_mainBookStack
-                                       restorationIdentifier:kMainBookStackKey];
-        }
     }
     return _mainBookStack;
 }
@@ -87,26 +82,6 @@ static NSString * const kOpenBookSegueIdentifier = @"OpenBook";
     if ([segue.identifier isEqualToString:kOpenBookSegueIdentifier]) {
         if ([segue.destinationViewController respondsToSelector:@selector(setCoreDataStack:)]) {
             [segue.destinationViewController setCoreDataStack:self.mainBookStack];
-        }
-    }
-}
-
-- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
-{
-    [super encodeRestorableStateWithCoder:coder];
-    [coder encodeObject:self.mainBookStack forKey:kMainBookStackKey];
-}
-
-- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
-{
-    [super decodeRestorableStateWithCoder:coder];
-    if ([coder containsValueForKey:kMainBookStackKey]) {
-        CoreDataStack *mainBookStack = [coder decodeObjectForKey:kMainBookStackKey];
-        self.mainBookStack = mainBookStack;
-        Book *book = [Book bookFromContext:self.mainBookStack.managedObjectContext];
-        if (book) {
-            // Begin tokenizing any untokenized songs in this book.
-            [self tokenizeBook:book];
         }
     }
 }

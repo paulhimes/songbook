@@ -11,8 +11,6 @@
 #import "BookManagerViewController.h"
 #import "songbook-Swift.h"
 
-static NSString * const kCFBundleShortVersionKey = @"CFBundleShortVersionString";
-
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -42,42 +40,6 @@ static NSString * const kCFBundleShortVersionKey = @"CFBundleShortVersionString"
     }];
 
     return YES;
-}
-
-- (BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder
-{
-    return YES;
-}
-
-- (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder
-{
-    // Only restore state if the device type hasn't changed.
-    NSNumber *savedIdiom = [coder decodeObjectForKey:UIApplicationStateRestorationUserInterfaceIdiomKey];
-    UIUserInterfaceIdiom idiom = [[UIDevice currentDevice] userInterfaceIdiom];
-    BOOL equalIdioms = [savedIdiom integerValue] == idiom;
-
-    // Only restore state if the app short version hasn't changed.
-    NSString *savedAppShortVersion = [coder decodeObjectForKey:kCFBundleShortVersionKey];
-    NSString *appShortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:kCFBundleShortVersionKey];
-    BOOL equalAppShortVersions = [savedAppShortVersion isEqualToString:appShortVersion];
-
-    // Only restore state if the system version hasn't changed.
-    NSString *savedSystemVersion = [coder decodeObjectForKey:UIApplicationStateRestorationSystemVersionKey];
-    NSString *systemVersion = [UIDevice currentDevice].systemVersion;
-    BOOL equalSystemVersions = [savedSystemVersion isEqualToString:systemVersion];
-
-    return equalIdioms && equalAppShortVersions && equalSystemVersions;
-}
-
-- (void)application:(UIApplication *)application willEncodeRestorableStateWithCoder:(NSCoder *)coder
-{
-    NSString *appShortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:kCFBundleShortVersionKey];
-    [coder encodeObject:appShortVersion forKey:kCFBundleShortVersionKey];
-}
-
-- (void)application:(UIApplication *)application didDecodeRestorableStateWithCoder:(NSCoder *)coder
-{
-    NSLog(@"State restoration complete.");
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options

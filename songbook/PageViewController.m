@@ -10,10 +10,6 @@
 #import "Book+Helpers.h"
 #import "songbook-Swift.h"
 
-static NSString * const kCoreDataStackKey = @"CoreDataStackKey";
-static NSString * const kDelegateKey = @"DelegateKey";
-static NSString * const kViewControllerKey = @"ViewControllerKey";
-
 @interface PageViewController () <PageControllerDelegate, UIPageViewControllerDelegate>
 
 @end
@@ -70,61 +66,6 @@ static NSString * const kViewControllerKey = @"ViewControllerKey";
     self.view.backgroundColor = [Theme paperColor];
     for (PageController *pageController in self.viewControllers) {
         [pageController updateThemedElements];
-    }
-}
-
-- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
-{
-    [super encodeRestorableStateWithCoder:coder];
-        
-    // Save the core data stack.
-    if (self.coreDataStack) {
-        [coder encodeObject:self.coreDataStack forKey:kCoreDataStackKey];
-    }
-    
-    // Save the delegate
-    if (self.pageViewControllerDelegate) {
-        [coder encodeObject:self.pageViewControllerDelegate forKey:kDelegateKey];
-    }
-    
-    // Save the view controllers.
-    if ([self.viewControllers count] > 0) {
-        UIViewController *viewController = self.viewControllers[0];
-        [coder encodeObject:viewController forKey:kViewControllerKey];
-    }
-}
-
-- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
-{
-    [super decodeRestorableStateWithCoder:coder];
-    
-    // Decode the core data stack.
-    self.coreDataStack = [coder decodeObjectForKey:kCoreDataStackKey];
-    
-    // Decode the delegate.
-    self.pageViewControllerDelegate = [coder decodeObjectForKey:kDelegateKey];
-    
-    // Decode the visible view controller.
-    UIViewController *viewController = [coder decodeObjectForKey:kViewControllerKey];
-    
-    // Create a new view controller if we failed to decode one.
-    if (!viewController) {
-        Book *book = [Book bookFromContext:self.coreDataStack.managedObjectContext];
-        // If there is a model to display...
-        if (book) {
-            viewController = [self.pageServer pageControllerForModelObject:book pageViewController:self];
-        }
-    }
-    
-    // Show the restored or created view controller.
-    if (viewController) {
-        [self setViewControllers:@[viewController]
-                       direction:UIPageViewControllerNavigationDirectionForward
-                        animated:NO
-                      completion:nil];
-    } else {
-        // There is no page to display. Close the book.
-        [self.pageViewControllerDelegate closeBook];
     }
 }
 
