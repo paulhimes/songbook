@@ -1,5 +1,5 @@
 //
-//  SingleViewController.h
+//  PageContainerViewController.h
 //  songbook
 //
 //  Created by Paul Himes on 11/26/13.
@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "PageViewController.h"
 
-@protocol SingleViewControllerDelegate;
+@protocol PageContainerViewControllerDelegate;
 
-@interface SingleViewController : UIViewController <PageViewControllerDelegate>
+@interface PageContainerViewController : UIViewController <PageViewControllerDelegate>
 
-@property (nonatomic, weak) id<SingleViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<PageContainerViewControllerDelegate> delegate;
 @property (nonatomic, strong) CoreDataStack *coreDataStack;
 @property (nonatomic, readonly) NSManagedObjectID *closestSongID;
 
@@ -23,8 +23,8 @@
 
 @end
 
-@protocol SingleViewControllerDelegate <NSObject>
+@protocol PageContainerViewControllerDelegate <NSObject>
 
-- (void)search:(SingleViewController *)singleViewController;
+- (void)search:(PageContainerViewController *)pageContainerViewController;
 
 @end

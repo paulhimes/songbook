@@ -8,17 +8,17 @@
 
 import UIKit
 
-class BookViewController: SimpleSplitViewController, SearchViewControllerDelegate, SingleViewControllerDelegate {
+class BookViewController: SimpleSplitViewController, SearchViewControllerDelegate, PageContainerViewControllerDelegate {
 
     @objc var coreDataStack: CoreDataStack?
     
-    private var pageContainerViewController: SingleViewController?
+    private var pageContainerViewController: PageContainerViewController?
     private var searchViewController: SearchViewController?
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
-        if let pageContainerViewController = segue.destination as? SingleViewController {
+        if let pageContainerViewController = segue.destination as? PageContainerViewController {
             self.pageContainerViewController = pageContainerViewController
             pageContainerViewController.delegate = self
             pageContainerViewController.coreDataStack = coreDataStack
@@ -71,13 +71,13 @@ class BookViewController: SimpleSplitViewController, SearchViewControllerDelegat
         }
     }
     
-    // MARK: - SingleViewControllerDelegate
-    func search(_ singleViewController: SingleViewController!) {
+    // MARK: - PageContainerViewControllerDelegate
+    func search(_ pageContainerViewController: PageContainerViewController!) {
         if isOpen {
             searchViewController?.endSearch()
             setOpen(false, animated: true)
         } else {
-            searchViewController?.closestSongID = singleViewController.closestSongID
+            searchViewController?.closestSongID = pageContainerViewController.closestSongID
             searchViewController?.beginSearch()
             setOpen(true, animated: true)
         }

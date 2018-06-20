@@ -8,5 +8,5 @@
 #import "Book+Helpers.h"
 #import "SearchCellModel.h"
 #import "CoreDataStack.h"
-#import "SingleViewController.h"
+#import "PageContainerViewController.h"
 #import "SearchViewController.h"

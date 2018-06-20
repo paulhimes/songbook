@@ -82,7 +82,7 @@
 		8BC10FF520804AF0000E274B /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC10FF420804AF0000E274B /* Theme.swift */; };
 		8BC674CA17BC912C001E71B1 /* NSMutableAttributedString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */; };
 		8BC7D648188344DD008F2289 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7D647188344DD008F2289 /* Book.m */; };
-		8BCA006F18457F9B00600947 /* SingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BCA006E18457F9B00600947 /* SingleViewController.m */; };
+		8BCA006F18457F9B00600947 /* PageContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BCA006E18457F9B00600947 /* PageContainerViewController.m */; };
 		8BD5141018A7F912002DC6B1 /* BasicCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5140F18A7F912002DC6B1 /* BasicCell.m */; };
 		8BD5141318A7FAC1002DC6B1 /* SearchTitleCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5141218A7FAC1002DC6B1 /* SearchTitleCellModel.m */; };
 		8BD5141618A7FB3C002DC6B1 /* SearchContextCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5141518A7FB3C002DC6B1 /* SearchContextCellModel.m */; };
@@ -225,8 +225,8 @@
 		8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableAttributedString+Helpers.m"; sourceTree = "<group>"; };
 		8BC7D646188344DD008F2289 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
 		8BC7D647188344DD008F2289 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
-		8BCA006D18457F9B00600947 /* SingleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleViewController.h; sourceTree = "<group>"; };
-		8BCA006E18457F9B00600947 /* SingleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleViewController.m; sourceTree = "<group>"; };
+		8BCA006D18457F9B00600947 /* PageContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageContainerViewController.h; sourceTree = "<group>"; };
+		8BCA006E18457F9B00600947 /* PageContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageContainerViewController.m; sourceTree = "<group>"; };
 		8BD5140E18A7F912002DC6B1 /* BasicCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicCell.h; sourceTree = "<group>"; };
 		8BD5140F18A7F912002DC6B1 /* BasicCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicCell.m; sourceTree = "<group>"; };
 		8BD5141118A7FAC1002DC6B1 /* SearchTitleCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTitleCellModel.h; sourceTree = "<group>"; };
@@ -420,8 +420,8 @@
 				8BAF3602182344DD00D6A93E /* BookManagerViewController.m */,
 				8B3DC5B6202BD5A1001EBA43 /* SimpleSplitViewController.swift */,
 				8B3DC5BB202BDDBE001EBA43 /* BookViewController.swift */,
-				8BCA006D18457F9B00600947 /* SingleViewController.h */,
-				8BCA006E18457F9B00600947 /* SingleViewController.m */,
+				8BCA006D18457F9B00600947 /* PageContainerViewController.h */,
+				8BCA006E18457F9B00600947 /* PageContainerViewController.m */,
 				8BBFC36B20103F8E00A8DEF0 /* AudioPlayer.swift */,
 				8B039ABD1911FAE6005F14B4 /* BookActivityItemSource.h */,
 				8B039ABE1911FAE6005F14B4 /* BookActivityItemSource.m */,
@@ -740,7 +740,7 @@
 				8BB54D5C17A4C60700FD2914 /* PageServer.m in Sources */,
 				8B42031017E7CAED00019A80 /* Song.m in Sources */,
 				8BB0F593189CBD2C004D6377 /* TokenizeOperation.m in Sources */,
-				8BCA006F18457F9B00600947 /* SingleViewController.m in Sources */,
+				8BCA006F18457F9B00600947 /* PageContainerViewController.m in Sources */,
 				8BB0F585189CBC27004D6377 /* FilteredSearcher.m in Sources */,
 				8BD5141018A7F912002DC6B1 /* BasicCell.m in Sources */,
 				8B94532217A5F3E500327479 /* Verse+Helpers.m in Sources */,

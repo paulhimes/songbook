@@ -1,12 +1,12 @@
 //
-//  SingleViewController.m
+//  PageContainerViewController.m
 //  songbook
 //
 //  Created by Paul Himes on 11/26/13.
 //  Copyright (c) 2013 Paul Himes. All rights reserved.
 //
 
-#import "SingleViewController.h"
+#import "PageContainerViewController.h"
 #import "SearchViewController.h"
 #import "BookCodec.h"
 #import "ExportProgressViewController.h"
@@ -21,7 +21,7 @@ static NSString * const kPageViewControllerKey = @"PageViewControllerKey";
 
 static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 
-@interface SingleViewController () <ExportProgressViewControllerDelegate, AudioPlayerDelegate>
+@interface PageContainerViewController () <ExportProgressViewControllerDelegate, AudioPlayerDelegate>
 
 @property (nonatomic, strong) PageViewController *pageViewController;
 
@@ -48,7 +48,7 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 
 @end
 
-@implementation SingleViewController
+@implementation PageContainerViewController
 
 - (NSManagedObjectID *)closestSongID
 {
@@ -172,7 +172,7 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 - (IBAction)activityAction:(id)sender
 {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    __weak SingleViewController *welf = self;
+    __weak PageContainerViewController *welf = self;
     
     NSArray<NSURL *> *pageSongFiles = @[];
     id<SongbookModel> pageModelObject = self.pageViewController.pageModelObject;
@@ -258,7 +258,7 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
             self.exportCancelled = NO;
             
             // Export the book directory to a file, and share it when ready.
-            __weak SingleViewController *welf = self;
+            __weak PageContainerViewController *welf = self;
             __weak ExportProgressViewController *weakProgressViewController = self.exportProgressViewController;
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 exportedFileURL = [BookCodec exportBookFromDirectory:bookDirectory
@@ -364,7 +364,7 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
 
 - (void)pageDidChange
 {
-    __weak SingleViewController *welf = self;
+    __weak PageContainerViewController *welf = self;
     [UIViewPropertyAnimator runningPropertyAnimatorWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [welf updateThemedElements];
     } completion:^(UIViewAnimatingPosition finalPosition) {}];
