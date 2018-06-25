@@ -60,6 +60,7 @@ static NSString * const kOpenBookSegueIdentifier = @"OpenBook";
     
     self.busyMessageLabel.textColor = UIColor.whiteColor;
     self.busySpinner.color = UIColor.whiteColor;
+    self.busyMessageLabel.hidden = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -70,6 +71,8 @@ static NSString * const kOpenBookSegueIdentifier = @"OpenBook";
     if (self.importFileURL &&
         [self.importFileURL isFileURL] &&
         [fileManager fileExistsAtPath:self.importFileURL.path]) {
+        self.busyMessageLabel.hidden = NO;
+        [self.busySpinner startAnimating];
         [self loadBookFromFileURL:self.importFileURL andWarnAboutReplacement:YES];
     } else {
         [self openBook];
@@ -89,6 +92,11 @@ static NSString * const kOpenBookSegueIdentifier = @"OpenBook";
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
 }
 
 #pragma mark - Book management
@@ -148,7 +156,7 @@ static NSString * const kOpenBookSegueIdentifier = @"OpenBook";
         dispatch_sync(dispatch_get_main_queue(), ^{
             // Hide busy message.
             welf.busyMessageLabel.hidden = YES;
-            welf.busySpinner.hidden = YES;
+            [welf.busySpinner stopAnimating];
             
             // Delete the import file. It is no longer needed.
             NSFileManager *fileManager = [NSFileManager defaultManager];

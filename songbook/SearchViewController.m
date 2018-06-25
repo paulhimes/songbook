@@ -211,6 +211,11 @@ typedef enum PreferredSearchMethod : NSUInteger {
     return YES;
 }
 
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
+
 - (void)dealloc
 {
     if (self.observerToken) {

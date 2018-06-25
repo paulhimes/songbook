@@ -139,6 +139,11 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     return YES;
 }
 
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
+
 - (IBAction)searchAction:(id)sender
 {
     [self.delegate search:self];

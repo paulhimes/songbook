@@ -10,6 +10,8 @@
 #import "Book+Helpers.h"
 #import "songbook-Swift.h"
 
+static NSString * const kBookmarkedPageModelObjectIDStringKey = @"BookmarkedPageModelObjectIDStringKey";
+
 @interface PageViewController () <PageControllerDelegate, UIPageViewControllerDelegate>
 
 @end
@@ -39,11 +41,21 @@
     [super viewWillAppear:animated];
     
     if (self.coreDataStack && [self.viewControllers count] == 0) {
-        Book *book = [Book bookFromContext:self.coreDataStack.managedObjectContext];
+        // Try to retrieve bookmarked page model object.
+        id<SongbookModel> bookmarkedPageModelObject = [self loadBookmarkedPageModelObject];
+        
+        id<SongbookModel> targetPageModelObject = nil;
+        if (bookmarkedPageModelObject) {
+            // Use the bookmarked object if it exists.
+            targetPageModelObject = (id<SongbookModel>)bookmarkedPageModelObject;
+        } else {
+            // Otherwise try to use the first page (the book cover).
+            targetPageModelObject = [Book bookFromContext:self.coreDataStack.managedObjectContext];
+        }
         
         // If there was a model to display...
-        if (book) {
-            [self setViewControllers:@[[self.pageServer pageControllerForModelObject:book
+        if (targetPageModelObject) {
+            [self setViewControllers:@[[self.pageServer pageControllerForModelObject:targetPageModelObject
                                                                   pageViewController:self]]
                            direction:UIPageViewControllerNavigationDirectionForward
                             animated:NO
@@ -72,6 +84,11 @@
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
 }
 
 - (NSManagedObjectID *)closestSongID
@@ -117,7 +134,7 @@
     
     __weak PageViewController *welf = self;
     [super setViewControllers:viewControllers direction:direction animated:animated completion:^(BOOL completed) {
-        [welf.pageViewControllerDelegate pageDidChange];
+        [welf handlePageChange];
     }];
 }
 
@@ -149,6 +166,28 @@
     }
 }
 
+- (void)handlePageChange
+{
+    [self bookmarkPageModelObject:self.pageModelObject];
+    [self.pageViewControllerDelegate pageDidChange];
+}
+
+- (void)bookmarkPageModelObject:(id<SongbookModel>)pageModelObject
+{
+    [NSUserDefaults.standardUserDefaults setObject:pageModelObject.objectID.URIRepresentation.absoluteString forKey:kBookmarkedPageModelObjectIDStringKey];
+    [NSUserDefaults.standardUserDefaults synchronize];
+}
+
+- (id<SongbookModel>)loadBookmarkedPageModelObject
+{
+    NSString *bookmarkedPageModelObjectIDString = [NSUserDefaults.standardUserDefaults stringForKey:kBookmarkedPageModelObjectIDStringKey];
+    NSURL *bookmarkedPageModelObjectIDURL = [NSURL URLWithString:bookmarkedPageModelObjectIDString];
+    NSManagedObjectID *bookmarkedPageModelObjectID = [self.coreDataStack.managedObjectContext.persistentStoreCoordinator managedObjectIDForURIRepresentation:bookmarkedPageModelObjectIDURL];
+    if (!bookmarkedPageModelObjectID) { return nil; }
+    NSError *error = nil;
+    return [self.coreDataStack.managedObjectContext existingObjectWithID:bookmarkedPageModelObjectID error:&error];
+}
+
 #pragma mark - PageControllerDelegate
 
 - (void)pageController:(PageController *)pageController
@@ -169,7 +208,7 @@
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed
 {
-    [self.pageViewControllerDelegate pageDidChange];
+    [self handlePageChange];
 }
 
 @end

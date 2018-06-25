@@ -58,6 +58,10 @@ class BookViewController: SimpleSplitViewController, SearchViewControllerDelegat
         }
     }
 
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .all
+    }
+
     // MARK: - SearchViewControllerDelegate
     func searchCancelled(_ searchViewController: SearchViewController!) {
         setOpen(false, animated: true)
