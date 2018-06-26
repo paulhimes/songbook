@@ -197,9 +197,11 @@ static const float kTextScaleThreshold = 1;
     NSMutableDictionary *subtitleAttributes = [normalAttributes mutableCopy];
     UIFont *subtitleFont = [UIFont fontWithDynamicName:[Theme normalFontName] size:kSubtitleFontSize];
     subtitleAttributes[NSFontAttributeName] = subtitleFont;
-    subtitleAttributes[NSParagraphStyleAttributeName] = [self paragraphStyleFirstLineIndent:self.titleView.titleOriginX
-                                                                            andNormalIndent:self.titleView.titleOriginX
-                                                                                lineSpacing:subtitleFont.lineHeight * lineSpacingMultiple];
+    NSMutableParagraphStyle *subtitleParagraphStyle = [[self paragraphStyleFirstLineIndent:self.titleView.titleOriginX
+                                                                           andNormalIndent:self.titleView.titleOriginX
+                                                                               lineSpacing:subtitleFont.lineHeight * lineSpacingMultiple] mutableCopy];
+    subtitleParagraphStyle.lineHeightMultiple = 1.2;
+    subtitleAttributes[NSParagraphStyleAttributeName] = subtitleParagraphStyle;
     
     NSMutableDictionary *verseTitleAttributes = [normalAttributes mutableCopy];
     NSMutableParagraphStyle *verseTitleParagraphStyle = [self paragraphStyleFirstLineIndent:0

@@ -29,15 +29,13 @@
     // Normal Font
     NSString *desiredStandardFontName = Theme.standardFontName;
     Theme.standardFontName = @"Charter-Roman";
-    [Theme loadFontNamed:desiredStandardFontName completion:^{
-        Theme.standardFontName = desiredStandardFontName;
-    }];
+    if (![desiredStandardFontName isEqualToString:Theme.standardFontName]) {
+        [Theme loadFontNamed:desiredStandardFontName completion:^{
+            Theme.standardFontName = desiredStandardFontName;
+        }];
+    }
     // Title Number Font
-    NSString *desiredTitleNumberFontName = @"IowanOldStyle-Black";
     Theme.titleNumberFontName = @"Charter-Black";
-    [Theme loadFontNamed:desiredTitleNumberFontName completion:^{
-        Theme.titleNumberFontName = desiredTitleNumberFontName;
-    }];
 
     return YES;
 }

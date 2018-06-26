@@ -9,7 +9,7 @@
 #import "SongTitleView.h"
 #import "songbook-Swift.h"
 
-const CGFloat kTitleNumberFontSize = 36;
+const CGFloat kTitleNumberFontSize = 38;
 const CGFloat kTitleFontSize = 24;
 const CGFloat kSubtitleFontSize = 15;
 
