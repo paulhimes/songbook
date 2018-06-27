@@ -88,20 +88,28 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
             self?.playPrevious()
             return .success
         }
-        MPRemoteCommandCenter.shared().stopCommand.addTarget() { [weak self] (event) -> MPRemoteCommandHandlerStatus in
-            self?.stopPlayback()
-            return .success
-        }
-        MPRemoteCommandCenter.shared().togglePlayPauseCommand.addTarget { [weak self] (event) -> MPRemoteCommandHandlerStatus in
+        MPRemoteCommandCenter.shared().playCommand.addTarget() { [weak self] (event) -> MPRemoteCommandHandlerStatus in
             if !(self?.audioPlayer?.isPlaying ?? false) {
                 self?.audioPlayer?.play()
                 self?.resetNowPlayingInfoCenterProgress()
                 if let song = self?.currentSong, let tuneIndex = self?.currentTuneIndex {
                     self?.delegate?.audioPlayerStartedPlayingSong(song, tuneIndex: tuneIndex)
                 }
+                return .success
             } else {
-                self?.pausePlayback()
+                return .commandFailed
             }
+        }
+        MPRemoteCommandCenter.shared().pauseCommand.addTarget() { [weak self] (event) -> MPRemoteCommandHandlerStatus in
+            if (self?.audioPlayer?.isPlaying ?? false) {
+                self?.pausePlayback()
+                return .success
+            } else {
+                return .commandFailed
+            }
+        }
+        MPRemoteCommandCenter.shared().stopCommand.addTarget() { [weak self] (event) -> MPRemoteCommandHandlerStatus in
+            self?.stopPlayback()
             return .success
         }
         

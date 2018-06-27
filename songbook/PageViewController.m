@@ -160,7 +160,7 @@ static NSString * const kBookmarkedPageModelObjectIDStringKey = @"BookmarkedPage
 
             [self setViewControllers:@[pageController]
                            direction:direction
-                            animated:animated
+                            animated:animated && [UIApplication sharedApplication].applicationState != UIApplicationStateBackground
                           completion:nil];
         }
     }
