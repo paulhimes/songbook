@@ -88,31 +88,41 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
             self?.playPrevious()
             return .success
         }
-        MPRemoteCommandCenter.shared().playCommand.addTarget() { [weak self] (event) -> MPRemoteCommandHandlerStatus in
+        MPRemoteCommandCenter.shared().stopCommand.addTarget() { [weak self] (event) -> MPRemoteCommandHandlerStatus in
+            self?.stopPlayback()
+            return .success
+        }
+        MPRemoteCommandCenter.shared().togglePlayPauseCommand.addTarget { [weak self] (event) -> MPRemoteCommandHandlerStatus in
             if !(self?.audioPlayer?.isPlaying ?? false) {
                 self?.audioPlayer?.play()
                 self?.resetNowPlayingInfoCenterProgress()
                 if let song = self?.currentSong, let tuneIndex = self?.currentTuneIndex {
                     self?.delegate?.audioPlayerStartedPlayingSong(song, tuneIndex: tuneIndex)
                 }
-                return .success
             } else {
-                return .commandFailed
+                self?.pausePlayback()
             }
-        }
-        MPRemoteCommandCenter.shared().pauseCommand.addTarget() { [weak self] (event) -> MPRemoteCommandHandlerStatus in
-            if (self?.audioPlayer?.isPlaying ?? false) {
-                self?.audioPlayer?.pause()
-                self?.resetNowPlayingInfoCenterProgress()
-                self?.delegate?.audioPlayerStopped()
-                return .success
-            } else {
-                return .commandFailed
-            }
-        }
-        MPRemoteCommandCenter.shared().stopCommand.addTarget() { [weak self] (event) -> MPRemoteCommandHandlerStatus in
-            self?.stopPlayback()
             return .success
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(audioSessionRouteChanged), name: NSNotification.Name.AVAudioSessionRouteChange, object: nil)
+    }
+    
+    @objc private func audioSessionRouteChanged(notification: Notification) {
+        guard let audioSessionRouteChangeReason = notification.userInfo![AVAudioSessionRouteChangeReasonKey] as? UInt else {
+            if audioPlayer?.isPlaying ?? false {
+                pausePlayback()
+            }
+            return
+        }
+        
+        switch audioSessionRouteChangeReason {
+        case AVAudioSessionRouteChangeReason.oldDeviceUnavailable.rawValue:
+            if audioPlayer?.isPlaying ?? false {
+                pausePlayback()
+            }
+        default:
+            break
         }
     }
     
@@ -189,6 +199,12 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
             NSLog("Failed to start playing audio file: \(error)")
         }
         
+    }
+    
+    private func pausePlayback() {
+        audioPlayer?.pause()
+        resetNowPlayingInfoCenterProgress()
+        delegate?.audioPlayerStopped()
     }
 
     @objc func stopPlayback() {
