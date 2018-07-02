@@ -94,7 +94,8 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     self.bottomBar.tintColor = self.pageViewController.pageControlColor;
     self.progressView.progressTintColor = self.pageViewController.pageControlColor;
     self.progressView.trackTintColor = [UIColor clearColor];
-
+    [self updateContinuousPlaybackButton];
+    
     [self.pageViewController updateThemedElements];
 }
 
