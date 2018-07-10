@@ -525,29 +525,23 @@ static const float kTextScaleThreshold = 1;
     // Get the complete song text.
     NSString *songText = self.song.string;
     
-    // Create an attributed string.
-    NSMutableAttributedString *attributedSongText = [[NSMutableAttributedString alloc] initWithString:songText];
-    
-    // Determine the fonts to use.
-    UIFont *preferredFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-    UIFont *preferredFontBold = [UIFont fontWithDescriptor:[[preferredFont fontDescriptor] fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold] size:preferredFont.pointSize];
-    
-    // Set the font.
-    [attributedSongText addAttribute:NSFontAttributeName
-                               value:preferredFont
-                               range:NSMakeRange(0, attributedSongText.length)];
-    
-    // Bold and color the selected range.
-    [attributedSongText addAttributes:@{NSForegroundColorAttributeName: [Theme redColor],
-                                        NSFontAttributeName:preferredFontBold}
-                                range:self.textView.selectedRange];
-    
-    // Convert the attributed string to HTML.
-    NSData *htmlData = [attributedSongText dataFromRange:NSMakeRange(0, attributedSongText.length)
-                                      documentAttributes:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType}
-                                                   error:nil];
-    NSString *htmlString = [[NSString alloc] initWithData:htmlData encoding:NSUTF8StringEncoding];
+    // Get the hex value of the highlight color.
+    NSString *hexColor = @"ff0000";
+    CGFloat red = 0;
+    CGFloat green = 0;
+    CGFloat blue = 0;
+    CGFloat alpha = 0;
+    if ([[Theme redColor] getRed:&red green:&green blue:&blue alpha:&alpha]) {
+        hexColor = [NSString stringWithFormat:@"%X%X%X", (unsigned int)(red * 255), (unsigned int)(green * 255), (unsigned int)(blue * 255)];
+    }
 
+    NSString *selectedText = [songText substringWithRange:self.textView.selectedRange];
+    // Make the selected text bold, bigger, and colored.
+    NSString *decoratedSelection = [NSString stringWithFormat:@"<span style=\"color:#%@;font-size:1.25em;\"><b>%@</b></span>", hexColor, selectedText];
+    
+    // Recombine the text and convert line breaks to break tags.
+    NSString *htmlString = [[songText stringByReplacingCharactersInRange:self.textView.selectedRange withString:decoratedSelection] stringByReplacingOccurrencesOfString:@"\n" withString:@"<br>"];
+    
     return htmlString;
 }
 
