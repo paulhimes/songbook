@@ -13,6 +13,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *contentLabel;
 @property (nonatomic, strong) NSAttributedString *attributedText;
+@property (weak, nonatomic) IBOutlet UILabel *hiddenSpacerLabel;
 
 @end
 
@@ -48,6 +49,8 @@
 {
     _attributedText = attributedText;
     self.contentLabel.attributedText = [self textForWidth:self.contentLabel.bounds.size.width];
+    self.contentLabel.adjustsFontForContentSizeCategory = YES;
+    self.hiddenSpacerLabel.font = [Theme fontForTextStyle:UIFontTextStyleHeadline];
 }
 
 - (NSAttributedString *)textForWidth:(CGFloat)width

@@ -21,7 +21,7 @@ static const NSString * const kRangeKey = @"RangeKey";
 + (NSDictionary *)normalFragmentAttributes
 {
     NSMutableDictionary *normalFragmentAttributes = [@{} mutableCopy];
-    normalFragmentAttributes[NSFontAttributeName] = [UIFont systemFontOfSize:16];
+    normalFragmentAttributes[NSFontAttributeName] = [Theme fontForTextStyle:UIFontTextStyleBody];
     normalFragmentAttributes[NSForegroundColorAttributeName] = [Theme fadedTextColor];
     return [normalFragmentAttributes copy];
 }
@@ -29,7 +29,7 @@ static const NSString * const kRangeKey = @"RangeKey";
 + (NSDictionary *)matchingFragmentAttributes
 {
     NSMutableDictionary *matchingFragmentAttributes = [@{} mutableCopy];
-    matchingFragmentAttributes[NSFontAttributeName] = [UIFont boldSystemFontOfSize:16];
+    matchingFragmentAttributes[NSFontAttributeName] = [Theme fontForTextStyle:UIFontTextStyleHeadline];
     matchingFragmentAttributes[NSForegroundColorAttributeName] = [Theme redColor];
     return [matchingFragmentAttributes copy];
 }

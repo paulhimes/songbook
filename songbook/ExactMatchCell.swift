@@ -13,6 +13,7 @@ class ExactMatchCell: UITableViewCell {
     @objc @IBOutlet weak var sectionTitleLabel: UILabel!
     @objc @IBOutlet weak var numberLabel: UILabel!
     @objc @IBOutlet weak var songTitleLabel: UILabel!
+    @objc @IBOutlet weak var hiddenSpacerLabel: UILabel!
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         let selectedBackgroundView = UIView()

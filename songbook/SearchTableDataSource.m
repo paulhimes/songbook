@@ -91,6 +91,7 @@
         
         exactMatchCell.sectionTitleLabel.textColor = [Theme textColor];
         exactMatchCell.sectionTitleLabel.text = searchExactMatchCellModel.sectionTitle;
+        exactMatchCell.sectionTitleLabel.font = [Theme fontForTextStyle:UIFontTextStyleCaption1];
         
         exactMatchCell.numberLabel.textColor = [Theme textColor];
         if (searchExactMatchCellModel.number > 0) {
@@ -98,9 +99,12 @@
         } else {
             exactMatchCell.numberLabel.text = @"";
         }
+        exactMatchCell.numberLabel.font = [Theme fontForTextStyle:UIFontTextStyleHeadline];
+        exactMatchCell.hiddenSpacerLabel.font = [Theme fontForTextStyle:UIFontTextStyleHeadline];
         
         exactMatchCell.songTitleLabel.textColor = [Theme textColor];
         exactMatchCell.songTitleLabel.text = searchExactMatchCellModel.songTitle;
+        exactMatchCell.songTitleLabel.font = [Theme fontForTextStyle:UIFontTextStyleBody];
         
         cell = exactMatchCell;
     } else if ([cellModel isKindOfClass:[SearchTitleCellModel class]]) {
@@ -113,9 +117,13 @@
         } else {
             basicCell.numberLabel.text = @"";
         }
+        basicCell.numberLabel.font = [Theme fontForTextStyle:UIFontTextStyleHeadline];
+        basicCell.hiddenSpacerLabel.font = [Theme fontForTextStyle:UIFontTextStyleHeadline];
         
         basicCell.titleLabel.textColor = [Theme textColor];
         basicCell.titleLabel.text = searchTitleCellModel.title;
+        basicCell.titleLabel.font = [Theme fontForTextStyle:UIFontTextStyleBody];
+        
         cell = basicCell;
     } else if ([cellModel isKindOfClass:[SearchContextCellModel class]]) {
         SearchContextCellModel *searchContextCellModel = (SearchContextCellModel *)cellModel;
@@ -142,6 +150,7 @@
 
     UILabel *label = [[UILabel alloc] init];
     label.translatesAutoresizingMaskIntoConstraints = NO;
+    label.adjustsFontForContentSizeCategory = YES;
     
     label.attributedText = [[NSAttributedString alloc] initWithString:sectionModel.title attributes:@{NSForegroundColorAttributeName: [Theme paperColor],
                                                                                                       NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline]}];

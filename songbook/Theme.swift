@@ -113,6 +113,22 @@ import UIKit
         }
     }
     
+    @objc static func font(forTextStyle textStyle: UIFontTextStyle) -> UIFont {
+        let preferredSystemFontSize = UIFontDescriptor.preferredFontDescriptor(withTextStyle: textStyle).pointSize
+        let boost: CGFloat = 5
+        let size = preferredSystemFontSize + boost
+        
+        let customFont: UIFont
+        switch textStyle {
+        case .headline:
+            customFont = UIFont.font(withDynamicName: Theme.titleNumberFontName, size: size, numberSpacing: .mono)
+        default:
+            customFont = UIFont.font(withDynamicName: Theme.normalFontName, size: size)
+        }
+        
+        return UIFontMetrics(forTextStyle: textStyle).scaledFont(for: customFont)
+    }
+    
     @objc static func loadFontNamed(_ name: String, completion: (()->Void)?) {
         let cfName = name as CFString
         let cfDescriptors = [ CTFontDescriptorCreateWithNameAndSize(cfName, 50) ] as CFArray
