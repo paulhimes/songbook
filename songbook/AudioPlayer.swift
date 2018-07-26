@@ -180,7 +180,6 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
             guard let audioPlayer = audioPlayer else { return }
 
             audioPlayer.delegate = self
-            audioPlayer.enableRate = true
             audioPlayer.play()
             
             var titleString = ""
