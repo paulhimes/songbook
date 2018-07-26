@@ -89,9 +89,17 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
             return .success
         }
         MPRemoteCommandCenter.shared().playCommand.addTarget() { [weak self] (event) -> MPRemoteCommandHandlerStatus in
-            if !(self?.audioPlayer?.isPlaying ?? false) {
+            if self?.audioPlayer == nil {
+                if let song = self?.delegate?.currentSong() {
+                    self?.startPlayingAtSong(song, tuneIndex: 0)
+                    return .success
+                } else {
+                    return .commandFailed
+                }
+            } else if !(self?.audioPlayer?.isPlaying ?? false) {
+                self?.updateNowPlayingInfoCenterProgress()
                 self?.audioPlayer?.play()
-                self?.resetNowPlayingInfoCenterProgress()
+                self?.updateNowPlayingInfoCenterProgress()
                 if let song = self?.currentSong, let tuneIndex = self?.currentTuneIndex {
                     self?.delegate?.audioPlayerStartedPlayingSong(song, tuneIndex: tuneIndex)
                 }
@@ -114,8 +122,10 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(audioSessionRouteChanged), name: NSNotification.Name.AVAudioSessionRouteChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(audioSessionInterrupted(notification:)), name: NSNotification.Name.AVAudioSessionInterruption, object: nil)
+
     }
-    
+
     @objc private func audioSessionRouteChanged(notification: Notification) {
         guard let audioSessionRouteChangeReason = notification.userInfo![AVAudioSessionRouteChangeReasonKey] as? UInt else {
             if audioPlayer?.isPlaying ?? false {
@@ -133,7 +143,20 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
             break
         }
     }
-    
+
+    @objc func audioSessionInterrupted(notification: Notification) {
+        guard let userInfo = notification.userInfo, let typeInt = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+            let interruptionType = AVAudioSessionInterruptionType(rawValue: typeInt) else { return }
+
+        switch interruptionType {
+        case .began:
+            pausePlayback()
+        case .ended:
+            // We don't want to resume automatically after an interruption.
+            break
+        }
+    }
+
     @objc func startPlayingAtSong(_ song: Song, tuneIndex: Int) {
         currentSong = song
         currentTuneIndex = tuneIndex
@@ -149,11 +172,16 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
         let audioFile = songAudioFiles[tuneIndex]
         
         do {
-            audioPlayer?.stop()
-            audioPlayer = try AVAudioPlayer(contentsOf: audioFile)
-            audioPlayer?.delegate = self
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-            audioPlayer?.play()
+
+            audioPlayer?.stop()
+
+            audioPlayer = try AVAudioPlayer(contentsOf: audioFile)
+            guard let audioPlayer = audioPlayer else { return }
+
+            audioPlayer.delegate = self
+            audioPlayer.enableRate = true
+            audioPlayer.play()
             
             var titleString = ""
             if let number = song.number {
@@ -191,15 +219,16 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
             var nowPlayingInfo: [String: Any] = [MPMediaItemPropertyTitle: titleString,
                                                  MPMediaItemPropertyAlbumTitle: albumString,
                                                  MPMediaItemPropertyArtwork: albumArt,
-                                                 MPNowPlayingInfoPropertyMediaType: MPNowPlayingInfoMediaType.audio.rawValue,
-                                                 MPMediaItemPropertyPlaybackDuration: audioPlayer?.duration ?? 0,
-                                                 MPNowPlayingInfoPropertyPlaybackRate: 1]
-            
+                                                 MPNowPlayingInfoPropertyMediaType: MPNowPlayingInfoMediaType.audio.rawValue]
+
+
             if let author = song.author {
                 nowPlayingInfo[MPMediaItemPropertyArtist] = author
             }
-            
+
             MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+
+            updateNowPlayingInfoCenterProgress()
 
             delegate?.audioPlayerStartedPlayingSong(song, tuneIndex: tuneIndex)
             
@@ -210,18 +239,19 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
     }
     
     private func pausePlayback() {
+        updateNowPlayingInfoCenterProgress()
         audioPlayer?.pause()
-        resetNowPlayingInfoCenterProgress()
+        updateNowPlayingInfoCenterProgress()
         delegate?.audioPlayerStopped()
     }
 
     @objc func stopPlayback() {
         audioPlayer?.stop()
         audioPlayer = nil
-        
+
         currentSong = nil
         currentTuneIndex = 0
-        
+
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
         
         delegate?.audioPlayerStopped()
@@ -309,9 +339,19 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
         return matchingAudioFileURLs
     }
     
-    private func resetNowPlayingInfoCenterProgress() {
-        MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = (audioPlayer?.isPlaying ?? false) ? 1 : 0
-        MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = audioPlayer?.currentTime ?? 0
+    private func updateNowPlayingInfoCenterProgress() {
+        guard let audioPlayer = audioPlayer else {
+            MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
+            return
+        }
+        var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo ?? [String: Any]()
+
+        nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = audioPlayer.duration
+        nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = audioPlayer.currentTime
+        nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = audioPlayer.isPlaying ? 1 : 0
+        nowPlayingInfo[MPNowPlayingInfoPropertyDefaultPlaybackRate] = audioPlayer.isPlaying ? 1 : 0
+
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
     
     // MARK: - AVAudioPlayerDelegate
@@ -325,7 +365,6 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
         case .repeatOne:
             if let currentSong = currentSong {
                 startPlayingAtSong(currentSong, tuneIndex: currentTuneIndex)
-                resetNowPlayingInfoCenterProgress()
             } else {
                 stopPlayback()
             }
@@ -340,6 +379,7 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
 @objc protocol AudioPlayerDelegate {
     func audioPlayerStopped()
     func audioPlayerStartedPlayingSong(_ song: Song, tuneIndex: Int)
+    func currentSong() -> Song?
 }
 
 @objc enum PlaybackMode: Int {

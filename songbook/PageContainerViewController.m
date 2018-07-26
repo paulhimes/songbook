@@ -424,4 +424,9 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     }];
 }
 
+- (Song *)currentSong
+{
+    return [self.pageViewController.pageModelObject closestSong];
+}
+
 @end
