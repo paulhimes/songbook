@@ -12,6 +12,8 @@ import MediaPlayer
 
 class AudioPlayer: NSObject, AVAudioPlayerDelegate {
 
+    private let supportedAudioFileExtensions = ["m4a", "mp3", "wav", "opus", "caf"] // Opus is not yet fully supported. Opus in a CAF container is supported.
+
     @objc var delegate: AudioPlayerDelegate?
     @objc var hasSongFiles: Bool {
         get {
@@ -53,10 +55,12 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
         
         for case let fileURL as URL in directoryEnumerator {
             let fileExtension = fileURL.pathExtension
-            if fileExtension.localizedCaseInsensitiveCompare("m4a") == .orderedSame ||
-               fileExtension.localizedCaseInsensitiveCompare("mp3") == .orderedSame ||
-               fileExtension.localizedCaseInsensitiveCompare("wav") == .orderedSame {
-                audioFileURLs.append(fileURL)
+
+            for supportedAudioFileExtension in supportedAudioFileExtensions {
+                if fileExtension.localizedCaseInsensitiveCompare(supportedAudioFileExtension) == .orderedSame {
+                    audioFileURLs.append(fileURL)
+                    break
+                }
             }
         }
         

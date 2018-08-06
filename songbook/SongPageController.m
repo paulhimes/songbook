@@ -263,54 +263,6 @@ static const float kTextScaleThreshold = 1;
     return paragraphStyle;
 }
 
-- (NSArray<NSURL *> *)pageSongFiles
-{
-    // Generate the target song file URL.
-    NSUInteger songIndex = [self.song.section.songs indexOfObject:self.song];
-    NSUInteger sectionIndex = [self.song.section.book.sections indexOfObject:self.song.section];
-    NSURL *bookDirectory = self.coreDataStack.databaseDirectory;
-    
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSDirectoryEnumerator *directoryEnumerator = [fileManager enumeratorAtURL:bookDirectory
-                                                   includingPropertiesForKeys:@[NSURLIsDirectoryKey]
-                                                                      options:0
-                                                                 errorHandler:^BOOL(NSURL *url, NSError *error) {
-                                                                     NSLog(@"Error enumerating url: %@", url);
-                                                                     return YES;
-                                                                 }];
-    
-    NSString *matchStringA = [NSString stringWithFormat:@"%lu-%lu.", (unsigned long)sectionIndex, (unsigned long)songIndex];
-    NSString *matchStringB = [NSString stringWithFormat:@"%lu-%lu-", (unsigned long)sectionIndex, (unsigned long)songIndex];
-    
-    NSMutableArray *matchingSongFiles = [@[] mutableCopy];
-    for (NSURL *url in directoryEnumerator) {
-        // Skip directories.
-        NSNumber *isDirectory;
-        [url getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:nil];
-        if ([isDirectory boolValue]) {
-            continue;
-        }
-        
-        NSString *fileExtension = [url pathExtension];
-        NSString *fileName = [url lastPathComponent];
-
-        if (([fileName rangeOfString:matchStringA].location == 0 ||
-             [fileName rangeOfString:matchStringB].location == 0) &&
-            ([fileExtension localizedCaseInsensitiveCompare:@"m4a"] == NSOrderedSame ||
-             [fileExtension localizedCaseInsensitiveCompare:@"mp3"] == NSOrderedSame ||
-             [fileExtension localizedCaseInsensitiveCompare:@"wav"] == NSOrderedSame)) {
-                
-            [matchingSongFiles addObject:url];
-        }
-    }
-    
-    [matchingSongFiles sortUsingComparator:^NSComparisonResult(NSURL *songFile1, NSURL *songFile2) {
-        return [[songFile1 lastPathComponent] localizedCaseInsensitiveCompare:[songFile2 lastPathComponent]];
-    }];
-    
-    return matchingSongFiles;
-}
-
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
