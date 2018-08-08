@@ -172,9 +172,11 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
         }
         
 //        // Uncomment these lines to print out a text version of the songbook.
+//        // May need to use this command in the debugger to allow printing of longer strings:
+//        // set set target.max-string-summary-length 10000000
 //        NSString *bookString = [BookCodec stringFromBook:book];
-//        NSLog(@"\n%@", bookString);
-        
+//        printf("%s", [bookString UTF8String]);
+
         NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>"];
         NSString *safeFileName = [[book.title componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
         
