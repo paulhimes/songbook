@@ -13,7 +13,6 @@ const CGFloat kTitleNumberFontSize = 38;
 const CGFloat kTitleFontSize = 24;
 const CGFloat kSubtitleFontSize = 15;
 
-static const NSInteger kTopMargin = 0;
 static const CGFloat kSongComponentPadding = 8;
 
 @interface SongTitleView()
@@ -87,8 +86,13 @@ static const CGFloat kSongComponentPadding = 8;
 
 - (CGRect)placedTextRectForWidth:(CGFloat)width
 {
+    CGFloat topMargin = 0;
+    if (Theme.isLowVisionFontModeActive) {
+        topMargin = 5;
+    }
+    
     CGRect textRect = [self textRectForWidth:width];
-    CGRect placedRect = CGRectMake(0, kTopMargin, textRect.size.width, textRect.size.height);
+    CGRect placedRect = CGRectMake(0, topMargin, textRect.size.width, textRect.size.height);
     return placedRect;
 }
 
