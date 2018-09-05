@@ -3,7 +3,6 @@
 //  songbook
 //
 //  Created by Paul Himes on 2/16/14.
-//  Copyright (c) 2014 Paul Himes. All rights reserved.
 //
 
 #import "SuperScrollIndicator.h"

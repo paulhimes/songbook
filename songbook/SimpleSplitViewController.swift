@@ -3,7 +3,6 @@
 //  SongbookViewControllerTest
 //
 //  Created by Paul Himes on 2/1/18.
-//  Copyright © 2018 Tin Whistle. All rights reserved.
 //
 
 import UIKit

@@ -3,7 +3,6 @@
 //  songbook
 //
 //  Created by Paul Himes on 4/15/18.
-//  Copyright © 2018 Paul Himes. All rights reserved.
 //
 
 @objc enum NumberSpacing: Int {

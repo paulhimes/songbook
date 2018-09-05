@@ -3,7 +3,6 @@
 //  songbook
 //
 //  Created by Paul Himes on 1/23/18.
-//  Copyright © 2018 Paul Himes. All rights reserved.
 //
 
 import UIKit
