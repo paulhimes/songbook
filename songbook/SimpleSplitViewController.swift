@@ -51,13 +51,11 @@ class SimpleSplitViewController: UIViewController {
 
         if !animated {
             updateFrames()
-            view.layoutIfNeeded() // Evaluate subview constraints.
             secondaryContainer.isHidden = !open // Set the resting state visibility.
         } else {
             // Duration and damping ratio were tuned to match the native iOS modal presentation animation.
             let animator = UIViewPropertyAnimator(duration: 0.5, dampingRatio: 0.99231, animations: { [weak self] in
                 self?.updateFrames()
-                self?.view.layoutIfNeeded() // Evaluate subview constraints (animated).
             })
             animator.addCompletion { [weak self] (position) in
                 self?.secondaryContainer.isHidden = !open // Set the resting state visibility.
