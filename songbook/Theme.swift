@@ -113,19 +113,49 @@ import UIKit
     }
     
     @objc static func font(forTextStyle textStyle: UIFontTextStyle) -> UIFont {
-        let preferredSystemFontSize = UIFontDescriptor.preferredFontDescriptor(withTextStyle: textStyle).pointSize
-        let boost: CGFloat = 5
-        let size = preferredSystemFontSize + boost
+        return font(forTextStyle: textStyle, prescaled: true)
+    }
+    
+    @objc static func font(forTextStyle textStyle: UIFontTextStyle, prescaled: Bool = true) -> UIFont {
+        let defaultStyleSize: CGFloat
+        switch textStyle {
+        case .title1:
+            defaultStyleSize = 28
+        case .title2:
+            defaultStyleSize = 22
+        case .title3:
+            defaultStyleSize = 20
+        case .headline:
+            defaultStyleSize = 17
+        case .body:
+            defaultStyleSize = 17
+        case .callout:
+            defaultStyleSize = 16
+        case .subheadline:
+            defaultStyleSize = 15
+        case .footnote:
+            defaultStyleSize = 13
+        case .caption1:
+            defaultStyleSize = 12
+        case .caption2:
+            defaultStyleSize = 11
+        default:
+            defaultStyleSize = 17
+        }
         
         let customFont: UIFont
         switch textStyle {
         case .headline:
-            customFont = UIFont.font(withDynamicName: Theme.titleNumberFontName, size: size, numberSpacing: .mono)
+            customFont = UIFont.font(withDynamicName: Theme.titleNumberFontName, size: defaultStyleSize, numberSpacing: .mono)
         default:
-            customFont = UIFont.font(withDynamicName: Theme.normalFontName, size: size)
+            customFont = UIFont.font(withDynamicName: Theme.normalFontName, size: defaultStyleSize)
         }
         
-        return UIFontMetrics(forTextStyle: textStyle).scaledFont(for: customFont)
+        if prescaled {
+            return UIFontMetrics(forTextStyle: textStyle).scaledFont(for: customFont)
+        } else {
+            return customFont
+        }
     }
     
     @objc static func loadFontNamed(_ name: String, completion: (()->Void)?) {

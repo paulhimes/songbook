@@ -90,7 +90,8 @@
         
         exactMatchCell.sectionTitleLabel.textColor = [Theme textColor];
         exactMatchCell.sectionTitleLabel.text = searchExactMatchCellModel.sectionTitle;
-        exactMatchCell.sectionTitleLabel.font = [Theme fontForTextStyle:UIFontTextStyleCaption1];
+        UIFont *sectionTitleBaseFont = [Theme fontForTextStyle:UIFontTextStyleSubheadline prescaled:NO];
+        exactMatchCell.sectionTitleLabel.font = [[[UIFontMetrics alloc] initForTextStyle:UIFontTextStyleSubheadline] scaledFontForFont:sectionTitleBaseFont maximumPointSize:30];
         
         exactMatchCell.numberLabel.textColor = [Theme textColor];
         if (searchExactMatchCellModel.number > 0) {
@@ -150,9 +151,15 @@
     UILabel *label = [[UILabel alloc] init];
     label.translatesAutoresizingMaskIntoConstraints = NO;
     label.adjustsFontForContentSizeCategory = YES;
+    label.adjustsFontSizeToFitWidth = YES;
+    label.numberOfLines = 0;
+    label.lineBreakMode = NSLineBreakByWordWrapping;
+    
+    UIFont *customFont = [[UIFont preferredFontForTextStyle:UIFontTextStyleHeadline] fontWithSize:17];
+    UIFont *scaledFont = [[[UIFontMetrics alloc] initForTextStyle:UIFontTextStyleHeadline] scaledFontForFont:customFont maximumPointSize:30];
     
     label.attributedText = [[NSAttributedString alloc] initWithString:sectionModel.title attributes:@{NSForegroundColorAttributeName: [Theme paperColor],
-                                                                                                      NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline]}];
+                                                                                                      NSFontAttributeName: scaledFont}];
     
     [headerView addSubview:label];
     [headerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-2-[label]-2-|" options:0 metrics:nil views:@{@"label": label}]];
