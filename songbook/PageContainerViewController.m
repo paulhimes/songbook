@@ -103,17 +103,17 @@ static const NSTimeInterval kPlayerAnimationDuration = 0.5;
     switch (AudioPlayer.playbackMode) {
         case PlaybackModeSingle:
             self.continuousPlaybackButton.image = [UIImage imageNamed:@"continuousPlayback"];
-            self.continuousPlaybackButton.tintColor = Theme.grayTrimColor;
+            self.continuousPlaybackButton.tintColor = [self.pageViewController.pageControlColor colorWithAlphaComponent:0.3];
             self.continuousPlaybackButton.title = @"Play Single";
             break;
         case PlaybackModeContinuous:
             self.continuousPlaybackButton.image = [UIImage imageNamed:@"continuousPlayback"];
-            self.continuousPlaybackButton.tintColor = Theme.redColor;
+            self.continuousPlaybackButton.tintColor = self.pageViewController.pageControlColor;
             self.continuousPlaybackButton.title = @"Play Continuously";
             break;
         case PlaybackModeRepeatOne:
             self.continuousPlaybackButton.image = [UIImage imageNamed:@"repeat"];
-            self.continuousPlaybackButton.tintColor = Theme.redColor;
+            self.continuousPlaybackButton.tintColor = self.pageViewController.pageControlColor;
             self.continuousPlaybackButton.title = @"Repeat";
             break;
     }
