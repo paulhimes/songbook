@@ -140,8 +140,8 @@ static const NSString * const kRangeKey = @"RangeKey";
                     if ([songNumberDecimalOnly isEqualToString:decimalDigitOnlyString]) {
                         [exactMatchCellModels addObject:[[SearchExactMatchCellModel alloc] initWithSongID:song.objectID
                                                                                                    number:[song.number unsignedIntegerValue]
-                                                                                                songTitle:song.title
-                                                                                             sectionTitle:song.section.title]];
+                                                                                                songTitle:song.title.length ? song.title : @""
+                                                                                             sectionTitle:song.section.title.length ? song.section.title : @""]];
                     }
                 }
             }

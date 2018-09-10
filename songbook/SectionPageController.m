@@ -60,7 +60,7 @@
     CGFloat standardTextSize = [standardTextSizeNumber floatValue];
     CGFloat limitedStandardTextSize = MIN(25, standardTextSize);
 
-    return [[NSAttributedString alloc] initWithString:self.section.title
+    return [[NSAttributedString alloc] initWithString:self.section.title.length ? self.section.title : @""
                                            attributes:@{NSFontAttributeName: [UIFont fontWithDynamicName:[Theme normalFontName] size:limitedStandardTextSize * 2],
                                                         NSForegroundColorAttributeName: [Theme textColor]
                                                         }];

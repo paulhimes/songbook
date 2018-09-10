@@ -403,7 +403,7 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
         
         NSString *bookTitle = bookDictionary[kBookTitleKey];
         if ([bookTitle length] == 0) {
-            bookTitle = @"Untitled";
+            bookTitle = @"";
         }
         book.title = bookTitle;
         book.contactEmail = bookDictionary[kContactEmailKey];
@@ -419,7 +419,7 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
             
             NSString *sectionTitle = sectionDictionary[kSectionTitleKey];
             if ([sectionTitle length] == 0) {
-                sectionTitle = @"Untitled";
+                sectionTitle = @"";
             }
             section.title = sectionTitle;
             
@@ -510,11 +510,11 @@ NSString * const kBookDatabaseFileName = @"book.sqlite";
 {
     NSMutableString *string = [@"" mutableCopy];
     
-    [string appendString:book.title];
+    [string appendString:book.title.length ? book.title : @""];
     
     for (Section *section in book.sections) {
         [string appendString:@"\n\n\n\n\n"];
-        [string appendString:section.title];
+        [string appendString:section.title.length ? section.title : @""];
         
         for (Song *song in section.songs) {
             [string appendString:@"\n\n\n\n\n"];

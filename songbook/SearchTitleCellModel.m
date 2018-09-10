@@ -17,7 +17,7 @@
     if (self) {
         _songID = songID;
         _number = number;
-        _title = title;
+        _title = title.length ? title : @"";
     }
     return self;
 }

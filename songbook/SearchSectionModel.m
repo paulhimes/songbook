@@ -14,7 +14,7 @@
 {
     self = [super init];
     if (self) {
-        _title = title;
+        _title = title.length ? title : @"";
         _cellModels = [cellModels copy];
     }
     return self;
