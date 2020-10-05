@@ -23,14 +23,14 @@ class ExactMatchCell: UITableViewCell {
         }
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        NotificationCenter.default.addObserver(self, selector: #selector(preferredSizeCategoryDidChange(notification:)), name: .UIContentSizeCategoryDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(preferredSizeCategoryDidChange(notification:)), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        NotificationCenter.default.addObserver(self, selector: #selector(preferredSizeCategoryDidChange(notification:)), name: .UIContentSizeCategoryDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(preferredSizeCategoryDidChange(notification:)), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
     
     @objc func preferredSizeCategoryDidChange(notification: Notification) {

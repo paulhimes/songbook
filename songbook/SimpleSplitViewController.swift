@@ -1,6 +1,5 @@
 //
 //  SimpleSplitViewController.swift
-//  SongbookViewControllerTest
 //
 //  Created by Paul Himes on 2/1/18.
 //
@@ -86,7 +85,7 @@ class SimpleSplitViewController: UIViewController {
 
             primaryViewController?.view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: outsideInsets, bottom: 0, trailing: outsideInsets)
             secondaryViewController?.view.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: outsideInsets, bottom: 0, trailing: outsideInsets)
-        case .regular, .unspecified:
+        default:
             // Secondary view is presented as a left-side split view.
             let secondaryWidth = ceil(view.bounds.size.width * 1.0/3.0)
             if isOpen {

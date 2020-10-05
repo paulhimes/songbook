@@ -18,7 +18,6 @@
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{kStandardTextSizeKey: @18}];
     
     // Setup the window.
-    self.window.tintColor = [Theme redColor];
     [self.window makeKeyAndVisible];
     
     // Disable screen sleeping.
@@ -35,6 +34,12 @@
     }
     // Title Number Font
     Theme.titleNumberFontName = @"Charter-Black";
+    
+    // Keep themed elements in sync with user default changes.
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateThemedElements)
+                                                 name:NSUserDefaultsDidChangeNotification object:nil];
+    [self updateThemedElements];
 
     return YES;
 }
@@ -97,6 +102,24 @@
 
     for (NSURL *url in directoryEnumerator) {
         [fileManager removeItemAtURL:url error:nil];
+    }
+}
+
+/// Sync the UI controlled by the `AppDelegate` with the current `Theme` settings.
+- (void)updateThemedElements
+{
+    self.window.tintColor = [Theme redColor];
+    if (@available(iOS 13.0, *)) {
+        switch (Theme.currentThemeColor) {
+            case ThemeColorDark:
+                self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
+                break;
+            case ThemeColorLight:
+                self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
+                break;
+            default:
+                break;
+        }
     }
 }
 

@@ -124,8 +124,8 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
             return .success
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(audioSessionRouteChanged), name: NSNotification.Name.AVAudioSessionRouteChange, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(audioSessionInterrupted(notification:)), name: NSNotification.Name.AVAudioSessionInterruption, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(audioSessionRouteChanged), name: AVAudioSession.routeChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(audioSessionInterrupted(notification:)), name: AVAudioSession.interruptionNotification, object: nil)
 
     }
 
@@ -138,7 +138,7 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
         }
         
         switch audioSessionRouteChangeReason {
-        case AVAudioSessionRouteChangeReason.oldDeviceUnavailable.rawValue:
+        case AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue:
             if audioPlayer?.isPlaying ?? false {
                 pausePlayback()
             }
@@ -149,13 +149,15 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
 
     @objc func audioSessionInterrupted(notification: Notification) {
         guard let userInfo = notification.userInfo, let typeInt = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
-            let interruptionType = AVAudioSessionInterruptionType(rawValue: typeInt) else { return }
+            let interruptionType = AVAudioSession.InterruptionType(rawValue: typeInt) else { return }
 
         switch interruptionType {
         case .began:
             pausePlayback()
         case .ended:
             // We don't want to resume automatically after an interruption.
+            break
+        @unknown default:
             break
         }
     }
@@ -175,7 +177,7 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
         let audioFile = songAudioFiles[tuneIndex]
         
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            try AVAudioSession.sharedInstance().setCategory(.playback)
 
             audioPlayer?.stop()
 
@@ -324,8 +326,12 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
     }
     
     @objc func audioFileURLsForSong(_ song: Song) -> [URL] {
-        let songIndex = song.section.songs.index(of: song)
-        let sectionIndex = song.section.book.sections.index(of: song.section)
+        guard let section = song.section else {
+            return []
+        }
+        
+        let songIndex = section.songs.index(of: song)
+        let sectionIndex = section.book.sections.index(of: section)
         let filePrefixA = "\(sectionIndex)-\(songIndex)."
         let filePrefixB = "\(sectionIndex)-\(songIndex)-"
 

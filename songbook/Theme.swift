@@ -112,11 +112,11 @@ import UIKit
         }
     }
     
-    @objc static func font(forTextStyle textStyle: UIFontTextStyle) -> UIFont {
+    @objc static func font(forTextStyle textStyle: UIFont.TextStyle) -> UIFont {
         return font(forTextStyle: textStyle, prescaled: true)
     }
     
-    @objc static func font(forTextStyle textStyle: UIFontTextStyle, prescaled: Bool = true) -> UIFont {
+    @objc static func font(forTextStyle textStyle: UIFont.TextStyle, prescaled: Bool = true) -> UIFont {
         let defaultStyleSize: CGFloat
         switch textStyle {
         case .title1:
