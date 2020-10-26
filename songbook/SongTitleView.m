@@ -117,7 +117,7 @@ static const CGFloat kSongComponentPadding = 8;
 {
     NSMutableAttributedString *attributedString = nil;
 
-    CGRect boundingRect = CGRectMake(0, 0, CGFLOAT_MAX, 0);
+    CGRect boundingRect = CGRectZero;
     NSString *fittedTitle = self.title;
 
     do {

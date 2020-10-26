@@ -71,7 +71,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
 - (UIActivityIndicatorView *)activityIndicator
 {
     if (!_activityIndicator) {
-        _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
         _activityIndicator.hidesWhenStopped = NO;
         [_activityIndicator startAnimating];
     }
@@ -145,7 +145,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    self.tableView.contentInset = UIEdgeInsetsMake(self.topBar.frame.size.height - self.view.layoutMargins.top, 0, 0, 0);
+    self.tableView.contentInset = UIEdgeInsetsMake(self.topBar.frame.size.height - self.view.directionalLayoutMargins.top, 0, 0, 0);
 }
 
 - (void)beginSearch
@@ -251,7 +251,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
 
 - (void)superScrollIndicator:(SuperScrollIndicator *)superScrollIndicator didScrollToPercent:(CGFloat)percent
 {
-    CGFloat maxOffset = maxOffset = self.tableView.contentSize.height - self.tableView.frame.size.height + self.tableView.adjustedContentInset.top + self.tableView.adjustedContentInset.bottom;
+    CGFloat maxOffset = self.tableView.contentSize.height - self.tableView.frame.size.height + self.tableView.adjustedContentInset.top + self.tableView.adjustedContentInset.bottom;
 
     CGFloat targetOffset = maxOffset * percent - self.tableView.adjustedContentInset.top;
 
@@ -263,12 +263,13 @@ typedef enum PreferredSearchMethod : NSUInteger {
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    if (searchText.length == 0) {
-        searchText = nil;
+    NSString *workspaceSearchText = searchText;
+    if (workspaceSearchText.length == 0) {
+        workspaceSearchText = nil;
     }
     
     // Trim whitespace.
-    searchText = [searchText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    workspaceSearchText = [workspaceSearchText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
     // Save the search timestamp.
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -277,8 +278,8 @@ typedef enum PreferredSearchMethod : NSUInteger {
     self.searchField.rightViewMode = UITextFieldViewModeAlways;
     self.searchField.clearButtonMode = UITextFieldViewModeNever;
 
-    NSString *letterOnlyString = [searchText stringLimitedToCharacterSet:[NSCharacterSet letterCharacterSet]];
-    NSString *decimalDigitOnlyString = [searchText stringLimitedToCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
+    NSString *letterOnlyString = [workspaceSearchText stringLimitedToCharacterSet:[NSCharacterSet letterCharacterSet]];
+    NSString *decimalDigitOnlyString = [workspaceSearchText stringLimitedToCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
 
     // Save the preferred search method.
     if ([letterOnlyString length] > 0) {
@@ -294,7 +295,7 @@ typedef enum PreferredSearchMethod : NSUInteger {
     }
     [userDefaults synchronize];
 
-    SearchOperation *operation = [[SearchOperation alloc] initWithSearchString:searchText
+    SearchOperation *operation = [[SearchOperation alloc] initWithSearchString:workspaceSearchText
                                                                           book:self.closestSong.section.book];
     __weak SearchOperation *weakOperation = operation;
     __weak SearchViewController *weakSelf = self;
@@ -312,16 +313,16 @@ typedef enum PreferredSearchMethod : NSUInteger {
                     weakSelf.searchField.clearButtonMode = UITextFieldViewModeWhileEditing;
                 }
 
-                if ((!weakSelf.lastSearchString || [weakSelf.lastSearchString length]) && [searchText length] == 0) {
+                if ((!weakSelf.lastSearchString || [weakSelf.lastSearchString length]) && [workspaceSearchText length] == 0) {
                     // If the search is blank, scroll to the current song.
                     [weakSelf scrollToCurrentSong];
-                } else if ((!weakSelf.lastSearchString && searchText) ||
-                           (weakSelf.lastSearchString && !searchText) ||
-                           [weakSelf.lastSearchString caseInsensitiveCompare:searchText ? searchText : @""] != NSOrderedSame) {
+                } else if ((!weakSelf.lastSearchString && workspaceSearchText) ||
+                           (weakSelf.lastSearchString && !workspaceSearchText) ||
+                           [weakSelf.lastSearchString caseInsensitiveCompare:workspaceSearchText ? workspaceSearchText : @""] != NSOrderedSame) {
                     // If the search text changed (i.e. this was a manual search), Scroll to the top.
                     [weakSelf scrollToTop];
                 }
-                weakSelf.lastSearchString = searchText;
+                weakSelf.lastSearchString = workspaceSearchText;
             }];
         }
     }];

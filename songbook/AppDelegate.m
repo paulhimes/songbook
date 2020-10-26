@@ -36,9 +36,10 @@
     Theme.titleNumberFontName = @"Charter-Black";
     
     // Keep themed elements in sync with user default changes.
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateThemedElements)
-                                                 name:NSUserDefaultsDidChangeNotification object:nil];
+    [NSNotificationCenter.defaultCenter addObserver:self
+                                           selector:@selector(updateThemedElements)
+                                               name:NSUserDefaultsDidChangeNotification
+                                             object:nil];
     [self updateThemedElements];
 
     return YES;
@@ -108,8 +109,8 @@
 /// Sync the UI controlled by the `AppDelegate` with the current `Theme` settings.
 - (void)updateThemedElements
 {
-    self.window.tintColor = [Theme redColor];
-    if (@available(iOS 13.0, *)) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.window.tintColor = [Theme redColor];
         switch (Theme.currentThemeColor) {
             case ThemeColorDark:
                 self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
@@ -120,7 +121,7 @@
             default:
                 break;
         }
-    }
+    });
 }
 
 @end

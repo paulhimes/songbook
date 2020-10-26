@@ -52,7 +52,7 @@ static const float kTextScaleThreshold = 1;
 
 - (CGFloat)minimumContentOffset
 {
-    return -(self.view.layoutMargins.top + self.textView.contentInset.top);
+    return -(self.view.directionalLayoutMargins.top + self.textView.contentInset.top);
 }
 
 - (CGFloat)maximumContentOffset
@@ -98,8 +98,11 @@ static const float kTextScaleThreshold = 1;
     CGFloat titleContentOriginY = self.titleView.contentOriginY;
     
     [self updateTextViewTextContainerInset];
-    self.textView.contentInset = UIEdgeInsetsMake(titleContentOriginY, 0, self.bottomBarBackground.frame.size.height - self.view.layoutMargins.bottom, 0);
-    self.textView.scrollIndicatorInsets = UIEdgeInsetsMake(self.titleView.frame.size.height, self.textView.scrollIndicatorInsets.left, self.bottomBarBackground.frame.size.height - self.view.layoutMargins.bottom, 0);
+    self.textView.contentInset = UIEdgeInsetsMake(titleContentOriginY, 0, self.bottomBarBackground.frame.size.height - self.view.directionalLayoutMargins.bottom, 0);
+    self.textView.verticalScrollIndicatorInsets = UIEdgeInsetsMake(self.titleView.frame.size.height,
+                                                                   0,
+                                                                   self.bottomBarBackground.frame.size.height - self.view.directionalLayoutMargins.bottom,
+                                                                   0);
 
     // Auto scroll to the highlight if there is no bookmark.
     if (self.bookmarkedGlyphIndex == nil && self.bookmarkedGlyphYOffset == nil) {
@@ -145,7 +148,7 @@ static const float kTextScaleThreshold = 1;
         bottomSpace -= bottomInsetOfLastTextLineBeforeFooter + [UIFont fontWithDynamicName:[Theme normalFontName] size:standardTextSize].leading;
     }
     
-    self.textView.textContainerInset = UIEdgeInsetsMake(0, self.view.layoutMargins.left, bottomSpace, self.view.layoutMargins.right);
+    self.textView.textContainerInset = UIEdgeInsetsMake(0, self.view.directionalLayoutMargins.leading, bottomSpace, self.view.directionalLayoutMargins.trailing);
 }
 
 - (id<SongbookModel>)modelObject

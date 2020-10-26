@@ -130,6 +130,8 @@
         ContextCell *contextCell = [tableView dequeueReusableCellWithIdentifier:@"ContextCell" forIndexPath:indexPath];
         [contextCell setAttributedText:searchContextCellModel.content];
         cell = contextCell;
+    } else {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Placeholder"];
     }
     
     cell.backgroundColor = [Theme paperColor];

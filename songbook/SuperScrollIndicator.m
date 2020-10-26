@@ -34,12 +34,12 @@ static const NSUInteger kIndicatorMinimumMargin = 4;
 
 - (CGFloat)indicatorTopMargin
 {
-    return MAX(kIndicatorMinimumMargin, self.layoutMargins.top);
+    return MAX(kIndicatorMinimumMargin, self.directionalLayoutMargins.top);
 }
 
 - (CGFloat)indicatorBottomMargin
 {
-    return MAX(kIndicatorMinimumMargin, self.layoutMargins.bottom);
+    return MAX(kIndicatorMinimumMargin, self.directionalLayoutMargins.bottom);
 }
 
 - (UIColor *)normalBackgroudColor
