@@ -93,6 +93,10 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
         }
         MPRemoteCommandCenter.shared().playCommand.addTarget() { [weak self] (event) -> MPRemoteCommandHandlerStatus in
             if self?.audioPlayer == nil {
+                // Enabling guided access sends an unwanted Play command to the `MPRemoteCommandCenter`.
+                guard !UIAccessibility.isGuidedAccessEnabled else {
+                    return .commandFailed
+                }
                 if let song = self?.delegate?.currentSong() {
                     self?.startPlayingAtSong(song, tuneIndex: 0)
                     return .success
