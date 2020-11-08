@@ -1,57 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3396" systemVersion="13B42" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="Book" representedClassName="Book" syncable="YES">
-        <attribute name="contactEmail" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="updateURL" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="version" attributeType="Integer 64" minValueString="1" defaultValueString="1" syncable="YES"/>
-        <relationship name="sections" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Section" inverseName="book" inverseEntity="Section" syncable="YES"/>
-    </entity>
-    <entity name="Section" representedClassName="Section" syncable="YES">
-        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="sections" inverseEntity="Book" syncable="YES"/>
-        <relationship name="songs" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Song" inverseName="section" inverseEntity="Song" syncable="YES"/>
-    </entity>
-    <entity name="Song" representedClassName="Song" syncable="YES">
-        <attribute name="author" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="cachedString" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
-        <attribute name="number" optional="YES" attributeType="Integer 64" syncable="YES"/>
-        <attribute name="subtitle" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="year" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="relatedSongs" toMany="YES" deletionRule="Nullify" destinationEntity="Song" inverseName="relatedSongs" inverseEntity="Song" syncable="YES"/>
-        <relationship name="section" maxCount="1" deletionRule="Nullify" destinationEntity="Section" inverseName="songs" inverseEntity="Section" syncable="YES"/>
-        <relationship name="tokenInstances" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="TokenInstance" inverseName="song" inverseEntity="TokenInstance" syncable="YES"/>
-        <relationship name="verses" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Verse" inverseName="song" inverseEntity="Verse" syncable="YES"/>
-    </entity>
-    <entity name="Token" representedClassName="Token" syncable="YES">
-        <attribute name="text" attributeType="String" indexed="YES" syncable="YES"/>
-        <relationship name="instances" toMany="YES" deletionRule="Cascade" destinationEntity="TokenInstance" inverseName="token" inverseEntity="TokenInstance" syncable="YES"/>
-    </entity>
-    <entity name="TokenInstance" representedClassName="TokenInstance" syncable="YES">
-        <attribute name="length" attributeType="Integer 64" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="location" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <relationship name="nextInstance" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TokenInstance" inverseName="previousInstance" inverseEntity="TokenInstance" syncable="YES"/>
-        <relationship name="previousInstance" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TokenInstance" inverseName="nextInstance" inverseEntity="TokenInstance" syncable="YES"/>
-        <relationship name="song" maxCount="1" deletionRule="Nullify" destinationEntity="Song" inverseName="tokenInstances" inverseEntity="Song" syncable="YES"/>
-        <relationship name="token" maxCount="1" deletionRule="Nullify" destinationEntity="Token" inverseName="instances" inverseEntity="Token" syncable="YES"/>
-    </entity>
-    <entity name="Verse" representedClassName="Verse" syncable="YES">
-        <attribute name="isChorus" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
-        <attribute name="number" optional="YES" attributeType="Integer 64" syncable="YES"/>
-        <attribute name="repeatText" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="chorus" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Verse" inverseName="precedingVerses" inverseEntity="Verse" syncable="YES"/>
-        <relationship name="precedingVerses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Verse" inverseName="chorus" inverseEntity="Verse" syncable="YES"/>
-        <relationship name="song" maxCount="1" deletionRule="Nullify" destinationEntity="Song" inverseName="verses" inverseEntity="Song" syncable="YES"/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
+    <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
+        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <elements>
-        <element name="Book" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Section" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Song" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Token" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="TokenInstance" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Verse" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Item" positionX="-63" positionY="-18" width="128" height="44"/>
     </elements>
 </model>

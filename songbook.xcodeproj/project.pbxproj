@@ -3,594 +3,149 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8B039ABF1911FAE6005F14B4 /* BookActivityItemSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B039ABE1911FAE6005F14B4 /* BookActivityItemSource.m */; };
-		8B039AC219146590005F14B4 /* ExportProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B039AC119146590005F14B4 /* ExportProgressViewController.m */; };
-		8B088FC217C867440043341D /* UIView+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B088FC117C867440043341D /* UIView+Helpers.m */; };
-		8B0F610219CE2E4600B04BC4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B0F610119CE2E4600B04BC4 /* LaunchScreen.xib */; };
-		8B14431917EFDAB60000A898 /* Token.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42031217E7CAEE00019A80 /* Token.m */; };
-		8B14432217F141770000A898 /* SearchSectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B14432117F141770000A898 /* SearchSectionModel.m */; };
-		8B14432617F142190000A898 /* SearchTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B14432517F142190000A898 /* SearchTableModel.m */; };
-		8B191A051809CEB50071DF4D /* SafeTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B191A041809CEB50071DF4D /* SafeTextView.m */; };
-		8B3DC5B7202BD5A2001EBA43 /* SimpleSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3DC5B6202BD5A1001EBA43 /* SimpleSplitViewController.swift */; };
-		8B3DC5BC202BDDBE001EBA43 /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3DC5BB202BDDBE001EBA43 /* BookViewController.swift */; };
-		8B42030D17E7CAED00019A80 /* TokenInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42030C17E7CAED00019A80 /* TokenInstance.m */; };
-		8B42031017E7CAED00019A80 /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42030F17E7CAED00019A80 /* Song.m */; };
-		8B42031717E7D51C00019A80 /* TokenInstance+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B42031617E7D51C00019A80 /* TokenInstance+Helpers.m */; };
-		8B5203BD208397380021DCF7 /* UIFontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5203BC208397380021DCF7 /* UIFontExtension.swift */; };
-		8B6FC947181C88F900BACCCB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B6FC946181C88F900BACCCB /* MessageUI.framework */; };
-		8B7B42222018508800939C77 /* SearchExactMatchCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B42212018508800939C77 /* SearchExactMatchCellModel.swift */; };
-		8B7B42242018542500939C77 /* ExactMatchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B42232018542500939C77 /* ExactMatchCell.swift */; };
-		8B810A5517D9519A00F339CE /* Token+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B810A5417D9519A00F339CE /* Token+Helpers.m */; };
-		8B836BD220CE0B3F00714E6E /* APHont-Bold_q15c.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B836BCF20CE0B3800714E6E /* APHont-Bold_q15c.ttf */; };
-		8B836BD520CE0B3F00714E6E /* APHont-Regular_q15c.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B836BD020CE0B3800714E6E /* APHont-Regular_q15c.ttf */; };
-		8B94531F17A5F15D00327479 /* Song+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94531E17A5F15D00327479 /* Song+Helpers.m */; };
-		8B94532217A5F3E500327479 /* Verse+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94532117A5F3E500327479 /* Verse+Helpers.m */; };
-		8B94532517A5F44000327479 /* Section+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94532417A5F43800327479 /* Section+Helpers.m */; };
-		8B94532817A5F4C900327479 /* Book+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B94532717A5F4C900327479 /* Book+Helpers.m */; };
-		8BA305E617A0BCF200A2ABDE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305E517A0BCF200A2ABDE /* Foundation.framework */; };
-		8BA305E817A0BCF200A2ABDE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305E717A0BCF200A2ABDE /* CoreGraphics.framework */; };
-		8BA305EA17A0BCF200A2ABDE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305E917A0BCF200A2ABDE /* UIKit.framework */; };
-		8BA305EC17A0BCF200A2ABDE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305EB17A0BCF200A2ABDE /* CoreData.framework */; };
-		8BA305F217A0BCF200A2ABDE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8BA305F017A0BCF200A2ABDE /* InfoPlist.strings */; };
-		8BA305F417A0BCF200A2ABDE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA305F317A0BCF200A2ABDE /* main.m */; };
-		8BA305F817A0BCF200A2ABDE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA305F717A0BCF200A2ABDE /* AppDelegate.m */; };
-		8BA305FB17A0BCF200A2ABDE /* songbook.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8BA305F917A0BCF200A2ABDE /* songbook.xcdatamodeld */; };
-		8BA305FD17A0BCF200A2ABDE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8BA305FC17A0BCF200A2ABDE /* Images.xcassets */; };
-		8BA3060517A0BCF200A2ABDE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305E517A0BCF200A2ABDE /* Foundation.framework */; };
-		8BA3060617A0BCF200A2ABDE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305E917A0BCF200A2ABDE /* UIKit.framework */; };
-		8BA3060717A0BCF200A2ABDE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA305EB17A0BCF200A2ABDE /* CoreData.framework */; };
-		8BA3060F17A0BCF200A2ABDE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8BA3060D17A0BCF200A2ABDE /* InfoPlist.strings */; };
-		8BA3061117A0BCF200A2ABDE /* songbookTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA3061017A0BCF200A2ABDE /* songbookTests.m */; };
-		8BA3061B17A0BDAD00A2ABDE /* Songbook.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BA3061A17A0BDAD00A2ABDE /* Songbook.storyboard */; };
-		8BA3062117A1656B00A2ABDE /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA3062017A1640B00A2ABDE /* PageViewController.m */; };
-		8BA5142917ADA275009E960D /* UIView+Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5142817ADA275009E960D /* UIView+Debug.m */; };
-		8BA785B317D5864D00BEF4D9 /* NSString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA785B217D5864D00BEF4D9 /* NSString+Helpers.m */; };
-		8BAF35D7181E274200D6A93E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BAF35D6181E274200D6A93E /* libz.dylib */; };
-		8BAF35F8181F285400D6A93E /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF35ED181F285400D6A93E /* ioapi.c */; };
-		8BAF35FA181F285400D6A93E /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF35F1181F285400D6A93E /* unzip.c */; };
-		8BAF35FB181F285400D6A93E /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF35F3181F285400D6A93E /* zip.c */; };
-		8BAF35FC181F285400D6A93E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 8BAF35F5181F285400D6A93E /* README.md */; };
-		8BAF35FD181F285400D6A93E /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF35F7181F285400D6A93E /* ZipArchive.mm */; };
-		8BAF36081824C41700D6A93E /* CoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF36071824C41700D6A93E /* CoreDataStack.m */; };
-		8BAF36111824D95200D6A93E /* OrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF36101824D95200D6A93E /* OrderedDictionary.m */; };
-		8BAF6AE41816196200BFC813 /* BookCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF6AE31816196200BFC813 /* BookCodec.m */; };
-		8BB0F584189CBC1D004D6377 /* SmartSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE5A65417CD8FA2002028E5 /* SmartSearcher.m */; };
-		8BB0F585189CBC27004D6377 /* FilteredSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE5A65117CD2356002028E5 /* FilteredSearcher.m */; };
-		8BB0F586189CBC32004D6377 /* SimpleSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB02AE117CB97BE001CCB6C /* SimpleSearcher.m */; };
-		8BB0F587189CBC3F004D6377 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAE5B4C17B1F7C5004631CA /* SearchViewController.m */; };
-		8BB0F588189CBC49004D6377 /* SearchOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B14431B17F10E560000A898 /* SearchOperation.m */; };
-		8BB0F589189CBC50004D6377 /* SearchTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B14432817F68CDA0000A898 /* SearchTableDataSource.m */; };
-		8BB0F58B189CBC5E004D6377 /* PageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B6F1BEE17ACB67D00F72C3D /* PageController.m */; };
-		8BB0F58C189CBC64004D6377 /* TitlePageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BED9F0C17C91E9A00D834BE /* TitlePageController.m */; };
-		8BB0F58E189CBCE4004D6377 /* SectionPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B6F1BFC17ACBC4C00F72C3D /* SectionPageController.m */; };
-		8BB0F58F189CBCFC004D6377 /* BookPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B6F1BF317ACBBFB00F72C3D /* BookPageController.m */; };
-		8BB0F590189CBD06004D6377 /* SongPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB54D5E17A4C79300FD2914 /* SongPageController.m */; };
-		8BB0F591189CBD0C004D6377 /* SongTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C617B9E1D8001E71B1 /* SongTitleView.m */; };
-		8BB0F592189CBD1E004D6377 /* BookManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF3602182344DD00D6A93E /* BookManagerViewController.m */; };
-		8BB0F593189CBD2C004D6377 /* TokenizeOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAF3613182B3EDA00D6A93E /* TokenizeOperation.m */; };
-		8BB18AD917A5DB76006E257C /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB18AD817A5DB76006E257C /* Section.m */; };
-		8BB18ADF17A5DB77006E257C /* Verse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB18ADE17A5DB77006E257C /* Verse.m */; };
-		8BB4CBE918959EA0009F0FA1 /* default.songbook in Resources */ = {isa = PBXBuildFile; fileRef = 8BB4CBE818959EA0009F0FA1 /* default.songbook */; };
-		8BB54D5C17A4C60700FD2914 /* PageServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB54D5B17A4C60700FD2914 /* PageServer.m */; };
-		8BBF1D1220CF4EFA004AD08D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8BBF1D1120CF4EFA004AD08D /* Settings.bundle */; };
-		8BBFC36C20103F8E00A8DEF0 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBFC36B20103F8E00A8DEF0 /* AudioPlayer.swift */; };
-		8BC10FF520804AF0000E274B /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC10FF420804AF0000E274B /* Theme.swift */; };
-		8BC674CA17BC912C001E71B1 /* NSMutableAttributedString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */; };
-		8BC7D648188344DD008F2289 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7D647188344DD008F2289 /* Book.m */; };
-		8BCA006F18457F9B00600947 /* PageContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BCA006E18457F9B00600947 /* PageContainerViewController.m */; };
-		8BD5141018A7F912002DC6B1 /* BasicCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5140F18A7F912002DC6B1 /* BasicCell.m */; };
-		8BD5141318A7FAC1002DC6B1 /* SearchTitleCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5141218A7FAC1002DC6B1 /* SearchTitleCellModel.m */; };
-		8BD5141618A7FB3C002DC6B1 /* SearchContextCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5141518A7FB3C002DC6B1 /* SearchContextCellModel.m */; };
-		8BD5141918A83E50002DC6B1 /* ContextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5141818A83E50002DC6B1 /* ContextCell.m */; };
-		8BD5141C18A856E7002DC6B1 /* UIColor+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5141B18A856E7002DC6B1 /* UIColor+Helpers.m */; };
-		8BD5141F18B1B638002DC6B1 /* SuperScrollIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD5141E18B1B638002DC6B1 /* SuperScrollIndicator.m */; };
-		8BED9F1017C9418400D834BE /* GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BED9F0F17C9418400D834BE /* GradientView.m */; };
+		8B7FE19925577DA500D64403 /* songbookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7FE19825577DA500D64403 /* songbookApp.swift */; };
+		8B7FE19B25577DA500D64403 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7FE19A25577DA500D64403 /* ContentView.swift */; };
+		8B7FE19D25577DA500D64403 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B7FE19C25577DA500D64403 /* Assets.xcassets */; };
+		8B7FE1A025577DA500D64403 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B7FE19F25577DA500D64403 /* Preview Assets.xcassets */; };
+		8B7FE1A225577DA500D64403 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7FE1A125577DA500D64403 /* Persistence.swift */; };
+		8B7FE1A525577DA500D64403 /* songbook.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8B7FE1A325577DA500D64403 /* songbook.xcdatamodeld */; };
+		8B7FE1B025577DA600D64403 /* songbookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7FE1AF25577DA600D64403 /* songbookTests.swift */; };
+		8B7FE1BB25577DA600D64403 /* songbookUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7FE1BA25577DA600D64403 /* songbookUITests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		8BA3060817A0BCF200A2ABDE /* PBXContainerItemProxy */ = {
+		8B7FE1AC25577DA600D64403 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 8BA305DA17A0BCF200A2ABDE /* Project object */;
+			containerPortal = 8B7FE18D25577DA500D64403 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 8BA305E117A0BCF200A2ABDE;
+			remoteGlobalIDString = 8B7FE19425577DA500D64403;
+			remoteInfo = songbook;
+		};
+		8B7FE1B725577DA600D64403 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8B7FE18D25577DA500D64403 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8B7FE19425577DA500D64403;
 			remoteInfo = songbook;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8B039ABD1911FAE6005F14B4 /* BookActivityItemSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookActivityItemSource.h; sourceTree = "<group>"; };
-		8B039ABE1911FAE6005F14B4 /* BookActivityItemSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookActivityItemSource.m; sourceTree = "<group>"; };
-		8B039AC019146590005F14B4 /* ExportProgressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExportProgressViewController.h; sourceTree = "<group>"; };
-		8B039AC119146590005F14B4 /* ExportProgressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExportProgressViewController.m; sourceTree = "<group>"; };
-		8B088FC017C867440043341D /* UIView+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Helpers.h"; sourceTree = "<group>"; };
-		8B088FC117C867440043341D /* UIView+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Helpers.m"; sourceTree = "<group>"; };
-		8B0F610119CE2E4600B04BC4 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
-		8B14431A17F10E560000A898 /* SearchOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchOperation.h; sourceTree = "<group>"; };
-		8B14431B17F10E560000A898 /* SearchOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchOperation.m; sourceTree = "<group>"; };
-		8B14431D17F140420000A898 /* SearchCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchCellModel.h; sourceTree = "<group>"; };
-		8B14432017F141770000A898 /* SearchSectionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchSectionModel.h; sourceTree = "<group>"; };
-		8B14432117F141770000A898 /* SearchSectionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchSectionModel.m; sourceTree = "<group>"; };
-		8B14432417F142190000A898 /* SearchTableModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableModel.h; sourceTree = "<group>"; };
-		8B14432517F142190000A898 /* SearchTableModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableModel.m; sourceTree = "<group>"; };
-		8B14432717F68CDA0000A898 /* SearchTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableDataSource.h; sourceTree = "<group>"; };
-		8B14432817F68CDA0000A898 /* SearchTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableDataSource.m; sourceTree = "<group>"; };
-		8B191A031809CEB50071DF4D /* SafeTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SafeTextView.h; sourceTree = "<group>"; };
-		8B191A041809CEB50071DF4D /* SafeTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SafeTextView.m; sourceTree = "<group>"; };
-		8B3DC5B6202BD5A1001EBA43 /* SimpleSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleSplitViewController.swift; sourceTree = "<group>"; };
-		8B3DC5BB202BDDBE001EBA43 /* BookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookViewController.swift; sourceTree = "<group>"; };
-		8B42030B17E7CAED00019A80 /* TokenInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TokenInstance.h; sourceTree = "<group>"; };
-		8B42030C17E7CAED00019A80 /* TokenInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenInstance.m; sourceTree = "<group>"; };
-		8B42030E17E7CAED00019A80 /* Song.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Song.h; sourceTree = "<group>"; };
-		8B42030F17E7CAED00019A80 /* Song.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Song.m; sourceTree = "<group>"; };
-		8B42031117E7CAEE00019A80 /* Token.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Token.h; sourceTree = "<group>"; };
-		8B42031217E7CAEE00019A80 /* Token.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Token.m; sourceTree = "<group>"; };
-		8B42031517E7D51C00019A80 /* TokenInstance+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TokenInstance+Helpers.h"; sourceTree = "<group>"; };
-		8B42031617E7D51C00019A80 /* TokenInstance+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TokenInstance+Helpers.m"; sourceTree = "<group>"; };
-		8B5203BC208397380021DCF7 /* UIFontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFontExtension.swift; sourceTree = "<group>"; };
-		8B6F1BED17ACB67D00F72C3D /* PageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageController.h; sourceTree = "<group>"; };
-		8B6F1BEE17ACB67D00F72C3D /* PageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageController.m; sourceTree = "<group>"; };
-		8B6F1BF217ACBBFB00F72C3D /* BookPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookPageController.h; sourceTree = "<group>"; };
-		8B6F1BF317ACBBFB00F72C3D /* BookPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookPageController.m; sourceTree = "<group>"; };
-		8B6F1BFB17ACBC4C00F72C3D /* SectionPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionPageController.h; sourceTree = "<group>"; };
-		8B6F1BFC17ACBC4C00F72C3D /* SectionPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionPageController.m; sourceTree = "<group>"; };
-		8B6FC946181C88F900BACCCB /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		8B7B42212018508800939C77 /* SearchExactMatchCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchExactMatchCellModel.swift; sourceTree = "<group>"; };
-		8B7B42232018542500939C77 /* ExactMatchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExactMatchCell.swift; sourceTree = "<group>"; };
-		8B810A5317D9519A00F339CE /* Token+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Token+Helpers.h"; sourceTree = "<group>"; };
-		8B810A5417D9519A00F339CE /* Token+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Token+Helpers.m"; sourceTree = "<group>"; };
-		8B836BCF20CE0B3800714E6E /* APHont-Bold_q15c.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "APHont-Bold_q15c.ttf"; sourceTree = "<group>"; };
-		8B836BD020CE0B3800714E6E /* APHont-Regular_q15c.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "APHont-Regular_q15c.ttf"; sourceTree = "<group>"; };
-		8B94531D17A5F15D00327479 /* Song+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Song+Helpers.h"; sourceTree = "<group>"; };
-		8B94531E17A5F15D00327479 /* Song+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Song+Helpers.m"; sourceTree = "<group>"; };
-		8B94532017A5F3E500327479 /* Verse+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Verse+Helpers.h"; sourceTree = "<group>"; };
-		8B94532117A5F3E500327479 /* Verse+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Verse+Helpers.m"; sourceTree = "<group>"; };
-		8B94532317A5F43800327479 /* Section+Helpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Section+Helpers.h"; sourceTree = "<group>"; };
-		8B94532417A5F43800327479 /* Section+Helpers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Section+Helpers.m"; sourceTree = "<group>"; };
-		8B94532617A5F4C900327479 /* Book+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Book+Helpers.h"; sourceTree = "<group>"; };
-		8B94532717A5F4C900327479 /* Book+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Book+Helpers.m"; sourceTree = "<group>"; };
-		8BA305E217A0BCF200A2ABDE /* songbook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = songbook.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		8BA305E517A0BCF200A2ABDE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		8BA305E717A0BCF200A2ABDE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		8BA305E917A0BCF200A2ABDE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		8BA305EB17A0BCF200A2ABDE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		8BA305EF17A0BCF200A2ABDE /* songbook-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "songbook-Info.plist"; sourceTree = "<group>"; };
-		8BA305F117A0BCF200A2ABDE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		8BA305F317A0BCF200A2ABDE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		8BA305F517A0BCF200A2ABDE /* songbook-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "songbook-Prefix.pch"; sourceTree = "<group>"; };
-		8BA305F617A0BCF200A2ABDE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		8BA305F717A0BCF200A2ABDE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		8BA305FA17A0BCF200A2ABDE /* songbook.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = songbook.xcdatamodel; sourceTree = "<group>"; };
-		8BA305FC17A0BCF200A2ABDE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		8BA3060217A0BCF200A2ABDE /* songbookTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = songbookTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8BA3060C17A0BCF200A2ABDE /* songbookTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "songbookTests-Info.plist"; sourceTree = "<group>"; };
-		8BA3060E17A0BCF200A2ABDE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		8BA3061017A0BCF200A2ABDE /* songbookTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = songbookTests.m; sourceTree = "<group>"; };
-		8BA3061A17A0BDAD00A2ABDE /* Songbook.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Songbook.storyboard; sourceTree = "<group>"; };
-		8BA3061F17A1640B00A2ABDE /* PageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PageViewController.h; sourceTree = "<group>"; };
-		8BA3062017A1640B00A2ABDE /* PageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PageViewController.m; sourceTree = "<group>"; };
-		8BA5142717ADA275009E960D /* UIView+Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Debug.h"; sourceTree = "<group>"; };
-		8BA5142817ADA275009E960D /* UIView+Debug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Debug.m"; sourceTree = "<group>"; };
-		8BA785B117D5864D00BEF4D9 /* NSString+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Helpers.h"; sourceTree = "<group>"; };
-		8BA785B217D5864D00BEF4D9 /* NSString+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Helpers.m"; sourceTree = "<group>"; };
-		8BA85DFD17B2F12200F6B3B7 /* SongbookModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongbookModel.h; sourceTree = "<group>"; };
-		8BAE5B4B17B1F7C5004631CA /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
-		8BAE5B4C17B1F7C5004631CA /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
-		8BAF35D6181E274200D6A93E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		8BAF35EC181F285400D6A93E /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
-		8BAF35ED181F285400D6A93E /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
-		8BAF35EE181F285400D6A93E /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
-		8BAF35F1181F285400D6A93E /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
-		8BAF35F2181F285400D6A93E /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
-		8BAF35F3181F285400D6A93E /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
-		8BAF35F4181F285400D6A93E /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
-		8BAF35F5181F285400D6A93E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		8BAF35F6181F285400D6A93E /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
-		8BAF35F7181F285400D6A93E /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZipArchive.mm; sourceTree = "<group>"; };
-		8BAF3601182344DD00D6A93E /* BookManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookManagerViewController.h; sourceTree = "<group>"; };
-		8BAF3602182344DD00D6A93E /* BookManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookManagerViewController.m; sourceTree = "<group>"; };
-		8BAF36061824C41700D6A93E /* CoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataStack.h; sourceTree = "<group>"; };
-		8BAF36071824C41700D6A93E /* CoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataStack.m; sourceTree = "<group>"; };
-		8BAF360F1824D95200D6A93E /* OrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderedDictionary.h; sourceTree = "<group>"; };
-		8BAF36101824D95200D6A93E /* OrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedDictionary.m; sourceTree = "<group>"; };
-		8BAF3612182B3EDA00D6A93E /* TokenizeOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TokenizeOperation.h; sourceTree = "<group>"; };
-		8BAF3613182B3EDA00D6A93E /* TokenizeOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenizeOperation.m; sourceTree = "<group>"; };
-		8BAF6AE21816196200BFC813 /* BookCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookCodec.h; sourceTree = "<group>"; };
-		8BAF6AE31816196200BFC813 /* BookCodec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookCodec.m; sourceTree = "<group>"; };
-		8BB02AE017CB97BE001CCB6C /* SimpleSearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleSearcher.h; sourceTree = "<group>"; };
-		8BB02AE117CB97BE001CCB6C /* SimpleSearcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleSearcher.m; sourceTree = "<group>"; };
-		8BB02AE317CC3935001CCB6C /* Searcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Searcher.h; sourceTree = "<group>"; };
-		8BB18AD717A5DB76006E257C /* Section.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Section.h; path = ../Section.h; sourceTree = "<group>"; };
-		8BB18AD817A5DB76006E257C /* Section.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Section.m; path = ../Section.m; sourceTree = "<group>"; };
-		8BB18ADD17A5DB77006E257C /* Verse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Verse.h; path = ../Verse.h; sourceTree = "<group>"; };
-		8BB18ADE17A5DB77006E257C /* Verse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Verse.m; path = ../Verse.m; sourceTree = "<group>"; };
-		8BB4CBE818959EA0009F0FA1 /* default.songbook */ = {isa = PBXFileReference; lastKnownFileType = file; path = default.songbook; sourceTree = "<group>"; };
-		8BB54D5A17A4C60700FD2914 /* PageServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PageServer.h; path = ../PageServer.h; sourceTree = "<group>"; };
-		8BB54D5B17A4C60700FD2914 /* PageServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PageServer.m; path = ../PageServer.m; sourceTree = "<group>"; };
-		8BB54D5D17A4C79300FD2914 /* SongPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongPageController.h; sourceTree = "<group>"; };
-		8BB54D5E17A4C79300FD2914 /* SongPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongPageController.m; sourceTree = "<group>"; };
-		8BBF1D1120CF4EFA004AD08D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		8BBFC36A20103F8E00A8DEF0 /* songbook-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "songbook-Bridging-Header.h"; sourceTree = "<group>"; };
-		8BBFC36B20103F8E00A8DEF0 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
-		8BC10FF420804AF0000E274B /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
-		8BC674C517B9E1D8001E71B1 /* SongTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongTitleView.h; sourceTree = "<group>"; };
-		8BC674C617B9E1D8001E71B1 /* SongTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongTitleView.m; sourceTree = "<group>"; };
-		8BC674C817BC912C001E71B1 /* NSMutableAttributedString+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+Helpers.h"; sourceTree = "<group>"; };
-		8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableAttributedString+Helpers.m"; sourceTree = "<group>"; };
-		8BC7D646188344DD008F2289 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
-		8BC7D647188344DD008F2289 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
-		8BCA006D18457F9B00600947 /* PageContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageContainerViewController.h; sourceTree = "<group>"; };
-		8BCA006E18457F9B00600947 /* PageContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageContainerViewController.m; sourceTree = "<group>"; };
-		8BD5140E18A7F912002DC6B1 /* BasicCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicCell.h; sourceTree = "<group>"; };
-		8BD5140F18A7F912002DC6B1 /* BasicCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicCell.m; sourceTree = "<group>"; };
-		8BD5141118A7FAC1002DC6B1 /* SearchTitleCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTitleCellModel.h; sourceTree = "<group>"; };
-		8BD5141218A7FAC1002DC6B1 /* SearchTitleCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTitleCellModel.m; sourceTree = "<group>"; };
-		8BD5141418A7FB3C002DC6B1 /* SearchContextCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchContextCellModel.h; sourceTree = "<group>"; };
-		8BD5141518A7FB3C002DC6B1 /* SearchContextCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchContextCellModel.m; sourceTree = "<group>"; };
-		8BD5141718A83E50002DC6B1 /* ContextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContextCell.h; sourceTree = "<group>"; };
-		8BD5141818A83E50002DC6B1 /* ContextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContextCell.m; sourceTree = "<group>"; };
-		8BD5141A18A856E7002DC6B1 /* UIColor+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Helpers.h"; sourceTree = "<group>"; };
-		8BD5141B18A856E7002DC6B1 /* UIColor+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Helpers.m"; sourceTree = "<group>"; };
-		8BD5141D18B1B638002DC6B1 /* SuperScrollIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperScrollIndicator.h; sourceTree = "<group>"; };
-		8BD5141E18B1B638002DC6B1 /* SuperScrollIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperScrollIndicator.m; sourceTree = "<group>"; };
-		8BE5A65017CD2356002028E5 /* FilteredSearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilteredSearcher.h; sourceTree = "<group>"; };
-		8BE5A65117CD2356002028E5 /* FilteredSearcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilteredSearcher.m; sourceTree = "<group>"; };
-		8BE5A65317CD8FA2002028E5 /* SmartSearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartSearcher.h; sourceTree = "<group>"; };
-		8BE5A65417CD8FA2002028E5 /* SmartSearcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartSearcher.m; sourceTree = "<group>"; };
-		8BED9F0B17C91E9A00D834BE /* TitlePageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitlePageController.h; sourceTree = "<group>"; };
-		8BED9F0C17C91E9A00D834BE /* TitlePageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitlePageController.m; sourceTree = "<group>"; };
-		8BED9F0E17C9418400D834BE /* GradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientView.h; sourceTree = "<group>"; };
-		8BED9F0F17C9418400D834BE /* GradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientView.m; sourceTree = "<group>"; };
+		8B7FE19525577DA500D64403 /* songbook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = songbook.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B7FE19825577DA500D64403 /* songbookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = songbookApp.swift; sourceTree = "<group>"; };
+		8B7FE19A25577DA500D64403 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		8B7FE19C25577DA500D64403 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8B7FE19F25577DA500D64403 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		8B7FE1A125577DA500D64403 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		8B7FE1A425577DA500D64403 /* songbook.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = songbook.xcdatamodel; sourceTree = "<group>"; };
+		8B7FE1A625577DA500D64403 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8B7FE1AB25577DA600D64403 /* songbookTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = songbookTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B7FE1AF25577DA600D64403 /* songbookTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = songbookTests.swift; sourceTree = "<group>"; };
+		8B7FE1B125577DA600D64403 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8B7FE1B625577DA600D64403 /* songbookUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = songbookUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B7FE1BA25577DA600D64403 /* songbookUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = songbookUITests.swift; sourceTree = "<group>"; };
+		8B7FE1BC25577DA600D64403 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		8BA305DF17A0BCF200A2ABDE /* Frameworks */ = {
+		8B7FE19225577DA500D64403 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8BAF35D7181E274200D6A93E /* libz.dylib in Frameworks */,
-				8B6FC947181C88F900BACCCB /* MessageUI.framework in Frameworks */,
-				8BA305E817A0BCF200A2ABDE /* CoreGraphics.framework in Frameworks */,
-				8BA305EC17A0BCF200A2ABDE /* CoreData.framework in Frameworks */,
-				8BA305EA17A0BCF200A2ABDE /* UIKit.framework in Frameworks */,
-				8BA305E617A0BCF200A2ABDE /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8BA305FF17A0BCF200A2ABDE /* Frameworks */ = {
+		8B7FE1A825577DA600D64403 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8BA3060717A0BCF200A2ABDE /* CoreData.framework in Frameworks */,
-				8BA3060617A0BCF200A2ABDE /* UIKit.framework in Frameworks */,
-				8BA3060517A0BCF200A2ABDE /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B7FE1B325577DA600D64403 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8B14432317F141960000A898 /* Search Models */ = {
+		8B7FE18C25577DA500D64403 = {
 			isa = PBXGroup;
 			children = (
-				8B14431D17F140420000A898 /* SearchCellModel.h */,
-				8B14432017F141770000A898 /* SearchSectionModel.h */,
-				8B14432117F141770000A898 /* SearchSectionModel.m */,
-				8B14432417F142190000A898 /* SearchTableModel.h */,
-				8B14432517F142190000A898 /* SearchTableModel.m */,
-				8B7B42212018508800939C77 /* SearchExactMatchCellModel.swift */,
-				8BD5141118A7FAC1002DC6B1 /* SearchTitleCellModel.h */,
-				8BD5141218A7FAC1002DC6B1 /* SearchTitleCellModel.m */,
-				8BD5141418A7FB3C002DC6B1 /* SearchContextCellModel.h */,
-				8BD5141518A7FB3C002DC6B1 /* SearchContextCellModel.m */,
-			);
-			name = "Search Models";
-			sourceTree = "<group>";
-		};
-		8B42031417E7CCC700019A80 /* Generated */ = {
-			isa = PBXGroup;
-			children = (
-				8BC7D646188344DD008F2289 /* Book.h */,
-				8BC7D647188344DD008F2289 /* Book.m */,
-				8BB18ADD17A5DB77006E257C /* Verse.h */,
-				8BB18ADE17A5DB77006E257C /* Verse.m */,
-				8BB18AD717A5DB76006E257C /* Section.h */,
-				8BB18AD817A5DB76006E257C /* Section.m */,
-				8B42031117E7CAEE00019A80 /* Token.h */,
-				8B42031217E7CAEE00019A80 /* Token.m */,
-				8B42030E17E7CAED00019A80 /* Song.h */,
-				8B42030F17E7CAED00019A80 /* Song.m */,
-				8B42030B17E7CAED00019A80 /* TokenInstance.h */,
-				8B42030C17E7CAED00019A80 /* TokenInstance.m */,
-			);
-			name = Generated;
-			sourceTree = "<group>";
-		};
-		8B6F1BEC17ACB4E100F72C3D /* Song Pages */ = {
-			isa = PBXGroup;
-			children = (
-				8BB54D5D17A4C79300FD2914 /* SongPageController.h */,
-				8BB54D5E17A4C79300FD2914 /* SongPageController.m */,
-				8BC674C517B9E1D8001E71B1 /* SongTitleView.h */,
-				8BC674C617B9E1D8001E71B1 /* SongTitleView.m */,
-			);
-			name = "Song Pages";
-			sourceTree = "<group>";
-		};
-		8B6F1BF017ACBBCA00F72C3D /* Book Pages */ = {
-			isa = PBXGroup;
-			children = (
-				8B6F1BF217ACBBFB00F72C3D /* BookPageController.h */,
-				8B6F1BF317ACBBFB00F72C3D /* BookPageController.m */,
-			);
-			name = "Book Pages";
-			sourceTree = "<group>";
-		};
-		8B6F1BF117ACBBD100F72C3D /* Section Pages */ = {
-			isa = PBXGroup;
-			children = (
-				8B6F1BFB17ACBC4C00F72C3D /* SectionPageController.h */,
-				8B6F1BFC17ACBC4C00F72C3D /* SectionPageController.m */,
-			);
-			name = "Section Pages";
-			sourceTree = "<group>";
-		};
-		8B6F1BFE17AD519300F72C3D /* Pages */ = {
-			isa = PBXGroup;
-			children = (
-				8BA3061F17A1640B00A2ABDE /* PageViewController.h */,
-				8BA3062017A1640B00A2ABDE /* PageViewController.m */,
-				8BB54D5A17A4C60700FD2914 /* PageServer.h */,
-				8BB54D5B17A4C60700FD2914 /* PageServer.m */,
-				8B6F1BED17ACB67D00F72C3D /* PageController.h */,
-				8B6F1BEE17ACB67D00F72C3D /* PageController.m */,
-				8BED9F0B17C91E9A00D834BE /* TitlePageController.h */,
-				8BED9F0C17C91E9A00D834BE /* TitlePageController.m */,
-				8B6F1BF017ACBBCA00F72C3D /* Book Pages */,
-				8B6F1BF117ACBBD100F72C3D /* Section Pages */,
-				8B6F1BEC17ACB4E100F72C3D /* Song Pages */,
-			);
-			name = Pages;
-			sourceTree = "<group>";
-		};
-		8B836BCD20CE0B2100714E6E /* Custom Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				8B836BCF20CE0B3800714E6E /* APHont-Bold_q15c.ttf */,
-				8B836BD020CE0B3800714E6E /* APHont-Regular_q15c.ttf */,
-			);
-			name = "Custom Fonts";
-			sourceTree = "<group>";
-		};
-		8BA0DB5317D7607E00CF7CBB /* SmartSearcher */ = {
-			isa = PBXGroup;
-			children = (
-				8BE5A65317CD8FA2002028E5 /* SmartSearcher.h */,
-				8BE5A65417CD8FA2002028E5 /* SmartSearcher.m */,
-			);
-			name = SmartSearcher;
-			sourceTree = "<group>";
-		};
-		8BA305D917A0BCF200A2ABDE = {
-			isa = PBXGroup;
-			children = (
-				8BA305ED17A0BCF200A2ABDE /* songbook */,
-				8BA3060A17A0BCF200A2ABDE /* songbookTests */,
-				8BA305E417A0BCF200A2ABDE /* Frameworks */,
-				8BA305E317A0BCF200A2ABDE /* Products */,
+				8B7FE19725577DA500D64403 /* songbook */,
+				8B7FE1AE25577DA600D64403 /* songbookTests */,
+				8B7FE1B925577DA600D64403 /* songbookUITests */,
+				8B7FE19625577DA500D64403 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		8BA305E317A0BCF200A2ABDE /* Products */ = {
+		8B7FE19625577DA500D64403 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8BA305E217A0BCF200A2ABDE /* songbook.app */,
-				8BA3060217A0BCF200A2ABDE /* songbookTests.xctest */,
+				8B7FE19525577DA500D64403 /* songbook.app */,
+				8B7FE1AB25577DA600D64403 /* songbookTests.xctest */,
+				8B7FE1B625577DA600D64403 /* songbookUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8BA305E417A0BCF200A2ABDE /* Frameworks */ = {
+		8B7FE19725577DA500D64403 /* songbook */ = {
 			isa = PBXGroup;
 			children = (
-				8BAF35D6181E274200D6A93E /* libz.dylib */,
-				8B6FC946181C88F900BACCCB /* MessageUI.framework */,
-				8BA305E517A0BCF200A2ABDE /* Foundation.framework */,
-				8BA305E717A0BCF200A2ABDE /* CoreGraphics.framework */,
-				8BA305E917A0BCF200A2ABDE /* UIKit.framework */,
-				8BA305EB17A0BCF200A2ABDE /* CoreData.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		8BA305ED17A0BCF200A2ABDE /* songbook */ = {
-			isa = PBXGroup;
-			children = (
-				8BAE5B4E17B1F7DC004631CA /* Search */,
-				8B6F1BFE17AD519300F72C3D /* Pages */,
-				8BA305FC17A0BCF200A2ABDE /* Images.xcassets */,
-				8BA3061A17A0BDAD00A2ABDE /* Songbook.storyboard */,
-				8BAF3601182344DD00D6A93E /* BookManagerViewController.h */,
-				8BAF3602182344DD00D6A93E /* BookManagerViewController.m */,
-				8B3DC5B6202BD5A1001EBA43 /* SimpleSplitViewController.swift */,
-				8B3DC5BB202BDDBE001EBA43 /* BookViewController.swift */,
-				8BCA006D18457F9B00600947 /* PageContainerViewController.h */,
-				8BCA006E18457F9B00600947 /* PageContainerViewController.m */,
-				8BBFC36B20103F8E00A8DEF0 /* AudioPlayer.swift */,
-				8B039ABD1911FAE6005F14B4 /* BookActivityItemSource.h */,
-				8B039ABE1911FAE6005F14B4 /* BookActivityItemSource.m */,
-				8B039AC019146590005F14B4 /* ExportProgressViewController.h */,
-				8B039AC119146590005F14B4 /* ExportProgressViewController.m */,
-				8BB18AD617A5DAD2006E257C /* Data Model */,
-				8BA305EE17A0BCF200A2ABDE /* Supporting Files */,
+				8B7FE19825577DA500D64403 /* songbookApp.swift */,
+				8B7FE19A25577DA500D64403 /* ContentView.swift */,
+				8B7FE19C25577DA500D64403 /* Assets.xcassets */,
+				8B7FE1A125577DA500D64403 /* Persistence.swift */,
+				8B7FE1A625577DA500D64403 /* Info.plist */,
+				8B7FE1A325577DA500D64403 /* songbook.xcdatamodeld */,
+				8B7FE19E25577DA500D64403 /* Preview Content */,
 			);
 			path = songbook;
 			sourceTree = "<group>";
 		};
-		8BA305EE17A0BCF200A2ABDE /* Supporting Files */ = {
+		8B7FE19E25577DA500D64403 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				8B836BCD20CE0B2100714E6E /* Custom Fonts */,
-				8B0F610119CE2E4600B04BC4 /* LaunchScreen.xib */,
-				8BAF35EA181F285400D6A93E /* ZipArchive */,
-				8BB4CBE818959EA0009F0FA1 /* default.songbook */,
-				8BBFC36A20103F8E00A8DEF0 /* songbook-Bridging-Header.h */,
-				8BA305F617A0BCF200A2ABDE /* AppDelegate.h */,
-				8BA305F717A0BCF200A2ABDE /* AppDelegate.m */,
-				8BA305EF17A0BCF200A2ABDE /* songbook-Info.plist */,
-				8BA305F017A0BCF200A2ABDE /* InfoPlist.strings */,
-				8BA305F317A0BCF200A2ABDE /* main.m */,
-				8BA305F517A0BCF200A2ABDE /* songbook-Prefix.pch */,
-				8BA5142717ADA275009E960D /* UIView+Debug.h */,
-				8BA5142817ADA275009E960D /* UIView+Debug.m */,
-				8B5203BC208397380021DCF7 /* UIFontExtension.swift */,
-				8BA785B117D5864D00BEF4D9 /* NSString+Helpers.h */,
-				8BA785B217D5864D00BEF4D9 /* NSString+Helpers.m */,
-				8BC674C817BC912C001E71B1 /* NSMutableAttributedString+Helpers.h */,
-				8BC674C917BC912C001E71B1 /* NSMutableAttributedString+Helpers.m */,
-				8B088FC017C867440043341D /* UIView+Helpers.h */,
-				8B088FC117C867440043341D /* UIView+Helpers.m */,
-				8B191A031809CEB50071DF4D /* SafeTextView.h */,
-				8B191A041809CEB50071DF4D /* SafeTextView.m */,
-				8BC10FF420804AF0000E274B /* Theme.swift */,
-				8BAF360F1824D95200D6A93E /* OrderedDictionary.h */,
-				8BAF36101824D95200D6A93E /* OrderedDictionary.m */,
-				8BED9F0E17C9418400D834BE /* GradientView.h */,
-				8BED9F0F17C9418400D834BE /* GradientView.m */,
-				8BD5141A18A856E7002DC6B1 /* UIColor+Helpers.h */,
-				8BD5141B18A856E7002DC6B1 /* UIColor+Helpers.m */,
-				8BBF1D1120CF4EFA004AD08D /* Settings.bundle */,
+				8B7FE19F25577DA500D64403 /* Preview Assets.xcassets */,
 			);
-			name = "Supporting Files";
+			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		8BA3060A17A0BCF200A2ABDE /* songbookTests */ = {
+		8B7FE1AE25577DA600D64403 /* songbookTests */ = {
 			isa = PBXGroup;
 			children = (
-				8BA3061017A0BCF200A2ABDE /* songbookTests.m */,
-				8BA3060B17A0BCF200A2ABDE /* Supporting Files */,
+				8B7FE1AF25577DA600D64403 /* songbookTests.swift */,
+				8B7FE1B125577DA600D64403 /* Info.plist */,
 			);
 			path = songbookTests;
 			sourceTree = "<group>";
 		};
-		8BA3060B17A0BCF200A2ABDE /* Supporting Files */ = {
+		8B7FE1B925577DA600D64403 /* songbookUITests */ = {
 			isa = PBXGroup;
 			children = (
-				8BA3060C17A0BCF200A2ABDE /* songbookTests-Info.plist */,
-				8BA3060D17A0BCF200A2ABDE /* InfoPlist.strings */,
+				8B7FE1BA25577DA600D64403 /* songbookUITests.swift */,
+				8B7FE1BC25577DA600D64403 /* Info.plist */,
 			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		8BAE5B4E17B1F7DC004631CA /* Search */ = {
-			isa = PBXGroup;
-			children = (
-				8B14432317F141960000A898 /* Search Models */,
-				8BA0DB5317D7607E00CF7CBB /* SmartSearcher */,
-				8BE5A65B17CEF6FE002028E5 /* FilteredSearcher */,
-				8BE5A65A17CEF6D4002028E5 /* SimpleSearcher */,
-				8BAE5B4B17B1F7C5004631CA /* SearchViewController.h */,
-				8BAE5B4C17B1F7C5004631CA /* SearchViewController.m */,
-				8BB02AE317CC3935001CCB6C /* Searcher.h */,
-				8B14431A17F10E560000A898 /* SearchOperation.h */,
-				8B14431B17F10E560000A898 /* SearchOperation.m */,
-				8B14432717F68CDA0000A898 /* SearchTableDataSource.h */,
-				8B14432817F68CDA0000A898 /* SearchTableDataSource.m */,
-				8B7B42232018542500939C77 /* ExactMatchCell.swift */,
-				8BD5140E18A7F912002DC6B1 /* BasicCell.h */,
-				8BD5140F18A7F912002DC6B1 /* BasicCell.m */,
-				8BD5141718A83E50002DC6B1 /* ContextCell.h */,
-				8BD5141818A83E50002DC6B1 /* ContextCell.m */,
-				8BD5141D18B1B638002DC6B1 /* SuperScrollIndicator.h */,
-				8BD5141E18B1B638002DC6B1 /* SuperScrollIndicator.m */,
-			);
-			name = Search;
-			sourceTree = "<group>";
-		};
-		8BAF35EA181F285400D6A93E /* ZipArchive */ = {
-			isa = PBXGroup;
-			children = (
-				8BAF35EB181F285400D6A93E /* minizip */,
-				8BAF35F5181F285400D6A93E /* README.md */,
-				8BAF35F6181F285400D6A93E /* ZipArchive.h */,
-				8BAF35F7181F285400D6A93E /* ZipArchive.mm */,
-			);
-			path = ZipArchive;
-			sourceTree = "<group>";
-		};
-		8BAF35EB181F285400D6A93E /* minizip */ = {
-			isa = PBXGroup;
-			children = (
-				8BAF35EC181F285400D6A93E /* crypt.h */,
-				8BAF35ED181F285400D6A93E /* ioapi.c */,
-				8BAF35EE181F285400D6A93E /* ioapi.h */,
-				8BAF35F1181F285400D6A93E /* unzip.c */,
-				8BAF35F2181F285400D6A93E /* unzip.h */,
-				8BAF35F3181F285400D6A93E /* zip.c */,
-				8BAF35F4181F285400D6A93E /* zip.h */,
-			);
-			path = minizip;
-			sourceTree = "<group>";
-		};
-		8BB18AD617A5DAD2006E257C /* Data Model */ = {
-			isa = PBXGroup;
-			children = (
-				8B42031417E7CCC700019A80 /* Generated */,
-				8BA305F917A0BCF200A2ABDE /* songbook.xcdatamodeld */,
-				8BAF36061824C41700D6A93E /* CoreDataStack.h */,
-				8BAF36071824C41700D6A93E /* CoreDataStack.m */,
-				8BA85DFD17B2F12200F6B3B7 /* SongbookModel.h */,
-				8B94531D17A5F15D00327479 /* Song+Helpers.h */,
-				8B94531E17A5F15D00327479 /* Song+Helpers.m */,
-				8B94532017A5F3E500327479 /* Verse+Helpers.h */,
-				8B94532117A5F3E500327479 /* Verse+Helpers.m */,
-				8B94532317A5F43800327479 /* Section+Helpers.h */,
-				8B94532417A5F43800327479 /* Section+Helpers.m */,
-				8B94532617A5F4C900327479 /* Book+Helpers.h */,
-				8B94532717A5F4C900327479 /* Book+Helpers.m */,
-				8B810A5317D9519A00F339CE /* Token+Helpers.h */,
-				8B810A5417D9519A00F339CE /* Token+Helpers.m */,
-				8B42031517E7D51C00019A80 /* TokenInstance+Helpers.h */,
-				8B42031617E7D51C00019A80 /* TokenInstance+Helpers.m */,
-				8BAF6AE21816196200BFC813 /* BookCodec.h */,
-				8BAF6AE31816196200BFC813 /* BookCodec.m */,
-				8BAF3612182B3EDA00D6A93E /* TokenizeOperation.h */,
-				8BAF3613182B3EDA00D6A93E /* TokenizeOperation.m */,
-			);
-			name = "Data Model";
-			sourceTree = "<group>";
-		};
-		8BE5A65A17CEF6D4002028E5 /* SimpleSearcher */ = {
-			isa = PBXGroup;
-			children = (
-				8BB02AE017CB97BE001CCB6C /* SimpleSearcher.h */,
-				8BB02AE117CB97BE001CCB6C /* SimpleSearcher.m */,
-			);
-			name = SimpleSearcher;
-			sourceTree = "<group>";
-		};
-		8BE5A65B17CEF6FE002028E5 /* FilteredSearcher */ = {
-			isa = PBXGroup;
-			children = (
-				8BE5A65017CD2356002028E5 /* FilteredSearcher.h */,
-				8BE5A65117CD2356002028E5 /* FilteredSearcher.m */,
-			);
-			name = FilteredSearcher;
+			path = songbookUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8BA305E117A0BCF200A2ABDE /* songbook */ = {
+		8B7FE19425577DA500D64403 /* songbook */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8BA3061417A0BCF200A2ABDE /* Build configuration list for PBXNativeTarget "songbook" */;
+			buildConfigurationList = 8B7FE1BF25577DA600D64403 /* Build configuration list for PBXNativeTarget "songbook" */;
 			buildPhases = (
-				8BA305DE17A0BCF200A2ABDE /* Sources */,
-				8BA305DF17A0BCF200A2ABDE /* Frameworks */,
-				8BA305E017A0BCF200A2ABDE /* Resources */,
+				8B7FE19125577DA500D64403 /* Sources */,
+				8B7FE19225577DA500D64403 /* Frameworks */,
+				8B7FE19325577DA500D64403 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -598,219 +153,175 @@
 			);
 			name = songbook;
 			productName = songbook;
-			productReference = 8BA305E217A0BCF200A2ABDE /* songbook.app */;
+			productReference = 8B7FE19525577DA500D64403 /* songbook.app */;
 			productType = "com.apple.product-type.application";
 		};
-		8BA3060117A0BCF200A2ABDE /* songbookTests */ = {
+		8B7FE1AA25577DA600D64403 /* songbookTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8BA3061717A0BCF200A2ABDE /* Build configuration list for PBXNativeTarget "songbookTests" */;
+			buildConfigurationList = 8B7FE1C225577DA600D64403 /* Build configuration list for PBXNativeTarget "songbookTests" */;
 			buildPhases = (
-				8BA305FE17A0BCF200A2ABDE /* Sources */,
-				8BA305FF17A0BCF200A2ABDE /* Frameworks */,
-				8BA3060017A0BCF200A2ABDE /* Resources */,
+				8B7FE1A725577DA600D64403 /* Sources */,
+				8B7FE1A825577DA600D64403 /* Frameworks */,
+				8B7FE1A925577DA600D64403 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				8BA3060917A0BCF200A2ABDE /* PBXTargetDependency */,
+				8B7FE1AD25577DA600D64403 /* PBXTargetDependency */,
 			);
 			name = songbookTests;
 			productName = songbookTests;
-			productReference = 8BA3060217A0BCF200A2ABDE /* songbookTests.xctest */;
+			productReference = 8B7FE1AB25577DA600D64403 /* songbookTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		8B7FE1B525577DA600D64403 /* songbookUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8B7FE1C525577DA600D64403 /* Build configuration list for PBXNativeTarget "songbookUITests" */;
+			buildPhases = (
+				8B7FE1B225577DA600D64403 /* Sources */,
+				8B7FE1B325577DA600D64403 /* Frameworks */,
+				8B7FE1B425577DA600D64403 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8B7FE1B825577DA600D64403 /* PBXTargetDependency */,
+			);
+			name = songbookUITests;
+			productName = songbookUITests;
+			productReference = 8B7FE1B625577DA600D64403 /* songbookUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		8BA305DA17A0BCF200A2ABDE /* Project object */ = {
+		8B7FE18D25577DA500D64403 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1200;
-				ORGANIZATIONNAME = "Paul Himes";
+				LastSwiftUpdateCheck = 1210;
+				LastUpgradeCheck = 1210;
 				TargetAttributes = {
-					8BA305E117A0BCF200A2ABDE = {
-						DevelopmentTeam = U48P68REXM;
-						LastSwiftMigration = 1200;
-						SystemCapabilities = {
-							com.apple.BackgroundModes = {
-								enabled = 1;
-							};
-						};
+					8B7FE19425577DA500D64403 = {
+						CreatedOnToolsVersion = 12.1.1;
 					};
-					8BA3060117A0BCF200A2ABDE = {
-						TestTargetID = 8BA305E117A0BCF200A2ABDE;
+					8B7FE1AA25577DA600D64403 = {
+						CreatedOnToolsVersion = 12.1.1;
+						TestTargetID = 8B7FE19425577DA500D64403;
+					};
+					8B7FE1B525577DA600D64403 = {
+						CreatedOnToolsVersion = 12.1.1;
+						TestTargetID = 8B7FE19425577DA500D64403;
 					};
 				};
 			};
-			buildConfigurationList = 8BA305DD17A0BCF200A2ABDE /* Build configuration list for PBXProject "songbook" */;
-			compatibilityVersion = "Xcode 3.2";
+			buildConfigurationList = 8B7FE19025577DA500D64403 /* Build configuration list for PBXProject "songbook" */;
+			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 8BA305D917A0BCF200A2ABDE;
-			productRefGroup = 8BA305E317A0BCF200A2ABDE /* Products */;
+			mainGroup = 8B7FE18C25577DA500D64403;
+			productRefGroup = 8B7FE19625577DA500D64403 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8BA305E117A0BCF200A2ABDE /* songbook */,
-				8BA3060117A0BCF200A2ABDE /* songbookTests */,
+				8B7FE19425577DA500D64403 /* songbook */,
+				8B7FE1AA25577DA600D64403 /* songbookTests */,
+				8B7FE1B525577DA600D64403 /* songbookUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		8BA305E017A0BCF200A2ABDE /* Resources */ = {
+		8B7FE19325577DA500D64403 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8BA305F217A0BCF200A2ABDE /* InfoPlist.strings in Resources */,
-				8B836BD220CE0B3F00714E6E /* APHont-Bold_q15c.ttf in Resources */,
-				8BA3061B17A0BDAD00A2ABDE /* Songbook.storyboard in Resources */,
-				8B0F610219CE2E4600B04BC4 /* LaunchScreen.xib in Resources */,
-				8BAF35FC181F285400D6A93E /* README.md in Resources */,
-				8B836BD520CE0B3F00714E6E /* APHont-Regular_q15c.ttf in Resources */,
-				8BB4CBE918959EA0009F0FA1 /* default.songbook in Resources */,
-				8BA305FD17A0BCF200A2ABDE /* Images.xcassets in Resources */,
-				8BBF1D1220CF4EFA004AD08D /* Settings.bundle in Resources */,
+				8B7FE1A025577DA500D64403 /* Preview Assets.xcassets in Resources */,
+				8B7FE19D25577DA500D64403 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8BA3060017A0BCF200A2ABDE /* Resources */ = {
+		8B7FE1A925577DA600D64403 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8BA3060F17A0BCF200A2ABDE /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B7FE1B425577DA600D64403 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		8BA305DE17A0BCF200A2ABDE /* Sources */ = {
+		8B7FE19125577DA500D64403 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8BD5141918A83E50002DC6B1 /* ContextCell.m in Sources */,
-				8BC674CA17BC912C001E71B1 /* NSMutableAttributedString+Helpers.m in Sources */,
-				8B14432217F141770000A898 /* SearchSectionModel.m in Sources */,
-				8BB0F58F189CBCFC004D6377 /* BookPageController.m in Sources */,
-				8BA785B317D5864D00BEF4D9 /* NSString+Helpers.m in Sources */,
-				8BAF36111824D95200D6A93E /* OrderedDictionary.m in Sources */,
-				8BB0F584189CBC1D004D6377 /* SmartSearcher.m in Sources */,
-				8BA5142917ADA275009E960D /* UIView+Debug.m in Sources */,
-				8BC7D648188344DD008F2289 /* Book.m in Sources */,
-				8B5203BD208397380021DCF7 /* UIFontExtension.swift in Sources */,
-				8BB0F58B189CBC5E004D6377 /* PageController.m in Sources */,
-				8BA305F817A0BCF200A2ABDE /* AppDelegate.m in Sources */,
-				8BD5141618A7FB3C002DC6B1 /* SearchContextCellModel.m in Sources */,
-				8BB0F590189CBD06004D6377 /* SongPageController.m in Sources */,
-				8BB0F592189CBD1E004D6377 /* BookManagerViewController.m in Sources */,
-				8B039AC219146590005F14B4 /* ExportProgressViewController.m in Sources */,
-				8BED9F1017C9418400D834BE /* GradientView.m in Sources */,
-				8B3DC5B7202BD5A2001EBA43 /* SimpleSplitViewController.swift in Sources */,
-				8BB0F586189CBC32004D6377 /* SimpleSearcher.m in Sources */,
-				8B42030D17E7CAED00019A80 /* TokenInstance.m in Sources */,
-				8BA305FB17A0BCF200A2ABDE /* songbook.xcdatamodeld in Sources */,
-				8B039ABF1911FAE6005F14B4 /* BookActivityItemSource.m in Sources */,
-				8B3DC5BC202BDDBE001EBA43 /* BookViewController.swift in Sources */,
-				8BD5141F18B1B638002DC6B1 /* SuperScrollIndicator.m in Sources */,
-				8B14432617F142190000A898 /* SearchTableModel.m in Sources */,
-				8BB0F588189CBC49004D6377 /* SearchOperation.m in Sources */,
-				8BC10FF520804AF0000E274B /* Theme.swift in Sources */,
-				8BAF6AE41816196200BFC813 /* BookCodec.m in Sources */,
-				8B94532517A5F44000327479 /* Section+Helpers.m in Sources */,
-				8BB18ADF17A5DB77006E257C /* Verse.m in Sources */,
-				8BA305F417A0BCF200A2ABDE /* main.m in Sources */,
-				8B191A051809CEB50071DF4D /* SafeTextView.m in Sources */,
-				8BAF35FD181F285400D6A93E /* ZipArchive.mm in Sources */,
-				8B088FC217C867440043341D /* UIView+Helpers.m in Sources */,
-				8B810A5517D9519A00F339CE /* Token+Helpers.m in Sources */,
-				8BB0F58E189CBCE4004D6377 /* SectionPageController.m in Sources */,
-				8B7B42222018508800939C77 /* SearchExactMatchCellModel.swift in Sources */,
-				8B7B42242018542500939C77 /* ExactMatchCell.swift in Sources */,
-				8BB18AD917A5DB76006E257C /* Section.m in Sources */,
-				8BB54D5C17A4C60700FD2914 /* PageServer.m in Sources */,
-				8B42031017E7CAED00019A80 /* Song.m in Sources */,
-				8BB0F593189CBD2C004D6377 /* TokenizeOperation.m in Sources */,
-				8BCA006F18457F9B00600947 /* PageContainerViewController.m in Sources */,
-				8BB0F585189CBC27004D6377 /* FilteredSearcher.m in Sources */,
-				8BD5141018A7F912002DC6B1 /* BasicCell.m in Sources */,
-				8B94532217A5F3E500327479 /* Verse+Helpers.m in Sources */,
-				8BB0F589189CBC50004D6377 /* SearchTableDataSource.m in Sources */,
-				8BAF35FA181F285400D6A93E /* unzip.c in Sources */,
-				8BB0F58C189CBC64004D6377 /* TitlePageController.m in Sources */,
-				8BBFC36C20103F8E00A8DEF0 /* AudioPlayer.swift in Sources */,
-				8B14431917EFDAB60000A898 /* Token.m in Sources */,
-				8BD5141318A7FAC1002DC6B1 /* SearchTitleCellModel.m in Sources */,
-				8BD5141C18A856E7002DC6B1 /* UIColor+Helpers.m in Sources */,
-				8BAF36081824C41700D6A93E /* CoreDataStack.m in Sources */,
-				8B94532817A5F4C900327479 /* Book+Helpers.m in Sources */,
-				8BB0F591189CBD0C004D6377 /* SongTitleView.m in Sources */,
-				8BAF35F8181F285400D6A93E /* ioapi.c in Sources */,
-				8BAF35FB181F285400D6A93E /* zip.c in Sources */,
-				8B94531F17A5F15D00327479 /* Song+Helpers.m in Sources */,
-				8BA3062117A1656B00A2ABDE /* PageViewController.m in Sources */,
-				8BB0F587189CBC3F004D6377 /* SearchViewController.m in Sources */,
-				8B42031717E7D51C00019A80 /* TokenInstance+Helpers.m in Sources */,
+				8B7FE1A225577DA500D64403 /* Persistence.swift in Sources */,
+				8B7FE19B25577DA500D64403 /* ContentView.swift in Sources */,
+				8B7FE19925577DA500D64403 /* songbookApp.swift in Sources */,
+				8B7FE1A525577DA500D64403 /* songbook.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8BA305FE17A0BCF200A2ABDE /* Sources */ = {
+		8B7FE1A725577DA600D64403 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8BA3061117A0BCF200A2ABDE /* songbookTests.m in Sources */,
+				8B7FE1B025577DA600D64403 /* songbookTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8B7FE1B225577DA600D64403 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B7FE1BB25577DA600D64403 /* songbookUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		8BA3060917A0BCF200A2ABDE /* PBXTargetDependency */ = {
+		8B7FE1AD25577DA600D64403 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8BA305E117A0BCF200A2ABDE /* songbook */;
-			targetProxy = 8BA3060817A0BCF200A2ABDE /* PBXContainerItemProxy */;
+			target = 8B7FE19425577DA500D64403 /* songbook */;
+			targetProxy = 8B7FE1AC25577DA600D64403 /* PBXContainerItemProxy */;
+		};
+		8B7FE1B825577DA600D64403 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8B7FE19425577DA500D64403 /* songbook */;
+			targetProxy = 8B7FE1B725577DA600D64403 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		8BA305F017A0BCF200A2ABDE /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8BA305F117A0BCF200A2ABDE /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		8BA3060D17A0BCF200A2ABDE /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8BA3060E17A0BCF200A2ABDE /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
-		8BA3061217A0BCF200A2ABDE /* Debug */ = {
+		8B7FE1BD25577DA600D64403 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
@@ -823,13 +334,14 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -837,35 +349,40 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		8BA3061317A0BCF200A2ABDE /* Release */ = {
+		8B7FE1BE25577DA600D64403 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
@@ -878,151 +395,194 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		8BA3061517A0BCF200A2ABDE /* Debug */ = {
+		8B7FE1C025577DA600D64403 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"songbook/Preview Content\"";
+				DEVELOPMENT_TEAM = U48P68REXM;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = songbook/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)",
+					"@executable_path/Frameworks",
 				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "songbook/songbook-Prefix.pch";
-				INFOPLIST_FILE = "songbook/songbook-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 3.2;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.paulhimes.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.paulhimes.songbook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "songbook/songbook-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				WRAPPER_EXTENSION = app;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		8BA3061617A0BCF200A2ABDE /* Release */ = {
+		8B7FE1C125577DA600D64403 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"songbook/Preview Content\"";
+				DEVELOPMENT_TEAM = U48P68REXM;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = songbook/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)",
+					"@executable_path/Frameworks",
 				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "songbook/songbook-Prefix.pch";
-				INFOPLIST_FILE = "songbook/songbook-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 3.2;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.paulhimes.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.paulhimes.songbook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "songbook/songbook-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				WRAPPER_EXTENSION = app;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
-		8BA3061817A0BCF200A2ABDE /* Debug */ = {
+		8B7FE1C325577DA600D64403 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/songbook.app/songbook";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = U48P68REXM;
+				INFOPLIST_FILE = songbookTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
 				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "songbook/songbook-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "songbookTests/songbookTests-Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.paulhimes.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.paulhimes.songbookTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/songbook.app/songbook";
 			};
 			name = Debug;
 		};
-		8BA3061917A0BCF200A2ABDE /* Release */ = {
+		8B7FE1C425577DA600D64403 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/songbook.app/songbook";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = U48P68REXM;
+				INFOPLIST_FILE = songbookTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
 				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "songbook/songbook-Prefix.pch";
-				INFOPLIST_FILE = "songbookTests/songbookTests-Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.paulhimes.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.paulhimes.songbookTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/songbook.app/songbook";
+			};
+			name = Release;
+		};
+		8B7FE1C625577DA600D64403 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = U48P68REXM;
+				INFOPLIST_FILE = songbookUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.paulhimes.songbookUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = songbook;
+			};
+			name = Debug;
+		};
+		8B7FE1C725577DA600D64403 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = U48P68REXM;
+				INFOPLIST_FILE = songbookUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.paulhimes.songbookUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = songbook;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8BA305DD17A0BCF200A2ABDE /* Build configuration list for PBXProject "songbook" */ = {
+		8B7FE19025577DA500D64403 /* Build configuration list for PBXProject "songbook" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8BA3061217A0BCF200A2ABDE /* Debug */,
-				8BA3061317A0BCF200A2ABDE /* Release */,
+				8B7FE1BD25577DA600D64403 /* Debug */,
+				8B7FE1BE25577DA600D64403 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8BA3061417A0BCF200A2ABDE /* Build configuration list for PBXNativeTarget "songbook" */ = {
+		8B7FE1BF25577DA600D64403 /* Build configuration list for PBXNativeTarget "songbook" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8BA3061517A0BCF200A2ABDE /* Debug */,
-				8BA3061617A0BCF200A2ABDE /* Release */,
+				8B7FE1C025577DA600D64403 /* Debug */,
+				8B7FE1C125577DA600D64403 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8BA3061717A0BCF200A2ABDE /* Build configuration list for PBXNativeTarget "songbookTests" */ = {
+		8B7FE1C225577DA600D64403 /* Build configuration list for PBXNativeTarget "songbookTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8BA3061817A0BCF200A2ABDE /* Debug */,
-				8BA3061917A0BCF200A2ABDE /* Release */,
+				8B7FE1C325577DA600D64403 /* Debug */,
+				8B7FE1C425577DA600D64403 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8B7FE1C525577DA600D64403 /* Build configuration list for PBXNativeTarget "songbookUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B7FE1C625577DA600D64403 /* Debug */,
+				8B7FE1C725577DA600D64403 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1030,17 +590,17 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		8BA305F917A0BCF200A2ABDE /* songbook.xcdatamodeld */ = {
+		8B7FE1A325577DA500D64403 /* songbook.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				8BA305FA17A0BCF200A2ABDE /* songbook.xcdatamodel */,
+				8B7FE1A425577DA500D64403 /* songbook.xcdatamodel */,
 			);
-			currentVersion = 8BA305FA17A0BCF200A2ABDE /* songbook.xcdatamodel */;
+			currentVersion = 8B7FE1A425577DA500D64403 /* songbook.xcdatamodel */;
 			path = songbook.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
 /* End XCVersionGroup section */
 	};
-	rootObject = 8BA305DA17A0BCF200A2ABDE /* Project object */;
+	rootObject = 8B7FE18D25577DA500D64403 /* Project object */;
 }
