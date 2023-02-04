@@ -1,0 +1,75 @@
+{
+  "bookTitle" : "Red Songbook",
+  "contactEmail" : "feedback@paulhimes.com",
+  "version" : 1,
+  "updateURL" : "http:\/\/www.paulhimes.com\/songbook\/default.json",
+  "sections" : [
+    {
+      "sectionTitle" : "Introduction",
+      "songs" : [
+        {
+          "audioFileName" : "The first song.m4a",
+          "songAuthor" : "Paul Himes",
+          "songNumber" : 1,
+          "relatedSongs" : [
+            {
+              "relatedSongSectionIndex" : 0,
+              "relatedSongIndex" : 1
+            }
+          ],
+          "songSubtitle" : "The first song.",
+          "songTitle" : "Welcome to Red Songbook",
+          "verses" : [
+            {
+              "verseIsChorus" : 1,
+              "verseNumber" : 1,
+              "verseRepeatText" : ".songbook files.",
+              "verseText" : "Red Songbook is a reader for .songbook files.",
+              "verseTitle" : "The first verse."
+            },
+            {
+              "verseChorusIndex" : 0,
+              "verseIsChorus" : 0,
+              "verseNumber" : 2,
+              "verseRepeatText" : "nursery rhymes.",
+              "verseText" : "The built-in songbook contains children’s songs and nursery rhymes.",
+              "verseTitle" : "The second verse."
+            }
+          ],
+          "songYear" : "2020"
+        },
+        {
+          "audioFileName" : "The second song.m4a",
+          "songAuthor" : "Paul Himes",
+          "songNumber" : 2,
+          "relatedSongs" : [
+            {
+              "relatedSongSectionIndex" : 0,
+              "relatedSongIndex" : 0
+            }
+          ],
+          "songSubtitle" : "The second song.",
+          "songTitle" : "Welcome to Red Songbook Again",
+          "verses" : [
+            {
+              "verseIsChorus" : 1,
+              "verseNumber" : 1,
+              "verseRepeatText" : ".songbook files.",
+              "verseText" : "Red Songbook is a reader for .songbook files.",
+              "verseTitle" : "The first verse."
+            },
+            {
+              "verseChorusIndex" : 0,
+              "verseIsChorus" : 0,
+              "verseNumber" : 2,
+              "verseRepeatText" : "nursery rhymes.",
+              "verseText" : "The built-in songbook contains children’s songs and nursery rhymes.",
+              "verseTitle" : "The second verse."
+            }
+          ],
+          "songYear" : "2020"
+        }
+      ]
+    }
+  ]
+}

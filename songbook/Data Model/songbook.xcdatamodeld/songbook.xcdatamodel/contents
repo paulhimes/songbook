@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19H2" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Book" representedClassName="Book" syncable="YES" codeGenerationType="class">
+        <attribute name="contactEmail" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="updateURL" optional="YES" attributeType="String"/>
+        <attribute name="version" attributeType="Integer 64" minValueString="1" defaultValueString="1" usesScalarValueType="NO"/>
+        <relationship name="sections" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Section" inverseName="book" inverseEntity="Section"/>
+    </entity>
+    <entity name="Section" representedClassName="Section" syncable="YES" codeGenerationType="class">
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="sections" inverseEntity="Book"/>
+        <relationship name="songs" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Song" inverseName="section" inverseEntity="Song"/>
+    </entity>
+    <entity name="Song" representedClassName="Song" syncable="YES" codeGenerationType="class">
+        <attribute name="author" optional="YES" attributeType="String"/>
+        <attribute name="cachedString" optional="YES" transient="YES" attributeType="String"/>
+        <attribute name="number" optional="YES" attributeType="Integer 64" usesScalarValueType="NO"/>
+        <attribute name="subtitle" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="year" optional="YES" attributeType="String"/>
+        <relationship name="relatedSongs" toMany="YES" deletionRule="Nullify" destinationEntity="Song" inverseName="relatedSongs" inverseEntity="Song"/>
+        <relationship name="section" maxCount="1" deletionRule="Nullify" destinationEntity="Section" inverseName="songs" inverseEntity="Section"/>
+        <relationship name="tokenInstances" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="TokenInstance" inverseName="song" inverseEntity="TokenInstance"/>
+        <relationship name="verses" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Verse" inverseName="song" inverseEntity="Verse"/>
+    </entity>
+    <entity name="Token" representedClassName="Token" syncable="YES" codeGenerationType="class">
+        <attribute name="text" attributeType="String"/>
+        <relationship name="instances" toMany="YES" deletionRule="Cascade" destinationEntity="TokenInstance" inverseName="token" inverseEntity="TokenInstance"/>
+        <fetchIndex name="byTextIndex">
+            <fetchIndexElement property="text" type="Binary" order="ascending"/>
+        </fetchIndex>
+    </entity>
+    <entity name="TokenInstance" representedClassName="TokenInstance" syncable="YES" codeGenerationType="class">
+        <attribute name="length" attributeType="Integer 64" defaultValueString="0.0" usesScalarValueType="NO"/>
+        <attribute name="location" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
+        <relationship name="nextInstance" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TokenInstance" inverseName="previousInstance" inverseEntity="TokenInstance"/>
+        <relationship name="previousInstance" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TokenInstance" inverseName="nextInstance" inverseEntity="TokenInstance"/>
+        <relationship name="song" maxCount="1" deletionRule="Nullify" destinationEntity="Song" inverseName="tokenInstances" inverseEntity="Song"/>
+        <relationship name="token" maxCount="1" deletionRule="Nullify" destinationEntity="Token" inverseName="instances" inverseEntity="Token"/>
+    </entity>
+    <entity name="Verse" representedClassName="Verse" syncable="YES" codeGenerationType="class">
+        <attribute name="isChorus" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="NO"/>
+        <attribute name="number" optional="YES" attributeType="Integer 64" usesScalarValueType="NO"/>
+        <attribute name="repeatText" optional="YES" attributeType="String"/>
+        <attribute name="text" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="chorus" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Verse" inverseName="precedingVerses" inverseEntity="Verse"/>
+        <relationship name="precedingVerses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Verse" inverseName="chorus" inverseEntity="Verse"/>
+        <relationship name="song" maxCount="1" deletionRule="Nullify" destinationEntity="Song" inverseName="verses" inverseEntity="Song"/>
+    </entity>
+    <elements>
+        <element name="Book" positionX="0" positionY="0" width="128" height="118"/>
+        <element name="Section" positionX="0" positionY="0" width="128" height="88"/>
+        <element name="Song" positionX="0" positionY="0" width="128" height="193"/>
+        <element name="Token" positionX="0" positionY="0" width="128" height="73"/>
+        <element name="TokenInstance" positionX="0" positionY="0" width="128" height="133"/>
+        <element name="Verse" positionX="0" positionY="0" width="128" height="163"/>
+    </elements>
+</model>

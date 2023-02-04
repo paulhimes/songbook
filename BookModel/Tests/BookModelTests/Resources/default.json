@@ -1,0 +1,349 @@
+{
+  "bookTitle" : "Red Songbook",
+  "contactEmail" : "feedback@paulhimes.com",
+  "version" : 1,
+  "updateURL" : "http:\/\/www.paulhimes.com\/songbook\/default.json",
+  "sections" : [
+    {
+      "sectionTitle" : "Introduction",
+      "songs" : [
+        {
+          "songTitle" : "Welcome to Red Songbook",
+          "verses" : [
+            {
+              "verseText" : "Red Songbook is a reader for .songbook files."
+            },
+            {
+              "verseText" : "The built-in songbook contains children’s songs and nursery rhymes."
+            },
+            {
+              "verseText" : "You can open new songbooks from email attachments or the internet. When you open a new songbook, your old songbook will be replaced."
+            },
+            {
+              "verseText" : "Use AirDrop to share a songbook with people nearby:\nhttp:\/\/support.apple.com\/kb\/ht5887"
+            },
+            {
+              "verseText" : "Found a typo? Select the text and choose “Report Problem…”"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sectionTitle" : "Sample Songs",
+      "songs" : [
+        {
+          "songNumber" : 1,
+          "songTitle" : "A Tisket A Tasket",
+          "verses" : [
+            {
+              "verseText" : "A-tisket a-tasket\nA green and yellow basket\nI wrote a letter to my love\nAnd on the way I dropped it,\nI dropped it,\nI dropped it,\nAnd on the way I dropped it.\nA little boy he picked it up and put it in his pocket."
+            }
+          ]
+        },
+        {
+          "songNumber" : 2,
+          "songTitle" : "Hickory Dickory Dock",
+          "verses" : [
+            {
+              "verseText" : "Hickory, dickory, dock,\nThe mouse ran up the clock.\nThe clock struck one,\nThe mouse ran down,\nHickory, dickory, dock."
+            }
+          ]
+        },
+        {
+          "songNumber" : 3,
+          "songTitle" : "The Farmer in the Dell",
+          "verses" : [
+            {
+              "verseNumber" : 1,
+              "verseText" : "The farmer in the dell\nThe farmer in the dell\nHeigh-ho, the derry-o\nThe farmer in the dell"
+            },
+            {
+              "verseNumber" : 2,
+              "verseText" : "The farmer takes a wife\nThe farmer takes a wife\nHeigh-ho, the derry-o\nThe farmer takes a wife"
+            },
+            {
+              "verseNumber" : 3,
+              "verseText" : "The wife takes the child\nThe wife takes the child\nHeigh-ho, the derry-o\nThe wife takes the child"
+            },
+            {
+              "verseNumber" : 4,
+              "verseText" : "The child takes the nurse\nThe child takes the nurse\nHeigh-ho, the derry-o\nThe child takes the nurse"
+            },
+            {
+              "verseNumber" : 5,
+              "verseText" : "The nurse takes the cow\nThe nurse takes the cow\nHeigh-ho, the derry-o\nThe nurse takes the cow"
+            },
+            {
+              "verseNumber" : 6,
+              "verseText" : "The cow takes the dog\nThe cow takes the dog\nHeigh-ho, the derry-o\nThe cow takes the dog"
+            },
+            {
+              "verseNumber" : 7,
+              "verseText" : "The dog takes the cat\nThe dog takes the cat\nHeigh-ho, the derry-o\nThe dog takes the cat"
+            },
+            {
+              "verseNumber" : 8,
+              "verseText" : "The cat takes the mouse\nThe cat takes the mouse\nHeigh-ho, the derry-o\nThe cat takes the mouse"
+            },
+            {
+              "verseNumber" : 9,
+              "verseText" : "The mouse takes the cheese\nThe mouse takes the cheese\nHeigh-ho, the derry-o\nThe mouse takes the cheese"
+            },
+            {
+              "verseNumber" : 10,
+              "verseText" : "The cheese stands alone\nThe cheese stands alone\nHeigh-ho, the derry-o\nThe cheese stands alone"
+            }
+          ]
+        },
+        {
+          "songNumber" : 4,
+          "songTitle" : "Hey Diddle Diddle",
+          "verses" : [
+            {
+              "verseText" : "Hey diddle diddle,\nThe Cat and the fiddle,\nThe Cow jumped over the moon.\nThe little Dog laughed,\nTo see such sport,\nAnd the Dish ran away with the Spoon."
+            }
+          ]
+        },
+        {
+          "songNumber" : 5,
+          "songTitle" : "Humpty Dumpty",
+          "verses" : [
+            {
+              "verseText" : "Humpty Dumpty sat on a wall,\nHumpty Dumpty had a great fall.\nAll the king’s horses and all the king’s men\nCouldn’t put Humpty together again."
+            }
+          ]
+        },
+        {
+          "songNumber" : 6,
+          "songTitle" : "Hush, Little Baby",
+          "verses" : [
+            {
+              "verseNumber" : 1,
+              "verseText" : "Hush, little baby, don’t say a word,\nMama’s gonna buy you a mockingbird."
+            },
+            {
+              "verseNumber" : 2,
+              "verseText" : "And if that mockingbird won’t sing,\nMama’s gonna buy you a diamond ring."
+            },
+            {
+              "verseNumber" : 3,
+              "verseText" : "And if that diamond ring turns brass,\nMama’s gonna buy you a looking glass."
+            },
+            {
+              "verseNumber" : 4,
+              "verseText" : "And if that looking glass gets broke,\nMama’s gonna buy you a billy goat."
+            },
+            {
+              "verseNumber" : 5,
+              "verseText" : "And if that billy goat won’t pull,\nMama’s gonna buy you a cart and bull."
+            },
+            {
+              "verseNumber" : 6,
+              "verseText" : "And if that cart and bull turn over,\nMama’s gonna buy you a dog named Rover."
+            },
+            {
+              "verseNumber" : 7,
+              "verseText" : "And if that dog named Rover won’t bark,\nMama’s gonna buy you a horse and cart."
+            },
+            {
+              "verseNumber" : 8,
+              "verseText" : "And if that horse and cart fall down,\nYou’ll still be the sweetest little baby in town."
+            }
+          ]
+        },
+        {
+          "songNumber" : 7,
+          "songTitle" : "Jack and Jill",
+          "verses" : [
+            {
+              "verseText" : "Jack and Jill went up the hill\nTo fetch a pail of water.\nJack fell down and broke his crown,\nAnd Jill came tumbling after."
+            }
+          ]
+        },
+        {
+          "songNumber" : 8,
+          "songTitle" : "Jack Be Nimble",
+          "verses" : [
+            {
+              "verseText" : "Jack be nimble,\nJack be quick,\nJack jump over\nThe candlestick."
+            }
+          ]
+        },
+        {
+          "songNumber" : 9,
+          "songTitle" : "Little Bo Peep",
+          "verses" : [
+            {
+              "verseText" : "Little Bo-Peep has lost her sheep,\nAnd doesn’t know where to find them;\nLeave them alone, And they’ll come home,\nWagging their tails behind them."
+            }
+          ]
+        },
+        {
+          "songNumber" : 10,
+          "songTitle" : "Little Miss Muffet",
+          "verses" : [
+            {
+              "verseText" : "Little Miss Muffet\nSat on a tuffet,\nEating her curds and whey;\nAlong came a spider,\nWho sat down beside her\nAnd frightened Miss Muffet away."
+            }
+          ]
+        },
+        {
+          "songNumber" : 11,
+          "songTitle" : "London Bridge",
+          "verses" : [
+            {
+              "verseText" : "London Bridge is falling down,\nFalling down, falling down.\nLondon Bridge is falling down,\nMy fair lady."
+            }
+          ]
+        },
+        {
+          "songNumber" : 12,
+          "songTitle" : "Mary Had a Little Lamb",
+          "verses" : [
+            {
+              "verseNumber" : 1,
+              "verseText" : "Mary had a little lamb,\nlittle lamb, little lamb,\nMary had a little lamb,\nwhose fleece was white as snow."
+            },
+            {
+              "verseNumber" : 2,
+              "verseText" : "And everywhere that Mary went,\nMary went, Mary went,\nAnd everywhere that Mary went,\nthe lamb was sure to go."
+            },
+            {
+              "verseNumber" : 3,
+              "verseText" : "He followed her to school one day,\nschool one day, school one day\nHe followed her to school one day,\nwhich was against the rule."
+            },
+            {
+              "verseNumber" : 4,
+              "verseText" : "It made the children laugh and play,\nlaugh and play, laugh and play,\nIt made the children laugh and play,\nto see a lamb at school."
+            },
+            {
+              "verseNumber" : 5,
+              "verseText" : "And so the teacher turned it out,\nturned it out, turned it out,\nAnd so the teacher turned it out,\nbut still it lingered near."
+            },
+            {
+              "verseNumber" : 6,
+              "verseText" : "And waited patiently about,\n’ly about, ’ly about,\nAnd waited patiently about,\ntill Mary did appear."
+            },
+            {
+              "verseNumber" : 7,
+              "verseText" : "“Why does the lamb love Mary so?”\nMary so, Mary so,\n“Why does the lamb love Mary so?”\nthe eager children cry."
+            },
+            {
+              "verseNumber" : 8,
+              "verseText" : "“Why, Mary loves the lamb, you know.”\nlamb, you know, lamb, you know,\n“Why, Mary loves the lamb, you know.”\nthe teacher did reply."
+            }
+          ]
+        },
+        {
+          "songNumber" : 13,
+          "songTitle" : "Oh My Darling, Clementine",
+          "verses" : [
+            {
+              "verseNumber" : 1,
+              "verseText" : "In a cavern, in a canyon,\nExcavating for a mine\nDwelt a miner forty niner,\nAnd his daughter Clementine."
+            },
+            {
+              "verseIsChorus" : 1,
+              "verseText" : "Oh my darling, oh my darling, Oh my darling, Clementine! Thou art lost and gone forever Dreadful sorry, Clementine."
+            },
+            {
+              "verseNumber" : 2,
+              "verseText" : "Light she was and like a fairy,\nAnd her shoes were number nine\nHerring boxes, without topses,\nSandals were for Clementine.",
+              "verseChorusIndex" : 1
+            },
+            {
+              "verseNumber" : 3,
+              "verseText" : "Drove she ducklings to the water\nEv’ry morning just at nine,\nHit her foot against a splinter,\nFell into the foaming brine.",
+              "verseChorusIndex" : 1
+            },
+            {
+              "verseNumber" : 4,
+              "verseText" : "Ruby lips above the water,\nBlowing bubbles, soft and fine,\nBut, alas, I was no swimmer,\nSo I lost my Clementine.",
+              "verseChorusIndex" : 1
+            }
+          ]
+        },
+        {
+          "songNumber" : 14,
+          "songTitle" : "Patty Cake",
+          "verses" : [
+            {
+              "verseText" : "Patty cake, patty cake, baker’s man.\nBake me a cake as fast as you can;\nRoll it, and Pat it, and mark it with a B,\nAnd put it in the oven for baby and me."
+            }
+          ]
+        },
+        {
+          "songNumber" : 15,
+          "songTitle" : "Pop Goes the Weasel",
+          "verses" : [
+            {
+              "verseText" : "All around the mulberry bush\nThe monkey chased the weasel;\nThe monkey thought ’twas all in fun,\nPop! goes the weasel."
+            }
+          ]
+        },
+        {
+          "songNumber" : 16,
+          "songTitle" : "Ring Around the Rosie",
+          "verses" : [
+            {
+              "verseText" : "Ring-a-round the rosie,\nA pocket full of posies,\nAshes! Ashes!\nWe all fall down."
+            }
+          ]
+        },
+        {
+          "songNumber" : 17,
+          "songTitle" : "Rock-a-bye Baby",
+          "verses" : [
+            {
+              "verseText" : "Rock-a-bye baby, on the treetop,\nWhen the wind blows, the cradle will rock,\nWhen the bough breaks, the cradle will fall,\nAnd down will come baby, cradle and all."
+            }
+          ]
+        },
+        {
+          "songNumber" : 18,
+          "songTitle" : "Row, Row, Row Your Boat",
+          "verses" : [
+            {
+              "verseText" : "Row, row, row your boat,\nGently down the stream.\nMerrily, merrily, merrily, merrily,\nLife is but a dream."
+            }
+          ]
+        },
+        {
+          "songNumber" : 19,
+          "songTitle" : "Twinkle Twinkle Little Star",
+          "verses" : [
+            {
+              "verseNumber" : 1,
+              "verseText" : "Twinkle, twinkle, little star,\nHow I wonder what you are.\nUp above the world so high,\nLike a diamond in the sky."
+            },
+            {
+              "verseNumber" : 2,
+              "verseText" : "When the blazing sun is gone,\nWhen he nothing shines upon,\nThen you show your little light,\nTwinkle, twinkle, all the night."
+            },
+            {
+              "verseNumber" : 3,
+              "verseText" : "Then the traveller in the dark,\nThanks you for your tiny spark,\nHe could not see which way to go,\nIf you did not twinkle so."
+            },
+            {
+              "verseNumber" : 4,
+              "verseText" : "In the dark blue sky you keep,\nAnd often through my curtains peep,\nFor you never shut your eye,\n’Till the sun is in the sky."
+            },
+            {
+              "verseNumber" : 5,
+              "verseText" : "As your bright and tiny spark,\nLights the traveller in the dark.\nThough I know not what you are,\nTwinkle, twinkle, little star."
+            },
+            {
+              "verseNumber" : 6,
+              "verseText" : "Twinkle, twinkle, little star.\nHow I wonder what you are.\nUp above the world so high,\nLike a diamond in the sky."
+            },
+            {
+              "verseNumber" : 7,
+              "verseText" : "Twinkle, twinkle, little star.\nHow I wonder what you are."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
