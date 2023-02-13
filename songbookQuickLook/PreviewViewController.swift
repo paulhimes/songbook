@@ -1,20 +1,16 @@
-//
-//  PreviewViewController.swift
-//  songbookQuickLook
-//
-//  Created by Paul Himes on 2/5/23.
-//
-
 import SwiftUI
 import UIKit
 import QuickLook
 
 class PreviewViewController: UIViewController, QLPreviewingController {
 
+    /// A controller to host the SwiftUI View.
     let contentView = UIHostingController(rootView: PreviewView(title: "Songbook"))
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // Embed the SwiftUI controller view in the view of this controller.
         addChild(contentView)
         contentView.view.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(contentView.view)
@@ -28,21 +24,9 @@ class PreviewViewController: UIViewController, QLPreviewingController {
             ]
         )
     }
-    
-    /*
-     * Implement this method and set QLSupportsSearchableItems to YES in the Info.plist of the extension if you support CoreSpotlight.
-     *
-    func preparePreviewOfSearchableItem(identifier: String, queryString: String?, completionHandler handler: @escaping (Error?) -> Void) {
-        // Perform any setup necessary in order to prepare the view.
-        
-        // Call the completion handler so Quick Look knows that the preview is fully loaded.
-        // Quick Look will display a loading spinner while the completion handler is not called.
-        handler(nil)
-    }
-    */
-    
 
     func preparePreviewOfFile(at url: URL, completionHandler handler: @escaping (Error?) -> Void) {
+        // Update the SwiftUI view's title with the name of the file at the given `URL`.
         contentView.rootView = PreviewView(
             title: url
                 .lastPathComponent
@@ -51,10 +35,6 @@ class PreviewViewController: UIViewController, QLPreviewingController {
                 .joined(separator: ".")
         )
 
-        // Add the supported content types to the QLSupportedContentTypes array in the Info.plist of the extension.
-        
-        // Perform any setup necessary in order to prepare the view.
-        
         // Call the completion handler so Quick Look knows that the preview is fully loaded.
         // Quick Look will display a loading spinner while the completion handler is not called.
         handler(nil)

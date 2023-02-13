@@ -6,27 +6,29 @@ struct BookPageView: View {
     let version: Int
 
     var body: some View {
-        ZStack {
+        VerticalRatioLayout(ratio: 1 / .phi) {
             RedGradientView()
-            VerticalProportionLayout(ratio: 1 / .phi) {
-                BookPageContent(title: title, version: version)
-            }
+            BookPageContent(title: title, version: version)
         }
     }
 }
 
 struct BookPageContent: View {
+    /// The currently selected font.
+    @AppStorage(.StorageKey.fontMode) var fontMode: FontMode = .default
+    @AppStorage(.StorageKey.customFontName) var customFontName: String?
+
     let title: String
     let version: Int
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
-                .font(.largeTitle)
                 .minimumScaleFactor(0.5)
+                .font(fontMode.font(style: .largeTitle, customFontName: customFontName))
             Text("Version \(version)")
-                .font(.subheadline)
                 .opacity(0.7)
                 .minimumScaleFactor(0.5)
+                .font(fontMode.font(style: .subheadline, customFontName: customFontName))
         }
         .padding()
         .foregroundColor(.white)

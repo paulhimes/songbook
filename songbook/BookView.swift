@@ -8,12 +8,13 @@ struct BookView: UIViewControllerRepresentable {
     /// The book displayed by this view.
     let book: Book
 
+    /// The tint color of the bottom toolbar controls.
     @Binding var tint: Color
 
     /// The page view models of the book.
     var pages: [PageModel] {
         var pageModels: [PageModel] = []
-        pageModels.append(.book(title: book.title, version: "\(book.version)"))
+        pageModels.append(.book(title: book.title, version: book.version))
         for section in book.sections {
             pageModels.append(.section(title: section.title ?? "Untitled Section"))
             for song in section.songs {

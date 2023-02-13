@@ -1,8 +1,9 @@
-//
-//  StorageKey.swift
-//  songbook
-//
-//  Created by Paul Himes on 2/12/23.
-//
+import SwiftUI
 
-import Foundation
+extension String {
+    enum StorageKey {
+        static let colorTheme = "ColorTheme"
+        static let customFontName = "CustomFontName"
+        static let fontMode = "FontMode"
+    }
+}

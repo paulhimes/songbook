@@ -5,14 +5,14 @@ enum FontMode: Int {
     case lowVision
     case custom
 
-    func font(style: Font.TextStyle) -> Font {
+    func font(style: Font.TextStyle, customFontName: String?) -> Font {
         switch self {
         case .default:
             return style.font(named: "Charter-Roman")
         case .lowVision:
             return style.font(named: "APHont")
         case .custom:
-            if let customFontName = UserDefaults.standard.string(forKey: "CustomFontName") {
+            if let customFontName {
                 return style.font(named: customFontName)
             } else {
                 return .system(style)

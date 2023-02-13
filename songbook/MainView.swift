@@ -3,8 +3,19 @@ import SwiftUI
 import CoreData
 
 struct MainView: View {
-
+    /// The book model.
     @ObservedObject var bookModel: BookModel
+
+    /// The currently selected appearance.
+    @AppStorage(.StorageKey.colorTheme) var appearance: Appearance = .automatic
+
+    /// The currently selected font.
+    @AppStorage(.StorageKey.fontMode) var fontMode: FontMode = .default
+    @AppStorage(.StorageKey.customFontName) var customFontName: String?
+
+    @State var showFontPicker = false
+
+    /// The tint color of the bottom toolbar controls.
     @State var tint: Color = .white
 
     var body: some View {
@@ -27,7 +38,6 @@ struct MainView: View {
                                 }
                                 if bookModel.bookWithTunesURL != nil {
                                     Menu {
-//                                        ShareLink(item: Songbook(url: bookModel.bookWithTunesURL!), preview: SharePreview(bookModel.bookWithTunesURL!.lastPathComponent, image: Image("Icon"))) {
                                         ShareLink(item: bookModel.bookWithTunesURL!) {
                                             Label("With Tunes", systemImage: "music.note")
                                         }
@@ -43,48 +53,23 @@ struct MainView: View {
                                     }
                                 }
                                 Menu {
-                                    Button {
-                                        print("Light Background")
-                                    } label: {
-                                        Toggle(isOn: .constant(true)) {
-                                            Label("Light", systemImage: "sun.max")
-                                        }
-                                    }
-                                    Button {
-                                        print("Dark Background")
-                                    } label: {
-                                        Toggle(isOn: .constant(false)) {
-                                            Label("Dark", systemImage: "moon")
-                                        }
-                                    }
-                                    Button {
-                                        print("Automatic Background")
-                                    } label: {
-                                        Toggle(isOn: .constant(false)) {
-                                            Label("Automatic", systemImage: "circle.righthalf.filled")
-                                        }
+                                    Picker("Appearance", selection: $appearance) {
+                                        Label("Light", systemImage: "sun.max").tag(Appearance.light)
+                                        Label("Dark", systemImage: "moon").tag(Appearance.dark)
+                                        Label("Automatic", systemImage: "circle.righthalf.filled").tag(Appearance.automatic)
                                     }
                                     Divider()
-                                    Button {
-                                        print("Default Font")
-                                    } label: {
-                                        Toggle(isOn: .constant(true)) {
-                                            Label("Default Font", systemImage: "textformat")
+                                    Picker("Font", selection: .init(get: {
+                                        fontMode
+                                    }, set: { mode in
+                                        fontMode = mode
+                                        if fontMode == .custom {
+                                            showFontPicker = true
                                         }
-                                    }
-                                    Button {
-                                        print("Low Vision Font")
-                                    } label: {
-                                        Toggle(isOn: .constant(false)) {
-                                            Label("Low Vision Font", systemImage: "a.magnify")
-                                        }
-                                    }
-                                    Button {
-                                        print("Custom Font")
-                                    } label: {
-                                        Toggle(isOn: .constant(false)) {
-                                            Label("Custom Font", systemImage: "ellipsis.circle")
-                                        }
+                                    })) {
+                                        Label("Default Font", systemImage: "textformat").tag(FontMode.default)
+                                        Label("Low Vision Font", systemImage: "a.magnify").tag(FontMode.lowVision)
+                                        Label("Custom Font", systemImage: "ellipsis.circle").tag(FontMode.custom)
                                     }
                                 } label: {
                                     Label("Appearance", systemImage: "textformat.size") // textformat.size eye paintpalette sun.max
@@ -109,6 +94,19 @@ struct MainView: View {
             }
         }
         .statusBarHidden(true)
+        .preferredColorScheme(appearance.colorScheme)
+        .sheet(isPresented: $showFontPicker) {
+            NavigationStack {
+                FontPicker(fontName: $customFontName)
+                    .navigationTitle("Custom Font")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        Button("Cancel", role: .cancel) {
+                            showFontPicker = false
+                        }
+                    }
+            }
+        }
     }
 }
 

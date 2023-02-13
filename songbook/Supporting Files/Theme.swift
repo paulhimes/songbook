@@ -174,7 +174,13 @@ extension UIColor {
         let green = min(255, max(0, g))
         let blue = min(255, max(0, b))
         let alpha = min(255, max(0, a))
-        self.init(red: CGFloat(red)/255, green: CGFloat(green)/255, blue: CGFloat(blue)/255, alpha: CGFloat(alpha)/255)
+
+        self.init(
+            displayP3Red: CGFloat(red)/255,
+            green: CGFloat(green)/255,
+            blue: CGFloat(blue)/255,
+            alpha: CGFloat(alpha)/255
+        )
     }
 }
 

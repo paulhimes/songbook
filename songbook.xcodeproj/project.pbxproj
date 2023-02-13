@@ -15,7 +15,6 @@
 		8B19D53C296CA0E700F2DD0B /* RedGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B19D53B296CA0E700F2DD0B /* RedGradientView.swift */; };
 		8B1BCECB298FF19D0093817C /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B1BCECA298FF19D0093817C /* QuickLook.framework */; };
 		8B1BCECE298FF19D0093817C /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1BCECD298FF19D0093817C /* PreviewViewController.swift */; };
-		8B1BCED3298FF19D0093817C /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B1BCED1298FF19D0093817C /* MainInterface.storyboard */; };
 		8B1BCED7298FF19D0093817C /* songbookQuickLook.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8B1BCEC8298FF19D0093817C /* songbookQuickLook.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8B1BCEE2299005FB0093817C /* QuickLookThumbnailing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B1BCEE1299005FB0093817C /* QuickLookThumbnailing.framework */; };
 		8B1BCEE5299005FB0093817C /* ThumbnailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1BCEE4299005FB0093817C /* ThumbnailProvider.swift */; };
@@ -23,7 +22,15 @@
 		8B1BCEED299006D10093817C /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B6899CC295B9E97000525B4 /* Icon.png */; };
 		8B1BCEEF299013180093817C /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B6899CC295B9E97000525B4 /* Icon.png */; };
 		8B1BCEF1299098AF0093817C /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1BCEF0299098AF0093817C /* PreviewView.swift */; };
-		8B1BCEF4299142410093817C /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1BCEF0299098AF0093817C /* PreviewView.swift */; };
+		8B1BCEF82995B7A00093817C /* VerticalRatioLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1BCEF72995B7A00093817C /* VerticalRatioLayout.swift */; };
+		8B1BCEFB299980670093817C /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1BCEFA299980670093817C /* Appearance.swift */; };
+		8B1BCEFD2999943A0093817C /* FontMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1BCEFC2999943A0093817C /* FontMode.swift */; };
+		8B1BCF012999AC570093817C /* APHont-Bold_q15c.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B1BCEFF2999AC570093817C /* APHont-Bold_q15c.ttf */; };
+		8B1BCF022999AC570093817C /* APHont-Regular_q15c.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B1BCF002999AC570093817C /* APHont-Regular_q15c.ttf */; };
+		8B1BCF042999AED50093817C /* Atkinson-Hyperlegible-Regular-102.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8B1BCF032999AED50093817C /* Atkinson-Hyperlegible-Regular-102.otf */; };
+		8B1BCF062999B3760093817C /* Atkinson-Hyperlegible-Bold-102.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8B1BCF052999B3760093817C /* Atkinson-Hyperlegible-Bold-102.otf */; };
+		8B1BCF082999B5440093817C /* FontPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1BCF072999B5430093817C /* FontPicker.swift */; };
+		8B1BCF0A2999E4F40093817C /* StorageKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1BCF092999E4F40093817C /* StorageKey.swift */; };
 		8B6899CD295B9E97000525B4 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B6899CC295B9E97000525B4 /* Icon.png */; };
 		8B6899D3295BA328000525B4 /* BookModel in Frameworks */ = {isa = PBXBuildFile; productRef = 8B6899D2295BA328000525B4 /* BookModel */; };
 		8B6899D829629F6C000525B4 /* default.songbook in Resources */ = {isa = PBXBuildFile; fileRef = 8B6899D729629F6C000525B4 /* default.songbook */; };
@@ -92,13 +99,21 @@
 		8B1BCEC8298FF19D0093817C /* songbookQuickLook.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = songbookQuickLook.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B1BCECA298FF19D0093817C /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		8B1BCECD298FF19D0093817C /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
-		8B1BCED2298FF19D0093817C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		8B1BCED4298FF19D0093817C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B1BCEE0299005FB0093817C /* songbookThumbnail.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = songbookThumbnail.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B1BCEE1299005FB0093817C /* QuickLookThumbnailing.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLookThumbnailing.framework; path = System/Library/Frameworks/QuickLookThumbnailing.framework; sourceTree = SDKROOT; };
 		8B1BCEE4299005FB0093817C /* ThumbnailProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailProvider.swift; sourceTree = "<group>"; };
 		8B1BCEE6299005FB0093817C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B1BCEF0299098AF0093817C /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
+		8B1BCEF72995B7A00093817C /* VerticalRatioLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalRatioLayout.swift; sourceTree = "<group>"; };
+		8B1BCEFA299980670093817C /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
+		8B1BCEFC2999943A0093817C /* FontMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontMode.swift; sourceTree = "<group>"; };
+		8B1BCEFF2999AC570093817C /* APHont-Bold_q15c.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "APHont-Bold_q15c.ttf"; sourceTree = "<group>"; };
+		8B1BCF002999AC570093817C /* APHont-Regular_q15c.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "APHont-Regular_q15c.ttf"; sourceTree = "<group>"; };
+		8B1BCF032999AED50093817C /* Atkinson-Hyperlegible-Regular-102.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Atkinson-Hyperlegible-Regular-102.otf"; sourceTree = "<group>"; };
+		8B1BCF052999B3760093817C /* Atkinson-Hyperlegible-Bold-102.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Atkinson-Hyperlegible-Bold-102.otf"; sourceTree = "<group>"; };
+		8B1BCF072999B5430093817C /* FontPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontPicker.swift; sourceTree = "<group>"; };
+		8B1BCF092999E4F40093817C /* StorageKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageKey.swift; sourceTree = "<group>"; };
 		8B6899CB295B8A1C000525B4 /* BookModel */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = BookModel; sourceTree = "<group>"; };
 		8B6899CC295B9E97000525B4 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		8B6899D729629F6C000525B4 /* default.songbook */ = {isa = PBXFileReference; lastKnownFileType = file; path = default.songbook; sourceTree = "<group>"; };
@@ -173,7 +188,6 @@
 			children = (
 				8B1BCECD298FF19D0093817C /* PreviewViewController.swift */,
 				8B1BCEF0299098AF0093817C /* PreviewView.swift */,
-				8B1BCED1298FF19D0093817C /* MainInterface.storyboard */,
 				8B1BCED4298FF19D0093817C /* Info.plist */,
 			);
 			path = songbookQuickLook;
@@ -186,6 +200,27 @@
 				8B1BCEE6299005FB0093817C /* Info.plist */,
 			);
 			path = songbookThumbnail;
+			sourceTree = "<group>";
+		};
+		8B1BCEF92995EBC00093817C /* Pages */ = {
+			isa = PBXGroup;
+			children = (
+				8B19D5332969599F00F2DD0B /* BookPageView.swift */,
+				8B19D535296959C300F2DD0B /* SectionPageView.swift */,
+				8B19D537296959E300F2DD0B /* SongPageView.swift */,
+			);
+			path = Pages;
+			sourceTree = "<group>";
+		};
+		8B1BCEFE2999AC3E0093817C /* Custom Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				8B1BCEFF2999AC570093817C /* APHont-Bold_q15c.ttf */,
+				8B1BCF002999AC570093817C /* APHont-Regular_q15c.ttf */,
+				8B1BCF032999AED50093817C /* Atkinson-Hyperlegible-Regular-102.otf */,
+				8B1BCF052999B3760093817C /* Atkinson-Hyperlegible-Bold-102.otf */,
+			);
+			path = "Custom Fonts";
 			sourceTree = "<group>";
 		};
 		8B6899CA295B8A1C000525B4 /* Packages */ = {
@@ -225,14 +260,12 @@
 		8B7FE19725577DA500D64403 /* songbook */ = {
 			isa = PBXGroup;
 			children = (
+				8B1BCEF92995EBC00093817C /* Pages */,
 				8B7FE1E72558BA9E00D64403 /* Supporting Files */,
-				8B7FE19A25577DA500D64403 /* MainView.swift */,
-				8B19D53B296CA0E700F2DD0B /* RedGradientView.swift */,
 				8B19D5312964EBE900F2DD0B /* BookView.swift */,
+				8B1BCF072999B5430093817C /* FontPicker.swift */,
+				8B7FE19A25577DA500D64403 /* MainView.swift */,
 				8B19D53929695A3900F2DD0B /* PageModel.swift */,
-				8B19D5332969599F00F2DD0B /* BookPageView.swift */,
-				8B19D535296959C300F2DD0B /* SectionPageView.swift */,
-				8B19D537296959E300F2DD0B /* SongPageView.swift */,
 			);
 			path = songbook;
 			sourceTree = "<group>";
@@ -266,13 +299,19 @@
 		8B7FE1E72558BA9E00D64403 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				8B1BCEFE2999AC3E0093817C /* Custom Fonts */,
 				8B7FE19E25577DA500D64403 /* Preview Content */,
 				8B7FE19C25577DA500D64403 /* Assets.xcassets */,
 				8B6899D729629F6C000525B4 /* default.songbook */,
 				8B6899CC295B9E97000525B4 /* Icon.png */,
 				8B7FE1A625577DA500D64403 /* Info.plist */,
+				8B19D53B296CA0E700F2DD0B /* RedGradientView.swift */,
 				8B7FE19825577DA500D64403 /* SongbookApp.swift */,
 				8B6899D92963D7AA000525B4 /* Theme.swift */,
+				8B1BCEF72995B7A00093817C /* VerticalRatioLayout.swift */,
+				8B1BCEFA299980670093817C /* Appearance.swift */,
+				8B1BCEFC2999943A0093817C /* FontMode.swift */,
+				8B1BCF092999E4F40093817C /* StorageKey.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -429,7 +468,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B1BCEEF299013180093817C /* Icon.png in Resources */,
-				8B1BCED3298FF19D0093817C /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,7 +486,11 @@
 				8B6899CD295B9E97000525B4 /* Icon.png in Resources */,
 				8B6899D829629F6C000525B4 /* default.songbook in Resources */,
 				8B7FE1A025577DA500D64403 /* Preview Assets.xcassets in Resources */,
+				8B1BCF062999B3760093817C /* Atkinson-Hyperlegible-Bold-102.otf in Resources */,
 				8B7FE19D25577DA500D64403 /* Assets.xcassets in Resources */,
+				8B1BCF042999AED50093817C /* Atkinson-Hyperlegible-Regular-102.otf in Resources */,
+				8B1BCF012999AC570093817C /* APHont-Bold_q15c.ttf in Resources */,
+				8B1BCF022999AC570093817C /* APHont-Regular_q15c.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,10 +535,14 @@
 				8B19D5322964EBE900F2DD0B /* BookView.swift in Sources */,
 				8B6899DA2963D7AA000525B4 /* Theme.swift in Sources */,
 				8B19D536296959C300F2DD0B /* SectionPageView.swift in Sources */,
+				8B1BCF0A2999E4F40093817C /* StorageKey.swift in Sources */,
 				8B19D5342969599F00F2DD0B /* BookPageView.swift in Sources */,
 				8B19D53A29695A3900F2DD0B /* PageModel.swift in Sources */,
-				8B1BCEF4299142410093817C /* PreviewView.swift in Sources */,
+				8B1BCEF82995B7A00093817C /* VerticalRatioLayout.swift in Sources */,
 				8B19D538296959E300F2DD0B /* SongPageView.swift in Sources */,
+				8B1BCEFB299980670093817C /* Appearance.swift in Sources */,
+				8B1BCEFD2999943A0093817C /* FontMode.swift in Sources */,
+				8B1BCF082999B5440093817C /* FontPicker.swift in Sources */,
 				8B7FE19B25577DA500D64403 /* MainView.swift in Sources */,
 				8B7FE19925577DA500D64403 /* SongbookApp.swift in Sources */,
 				8B19D53C296CA0E700F2DD0B /* RedGradientView.swift in Sources */,
@@ -543,17 +589,6 @@
 			targetProxy = 8B7FE1B725577DA600D64403 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		8B1BCED1298FF19D0093817C /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8B1BCED2298FF19D0093817C /* Base */,
-			);
-			name = MainInterface.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		8B1BCED9298FF19D0093817C /* Debug */ = {
