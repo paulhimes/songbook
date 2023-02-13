@@ -19,7 +19,8 @@ import UIKit
 //    }
 //
 //    @objc static let redColor = UIColor(r: 190, g: 25, b: 49, a: 255)
-    @objc static let coverColorOne = UIColor(r: 126, g: 25, b: 40, a: 255)
+//    @objc static let coverColorOne = UIColor(r: 126, g: 25, b: 40, a: 255)
+    @objc static let coverColorOne = UIColor(r: 190, g: 25, b: 49, a: 255)
     @objc static let coverColorTwo = UIColor(r: 124, g: 16, b: 32, a: 255)
 //    @objc static var grayTrimColor: UIColor {
 //        get {
