@@ -15,8 +15,8 @@ struct VerticalRatioLayout: Layout {
         subviews: Subviews,
         cache: inout ()
     ) {
-        subviews.forEach {
-            let sizeThatFits = $0.sizeThatFits(
+        subviews.forEach { subview in
+            let sizeThatFits = subview.sizeThatFits(
                 ProposedViewSize(width: bounds.width, height: bounds.height)
             )
 
@@ -37,7 +37,7 @@ struct VerticalRatioLayout: Layout {
                 top = idealCenter - halfHeight
             }
 
-            $0.place(
+            subview.place(
                 at: CGPoint(x: bounds.origin.x, y: top),
                 proposal: ProposedViewSize(width: width, height: height)
             )

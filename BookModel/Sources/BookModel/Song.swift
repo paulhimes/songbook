@@ -1,9 +1,9 @@
-/// A song in an `Section`.
+/// A song in an ``Section``.
 public struct Song: Codable, Equatable {
 
-    /// The name of the audio file to play for this song. If no name is provided, the old automatic
-    /// naming scheme is used.
-    public let audioFileName: String?
+    /// The names of the audio files to play for this song. If no names are provided, the old
+    /// automatic naming scheme is used.
+    public let audioFileNames: [String]?
 
     /// The author of this song.
     public let author: String?
@@ -29,7 +29,7 @@ public struct Song: Codable, Equatable {
 
 extension Song {
     enum CodingKeys: String, CodingKey {
-        case audioFileName = "audioFileName"
+        case audioFileNames = "audioFileNames"
         case author = "songAuthor"
         case number = "songNumber"
         case relatedSongs

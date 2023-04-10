@@ -74,7 +74,7 @@ func roundTrip(
 ///   - file: The name of the songbook file.
 ///   - testFile: The source file of the caller.
 ///   - testLine: The source line of the caller.
-/// - Returns: The `URL` of a songbook file, or `nil` if the file could not be found.
+/// - Returns: The ``URL`` of a songbook file, or `nil` if the file could not be found.
 func url(
     for file: SampleBookSongbookFile,
     testFile: StaticString = #file,

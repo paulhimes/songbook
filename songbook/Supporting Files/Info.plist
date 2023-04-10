@@ -35,6 +35,12 @@
 	<true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>APHont-Bold_q15c.ttf</string>
+		<string>APHont-Regular_q15c.ttf</string>
+		<string>Atkinson-Hyperlegible-Regular-102.otf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -44,6 +50,10 @@
 	</dict>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+	</array>
 	<key>UILaunchScreen</key>
 	<dict/>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -85,12 +95,6 @@
 	<key>UTImportedTypeDeclarations</key>
 	<array>
 		<dict/>
-	</array>
-	<key>UIAppFonts</key>
-	<array>
-		<string>APHont-Bold_q15c.ttf</string>
-		<string>APHont-Regular_q15c.ttf</string>
-		<string>Atkinson-Hyperlegible-Regular-102.otf</string>
 	</array>
 </dict>
 </plist>

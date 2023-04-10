@@ -5,6 +5,10 @@ import Zip
 @main
 struct SongbookApp: App {
 
+    /// The shared audio player of the app.
+    let audioPlayer = AudioPlayer()
+
+    /// The data model of the currently loaded book.
     @StateObject var bookModel = BookModel()
 
     init() {
@@ -18,7 +22,7 @@ struct SongbookApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainView(bookModel: bookModel)
+            MainScreen(bookModel: bookModel)
                 .onOpenURL { url in
                     print("App was asked to open file at \(url)")
                     bookModel.importBook(from: url)
@@ -26,6 +30,8 @@ struct SongbookApp: App {
                 .onAppear {
                     print("\(URL.bookDirectory)")
                 }
+                .environmentObject(audioPlayer)
+                .environmentObject(audioPlayer.progress)
         }
     }
 }

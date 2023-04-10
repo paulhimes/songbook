@@ -1,17 +1,24 @@
 import SwiftUI
 
+/// Shows a song page.
 struct SongPageView: View {
+    /// The currently selected font.
     @AppStorage(.StorageKey.fontMode) var fontMode: FontMode = .default
-    @AppStorage(.StorageKey.customFontName) var customFontName: String?
+
+    /// The title of the song.
     let title: String
 
     var body: some View {
         Text(title)
-            .font(fontMode.font(style: .body, customFontName: customFontName))
+            .font(fontMode.font(style: .body))
             .padding()
             .foregroundColor(.primary)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-
+            .safeAreaInset(edge: .bottom, alignment: .center, spacing: 0) {
+                Color.clear
+                    .frame(height: 0)
+                    .background(Material.ultraThinMaterial)
+            }
     }
 }
 

@@ -170,10 +170,10 @@ import UIKit
 
 extension UIColor {
     convenience init(r: UInt, g: UInt, b: UInt, a: UInt) {
-        let red = min(255, max(0, r))
-        let green = min(255, max(0, g))
-        let blue = min(255, max(0, b))
-        let alpha = min(255, max(0, a))
+        let red = r.limited(0...255)
+        let green = g.limited(0...255)
+        let blue = b.limited(0...255)
+        let alpha = a.limited(0...255)
 
         self.init(
             displayP3Red: CGFloat(red)/255,

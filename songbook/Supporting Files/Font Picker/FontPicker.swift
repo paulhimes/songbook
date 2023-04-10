@@ -18,9 +18,7 @@ struct FontPicker: UIViewControllerRepresentable {
         return picker
     }
 
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-
-    }
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
 
     // MARK: Nested Types
 

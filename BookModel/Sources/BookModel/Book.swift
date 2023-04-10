@@ -12,7 +12,7 @@ public struct Book: Codable, Equatable {
     /// The title of the book.
     public let title: String
     
-    /// The `URL` to check for automatic book updates.
+    /// The ``URL`` to check for automatic book updates.
     public let updateURL: URL?
     
     /// The version of the book.

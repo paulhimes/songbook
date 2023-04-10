@@ -9,7 +9,14 @@ public class BookModel: ObservableObject {
     // MARK: Public Properties
 
     /// The book.
-    @Published public var book: Book?
+    @Published public var book: Book? {
+        didSet {
+            index = Index(book: book, audioFileDirectory: .bookDirectory)
+        }
+    }
+
+    /// The index of the book.
+    @Published public var index: Index?
 
     /// The URL of the songbook file without tunes. `nil` if the book is not loaded.
     public var bookWithoutTunesURL: URL? {
@@ -24,7 +31,7 @@ public class BookModel: ObservableObject {
 
     // MARK: Public Functions
 
-    /// Initialize a `BookModel`.
+    /// Initialize a ``BookModel``.
     public init() {
         // Try to load the existing book.
         do {
@@ -35,9 +42,9 @@ public class BookModel: ObservableObject {
         }
     }
 
-    /// Imports a .songbook file at the given `URL` into the book directory.
+    /// Imports a .songbook file at the given ``URL`` into the book directory.
     /// - Parameters:
-    ///   - url: The `URL` of the .songbook file.
+    ///   - url: The ``URL`` of the .songbook file.
     public func importBook(from url: URL) {
         // Unload the current book.
         book = nil
@@ -125,7 +132,7 @@ public class BookModel: ObservableObject {
 }
 
 extension URL {
-    /// `true` iff the `URL` points to a directory rather than a file.
+    /// `true` iff the ``URL`` points to a directory rather than a file.
     var isDirectory: Bool {
         (try? resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory == true
     }

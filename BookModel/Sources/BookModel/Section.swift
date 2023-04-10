@@ -1,4 +1,4 @@
-/// A section in an `Book`.
+/// A section in an ``Book``.
 public struct Section: Codable, Equatable {
     
     /// The songs in this section.

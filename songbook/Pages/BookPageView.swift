@@ -1,38 +1,32 @@
 import SwiftUI
 
+/// Shows a book title page.
 struct BookPageView: View {
+    /// The currently selected font.
+    @AppStorage(.StorageKey.fontMode) var fontMode: FontMode = .default
 
+    /// The title of the book.
     let title: String
+
+    /// The version number of the book.
     let version: Int
 
     var body: some View {
         VerticalRatioLayout(ratio: 1 / .phi) {
             RedGradientView()
-            BookPageContent(title: title, version: version)
+            VStack(alignment: .leading, spacing: 8) {
+                Text(title)
+                    .minimumScaleFactor(0.5)
+                    .font(fontMode.font(style: .largeTitle))
+                Text("Version \(version)")
+                    .opacity(0.7)
+                    .minimumScaleFactor(0.5)
+                    .font(fontMode.font(style: .subheadline))
+            }
+            .padding()
+            .foregroundColor(.white)
+            .multilineTextAlignment(.leading)
         }
-    }
-}
-
-struct BookPageContent: View {
-    /// The currently selected font.
-    @AppStorage(.StorageKey.fontMode) var fontMode: FontMode = .default
-    @AppStorage(.StorageKey.customFontName) var customFontName: String?
-
-    let title: String
-    let version: Int
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(title)
-                .minimumScaleFactor(0.5)
-                .font(fontMode.font(style: .largeTitle, customFontName: customFontName))
-            Text("Version \(version)")
-                .opacity(0.7)
-                .minimumScaleFactor(0.5)
-                .font(fontMode.font(style: .subheadline, customFontName: customFontName))
-        }
-        .padding()
-        .foregroundColor(.white)
-        .multilineTextAlignment(.leading)
     }
 }
 

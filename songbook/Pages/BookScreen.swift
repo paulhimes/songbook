@@ -1,33 +1,16 @@
 import BookModel
 import SwiftUI
 
-struct BookView: UIViewControllerRepresentable {
+/// Shows the pages of a book.
+struct BookScreen: UIViewControllerRepresentable {
 
     // MARK: Public Properties
 
-    /// The book displayed by this view.
-    let book: Book
+    /// The page view models of the book.
+    let pages: [PageModel]
 
     /// The tint color of the bottom toolbar controls.
     @Binding var tint: Color
-
-    /// The page view models of the book.
-    var pages: [PageModel] {
-        var pageModels: [PageModel] = []
-        pageModels.append(.book(title: book.title, version: book.version))
-        for section in book.sections {
-            pageModels.append(.section(title: section.title ?? "Untitled Section"))
-            for song in section.songs {
-                var title = ""
-                if let number = song.number {
-                    title.append("\(number): ")
-                }
-                title.append(song.title ?? "Untitled Song")
-                pageModels.append(.song(title: title))
-            }
-        }
-        return pageModels
-    }
 
     // MARK: Public Functions
 
@@ -66,13 +49,13 @@ struct BookView: UIViewControllerRepresentable {
 
         // MARK: Public Properties
 
-        var parent: BookView
+        var parent: BookScreen
 
         var controllers = [UIViewController]()
 
         // MARK: Public Functions
 
-        init(_ bookView: BookView) {
+        init(_ bookView: BookScreen) {
             parent = bookView
             controllers = parent.pages.map {
                 let viewController: UIViewController
@@ -136,6 +119,6 @@ struct BookView: UIViewControllerRepresentable {
 
 struct BookView_Previews: PreviewProvider {
     static var previews: some View {
-        BookView(book: BookModel().book!, tint: .constant(.white))
+        BookScreen(pages: BookModel().index?.pageModels ?? [], tint: .constant(.white))
     }
 }

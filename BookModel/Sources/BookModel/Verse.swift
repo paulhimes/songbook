@@ -1,7 +1,7 @@
-/// A verse in an `Song`.
+/// A verse in an ``Song``.
 public struct Verse: Codable, Equatable {
     
-    /// The index within this verse's `Song` of the verse which represents a chorus to sing after
+    /// The index within this verse's ``Song`` of the verse which represents a chorus to sing after
     /// this verse.
     public let chorusIndex: Int?
     
