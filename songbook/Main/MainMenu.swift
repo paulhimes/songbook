@@ -18,17 +18,19 @@ struct MainMenu: View {
     /// `true` if the custom font picker is shown.
     @State var showFontPicker = false
 
-    let testSongs = ["0-0", "0-376", "0-589"] // shortest:376 longest:589
-    @State var testSongIndex = 0
+    //let testSongs = ["0-0", "0-1"] // ["0-0", "0-376", "0-589"] // shortest:376 longest:589
+    //@State var testSongIndex = 0
 
     var body: some View {
         Menu {
             Button {
+                UserDefaults.standard.currentPageIndex = UserDefaults.standard.currentPageIndex + 1
+            } label: {
+                Label("Page", systemImage: "book")
+            }
+            Button {
                 print("Play Tune")
-                if let item = bookModel.index?.playableItems.first(where: { $0.audioFileURL.absoluteString.contains(testSongs[testSongIndex]) }) {
-                    audioPlayer.play(item: item)
-                }
-                testSongIndex = (testSongIndex + 1) % 3
+                audioPlayer.play()
             } label: {
                 Label("Play Tune", systemImage: "play")
             }
@@ -96,6 +98,7 @@ struct MainMenu: View {
         } label: {
             Label("Menu", systemImage: "ellipsis.circle")
         }
+        .frame(minWidth: 44, minHeight: 44)
         .menuOrder(.fixed)
         .sheet(isPresented: $showFontPicker) {
             FontScreen()

@@ -5,21 +5,13 @@ import MediaPlayer
 /// Plays song files.
 class AudioPlayer: NSObject, ObservableObject {
 
-    // MARK: Private Properties
-
-    /// The player plays the sound files.
-    private var player: AVAudioPlayer?
-
-    /// Updates the playback progress every time the screen refreshes.
-    private var displayLink: CADisplayLink?
-
-    /// The estimated current playback time, in seconds, is used to update the progress. The time is
-    /// estimated because asking the player for the real time during each screen refresh is too
-    /// slow.
-    private var estimatedCurrentTime: TimeInterval = 0
+    // MARK: Public Properties
 
     /// `true` iff the player is currently playing.
-    @Published var isPlaying = false
+    @Published var isPlaying: Bool = false
+
+    /// The ``Playlist`` of ``PlayableItem``s.
+    var playlist: Playlist?
 
     /// The current playback progress as a percentage of total duration.
     lazy var progress = AudioPlayerProgress { [weak self] progress in
@@ -27,82 +19,137 @@ class AudioPlayer: NSObject, ObservableObject {
         guard let self else { return }
         guard let player = self.player else { return }
         let targetTime = player.duration * progress
-        player.currentTime = targetTime
-        self.estimatedCurrentTime = targetTime
+        seek(to: targetTime)
     }
 
-    /// Periodically synchronizes the `estimatedCurrentTime` with the real `currentTime` from the
-    /// `player`.
-    private var syncTimer: Timer?
+    // MARK: Private Properties
+
+    /// The player plays the sound files.
+    private var player: AVAudioPlayer?
+
+    // Synchronizes the in-app progress bar with the current playback
+    // state.
+    private lazy var synchronizer = Synchronizer(
+        continuousSyncHandler: { [weak self] estimatedCurrentTime in
+            guard let self, let player else { return }
+            let duration = player.duration
+            guard duration > 0 else {
+                progress.progress = 0
+                return
+            }
+            progress.progress = (estimatedCurrentTime / duration).limited(0...1)
+        },
+        periodicSyncHandler: { [weak self] in
+            guard let self else { return 0 }
+            return player?.currentTime ?? 0
+        }
+    )
 
     // MARK: Public Functions
 
-    /// Begins playing the given ``PlayableItem``.
-    /// - Parameter item: The item to play.
-    func play(item: PlayableItem) {
-        stop()
-
-        try? AVAudioSession.sharedInstance().setCategory(
-            .playback,
-            mode: .default,
-            policy: .longFormAudio
+    /// Pause playback.
+    func pause() {
+        isPlaying = false
+        player?.pause()
+        synchronizer.pause()
+        synchronizer.synchronize()
+        NowPlayingManager.updateNowPlaying(
+            for: playlist?.currentItem,
+            with: player,
+            scope: .all
         )
+    }
 
+    /// Play the current item in the playlist.
+    func play() {
+        isPlaying = true
+        if let player {
+            player.play()
+            synchronizer.start()
+            NowPlayingManager.updateNowPlaying(
+                for: playlist?.currentItem,
+                with: player,
+                scope: .all
+            )
+        } else if let playlist {
+            play(item: playlist.currentItem)
+        }
+    }
+
+    /// Play the next item in the playlist.
+    func playNext() {
+        guard let playlist else { return }
+        play(item: playlist.stepForward())
+    }
+
+    /// Play the previous item in the playlist.
+    func playPrevious() {
+        guard let playlist else { return }
+        play(item: playlist.stepBackward())
+    }
+
+    /// Play the given item.
+    /// - Parameter index: The item to play.
+    func play(item: PlayableItem) {
+        player?.pause() // Pause before stopping to avoid an audible "pop" sound.
+        player?.stop()
         player = try? AVAudioPlayer(contentsOf: item.audioFileURL)
         player?.delegate = self
-        isPlaying = true
-        player?.play()
+        UserDefaults.standard.currentSongId = item.songId
+        play()
+    }
 
-        // Update progress every time the screen refreshes.
-        displayLink = CADisplayLink(
-            target: self,
-            selector: #selector(updateProgress(displayLink:))
-        )
-        displayLink?.add(to: RunLoop.current, forMode: .common)
+    /// Seek the currently playing item to the given target time.
+    /// - Parameter targetTime: The time to seek the current item.
+    func seek(to targetTime: TimeInterval) {
+        guard let player else { return }
 
-        // Periodically synchronize the estimated current time with the real current time.
-        let syncTimer = Timer(timeInterval: 10, repeats: true) { [weak self] timer in
-            guard let self else { return }
-            if let realTime = self.player?.currentTime {
-                print("Correcting Sync Error: (\(self.estimatedCurrentTime - realTime))")
-                self.estimatedCurrentTime = realTime
-            }
+        // Seeking too close to the end causes the player to start playing from the beginning.
+        let targetTime = min(player.duration - 0.05, targetTime)
+
+        if player.isPlaying {
+            player.pause()
+            player.currentTime = targetTime
+            player.play()
+        } else {
+            player.currentTime = targetTime
         }
-        RunLoop.current.add(syncTimer, forMode: .common)
-        self.syncTimer = syncTimer
+        synchronizer.synchronize()
+        NowPlayingManager.updateNowPlaying(
+            for: playlist?.currentItem,
+            with: player,
+            scope: .all
+        )
     }
 
     /// Stops playing.
     func stop() {
+        isPlaying = false
+        synchronizer.stop()
+        synchronizer.synchronize()
         player?.pause() // Pause before stopping to avoid an audible "pop" sound.
         player?.stop()
-        displayLink?.invalidate()
-        displayLink = nil
-        syncTimer?.invalidate()
-        syncTimer = nil
         player = nil
         progress.progress = 0
-        estimatedCurrentTime = 0
-        isPlaying = false
-    }
-
-    // MARK: Private Functions
-
-    /// Uses a ``CADisplayLink`` to update the playback percentage every time the screen refreshes.
-    /// - Parameter displayLink: The display link.
-    @objc private func updateProgress(displayLink: CADisplayLink) {
-        let duration = player?.duration ?? 0
-        guard duration > 0 else {
-            progress.progress = 0
-            return
-        }
-        estimatedCurrentTime += displayLink.duration // The interval between display frames.
-        progress.progress = (estimatedCurrentTime / duration).limited(0...1)
+        NowPlayingManager.updateNowPlaying(
+            for: playlist?.currentItem,
+            with: player,
+            scope: .all
+        )
     }
 }
 
 extension AudioPlayer: AVAudioPlayerDelegate {
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        stop()
+        switch UserDefaults.standard.playbackMode {
+        case .continuous, .shuffle:
+            guard let playlist else { return }
+            play(item: playlist.stepForward())
+        case .repeatOne:
+            guard let playlist else { return }
+            play(item: playlist.currentItem)
+        case .single:
+            stop()
+        }
     }
 }

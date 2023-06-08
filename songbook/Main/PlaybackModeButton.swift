@@ -13,6 +13,8 @@ struct PlaybackModeButton: View {
             case .single:
                 playbackMode = .continuous
             case .continuous:
+                playbackMode = .shuffle
+            case .shuffle:
                 playbackMode = .repeatOne
             case .repeatOne:
                 playbackMode = .single
@@ -25,12 +27,16 @@ struct PlaybackModeButton: View {
                     .accessibilityHint("Tap to Play All")
             case .continuous:
                 Label("Play All", systemImage: "repeat")
+                    .accessibilityHint("Tap to Shuffle")
+            case .shuffle:
+                Label("Shuffle", systemImage: "shuffle")
                     .accessibilityHint("Tap to Repeat")
             case .repeatOne:
                 Label("Repeat", systemImage: "repeat.1")
-                    .accessibilityHint("Tap to Play One")
+                    .accessibilityHint("Tap to Play Once")
             }
         }
+        .frame(minWidth: 44, minHeight: 44)
     }
 }
 

@@ -5,11 +5,8 @@ import Zip
 @main
 struct SongbookApp: App {
 
-    /// The shared audio player of the app.
-    let audioPlayer = AudioPlayer()
-
-    /// The data model of the currently loaded book.
-    @StateObject var bookModel = BookModel()
+    /// The container for services used throughout the app.
+    @StateObject var serviceContainer = ServiceContainer()
 
     init() {
         let clearAppearance = UIToolbarAppearance()
@@ -22,16 +19,16 @@ struct SongbookApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainScreen(bookModel: bookModel)
+            MainScreen(bookModel: serviceContainer.bookModel)
                 .onOpenURL { url in
                     print("App was asked to open file at \(url)")
-                    bookModel.importBook(from: url)
+                    serviceContainer.bookModel.importBook(from: url)
                 }
                 .onAppear {
                     print("\(URL.bookDirectory)")
                 }
-                .environmentObject(audioPlayer)
-                .environmentObject(audioPlayer.progress)
+                .environmentObject(serviceContainer.audioPlayer)
+                .environmentObject(serviceContainer.audioPlayer.progress)
         }
     }
 }

@@ -10,18 +10,28 @@ struct MainScreen: View {
     /// The shared audio player.
     @EnvironmentObject var audioPlayer: AudioPlayer
 
+    /// The index of the currently visible page.
+    @AppStorage(.StorageKey.currentPageIndex) var currentPageIndex = 0
+
     /// The book model.
     @ObservedObject var bookModel: BookModel
 
     /// The tint color of the bottom toolbar controls.
-    @State var tint: Color = .white
+    var tint: Color {
+        guard let bookIndex = bookModel.index else { return .white }
+        if case .book = bookIndex.pageModels[currentPageIndex] {
+            return .white
+        } else {
+            return .accentColor
+        }
+    }
 
     var body: some View {
         ZStack {
             if let bookIndex = bookModel.index {
                 // Show the book.
                 NavigationStack {
-                    BookScreen(pages: bookIndex.pageModels, tint: $tint)
+                    BookScreen(pages: bookIndex.pageModels)
                         .ignoresSafeArea()
                         .toolbar {
                             ToolbarItemGroup(placement: .bottomBar) {
@@ -30,6 +40,7 @@ struct MainScreen: View {
                                 } label: {
                                     Label("Search", systemImage: "magnifyingglass")
                                 }
+                                .frame(minWidth: 44, minHeight: 44)
                                 Spacer()
                                 if audioPlayer.isPlaying {
                                     Button {
@@ -38,6 +49,7 @@ struct MainScreen: View {
                                     } label: {
                                         Label("Stop", systemImage: "stop.fill")
                                     }
+                                    .frame(minWidth: 44, minHeight: 44)
                                     Spacer()
                                     PlaybackModeButton()
                                 }
@@ -50,6 +62,7 @@ struct MainScreen: View {
                         }
                 }
                 .tint(tint)
+                .animation(.easeInOut, value: tint)
             } else {
                 // Show the loading screen.
                 RedGradientView()

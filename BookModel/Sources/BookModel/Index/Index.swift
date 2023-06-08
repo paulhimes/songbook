@@ -41,22 +41,29 @@ public struct Index {
                 })
 
         }
-        playableItems = book.sections.enumerated().flatMap { (sectionIndex, section) in
-            section.songs.enumerated().flatMap { (songIndex, song) in
+        playableItems = book.sections.enumerated().flatMap { sectionIndex, section in
+            section.songs.enumerated().flatMap { songIndex, song in
                 let indexedFileName = "\(sectionIndex)-\(songIndex)"
                 let audioFileNames: [String] = song.audioFileNames ?? audioFiles.keys
                     .filter { $0 == indexedFileName || $0.hasPrefix("\(indexedFileName)-") }
                     .sorted()
                 return audioFileNames
                     .compactMap { audioFiles[$0] }
-                    .map {
+                    .enumerated()
+                    .map { playableItemIndex, url in
                         PlayableItem(
-                            audioFileURL: $0,
-                            songId: SongId(
+                            albumTitle: section.title,
+                            albumTrackCount: section.songs.count,
+                            albumTrackNumber: songIndex + 1,
+                            audioFileURL: url,
+                            author: song.author,
+                            id: PlayableItemId(
                                 sectionIndex: sectionIndex,
-                                songIndex: songIndex
+                                songIndex: songIndex,
+                                playableItemIndex: playableItemIndex
                             ),
-                            title: song.title
+                            songId: SongId(sectionIndex: sectionIndex, songIndex: songIndex),
+                            title: song.combinedTitle
                         )
                     }
             }
@@ -65,17 +72,30 @@ public struct Index {
         // Generate the page models.
         var pageModels: [PageModel] = []
         pageModels.append(.book(title: book.title, version: book.version))
-        for section in book.sections {
+        book.sections.enumerated().forEach { sectionIndex, section in
             pageModels.append(.section(title: section.title ?? "Untitled Section"))
-            for song in section.songs {
-                var title = ""
-                if let number = song.number {
-                    title.append("\(number): ")
-                }
-                title.append(song.title ?? "Untitled Song")
-                pageModels.append(.song(title: title))
+            section.songs.enumerated().forEach { songIndex, song in
+                pageModels.append(
+                    .song(
+                        title: song.combinedTitle,
+                        songId: SongId(sectionIndex: sectionIndex, songIndex: songIndex)
+                    )
+                )
             }
         }
         self.pageModels = pageModels
+    }
+
+    /// The index of the page for the given ``SongId``.
+    /// - Parameter songId: The ``SongId`` of the desired page.
+    /// - Returns: The index of the page for the given ``SongId`` if it exists.
+    public func pageIndexFor(songId: SongId) -> Int? {
+        pageModels.firstIndex { pageModel in
+            if case let .song(_, id) = pageModel, id == songId {
+                return true
+            } else {
+                return false
+            }
+        }
     }
 }

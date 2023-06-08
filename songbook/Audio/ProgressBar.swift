@@ -5,6 +5,9 @@ struct ProgressBar: View {
     /// The manual progress percentage while dragging.
     @State private var adjustedProgress: Double = 0
 
+    /// The shared audio player.
+    @EnvironmentObject private var audioPlayer: AudioPlayer
+
     /// The shared audio player progress.
     @EnvironmentObject private var audioPlayerProgress: AudioPlayerProgress
 
@@ -13,11 +16,6 @@ struct ProgressBar: View {
 
     /// `true` iff the user is dragging the progress bar to a new location.
     @State private var dragging = false
-
-    /// `true` if the progress indicates that the player is playing.
-    private var isPlaying: Bool {
-        audioPlayerProgress.progress > 0
-    }
 
     /// The current progress percentage to display in the progress bar.
     private var progress: Double {
@@ -35,14 +33,14 @@ struct ProgressBar: View {
         GeometryReader { proxy in
             Group {
                 ZStack(alignment: .leading) {
-                    Color.accentColor.opacity(isPlaying ? 0.2 : 0)
+                    Color.accentColor.opacity(audioPlayer.isPlaying ? 0.2 : 0)
                     Color.accentColor.frame(width: progress * proxy.size.width)
                 }
-                .frame(height: barHeight)
+                .frame(height: audioPlayer.isPlaying ? barHeight : 0)
             }
             .frame(height: touchHeight, alignment: .bottom)
             .contentShape(Rectangle())
-            .allowsHitTesting(isPlaying)
+            .allowsHitTesting(audioPlayer.isPlaying)
             .gesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { value in
@@ -63,7 +61,7 @@ struct ProgressBar: View {
                         dragging = false
                         adjustedProgress = (progressAtDragStart +
                             (value.translation.width / proxy.size.width)).limited(0...1)
-                        audioPlayerProgress.seekTo(adjustedProgress)
+                        audioPlayerProgress.seek(to: adjustedProgress)
                     }
             )
         }

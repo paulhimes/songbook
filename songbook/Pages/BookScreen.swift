@@ -6,11 +6,11 @@ struct BookScreen: UIViewControllerRepresentable {
 
     // MARK: Public Properties
 
+    /// The index of the currently visible page.
+    @AppStorage(.StorageKey.currentPageIndex) var currentPageIndex = 0
+
     /// The page view models of the book.
     let pages: [PageModel]
-
-    /// The tint color of the bottom toolbar controls.
-    @Binding var tint: Color
 
     // MARK: Public Functions
 
@@ -27,7 +27,7 @@ struct BookScreen: UIViewControllerRepresentable {
         controller.delegate = context.coordinator
 
         controller.setViewControllers(
-            [context.coordinator.controllers[0]],
+            [context.coordinator.controllerFor(index: currentPageIndex)],
             direction: .forward,
             animated: true
         )
@@ -36,11 +36,17 @@ struct BookScreen: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ pageViewController: UIPageViewController, context: Context) {
-//        pageViewController.setViewControllers(
-//            [context.coordinator.controllers[0]],
-//            direction: .forward,
-//            animated: true
-//        )
+        let newController = context.coordinator.controllerFor(index: currentPageIndex)
+        let oldPageIndex = context.coordinator.indexOf(pageViewController.visibleViewController)
+        guard oldPageIndex != currentPageIndex else {
+            print("Invalid Page View Redisplay")
+            return
+        }
+        pageViewController.setViewControllers(
+            [newController],
+            direction: oldPageIndex < currentPageIndex ? .forward : .reverse,
+            animated: true
+        )
     }
 
     // MARK: Nested Types
@@ -51,7 +57,7 @@ struct BookScreen: UIViewControllerRepresentable {
 
         var parent: BookScreen
 
-        var controllers = [UIViewController]()
+        private var controllers = [UIViewController]()
 
         // MARK: Public Functions
 
@@ -65,39 +71,47 @@ struct BookScreen: UIViewControllerRepresentable {
                         rootView: BookPageView(title: title, version: version)
                     )
                 case let .section(title):
-                    viewController = UIHostingController(rootView: SectionPageView(title: title))
-                case let .song(title):
-                    viewController = UIHostingController(rootView: SongPageView(title: title))
+                    viewController = UIHostingController(
+                        rootView: SectionPageView(title: title)
+                    )
+                case let .song(title, _):
+                    viewController = UIHostingController(
+                        rootView: SongPageView(title: title)
+                    )
                 }
                 viewController.view.backgroundColor = .clear
                 return viewController
             }
         }
 
+        func controllerFor(index: Int) -> UIViewController {
+            guard controllers.count > index else {
+                return UIViewController()
+            }
+            return controllers[index]
+        }
+
+        func indexOf(_ viewController: UIViewController?) -> Int {
+            guard let viewController else { return 0 }
+            return controllers.firstIndex(of: viewController) ?? 0
+        }
+
         func pageViewController(
             _ pageViewController: UIPageViewController,
             viewControllerAfter viewController: UIViewController
         ) -> UIViewController? {
-            guard let index = controllers.firstIndex(of: viewController) else {
-                return nil
-            }
-            if index + 1 == controllers.count {
-                return controllers.first
-            }
-            return controllers[index + 1]
+            controllerFor(
+                index: (indexOf(viewController) + controllers.count + 1) % controllers.count
+            )
         }
 
         func pageViewController(
             _ pageViewController: UIPageViewController,
             viewControllerBefore viewController: UIViewController
         ) -> UIViewController? {
-            guard let index = controllers.firstIndex(of: viewController) else {
-                return nil
-            }
-            if index == 0 {
-                return controllers.last
-            }
-            return controllers[index - 1]
+            controllerFor(
+                index: (indexOf(viewController) + controllers.count - 1) % controllers.count
+            )
         }
 
         func pageViewController(
@@ -106,19 +120,23 @@ struct BookScreen: UIViewControllerRepresentable {
             previousViewControllers: [UIViewController],
             transitionCompleted completed: Bool
         ) {
-            withAnimation {
-                if pageViewController.viewControllers?.first is UIHostingController<BookPageView> {
-                    parent.tint = .white
-                } else {
-                    parent.tint = .accentColor
-                }
-            }
+            guard completed else { return }
+            parent.currentPageIndex = indexOf(pageViewController.visibleViewController)
         }
     }
 }
 
 struct BookView_Previews: PreviewProvider {
     static var previews: some View {
-        BookScreen(pages: BookModel().index?.pageModels ?? [], tint: .constant(.white))
+        BookScreen(
+//            currentPageIndex: .constant(0),
+            pages: BookModel().index?.pageModels ?? []
+        )
+    }
+}
+
+extension UIPageViewController {
+    var visibleViewController: UIViewController? {
+        viewControllers?.last
     }
 }

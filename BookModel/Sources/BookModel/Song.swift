@@ -7,7 +7,17 @@ public struct Song: Codable, Equatable {
 
     /// The author of this song.
     public let author: String?
-    
+
+    /// Combines the song's `number` and `title`.
+    public var combinedTitle: String {
+        var title = ""
+        if let number {
+            title.append("\(number): ")
+        }
+        title.append(self.title ?? "Untitled Song")
+        return title
+    }
+
     /// The display number of this song.
     public let number: Int?
     

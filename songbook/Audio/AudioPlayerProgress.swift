@@ -22,7 +22,7 @@ class AudioPlayerProgress: NSObject, ObservableObject {
 
     /// Seeks the player to the given progress percentage.
     /// - Parameter progress: The desired progress percentage.
-    func seekTo(_ progress: Double) {
+    func seek(to progress: Double) {
         seekHandler(progress)
     }
 }
