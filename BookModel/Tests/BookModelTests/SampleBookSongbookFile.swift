@@ -5,4 +5,5 @@ enum SampleBookSongbookFile: String {
     case badJSON
     case emptyJSON
     case notZip
+    case withTunes
 }

@@ -102,10 +102,6 @@ class Synchronizer {
     /// Called by the periodic sync timer. Gets the current time and updates `estimatedCurrentTime`.
     private func periodicSync() {
         let currentTime = periodicSyncHandler()
-        let syncError = estimatedCurrentTime - currentTime
-        if abs(syncError) > 0.1 {
-            print("Correcting Significant Sync Error: (\(syncError))")
-        }
         estimatedCurrentTime = currentTime
     }
 }

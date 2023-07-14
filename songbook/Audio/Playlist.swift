@@ -4,13 +4,23 @@ import Foundation
 
 /// ``Playlist`` manages a collection of ``PlayableItem``s. It determines the play order and
 /// provides access to the current item.
-class Playlist: NSObject {
+struct Playlist {
 
     // MARK: Public Properties
 
     /// The current item.
     var currentItem: PlayableItem {
-        items[itemIndex]
+        get {
+            items[itemIndex]
+        }
+        set {
+            guard let itemIndex = items.firstIndex(where: { $0.id == newValue.id }),
+                  let playOrderIndex = playOrder.firstIndex(of: itemIndex) else {
+                playOrderIndex = 0
+                return
+            }
+            self.playOrderIndex = playOrderIndex
+        }
     }
 
     // MARK: Private Properties
@@ -23,23 +33,6 @@ class Playlist: NSObject {
         playOrder[playOrderIndex]
     }
 
-    /// The current playback mode.
-    private var playbackMode: PlaybackMode? {
-        didSet {
-            guard let playbackMode else { return }
-            let savedIndex = itemIndex
-            switch playbackMode {
-            case .shuffle:
-                playOrder = items.enumerated().map({ $0.offset }).shuffled()
-            default:
-                playOrder = items.enumerated().map({ $0.offset })
-            }
-            if let reacquiredIndex = playOrder.firstIndex(of: savedIndex) {
-                playOrderIndex = reacquiredIndex
-            }
-        }
-    }
-
     /// An array of indices into the `items` array.
     private var playOrder: [Int]
 
@@ -49,58 +42,44 @@ class Playlist: NSObject {
     // MARK: Public Functions
 
     /// Initialize a ``Playlist`` with an array of ``PlayableItem``s.
-    /// - Parameter items: The playable items in sequential order.
-    init?(items: [PlayableItem]) {
-        guard !items.isEmpty else { return nil }
+    /// - Parameters:
+    ///   - items: The playable items in sequential order.
+    ///   - currentItem: The current playable item.
+    ///   - playbackMode: The current ``PlaybackMode``.
+    init?(items: [PlayableItem], currentItem: PlayableItem?, playbackMode: PlaybackMode) {
+        guard !items.isEmpty,
+              let currentItem,
+              items.contains(where: { $0.id == currentItem.id }) else {
+            return nil
+        }
         self.items = items
 
         playOrder = items.enumerated().map({ $0.offset })
-
-        // Try to find a playable item for the current song.
-        if let currentSongId = UserDefaults.standard.currentSongId,
-           let firstMatchIndex = items.firstIndex(where: { $0.songId == currentSongId }) {
-            playOrderIndex = firstMatchIndex
-        } else {
-            // Default to the first item.
-            playOrderIndex = 0
-        }
-
-        super.init()
-
-        UserDefaults.standard.addObserver(
-            self,
-            forKeyPath: .StorageKey.playbackMode,
-            options: [.initial, .new],
-            context: nil
-        )
-    }
-
-    deinit {
-        UserDefaults.standard.removeObserver(self, forKeyPath: .StorageKey.playbackMode)
+        playOrderIndex = items.firstIndex(where: { $0.id == currentItem.id }) ?? 0
+        updatePlayOrderForMode(playbackMode)
     }
 
     /// Makes the previous item in the playlist the current item.
-    /// - Returns: The new current item.
-    func stepBackward() -> PlayableItem {
+    mutating func stepBackward() {
         playOrderIndex = ((playOrderIndex - 1) + playOrder.count) % playOrder.count
-        return currentItem
     }
 
     /// Makes the next item in the playlist the current item.
-    /// - Returns: The new current item.
-    func stepForward() -> PlayableItem {
+    mutating func stepForward() {
         playOrderIndex = ((playOrderIndex + 1) + playOrder.count) % playOrder.count
-        return currentItem
     }
 
-    // MARK: Private Functions
-
-    override func observeValue(
-        forKeyPath keyPath: String?,
-        of object: Any?,
-        change: [NSKeyValueChangeKey : Any]?,
-        context: UnsafeMutableRawPointer?
-    ) {
-        playbackMode = UserDefaults.standard.playbackMode
+    /// Updates the `playOrder` array and `playOrderIndex` for a given ``PlaybackMode``.
+    /// - Parameter playbackMode: The current ``PlaybackMode``.
+    mutating func updatePlayOrderForMode(_ playbackMode: PlaybackMode) {
+        let currentItem = currentItem
+        switch playbackMode {
+        case .shuffle:
+            playOrder = items.enumerated().map({ $0.offset }).shuffled()
+        default:
+            playOrder = items.enumerated().map({ $0.offset })
+        }
+        // Reacquire the current item in the new play order.
+        self.currentItem = currentItem
     }
 }

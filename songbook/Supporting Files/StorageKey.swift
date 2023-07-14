@@ -8,8 +8,8 @@ extension String {
         static let colorTheme = "ColorTheme"
         /// The index of the currently visible page.
         static let currentPageIndex = "CurrentPageIndex"
-        /// The id of the most recently viewed song.
-        static let currentSongId = "CurrentSongId"
+        /// The id of the most recently played item.
+        static let currentPlayableItemId = "CurrentPlayableItemId"
         /// The app font mode.
         static let fontMode = "FontMode"
         /// The audio playback mode.
@@ -27,13 +27,13 @@ extension UserDefaults {
         }
     }
 
-    var currentSongId: SongId? {
+    var currentPlayableItemId: PlayableItemId? {
         get {
-            guard let string = string(forKey: .StorageKey.currentSongId) else { return nil }
-            return SongId(string)
+            guard let string = string(forKey: .StorageKey.currentPlayableItemId) else { return nil }
+            return PlayableItemId(string)
         }
         set {
-            set(newValue?.description, forKey: .StorageKey.currentSongId)
+            set(newValue?.description, forKey: .StorageKey.currentPlayableItemId)
         }
     }
 

@@ -1,9 +1,8 @@
 import BookModel
-import Combine
 import Foundation
 
 /// A Container for services used throughout the app.
-@MainActor class ServiceContainer: NSObject, ObservableObject {
+@MainActor class ServiceContainer: ObservableObject, AudioPlayerDelegate {
     /// The shared audio player of the app.
     let audioPlayer = AudioPlayer()
 
@@ -13,52 +12,68 @@ import Foundation
     /// The data model of the currently loaded book.
     let bookModel = BookModel()
 
-    /// Interfaces with the remote command system.
-    let remoteController: RemoteController
+    /// Maintains references to user defaults observers.
+    var observers: [UserDefaultsObserver] = []
+
+    /// Debounce calls to make the audio player play. Sometimes performance of the `play` function
+    /// is very slow, this prevents too many unnecessary calls.
+    lazy var playDebouncer = Debouncer(seconds: 0.5)
 
     /// Initialize the ``ServiceContainer`` and perform startup steps.
-    override init() {
+    init() {
         audioSessionManager = AudioSessionManager(player: audioPlayer)
-        remoteController = RemoteController(player: audioPlayer)
+        audioPlayer.delegate = self
+        RemoteController.setUp(player: audioPlayer)
+        observers = [
+            UserDefaultsObserver(key: .StorageKey.currentPageIndex) { [weak self] in
+                guard let self else { return }
+                print("Current page index changed!")
 
-        super.init()
+                guard let playableItem = bookModel.playableItemsForPageIndex[
+                    UserDefaults.standard.currentPageIndex
+                ]?.first,
+                      UserDefaults.standard.currentPlayableItemId != playableItem.id else { return }
+
+                if audioPlayer.isPlaying {
+                    playDebouncer.run { [weak self] in
+                        guard let self else { return }
+                        audioPlayer.play(playableItem)
+                    }
+                } else {
+                    UserDefaults.standard.currentPlayableItemId = playableItem.id
+                }
+            },
+            UserDefaultsObserver(key: .StorageKey.currentPlayableItemId) { [weak self] in
+                guard let self else { return }
+                print("Current playable item id changed!")
+
+                guard let currentPlayableItemId = UserDefaults.standard.currentPlayableItemId,
+                      let pageIndex = bookModel.pageIndexForPlayableItemId[currentPlayableItemId],
+                      UserDefaults.standard.currentPageIndex != pageIndex else { return }
+
+                UserDefaults.standard.currentPageIndex = pageIndex
+            },
+            UserDefaultsObserver(key: .StorageKey.playbackMode) { [weak self] in
+                guard let self else { return }
+                RemoteController.setPlaybackMode(UserDefaults.standard.playbackMode)
+                audioPlayer.setPlaybackMode(UserDefaults.standard.playbackMode)
+            }
+        ]
 
         // Send playable item updates to the audio player.
-        _ = bookModel.$index.sink { [weak self] index in
-            self?.audioPlayer.playlist = Playlist(items: index?.playableItems ?? [])
-        }
+        Task { [weak self] in
+            guard let self else { return }
+            for await _ in bookModel.$index.values {
+                let items = bookModel.playableItems
+                let currentItem = items.first { $0.id == UserDefaults.standard.currentPlayableItemId }
+                let playbackMode = UserDefaults.standard.playbackMode
 
-        UserDefaults.standard.addObserver(
-            self,
-            forKeyPath: .StorageKey.currentSongId,
-            options: [.initial, .new],
-            context: nil
-        )
+                audioPlayer.setItems(items, currentItem: currentItem, playbackMode: playbackMode)
+            }
+        }
     }
 
-    deinit {
-        UserDefaults.standard.removeObserver(self, forKeyPath: .StorageKey.currentSongId)
-    }
-
-    // MARK: Private Functions
-
-    override func observeValue(
-        forKeyPath keyPath: String?,
-        of object: Any?,
-        change: [NSKeyValueChangeKey : Any]?,
-        context: UnsafeMutableRawPointer?
-    ) {
-        print("Current Song Id (Obz) = \(UserDefaults.standard.currentSongId!)")
-        guard let currentSongId = UserDefaults.standard.currentSongId,
-              let pageIndexForCurrentSongId = bookModel.index?.pageIndexFor(songId: currentSongId)
-        else { return }
-
-        guard UserDefaults.standard.currentPageIndex != pageIndexForCurrentSongId else {
-            print("Invalid Current Page Index Reset")
-            return
-        }
-
-//        Should we prevent setting here if the value didn't change?
-        UserDefaults.standard.currentPageIndex = pageIndexForCurrentSongId
+    func currentItemChanged(item: PlayableItem) {
+        UserDefaults.standard.currentPlayableItemId = item.id
     }
 }

@@ -44,6 +44,7 @@
 		8B6899D3295BA328000525B4 /* BookModel in Frameworks */ = {isa = PBXBuildFile; productRef = 8B6899D2295BA328000525B4 /* BookModel */; };
 		8B6899D829629F6C000525B4 /* default.songbook in Resources */ = {isa = PBXBuildFile; fileRef = 8B6899D729629F6C000525B4 /* default.songbook */; };
 		8B6899DA2963D7AA000525B4 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6899D92963D7AA000525B4 /* Theme.swift */; };
+		8B738AE42A3B47D5001040D9 /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B738AE32A3B47D5001040D9 /* Debouncer.swift */; };
 		8B79231329CBAC2A002119D4 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B79231229CBAC2A002119D4 /* MainMenu.swift */; };
 		8B79231529CBAEED002119D4 /* FontScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B79231429CBAEED002119D4 /* FontScreen.swift */; };
 		8B79231929CBD0D0002119D4 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B79231829CBD0D0002119D4 /* ProgressBar.swift */; };
@@ -142,6 +143,7 @@
 		8B6899CC295B9E97000525B4 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		8B6899D729629F6C000525B4 /* default.songbook */ = {isa = PBXFileReference; lastKnownFileType = file; path = default.songbook; sourceTree = "<group>"; };
 		8B6899D92963D7AA000525B4 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		8B738AE32A3B47D5001040D9 /* Debouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debouncer.swift; sourceTree = "<group>"; };
 		8B79231229CBAC2A002119D4 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		8B79231429CBAEED002119D4 /* FontScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontScreen.swift; sourceTree = "<group>"; };
 		8B79231829CBD0D0002119D4 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
@@ -373,12 +375,13 @@
 				8B6899D729629F6C000525B4 /* default.songbook */,
 				8B1BCEFA299980670093817C /* Appearance.swift */,
 				8B1D3AF729E4928900878D16 /* ComparableExtensions.swift */,
+				8B738AE32A3B47D5001040D9 /* Debouncer.swift */,
 				8B19D53B296CA0E700F2DD0B /* RedGradientView.swift */,
 				8B1D3AFF2A048AD200878D16 /* ServiceContainer.swift */,
-				8B8DE4A22A319E4700335169 /* UserDefaultsObserver.swift */,
 				8B7FE19825577DA500D64403 /* SongbookApp.swift */,
 				8B1BCF092999E4F40093817C /* StorageKey.swift */,
 				8B6899D92963D7AA000525B4 /* Theme.swift */,
+				8B8DE4A22A319E4700335169 /* UserDefaultsObserver.swift */,
 				8B1BCEF72995B7A00093817C /* VerticalRatioLayout.swift */,
 				8B7FE19C25577DA500D64403 /* Assets.xcassets */,
 			);
@@ -625,6 +628,7 @@
 				8B1BCEFB299980670093817C /* Appearance.swift in Sources */,
 				8B1BCEFD2999943A0093817C /* FontMode.swift in Sources */,
 				8B1D3B022A05A7CF00878D16 /* Playlist.swift in Sources */,
+				8B738AE42A3B47D5001040D9 /* Debouncer.swift in Sources */,
 				8B1BCF082999B5440093817C /* FontPicker.swift in Sources */,
 				8B7FE19B25577DA500D64403 /* MainScreen.swift in Sources */,
 				8B1D3B002A048AD200878D16 /* ServiceContainer.swift in Sources */,
@@ -956,7 +960,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = U48P68REXM;
 				INFOPLIST_FILE = songbookTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -978,7 +982,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = U48P68REXM;
 				INFOPLIST_FILE = songbookTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

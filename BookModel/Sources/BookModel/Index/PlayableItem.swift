@@ -1,7 +1,7 @@
 import Foundation
 
 /// An item that can be played.
-public struct PlayableItem {
+public struct PlayableItem: Equatable {
 
     /// The name of the album this song belongs to.
     public let albumTitle: String?

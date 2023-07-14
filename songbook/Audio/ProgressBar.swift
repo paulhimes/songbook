@@ -3,7 +3,16 @@ import SwiftUI
 /// An interactive media playback progress bar.
 struct ProgressBar: View {
     /// The manual progress percentage while dragging.
-    @State private var adjustedProgress: Double = 0
+    @State private var adjustedProgress: Double = 0 {
+        didSet {
+            /// Generate impact feedback when the progress hits one of the edges of the bar while
+            /// dragging.
+            if adjustedProgress >= 1 && oldValue < 1 ||
+               adjustedProgress <= 0 && oldValue > 0 {
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            }
+        }
+    }
 
     /// The shared audio player.
     @EnvironmentObject private var audioPlayer: AudioPlayer

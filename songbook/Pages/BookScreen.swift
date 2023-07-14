@@ -38,10 +38,7 @@ struct BookScreen: UIViewControllerRepresentable {
     func updateUIViewController(_ pageViewController: UIPageViewController, context: Context) {
         let newController = context.coordinator.controllerFor(index: currentPageIndex)
         let oldPageIndex = context.coordinator.indexOf(pageViewController.visibleViewController)
-        guard oldPageIndex != currentPageIndex else {
-            print("Invalid Page View Redisplay")
-            return
-        }
+        guard oldPageIndex != currentPageIndex else { return }
         pageViewController.setViewControllers(
             [newController],
             direction: oldPageIndex < currentPageIndex ? .forward : .reverse,
@@ -128,10 +125,7 @@ struct BookScreen: UIViewControllerRepresentable {
 
 struct BookView_Previews: PreviewProvider {
     static var previews: some View {
-        BookScreen(
-//            currentPageIndex: .constant(0),
-            pages: BookModel().index?.pageModels ?? []
-        )
+        BookScreen(pages: BookModel().pageModels)
     }
 }
 

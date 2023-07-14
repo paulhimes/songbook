@@ -1,15 +1,15 @@
 import AVFoundation
 
 /// Manages the shared audio session and responds to session changes.
-final class AudioSessionManager {
+@MainActor final class AudioSessionManager {
 
     // MARK: Private Properties
 
     /// Observes interruptions.
-    private let interruptionObserver: NSObjectProtocol
+    private let interruptionsTask: Task<Void, Never>
 
     /// Observes route changes.
-    private let routeChangeObserver: NSObjectProtocol
+    private let routeChangesTask: Task<Void, Never>
 
     // MARK: Public Functions
 
@@ -23,53 +23,53 @@ final class AudioSessionManager {
             policy: .longFormAudio
         )
 
-        interruptionObserver = NotificationCenter.default.addObserver(
-            forName: AVAudioSession.interruptionNotification,
-            object: nil,
-            queue: .main
-        ) { [weak player] notification in
-            guard let userInfo = notification.userInfo,
-                  let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
-                  let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
-                return
-            }
-
-            switch type {
-            case .ended:
-                guard let optionsValue =
-                        userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else { return }
-                let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
-                if options.contains(.shouldResume) {
-                    // An interruption ended and playback should resume.
-                    player?.play()
+        interruptionsTask = Task {
+            for await notification in NotificationCenter.default.notifications(
+                named: AVAudioSession.interruptionNotification
+            ) {
+                guard let userInfo = notification.userInfo,
+                      let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+                      let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
+                    return
                 }
-            default:
-                // The interruption began or was in some unexpected state.
-                player?.pause()
+
+                switch type {
+                case .ended:
+                    guard let optionsValue =
+                            userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else { return }
+                    let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
+                    if options.contains(.shouldResume) {
+                        // An interruption ended and playback should resume.
+                        player.resumePlay()
+                    }
+                default:
+                    // The interruption began or was in some unexpected state.
+                    player.pause()
+                }
             }
         }
 
-        routeChangeObserver = NotificationCenter.default.addObserver(
-            forName: AVAudioSession.routeChangeNotification,
-            object: nil,
-            queue: .main
-        ) { [weak player] notification in
-            guard let userInfo = notification.userInfo,
-                  let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
-                  let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else {
-                return
-            }
+        routeChangesTask = Task {
+            for await notification in NotificationCenter.default.notifications(
+                named: AVAudioSession.routeChangeNotification
+            ) {
+                guard let userInfo = notification.userInfo,
+                      let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
+                      let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else {
+                    return
+                }
 
-            // Some sort of disconnect or unplug situation. Pause playback to prevent playing out
-            // loud.
-            if case .oldDeviceUnavailable = reason {
-                player?.pause()
+                // Some sort of disconnect or unplug situation. Pause playback to prevent playing
+                // out loud.
+                if case .oldDeviceUnavailable = reason {
+                    player.pause()
+                }
             }
         }
     }
 
     deinit {
-        NotificationCenter.default.removeObserver(interruptionObserver)
-        NotificationCenter.default.removeObserver(routeChangeObserver)
+        interruptionsTask.cancel()
+        routeChangesTask.cancel()
     }
 }

@@ -8,7 +8,9 @@
       "sectionTitle" : "Introduction",
       "songs" : [
         {
-          "audioFileName" : "The first song.m4a",
+          "audioFileNames" : [
+            "The first song.m4a"
+          ],
           "songAuthor" : "Paul Himes",
           "songNumber" : 1,
           "relatedSongs" : [
@@ -39,7 +41,9 @@
           "songYear" : "2020"
         },
         {
-          "audioFileName" : "The second song.m4a",
+          "audioFileNames" : [
+            "The second song.m4a"
+          ],
           "songAuthor" : "Paul Himes",
           "songNumber" : 2,
           "relatedSongs" : [

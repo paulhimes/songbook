@@ -42,7 +42,7 @@ final class DecodingTests: XCTestCase {
     /// Test the properties of the minimal book.
     func testDecodeMinimal() {
         loadBook(for: .minimal) {
-            XCTAssertNil($0.title)
+            XCTAssertEqual($0.title, "minimal")
             XCTAssertNil($0.contactEmail)
             XCTAssertEqual($0.version, 1)
             XCTAssertNil($0.updateURL)
@@ -56,7 +56,7 @@ final class DecodingTests: XCTestCase {
     /// Test the properties of the minimal book with one section.
     func testDecodeMinimalWithSection() {
         loadBook(for: .minimalWithSection) {
-            XCTAssertNil($0.title)
+            XCTAssertEqual($0.title, "minimalWithSection")
             XCTAssertNil($0.contactEmail)
             XCTAssertEqual($0.version, 1)
             XCTAssertNil($0.updateURL)
@@ -72,7 +72,7 @@ final class DecodingTests: XCTestCase {
     /// Test the properties of the minimal book with one section and song.
     func testDecodeMinimalWithSong() {
         loadBook(for: .minimalWithSong) {
-            XCTAssertNil($0.title)
+            XCTAssertEqual($0.title, "minimalWithSong")
             XCTAssertNil($0.contactEmail)
             XCTAssertEqual($0.version, 1)
             XCTAssertNil($0.updateURL)
@@ -95,7 +95,7 @@ final class DecodingTests: XCTestCase {
     /// Test the properties of the minimal book with one section and song and one verse.
     func testDecodeMinimalWithVerse() {
         loadBook(for: .minimalWithVerse) {
-            XCTAssertNil($0.title)
+            XCTAssertEqual($0.title, "minimalWithVerse")
             XCTAssertNil($0.contactEmail)
             XCTAssertEqual($0.version, 1)
             XCTAssertNil($0.updateURL)
@@ -135,7 +135,7 @@ final class DecodingTests: XCTestCase {
             XCTAssertEqual($0.sections.count, 1)
             XCTAssertEqual($0.sections[0].title, "Introduction")
             XCTAssertEqual($0.sections[0].songs.count, 2)
-            XCTAssertEqual($0.sections[0].songs[0].audioFileName, "The first song.m4a")
+            XCTAssertEqual($0.sections[0].songs[0].audioFileNames, ["The first song.m4a"])
             XCTAssertEqual($0.sections[0].songs[0].author, "Paul Himes")
             XCTAssertEqual($0.sections[0].songs[0].number, 1)
             XCTAssertEqual($0.sections[0].songs[0].relatedSongs?.count, 1)

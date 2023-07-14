@@ -28,19 +28,3 @@ extension Book {
         case version
     }
 }
-
-public extension Book {
-    var pageTitles: [String] {
-        var titles: [String] = []
-
-        titles.append(title)
-        for section in sections {
-            titles.append(section.title ?? "Untitled Section")
-            for song in section.songs {
-                titles.append(song.title ?? "Untitled Song")
-            }
-        }
-
-        return titles
-    }
-}

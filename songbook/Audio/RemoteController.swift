@@ -1,21 +1,13 @@
 import Foundation
 import MediaPlayer
 
-class RemoteController: NSObject {
+/// Functions for interacting with the remote command system.
+@MainActor enum RemoteController {
 
     // MARK: Public Functions
 
-    /// Initialize a ``RemoteController``.
-    init(player: AudioPlayer) {
-        super.init()
-
-        UserDefaults.standard.addObserver(
-            self,
-            forKeyPath: .StorageKey.playbackMode,
-            options: [.initial, .new],
-            context: nil
-        )
-
+    /// Set up remote control with the given ``AudioPlayer``.
+    static func setUp(player: AudioPlayer) {
         MPRemoteCommandCenter.shared().changePlaybackPositionCommand.addTarget { event -> MPRemoteCommandHandlerStatus in
             guard let changePlaybackPosition = event as? MPChangePlaybackPositionCommandEvent else {
                 return .commandFailed
@@ -77,7 +69,7 @@ class RemoteController: NSObject {
         }
 
         MPRemoteCommandCenter.shared().playCommand.addTarget() { event -> MPRemoteCommandHandlerStatus in
-            player.play()
+            player.resumePlay()
             return .success
         }
 
@@ -95,24 +87,15 @@ class RemoteController: NSObject {
             if player.isPlaying {
                 player.pause()
             } else {
-                player.play()
+                player.resumePlay()
             }
             return .success
         }
     }
 
-    deinit {
-        UserDefaults.standard.removeObserver(self, forKeyPath: .StorageKey.playbackMode)
-    }
-
-    // MARK: Private Functions
-
-    override func observeValue(
-        forKeyPath keyPath: String?,
-        of object: Any?,
-        change: [NSKeyValueChangeKey : Any]?,
-        context: UnsafeMutableRawPointer?
-    ) {
+    /// Updates the remote command display for the given ``PlaybackMode``.
+    /// - Parameter playbackMode: The current ``PlaybackMode``.
+    static func setPlaybackMode(_ playbackMode: PlaybackMode) {
         let playbackMode = UserDefaults.standard.playbackMode
 
         MPRemoteCommandCenter.shared().changeRepeatModeCommand.currentRepeatType =

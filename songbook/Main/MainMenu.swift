@@ -12,8 +12,16 @@ struct MainMenu: View {
     /// The book model.
     @ObservedObject var bookModel: BookModel
 
+    /// The index of the currently visible page.
+    @AppStorage(.StorageKey.currentPageIndex) var currentPageIndex = 0
+
     /// The currently selected font.
     @AppStorage(.StorageKey.fontMode) var fontMode: FontMode = .default
+
+    /// The playable items for the current page.
+    var playableItems: [PlayableItem] {
+        bookModel.playableItemsForPageIndex[currentPageIndex] ?? []
+    }
 
     /// `true` if the custom font picker is shown.
     @State var showFontPicker = false
@@ -23,35 +31,25 @@ struct MainMenu: View {
 
     var body: some View {
         Menu {
-            Button {
-                UserDefaults.standard.currentPageIndex = UserDefaults.standard.currentPageIndex + 1
-            } label: {
-                Label("Page", systemImage: "book")
-            }
-            Button {
-                print("Play Tune")
-                audioPlayer.play()
-            } label: {
-                Label("Play Tune", systemImage: "play")
-            }
-            if let bookWithTunesURL = bookModel.bookWithTunesURL {
-                Menu {
-                    ShareLink(item: bookWithTunesURL) {
-                        Label("With Tunes", systemImage: "music.note")
-                    }
-                    if let bookWithoutTunesURL = bookModel.bookWithoutTunesURL {
-                        ShareLink(item: bookWithoutTunesURL) {
-                            Label("Without Tunes", systemImage: "nosign")
-                        }
-                    }
+            ForEach(Array(playableItems.enumerated()), id: \.offset) { index, item in
+                Button {
+                    print("Play Tune \(index + 1)")
+                    audioPlayer.play(item)
                 } label: {
-                    Label("Share Book", systemImage: "square.and.arrow.up")
-                }
-            } else {
-                if let bookWithoutTunesURL = bookModel.bookWithoutTunesURL {
-                    ShareLink(item: bookWithoutTunesURL) {
-                        Label("Share Book", systemImage: "square.and.arrow.up")
+                    if playableItems.count > 1 {
+                        Label("Play Tune \(index + 1)", systemImage: "play")
+                    } else {
+                        Label("Play Tune", systemImage: "play")
                     }
+                }
+            }
+            Divider()
+            if let bookURL = bookModel.shareBookURL {
+                ShareLink(
+                    item: bookURL,
+                    subject: Text("\(bookURL.deletingPathExtension().lastPathComponent)")
+                ) {
+                    Label("Share Book", systemImage: "square.and.arrow.up")
                 }
             }
             Menu {

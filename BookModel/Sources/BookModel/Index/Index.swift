@@ -1,16 +1,28 @@
 import Foundation
 import UniformTypeIdentifiers
 
-/// Provides external access to the book model including any queries or custom views into the model.
+/// Provides cached access to the book model including any queries or custom views into the model.
 public struct Index {
 
-    // MARK: Public Properties
+    // MARK: Internal Properties
+
+    /// The URL of the songbook file without tunes.
+    let bookWithoutTunesURL: URL
+
+    /// The URL of the songbook file with tunes. `nil` if the book has no tunes.
+    let bookWithTunesURL: URL?
 
     /// The page models for the book.
-    public let pageModels: [PageModel]
+    let pageModels: [PageModel]
 
     /// An ordered array of playable items.
-    public let playableItems: [PlayableItem]
+    let playableItems: [PlayableItem]
+
+    /// The ``PlayableItem``s grouped by page index.
+    let playableItemsForPageIndex: [Int: [PlayableItem]]
+
+    /// The page index for each ``PlayableItemId``.
+    let pageIndexForPlayableItemId: [PlayableItemId: Int]
 
     // MARK: Private Properties
 
@@ -26,6 +38,9 @@ public struct Index {
     ///     the given book.
     init?(book: Book?, audioFileDirectory: URL) {
         guard let book else { return nil }
+
+        bookWithoutTunesURL = book.withoutTunesURL
+        bookWithTunesURL = book.withTunesURL
 
         // Generate the playable items.
         var audioFiles = [String: URL]()
@@ -84,18 +99,27 @@ public struct Index {
             }
         }
         self.pageModels = pageModels
-    }
 
-    /// The index of the page for the given ``SongId``.
-    /// - Parameter songId: The ``SongId`` of the desired page.
-    /// - Returns: The index of the page for the given ``SongId`` if it exists.
-    public func pageIndexFor(songId: SongId) -> Int? {
-        pageModels.firstIndex { pageModel in
-            if case let .song(_, id) = pageModel, id == songId {
-                return true
-            } else {
-                return false
+        // Group playable items by page index.
+        var playableItemsForPageIndex: [Int: [PlayableItem]] = [:]
+        var pageIndexForPlayableItemId: [PlayableItemId: Int] = [:]
+        for playableItem in playableItems {
+            let index = pageModels.firstIndex { pageModel in
+                if case let .song(_, id) = pageModel, id == playableItem.songId {
+                    return true
+                } else {
+                    return false
+                }
+            }
+            if let index {
+                var playableItemsOnPage = playableItemsForPageIndex[index] ?? []
+                playableItemsOnPage.append(playableItem)
+                playableItemsForPageIndex[index] = playableItemsOnPage
+
+                pageIndexForPlayableItemId[playableItem.id] = index
             }
         }
+        self.playableItemsForPageIndex = playableItemsForPageIndex
+        self.pageIndexForPlayableItemId = pageIndexForPlayableItemId
     }
 }

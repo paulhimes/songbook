@@ -22,7 +22,11 @@ struct SongbookApp: App {
             MainScreen(bookModel: serviceContainer.bookModel)
                 .onOpenURL { url in
                     print("App was asked to open file at \(url)")
-                    serviceContainer.bookModel.importBook(from: url)
+                    UserDefaults.standard.currentPageIndex = 0
+                    UserDefaults.standard.currentPlayableItemId = nil
+                    Task {
+                        await serviceContainer.bookModel.importBook(from: url)
+                    }
                 }
                 .onAppear {
                     print("\(URL.bookDirectory)")

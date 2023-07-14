@@ -1,10 +1,3 @@
-//
-//  FontScreen.swift
-//  songbook
-//
-//  Created by Paul Himes on 3/22/23.
-//
-
 import SwiftUI
 
 struct FontScreen: View {

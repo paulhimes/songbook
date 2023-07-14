@@ -18,8 +18,8 @@ struct MainScreen: View {
 
     /// The tint color of the bottom toolbar controls.
     var tint: Color {
-        guard let bookIndex = bookModel.index else { return .white }
-        if case .book = bookIndex.pageModels[currentPageIndex] {
+        guard bookModel.pageModels.count > currentPageIndex else { return .white }
+        if case .book = bookModel.pageModels[currentPageIndex] {
             return .white
         } else {
             return .accentColor
@@ -28,10 +28,10 @@ struct MainScreen: View {
 
     var body: some View {
         ZStack {
-            if let bookIndex = bookModel.index {
+            if !bookModel.pageModels.isEmpty {
                 // Show the book.
                 NavigationStack {
-                    BookScreen(pages: bookIndex.pageModels)
+                    BookScreen(pages: bookModel.pageModels)
                         .ignoresSafeArea()
                         .toolbar {
                             ToolbarItemGroup(placement: .bottomBar) {
