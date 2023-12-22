@@ -1,5 +1,5 @@
 import Foundation
-import os.log
+import OSLog
 
 extension Logger {
     /// Build a `Logger` which uses the app name version and build number as the subsystem and the

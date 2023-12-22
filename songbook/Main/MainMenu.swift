@@ -96,7 +96,6 @@ struct MainMenu: View {
         } label: {
             Label("Menu", systemImage: "ellipsis.circle")
         }
-        .frame(minWidth: 44, minHeight: 44)
         .menuOrder(.fixed)
         .sheet(isPresented: $showFontPicker) {
             FontScreen()

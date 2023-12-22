@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 53;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -57,6 +57,7 @@
 		8B7FE1B025577DA600D64403 /* SongbookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7FE1AF25577DA600D64403 /* SongbookTests.swift */; };
 		8B7FE1BB25577DA600D64403 /* SongbookUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7FE1BA25577DA600D64403 /* SongbookUITests.swift */; };
 		8B8DE4A32A319E4700335169 /* UserDefaultsObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8DE4A22A319E4700335169 /* UserDefaultsObserver.swift */; };
+		8BA0DFD42A61C86400A23C44 /* SearchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0DFD32A61C86400A23C44 /* SearchScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -162,6 +163,7 @@
 		8B7FE1BA25577DA600D64403 /* SongbookUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongbookUITests.swift; sourceTree = "<group>"; };
 		8B7FE1BC25577DA600D64403 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B8DE4A22A319E4700335169 /* UserDefaultsObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsObserver.swift; sourceTree = "<group>"; };
+		8BA0DFD32A61C86400A23C44 /* SearchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -333,6 +335,7 @@
 				8B79231C29CBE402002119D4 /* Audio */,
 				8B79231729CBB40B002119D4 /* Main */,
 				8B1BCEF92995EBC00093817C /* Pages */,
+				8BA0DFD22A61C84800A23C44 /* Search */,
 				8B7FE1E72558BA9E00D64403 /* Supporting Files */,
 			);
 			path = songbook;
@@ -386,6 +389,14 @@
 				8B7FE19C25577DA500D64403 /* Assets.xcassets */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8BA0DFD22A61C84800A23C44 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				8BA0DFD32A61C86400A23C44 /* SearchScreen.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -627,6 +638,7 @@
 				8B1D3AF829E4928900878D16 /* ComparableExtensions.swift in Sources */,
 				8B1BCEFB299980670093817C /* Appearance.swift in Sources */,
 				8B1BCEFD2999943A0093817C /* FontMode.swift in Sources */,
+				8BA0DFD42A61C86400A23C44 /* SearchScreen.swift in Sources */,
 				8B1D3B022A05A7CF00878D16 /* Playlist.swift in Sources */,
 				8B738AE42A3B47D5001040D9 /* Debouncer.swift in Sources */,
 				8B1BCF082999B5440093817C /* FontPicker.swift in Sources */,
@@ -691,7 +703,7 @@
 				INFOPLIST_FILE = songbookQuickLook/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = songbookQuickLook;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -718,7 +730,7 @@
 				INFOPLIST_FILE = songbookQuickLook/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = songbookQuickLook;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -745,7 +757,7 @@
 				INFOPLIST_FILE = songbookThumbnail/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = songbookThumbnail;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -772,7 +784,7 @@
 				INFOPLIST_FILE = songbookThumbnail/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = songbookThumbnail;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -839,7 +851,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -894,7 +906,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -916,7 +928,7 @@
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "songbook/Supporting Files/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -940,7 +952,7 @@
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "songbook/Supporting Files/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -960,7 +972,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = U48P68REXM;
 				INFOPLIST_FILE = songbookTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -982,7 +994,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = U48P68REXM;
 				INFOPLIST_FILE = songbookTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

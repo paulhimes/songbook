@@ -1,6 +1,7 @@
 import Combine
 import Foundation
 import os.log
+import SwiftUI
 import Zip
 
 /// The interface to access and managing .songbook file data.
@@ -8,6 +9,11 @@ import Zip
 public class BookModel: ObservableObject {
 
     // MARK: Public Properties
+
+    /// The book.
+    public var book: Book? {
+        index?.book
+    }
 
     /// The index of the book.
     @Published public var index: Index?
@@ -63,6 +69,229 @@ public class BookModel: ObservableObject {
         // Asynchronously load and index a new book from the given `URL`.
         let book = await Task { importBookWithFallback(from: url) }.value
         index = Index(book: book, audioFileDirectory: .bookDirectory)
+    }
+
+    /// An array of ``SearchResultSection``s.
+    public func searchResults(for searchString: String) -> [SearchResultSection] {
+        let searchStart = Date.now
+
+        // Determine search mode.
+
+        let lettersOnly = searchString
+            .components(separatedBy: CharacterSet.letters.inverted)
+            .joined()
+
+        let numbersOnly = searchString
+            .components(separatedBy: CharacterSet.decimalDigits.inverted)
+            .joined()
+
+
+        // If the search string contains any letters, do a text-based search.
+        if !lettersOnly.isEmpty {
+            var findRangesTime: TimeInterval = 0
+            var convertRangesTime: TimeInterval = 0
+            var makePartialMatchesTime: TimeInterval = 0
+
+            let searchTokens = searchString.tokens
+
+            let sections: [SearchResultSection] = index?.searchItems.compactMap { sectionTitle, searchItems in
+                let results: [SearchResult] = searchItems.flatMap { searchItem in
+                    var results: [SearchResult] = []
+//                    guard tokens.contains(searchTokens) else { return results }
+
+                    let findRangesStart = Date.now
+                    // Use the searchTokens to find matching ranges in the tokens array.
+                    let matchingRanges = searchItem.tokens.ranges(of: searchTokens)
+                    findRangesTime += Date.now.timeIntervalSince(findRangesStart)
+
+                    let convertRangesStart = Date.now
+                    // Convert the matching subsequences into index ranges in the song.
+                    let indexRanges: [ClosedRange<Int>] = matchingRanges.compactMap {
+                        let tokensInRange = searchItem.tokens[$0]
+                        guard let first = tokensInRange.first, let last = tokensInRange.last else {
+                            return nil
+                        }
+                        return first.startIndex...last.endIndex
+                    }
+                    convertRangesTime += Date.now.timeIntervalSince(convertRangesStart)
+
+                    // If there are any ranges, generate a plain SearchResult.
+                    if !indexRanges.isEmpty {
+                        results.append(
+                            SearchResult.plain(
+                                number: searchItem.number,
+                                pageIndex: searchItem.pageIndex,
+                                title: searchItem.title
+                            )
+                        )
+                    }
+
+                    let makePartialMatchesStart = Date.now
+                    // For each range, generate a partialMatch SearchResult.
+                    indexRanges.forEach {
+                        var partialText = AttributedString("…\(searchItem.fullText.suffix(from: searchItem.fullText.index(searchItem.fullText.startIndex, offsetBy: $0.lowerBound)))")
+                        let partialTextHighlightRange = partialText.index(partialText.startIndex, offsetByCharacters: 1)..<partialText.index(partialText.index(partialText.startIndex, offsetByCharacters: 1), offsetByCharacters: $0.upperBound + 1 - $0.lowerBound)
+                        partialText[partialTextHighlightRange].foregroundColor = .accentColor
+
+                        results.append(
+                            SearchResult.partialMatch(
+                                fullTextHighlight: $0,
+                                pageIndex: searchItem.pageIndex,
+                                partialText: partialText
+                            )
+                        )
+                    }
+                    makePartialMatchesTime += Date.now.timeIntervalSince(makePartialMatchesStart)
+
+                    return results
+                }
+
+                guard !results.isEmpty else { return nil }
+
+                return SearchResultSection(
+                    title: sectionTitle,
+                    results: results
+                )
+            } ?? []
+
+            print("Find matches time: \(findRangesTime)")
+            print("Convert ranges time: \(convertRangesTime)")
+            print("Make partial matches time: \(makePartialMatchesTime)")
+
+//            sections.forEach { section in
+//                print("Section: \(section.title), \(section.results.count) items")
+//            }
+
+            print("Total Search time: \(Date.now.timeIntervalSince(searchStart))")
+
+//            sections.forEach { section in
+//                print("(")
+//                print("\"\(section.title)\",")
+//                print("[")
+//                section.results.forEach { searchResult in
+//                    switch searchResult {
+//                    case let .exactMatch(number, originalSectionTitle, pageIndex, title):
+//                        print(".exactMatch(number: \"\(number)\", originalSectionTitle: \"\(originalSectionTitle)\", pageIndex: \(pageIndex), title: \"\(title)\"),")
+//                    case let .partialMatch(fullTextHighlight, pageIndex, partialText):
+//                        print(".partialMatch(fullTextHighlight: \(fullTextHighlight), pageIndex: \"\(pageIndex)\", partialText: \"\(partialText)\"),")
+//                    case let .plain(number, pageIndex, title):
+//                        print(".plain(number: \(number == nil ? "nil" : "\"\(number!)\""), pageIndex: \(pageIndex), title: \"\(title)\"),")
+//                    }
+//                }
+//                print("]")
+//                print("),")
+//            }
+
+            return sections
+        }
+
+
+        // If the search string contains any numbers, do a number-based search.
+        if !numbersOnly.isEmpty {
+            var exactMatches: [SearchResult] = []
+            var sections: [SearchResultSection] = index?.searchItems.compactMap { sectionTitle, searchItems in
+                let results: [SearchResult] = searchItems.compactMap {
+                    guard let number = $0.number, number.contains(numbersOnly) else { return nil }
+
+                    // Exact matches are included in their sections and a combined section.
+                    if number == numbersOnly {
+                        exactMatches.append(
+                            .exactMatch(
+                                number: number,
+                                originalSectionTitle: sectionTitle,
+                                pageIndex: $0.pageIndex,
+                                title: $0.title
+                            )
+                        )
+                    }
+
+                    return SearchResult.plain(
+                        number: $0.number,
+                        pageIndex: $0.pageIndex,
+                        title: $0.title
+                    )
+                }
+
+                guard !results.isEmpty else { return nil }
+
+                return SearchResultSection(
+                    title:sectionTitle,
+                    results: results
+                )
+            } ?? []
+
+            // Add back the exact matches in a combined section.
+            let exactMatchPageIndices = exactMatches.map { $0.pageIndex }
+            let resultsPageIndices = sections.flatMap { $0.results.map { $0.pageIndex } }
+            let allMatchesAreExact = resultsPageIndices.allSatisfy {
+                exactMatchPageIndices.contains($0)
+            }
+            if !exactMatches.isEmpty && !allMatchesAreExact  {
+                sections.insert(SearchResultSection(title: "Exact Matches", results: exactMatches), at: 0)
+            }
+
+            sections.forEach { section in
+                print("Section: \(section.title), \(section.results.count) items")
+            }
+
+            print("Total Search time: \(Date.now.timeIntervalSince(searchStart))")
+
+//            sections.forEach { section in
+//                print("(")
+//                print("\"\(section.title)\",")
+//                print("[")
+//                section.results.forEach { searchResult in
+//                    switch searchResult {
+//                    case let .exactMatch(number, originalSectionTitle, pageIndex, title):
+//                        print(".exactMatch(number: \"\(number)\", originalSectionTitle: \"\(originalSectionTitle)\", pageIndex: \(pageIndex), title: \"\(title)\"),")
+//                    case let .partialMatch(fullTextHighlight, pageIndex, partialText):
+//                        print(".partialMatch(fullTextHighlight: \"\(fullTextHighlight)\", pageIndex: \"\(pageIndex)\", partialText: \"\(partialText)\"),")
+//                    case let .plain(number, pageIndex, title):
+//                        print(".plain(number: \(number == nil ? "nil" : "\"\(number!)\""), pageIndex: \(pageIndex), title: \"\(title)\"),")
+//                    }
+//                }
+//                print("]")
+//                print("),")
+//            }
+
+            return sections
+        }
+
+        // Otherwise return all items.
+        let sections = index?.searchItems.map { sectionTitle, searchItems in
+            SearchResultSection(
+                title: sectionTitle,
+                results: searchItems.map {
+                    SearchResult.plain(number: $0.number, pageIndex: $0.pageIndex, title: $0.title)
+                }
+            )
+        } ?? []
+
+        sections.forEach { section in
+            print("Section: \(section.title), \(section.results.count) items")
+        }
+
+        print("Total Search time: \(Date.now.timeIntervalSince(searchStart))")
+
+//        sections.forEach { section in
+//            print("(")
+//            print("\"\(section.title)\",")
+//            print("[")
+//            section.results.forEach { searchResult in
+//                switch searchResult {
+//                case let .exactMatch(number, originalSectionTitle, pageIndex, title):
+//                    print(".exactMatch(number: \"\(number)\", originalSectionTitle: \"\(originalSectionTitle)\", pageIndex: \(pageIndex), title: \"\(title)\"),")
+//                case let .partialMatch(fullTextHighlight, pageIndex, partialText):
+//                    print(".partialMatch(fullTextHighlight: \"\(fullTextHighlight)\", pageIndex: \"\(pageIndex)\", partialText: \"\(partialText)\"),")
+//                case let .plain(number, pageIndex, title):
+//                    print(".plain(number: \(number == nil ? "nil" : "\"\(number!)\""), pageIndex: \(pageIndex), title: \"\(title)\"),")
+//                }
+//            }
+//            print("]")
+//            print("),")
+//        }
+
+        return sections
     }
 
     // MARK: Private Functions

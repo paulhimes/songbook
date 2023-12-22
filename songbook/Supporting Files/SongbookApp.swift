@@ -15,6 +15,7 @@ struct SongbookApp: App {
         UIToolbar.appearance().standardAppearance = clearAppearance
         UIToolbar.appearance().compactAppearance = clearAppearance
         UIToolbar.appearance().scrollEdgeAppearance = clearAppearance
+        UITextField.appearance().clearButtonMode = .always
     }
 
     var body: some Scene {

@@ -5,6 +5,9 @@ import UniformTypeIdentifiers
 public struct Index {
 
     // MARK: Internal Properties
+    
+    /// The book.
+    let book: Book
 
     /// The URL of the songbook file without tunes.
     let bookWithoutTunesURL: URL
@@ -23,6 +26,9 @@ public struct Index {
 
     /// The page index for each ``PlayableItemId``.
     let pageIndexForPlayableItemId: [PlayableItemId: Int]
+    
+    /// An array of search items grouped by section.
+    let searchItems: [(String, [SearchItem])]
 
     // MARK: Private Properties
 
@@ -37,8 +43,11 @@ public struct Index {
     ///   - audioFileDirectory: The directory containing the audio files corresponding to
     ///     the given book.
     init?(book: Book?, audioFileDirectory: URL) {
+        print("Start Indexing…")
+        let start = Date.now
         guard let book else { return nil }
 
+        self.book = book
         bookWithoutTunesURL = book.withoutTunesURL
         bookWithTunesURL = book.withTunesURL
 
@@ -84,21 +93,59 @@ public struct Index {
             }
         }
 
-        // Generate the page models.
+        // Generate the page models, search items, and search tokens.
         var pageModels: [PageModel] = []
+        var searchItemsBySection: [(String, [SearchItem])] = []
+//        var searchTokensBySection: [(String, [(SearchItem, [SearchToken])])] = []
         pageModels.append(.book(title: book.title, version: book.version))
         book.sections.enumerated().forEach { sectionIndex, section in
+            var searchItems: [SearchItem] = []
+//            var searchTokens: [(SearchItem, [SearchToken])] = []
             pageModels.append(.section(title: section.title ?? "Untitled Section"))
             section.songs.enumerated().forEach { songIndex, song in
                 pageModels.append(
                     .song(
-                        title: song.combinedTitle,
+                        text: song.fullText,
                         songId: SongId(sectionIndex: sectionIndex, songIndex: songIndex)
                     )
                 )
+                searchItems.append(
+                    SearchItem(
+                        fullText: song.fullText,
+                        number: song.number.map { "\($0)" },
+                        pageIndex: pageModels.count - 1,
+                        title: song.title ?? "Untitled Song",
+                        tokens: song.fullText.tokens
+                    )
+                )
+
+//                let tokens = song.fullText.tokens
+//                tokens.forEach {
+//                    print("\($0.startIndex)-\($0.endIndex) \($0.text)")
+//                }
+
+//                searchTokens.append(
+//                    (
+//                        SearchItem(
+//                            number: song.number.map { "\($0)" },
+//                            pageIndex: pageModels.count - 1,
+//                            title: song.title ?? "Untitled Song"
+//                        ),
+//                        song.fullText.tokens
+//                    )
+//                )
             }
+
+            searchItemsBySection.append((section.title ?? "Untitled Section", searchItems))
+//            searchTokensBySection.append((section.title ?? "Untitled Section", searchTokens))
         }
         self.pageModels = pageModels
+        self.searchItems = searchItemsBySection
+
+//        searchTokens.forEach {
+//            print("\($0.startIndex)-\($0.endIndex) \($0.text)")
+//        }
+//        print("\(searchTokens.count) tokens")
 
         // Group playable items by page index.
         var playableItemsForPageIndex: [Int: [PlayableItem]] = [:]
@@ -121,5 +168,49 @@ public struct Index {
         }
         self.playableItemsForPageIndex = playableItemsForPageIndex
         self.pageIndexForPlayableItemId = pageIndexForPlayableItemId
+
+        print("Indexing took \(Date.now.timeIntervalSince(start)) seconds.")
+    }
+}
+
+extension String {
+    var tokens: [SearchToken] {
+        var tokens: [SearchToken] = []
+        var partialToken = ""
+        var tokenStartIndex: Int?
+        var tokenEndIndex: Int?
+        for (index, character) in enumerated() {
+            if character.isLetter {
+                if partialToken.isEmpty {
+                    tokenStartIndex = index
+                }
+                tokenEndIndex = index
+                partialToken.append(character)
+            } else if character.isWhitespace {
+                if !partialToken.isEmpty, let tokenStartIndex, let tokenEndIndex {
+                    tokens.append(
+                        SearchToken(
+                            text: partialToken,
+                            startIndex: tokenStartIndex,
+                            endIndex: tokenEndIndex
+                        )
+                    )
+                }
+                partialToken = ""
+                tokenStartIndex = nil
+                tokenEndIndex = nil
+            }
+        }
+
+        if !partialToken.isEmpty, let tokenStartIndex, let tokenEndIndex {
+            tokens.append(
+                SearchToken(
+                    text: partialToken,
+                    startIndex: tokenStartIndex,
+                    endIndex: tokenEndIndex
+                )
+            )
+        }
+        return tokens
     }
 }

@@ -45,8 +45,10 @@ struct ProgressBar: View {
                     Color.accentColor.opacity(audioPlayer.isPlaying ? 0.2 : 0)
                     Color.accentColor.frame(width: progress * proxy.size.width)
                 }
+                .background(.background.secondary)
                 .frame(height: audioPlayer.isPlaying ? barHeight : 0)
             }
+            .clipped()
             .frame(height: touchHeight, alignment: .bottom)
             .contentShape(Rectangle())
             .allowsHitTesting(audioPlayer.isPlaying)

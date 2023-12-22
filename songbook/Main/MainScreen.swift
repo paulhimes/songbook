@@ -10,11 +10,14 @@ struct MainScreen: View {
     /// The shared audio player.
     @EnvironmentObject var audioPlayer: AudioPlayer
 
+    /// The book model.
+    @ObservedObject var bookModel: BookModel
+
     /// The index of the currently visible page.
     @AppStorage(.StorageKey.currentPageIndex) var currentPageIndex = 0
 
-    /// The book model.
-    @ObservedObject var bookModel: BookModel
+    /// `true` iff the search UI is visible.
+    @State var isSearching = false
 
     /// The tint color of the bottom toolbar controls.
     var tint: Color {
@@ -37,10 +40,10 @@ struct MainScreen: View {
                             ToolbarItemGroup(placement: .bottomBar) {
                                 Button {
                                     print("Search")
+                                    isSearching = true
                                 } label: {
                                     Label("Search", systemImage: "magnifyingglass")
                                 }
-                                .frame(minWidth: 44, minHeight: 44)
                                 Spacer()
                                 if audioPlayer.isPlaying {
                                     Button {
@@ -49,7 +52,6 @@ struct MainScreen: View {
                                     } label: {
                                         Label("Stop", systemImage: "stop.fill")
                                     }
-                                    .frame(minWidth: 44, minHeight: 44)
                                     Spacer()
                                     PlaybackModeButton()
                                 }
@@ -75,6 +77,9 @@ struct MainScreen: View {
                 }
             }
         }
+        .fullScreenCover(isPresented: $isSearching, content: {
+            SearchScreen(bookModel: bookModel, searchPresented: $isSearching)
+        })
         .statusBarHidden(true)
         .preferredColorScheme(appearance.colorScheme)
     }

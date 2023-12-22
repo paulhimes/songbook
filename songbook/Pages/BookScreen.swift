@@ -42,7 +42,7 @@ struct BookScreen: UIViewControllerRepresentable {
         pageViewController.setViewControllers(
             [newController],
             direction: oldPageIndex < currentPageIndex ? .forward : .reverse,
-            animated: true
+            animated: false
         )
     }
 
@@ -71,9 +71,9 @@ struct BookScreen: UIViewControllerRepresentable {
                     viewController = UIHostingController(
                         rootView: SectionPageView(title: title)
                     )
-                case let .song(title, _):
+                case let .song(text, _):
                     viewController = UIHostingController(
-                        rootView: SongPageView(title: title)
+                        rootView: SongPageView(text: text)
                     )
                 }
                 viewController.view.backgroundColor = .clear

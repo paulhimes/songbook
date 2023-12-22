@@ -18,21 +18,63 @@ public struct Song: Codable, Equatable {
         return title
     }
 
+    public var fullText: String {
+        var fullText = ""
+        fullText += combinedTitle + "\n"
+
+        if let subtitle {
+            fullText += subtitle + "\n"
+        }
+
+        verses.forEach { verse in
+            if let verseTitle = verse.title {
+                fullText += "\n" + verseTitle
+            }
+
+            var mainVerseText = ""
+            if verse.isChorus {
+                mainVerseText += "Chorus: "
+            } else if let verseNumber = verse.number {
+                mainVerseText += "\(verseNumber): "
+            }
+            if let verseText = verse.text {
+                mainVerseText += verseText
+            }
+            fullText += "\n" + mainVerseText
+
+            if let _ = verse.chorusIndex {
+                fullText += " Chorus"
+            }
+
+            fullText += "\n"
+        }
+
+        if let author {
+            fullText += "\n" + author
+        }
+
+        if let year {
+            fullText += "\n" + year
+        }
+
+        return fullText
+    }
+
     /// The display number of this song.
     public let number: Int?
-    
+
     /// The songs which are related to this song.
     public let relatedSongs: [RelatedSong]?
 
     /// The subtitle of this song.
     public let subtitle: String?
-    
+
     /// The title of this song.
     public let title: String?
-    
+
     /// The verses of this song.
     public let verses: [Verse]
-    
+
     /// The year this song was written.
     public let year: String?
 }
