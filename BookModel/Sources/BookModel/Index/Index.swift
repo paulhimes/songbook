@@ -96,11 +96,9 @@ public struct Index {
         // Generate the page models, search items, and search tokens.
         var pageModels: [PageModel] = []
         var searchItemsBySection: [(String, [SearchItem])] = []
-//        var searchTokensBySection: [(String, [(SearchItem, [SearchToken])])] = []
         pageModels.append(.book(title: book.title, version: book.version))
         book.sections.enumerated().forEach { sectionIndex, section in
             var searchItems: [SearchItem] = []
-//            var searchTokens: [(SearchItem, [SearchToken])] = []
             pageModels.append(.section(title: section.title ?? "Untitled Section"))
             section.songs.enumerated().forEach { songIndex, song in
                 pageModels.append(
@@ -118,34 +116,12 @@ public struct Index {
                         tokens: song.fullText.tokens
                     )
                 )
-
-//                let tokens = song.fullText.tokens
-//                tokens.forEach {
-//                    print("\($0.startIndex)-\($0.endIndex) \($0.text)")
-//                }
-
-//                searchTokens.append(
-//                    (
-//                        SearchItem(
-//                            number: song.number.map { "\($0)" },
-//                            pageIndex: pageModels.count - 1,
-//                            title: song.title ?? "Untitled Song"
-//                        ),
-//                        song.fullText.tokens
-//                    )
-//                )
             }
 
             searchItemsBySection.append((section.title ?? "Untitled Section", searchItems))
-//            searchTokensBySection.append((section.title ?? "Untitled Section", searchTokens))
         }
         self.pageModels = pageModels
         self.searchItems = searchItemsBySection
-
-//        searchTokens.forEach {
-//            print("\($0.startIndex)-\($0.endIndex) \($0.text)")
-//        }
-//        print("\(searchTokens.count) tokens")
 
         // Group playable items by page index.
         var playableItemsForPageIndex: [Int: [PlayableItem]] = [:]

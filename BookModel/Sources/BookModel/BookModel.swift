@@ -97,7 +97,6 @@ public class BookModel: ObservableObject {
             let sections: [SearchResultSection] = index?.searchItems.compactMap { sectionTitle, searchItems in
                 let results: [SearchResult] = searchItems.flatMap { searchItem in
                     var results: [SearchResult] = []
-//                    guard tokens.contains(searchTokens) else { return results }
 
                     let findRangesStart = Date.now
                     // Use the searchTokens to find matching ranges in the tokens array.
@@ -158,29 +157,7 @@ public class BookModel: ObservableObject {
             print("Convert ranges time: \(convertRangesTime)")
             print("Make partial matches time: \(makePartialMatchesTime)")
 
-//            sections.forEach { section in
-//                print("Section: \(section.title), \(section.results.count) items")
-//            }
-
             print("Total Search time: \(Date.now.timeIntervalSince(searchStart))")
-
-//            sections.forEach { section in
-//                print("(")
-//                print("\"\(section.title)\",")
-//                print("[")
-//                section.results.forEach { searchResult in
-//                    switch searchResult {
-//                    case let .exactMatch(number, originalSectionTitle, pageIndex, title):
-//                        print(".exactMatch(number: \"\(number)\", originalSectionTitle: \"\(originalSectionTitle)\", pageIndex: \(pageIndex), title: \"\(title)\"),")
-//                    case let .partialMatch(fullTextHighlight, pageIndex, partialText):
-//                        print(".partialMatch(fullTextHighlight: \(fullTextHighlight), pageIndex: \"\(pageIndex)\", partialText: \"\(partialText)\"),")
-//                    case let .plain(number, pageIndex, title):
-//                        print(".plain(number: \(number == nil ? "nil" : "\"\(number!)\""), pageIndex: \(pageIndex), title: \"\(title)\"),")
-//                    }
-//                }
-//                print("]")
-//                print("),")
-//            }
 
             return sections
         }
@@ -236,24 +213,6 @@ public class BookModel: ObservableObject {
 
             print("Total Search time: \(Date.now.timeIntervalSince(searchStart))")
 
-//            sections.forEach { section in
-//                print("(")
-//                print("\"\(section.title)\",")
-//                print("[")
-//                section.results.forEach { searchResult in
-//                    switch searchResult {
-//                    case let .exactMatch(number, originalSectionTitle, pageIndex, title):
-//                        print(".exactMatch(number: \"\(number)\", originalSectionTitle: \"\(originalSectionTitle)\", pageIndex: \(pageIndex), title: \"\(title)\"),")
-//                    case let .partialMatch(fullTextHighlight, pageIndex, partialText):
-//                        print(".partialMatch(fullTextHighlight: \"\(fullTextHighlight)\", pageIndex: \"\(pageIndex)\", partialText: \"\(partialText)\"),")
-//                    case let .plain(number, pageIndex, title):
-//                        print(".plain(number: \(number == nil ? "nil" : "\"\(number!)\""), pageIndex: \(pageIndex), title: \"\(title)\"),")
-//                    }
-//                }
-//                print("]")
-//                print("),")
-//            }
-
             return sections
         }
 
@@ -272,24 +231,6 @@ public class BookModel: ObservableObject {
         }
 
         print("Total Search time: \(Date.now.timeIntervalSince(searchStart))")
-
-//        sections.forEach { section in
-//            print("(")
-//            print("\"\(section.title)\",")
-//            print("[")
-//            section.results.forEach { searchResult in
-//                switch searchResult {
-//                case let .exactMatch(number, originalSectionTitle, pageIndex, title):
-//                    print(".exactMatch(number: \"\(number)\", originalSectionTitle: \"\(originalSectionTitle)\", pageIndex: \(pageIndex), title: \"\(title)\"),")
-//                case let .partialMatch(fullTextHighlight, pageIndex, partialText):
-//                    print(".partialMatch(fullTextHighlight: \"\(fullTextHighlight)\", pageIndex: \"\(pageIndex)\", partialText: \"\(partialText)\"),")
-//                case let .plain(number, pageIndex, title):
-//                    print(".plain(number: \(number == nil ? "nil" : "\"\(number!)\""), pageIndex: \(pageIndex), title: \"\(title)\"),")
-//                }
-//            }
-//            print("]")
-//            print("),")
-//        }
 
         return sections
     }
