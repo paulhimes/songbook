@@ -12,7 +12,7 @@ import MediaPlayer
             guard let changePlaybackPosition = event as? MPChangePlaybackPositionCommandEvent else {
                 return .commandFailed
             }
-            player.seek(to: changePlaybackPosition.positionTime)
+            player.seekTo(targetTime: changePlaybackPosition.positionTime)
             return .success
         }
 

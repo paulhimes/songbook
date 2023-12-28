@@ -8,7 +8,7 @@ struct MainScreen: View {
     @AppStorage(.StorageKey.colorTheme) var appearance: Appearance = .automatic
 
     /// The shared audio player.
-    @EnvironmentObject var audioPlayer: AudioPlayer
+    @Environment(AudioPlayer.self) var audioPlayer
 
     /// The book model.
     @ObservedObject var bookModel: BookModel

@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// An interactive media playback progress bar.
-struct ProgressBar: View {
+@MainActor struct ProgressBar: View {
     /// The manual progress percentage while dragging.
     @State private var adjustedProgress: Double = 0 {
         didSet {
@@ -15,10 +15,7 @@ struct ProgressBar: View {
     }
 
     /// The shared audio player.
-    @EnvironmentObject private var audioPlayer: AudioPlayer
-
-    /// The shared audio player progress.
-    @EnvironmentObject private var audioPlayerProgress: AudioPlayerProgress
+    @Environment(AudioPlayer.self) private var audioPlayer
 
     /// The visual height of the progress bar.
     @State private var barHeight: CGFloat = 5
@@ -28,7 +25,7 @@ struct ProgressBar: View {
 
     /// The current progress percentage to display in the progress bar.
     private var progress: Double {
-        dragging ? adjustedProgress : audioPlayerProgress.progress
+        dragging ? adjustedProgress : audioPlayer.progress
     }
 
     /// The actual progress percentage when a drag interaction started.
@@ -57,7 +54,7 @@ struct ProgressBar: View {
                     .onChanged { value in
                         if !dragging {
                             dragging = true
-                            progressAtDragStart = audioPlayerProgress.progress
+                            progressAtDragStart = audioPlayer.progress
                             withAnimation {
                                 barHeight = 15
                             }
@@ -72,7 +69,7 @@ struct ProgressBar: View {
                         dragging = false
                         adjustedProgress = (progressAtDragStart +
                             (value.translation.width / proxy.size.width)).limited(0...1)
-                        audioPlayerProgress.seek(to: adjustedProgress)
+                        audioPlayer.seekTo(progress: adjustedProgress)
                     }
             )
         }

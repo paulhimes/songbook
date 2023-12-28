@@ -1,8 +1,11 @@
 import BookModel
 import Foundation
+import Observation
 
 /// A Container for services used throughout the app.
-@Observable @MainActor class ServiceContainer: AudioPlayerDelegate {
+@MainActor
+@Observable
+class ServiceContainer: AudioPlayerDelegate {
     /// The shared audio player of the app.
     let audioPlayer = AudioPlayer()
 
@@ -17,7 +20,7 @@ import Foundation
 
     /// Debounce calls to make the audio player play. Sometimes performance of the `play` function
     /// is very slow, this prevents too many unnecessary calls.
-    var playDebouncer = Debouncer(seconds: 0.5)
+    let playDebouncer = Debouncer(seconds: 0.5)
 
     /// Initialize the ``ServiceContainer`` and perform startup steps.
     init() {

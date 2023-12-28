@@ -1,9 +1,12 @@
 import AVFoundation
 import BookModel
 import MediaPlayer
+import Observation
 
 /// Plays song files.
-@MainActor class AudioPlayer: NSObject, ObservableObject {
+@MainActor
+@Observable
+class AudioPlayer: NSObject {
 
     // MARK: Public Properties
 
@@ -11,16 +14,10 @@ import MediaPlayer
     weak var delegate: AudioPlayerDelegate?
 
     /// `true` iff the player is currently playing.
-    @Published var isPlaying: Bool = false
+    var isPlaying: Bool = false
 
     /// The current playback progress as a percentage of total duration.
-    lazy var progress = AudioPlayerProgress { [weak self] progress in
-        print("Seek to \(progress)")
-        guard let self else { return }
-        guard let player = self.player else { return }
-        let targetTime = player.duration * progress
-        seek(to: targetTime)
-    }
+    var progress: Double = 0
 
     // MARK: Private Properties
 
@@ -34,15 +31,16 @@ import MediaPlayer
     private var playlist: Playlist?
 
     // Synchronizes the in-app progress bar with the current playback state.
+    @ObservationIgnored
     private lazy var synchronizer = Synchronizer(
         continuousSyncHandler: { [weak self] estimatedCurrentTime in
             guard let self, let player else { return }
             let duration = player.duration
             guard duration > 0 else {
-                progress.progress = 0
+                progress = 0
                 return
             }
-            progress.progress = (estimatedCurrentTime / duration).limited(0...1)
+            progress = (estimatedCurrentTime / duration).limited(0...1)
         },
         periodicSyncHandler: { [weak self] in
             guard let self else { return 0 }
@@ -90,7 +88,7 @@ import MediaPlayer
         }
 
         synchronizer.stop()
-        progress.progress = 0
+        progress = 0
         player?.pause() // Pause before stopping to avoid an audible "pop" sound.
         player?.stop()
         player = try? AVAudioPlayer(contentsOf: item.audioFileURL)
@@ -115,10 +113,23 @@ import MediaPlayer
             play(playlist.currentItem)
         }
     }
+    
+    /// Seek the currently playing item to the given progress percentage of total duration.
+    /// - Parameter progress: The progress percentage of total duration to seek the current item.
+    func seekTo(progress: Double) {
+        print("Seek to progress \(progress)")
+
+        guard let player else { return }
+
+        let targetTime = player.duration * progress
+        seekTo(targetTime: targetTime)
+    }
 
     /// Seek the currently playing item to the given target time.
     /// - Parameter targetTime: The time to seek the current item.
-    func seek(to targetTime: TimeInterval) {
+    func seekTo(targetTime: TimeInterval) {
+        print("Seek to target time \(targetTime)")
+
         guard let player else { return }
 
         // Seeking too close to the end causes the player to start playing from the beginning.
@@ -158,7 +169,7 @@ import MediaPlayer
         player?.pause() // Pause before stopping to avoid an audible "pop" sound.
         player?.stop()
         player = nil
-        progress.progress = 0
+        progress = 0
         NowPlayingManager.updateNowPlaying(for: playlist?.currentItem, with: player)
     }
 }

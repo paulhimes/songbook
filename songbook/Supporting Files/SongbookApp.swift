@@ -32,8 +32,7 @@ struct SongbookApp: App {
                 .onAppear {
                     print("\(URL.bookDirectory)")
                 }
-                .environmentObject(serviceContainer.audioPlayer)
-                .environmentObject(serviceContainer.audioPlayer.progress)
+                .environment(serviceContainer.audioPlayer)
         }
     }
 }

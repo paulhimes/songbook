@@ -30,7 +30,6 @@
 		8B1BCF062999B3760093817C /* Atkinson-Hyperlegible-Bold-102.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8B1BCF052999B3760093817C /* Atkinson-Hyperlegible-Bold-102.otf */; };
 		8B1BCF082999B5440093817C /* FontPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1BCF072999B5430093817C /* FontPicker.swift */; };
 		8B1BCF0A2999E4F40093817C /* StorageKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1BCF092999E4F40093817C /* StorageKey.swift */; };
-		8B1D3AF629E057BA00878D16 /* AudioPlayerProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1D3AF529E057BA00878D16 /* AudioPlayerProgress.swift */; };
 		8B1D3AF829E4928900878D16 /* ComparableExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1D3AF729E4928900878D16 /* ComparableExtensions.swift */; };
 		8B1D3AFA29FAB22400878D16 /* RemoteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1D3AF929FAB22400878D16 /* RemoteController.swift */; };
 		8B1D3AFC2A03284B00878D16 /* NowPlayingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1D3AFB2A03284B00878D16 /* NowPlayingManager.swift */; };
@@ -130,7 +129,6 @@
 		8B1BCF052999B3760093817C /* Atkinson-Hyperlegible-Bold-102.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Atkinson-Hyperlegible-Bold-102.otf"; sourceTree = "<group>"; };
 		8B1BCF072999B5430093817C /* FontPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontPicker.swift; sourceTree = "<group>"; };
 		8B1BCF092999E4F40093817C /* StorageKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageKey.swift; sourceTree = "<group>"; };
-		8B1D3AF529E057BA00878D16 /* AudioPlayerProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerProgress.swift; sourceTree = "<group>"; };
 		8B1D3AF729E4928900878D16 /* ComparableExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparableExtensions.swift; sourceTree = "<group>"; };
 		8B1D3AF929FAB22400878D16 /* RemoteController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteController.swift; sourceTree = "<group>"; };
 		8B1D3AFB2A03284B00878D16 /* NowPlayingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingManager.swift; sourceTree = "<group>"; };
@@ -295,7 +293,6 @@
 				8B1D3B032A061F6700878D16 /* Synchronizer.swift */,
 				8B1D3B012A05A7CF00878D16 /* Playlist.swift */,
 				8B1D3AF929FAB22400878D16 /* RemoteController.swift */,
-				8B1D3AF529E057BA00878D16 /* AudioPlayerProgress.swift */,
 				8B79231D29CBEB02002119D4 /* PlaybackMode.swift */,
 				8B79231829CBD0D0002119D4 /* ProgressBar.swift */,
 				8B1D3AFB2A03284B00878D16 /* NowPlayingManager.swift */,
@@ -617,7 +614,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B8DE4A32A319E4700335169 /* UserDefaultsObserver.swift in Sources */,
-				8B1D3AF629E057BA00878D16 /* AudioPlayerProgress.swift in Sources */,
 				8B19D5322964EBE900F2DD0B /* BookScreen.swift in Sources */,
 				8B6899DA2963D7AA000525B4 /* Theme.swift in Sources */,
 				8B53A4BA29BD10050082CC29 /* AudioPlayer.swift in Sources */,
