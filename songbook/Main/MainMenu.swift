@@ -2,6 +2,7 @@ import BookModel
 import SwiftUI
 
 /// The toolbar menu for the main app screen.
+@MainActor
 struct MainMenu: View {
     /// The currently selected appearance.
     @AppStorage(.StorageKey.colorTheme) var appearance: Appearance = .automatic
@@ -10,7 +11,7 @@ struct MainMenu: View {
     @Environment(AudioPlayer.self) var audioPlayer
 
     /// The book model.
-    @ObservedObject var bookModel: BookModel
+    var bookModel: BookModel
 
     /// The index of the currently visible page.
     @AppStorage(.StorageKey.currentPageIndex) var currentPageIndex = 0

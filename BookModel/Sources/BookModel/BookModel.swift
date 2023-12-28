@@ -1,12 +1,14 @@
 import Combine
 import Foundation
-import os.log
+import Observation
+import OSLog
 import SwiftUI
 import Zip
 
 /// The interface to access and managing .songbook file data.
 @MainActor
-public class BookModel: ObservableObject {
+@Observable
+public class BookModel {
 
     // MARK: Public Properties
 
@@ -16,7 +18,7 @@ public class BookModel: ObservableObject {
     }
 
     /// The index of the book.
-    @Published public var index: Index?
+    public var index: Index?
 
     /// The page models for the book.
     public var pageModels: [PageModel] {

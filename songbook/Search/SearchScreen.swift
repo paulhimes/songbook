@@ -5,7 +5,7 @@ import SwiftUI
 struct SearchScreen: View {
 
     /// The book model.
-    @ObservedObject var bookModel: BookModel
+    var bookModel: BookModel
 
     /// The index of the currently visible page.
     @AppStorage(.StorageKey.currentPageIndex) var currentPageIndex = 0

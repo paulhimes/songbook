@@ -35,8 +35,14 @@ final class BookModelTests: XCTestCase {
             .song(text: "18: Row, Row, Row Your Boat\n\nRow, row, row your boat,\nGently down the stream.\nMerrily, merrily, merrily, merrily,\nLife is but a dream.\n", songId: SongId(sectionIndex: 1, songIndex: 17)),
             .song(text: "19: Twinkle Twinkle Little Star\n\n1: Twinkle, twinkle, little star,\nHow I wonder what you are.\nUp above the world so high,\nLike a diamond in the sky.\n\n2: When the blazing sun is gone,\nWhen he nothing shines upon,\nThen you show your little light,\nTwinkle, twinkle, all the night.\n\n3: Then the traveller in the dark,\nThanks you for your tiny spark,\nHe could not see which way to go,\nIf you did not twinkle so.\n\n4: In the dark blue sky you keep,\nAnd often through my curtains peep,\nFor you never shut your eye,\n’Till the sun is in the sky.\n\n5: As your bright and tiny spark,\nLights the traveller in the dark.\nThough I know not what you are,\nTwinkle, twinkle, little star.\n\n6: Twinkle, twinkle, little star.\nHow I wonder what you are.\nUp above the world so high,\nLike a diamond in the sky.\n\n7: Twinkle, twinkle, little star.\nHow I wonder what you are.\n", songId: SongId(sectionIndex: 1, songIndex: 18)),
         ]
-        for await index in subject.$index.values where index != nil {
-            break
+
+        await withCheckedContinuation { continuation in
+            withObservationTracking {
+                _ = subject.index
+            } onChange: {
+                continuation.resume()
+            }
+
         }
     }
 
