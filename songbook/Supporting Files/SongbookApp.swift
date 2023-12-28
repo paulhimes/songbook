@@ -2,11 +2,11 @@ import BookModel
 import SwiftUI
 import Zip
 
-@main
+@main @MainActor
 struct SongbookApp: App {
 
     /// The container for services used throughout the app.
-    @StateObject var serviceContainer = ServiceContainer()
+    @State var serviceContainer = ServiceContainer()
 
     init() {
         let clearAppearance = UIToolbarAppearance()
