@@ -27,37 +27,9 @@ struct SearchScreen: View {
                     ) { section in
                         Section(section.title) {
                             ForEach(section.results) { searchResult in
-                                switch searchResult {
-                                case let .exactMatch(number, originalSectionTitle, pageIndex, title):
-                                    Button {
-                                        currentPageIndex = pageIndex
-                                        searchPresented = false
-                                    } label: {
-                                        VStack(alignment: .leading) {
-                                            Text("\(originalSectionTitle)")
-                                                .foregroundColor(.secondary)
-                                            Text("\(number): \(title)")
-                                        }
-                                        .multilineTextAlignment(.leading)
-                                    }
-                                case let .partialMatch(
-                                    fullTextHighlight,
-                                    pageIndex,
-                                    partialText
-                                ):
-                                    Button {
-                                        currentPageIndex = pageIndex
-                                        searchPresented = false
-                                    } label: {
-                                        Text(partialText)
-                                            .lineLimit(1)
-                                            .foregroundColor(.secondary)
-                                    }
-                                case let .plain(number, pageIndex, title):
-                                    Button("\(number ?? ""): \(title)") {
-                                        currentPageIndex = pageIndex
-                                        searchPresented = false
-                                    }
+                                SearchResultItem(searchResult: searchResult) { pageIndex in
+                                    currentPageIndex = pageIndex
+                                    searchPresented = false
                                 }
                             }
                         }

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B0966752B43A478007301A8 /* SearchResultItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0966742B43A478007301A8 /* SearchResultItem.swift */; };
+		8B0966772B43A5D4007301A8 /* ExactMatchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0966762B43A5D4007301A8 /* ExactMatchItem.swift */; };
+		8B0966792B43A63F007301A8 /* PartialItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0966782B43A63F007301A8 /* PartialItem.swift */; };
+		8B09667B2B43A677007301A8 /* PlainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B09667A2B43A677007301A8 /* PlainItem.swift */; };
 		8B19D5322964EBE900F2DD0B /* BookScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B19D5312964EBE900F2DD0B /* BookScreen.swift */; };
 		8B19D5342969599F00F2DD0B /* BookPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B19D5332969599F00F2DD0B /* BookPageView.swift */; };
 		8B19D536296959C300F2DD0B /* SectionPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B19D535296959C300F2DD0B /* SectionPageView.swift */; };
@@ -106,6 +110,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8B0966742B43A478007301A8 /* SearchResultItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultItem.swift; sourceTree = "<group>"; };
+		8B0966762B43A5D4007301A8 /* ExactMatchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExactMatchItem.swift; sourceTree = "<group>"; };
+		8B0966782B43A63F007301A8 /* PartialItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialItem.swift; sourceTree = "<group>"; };
+		8B09667A2B43A677007301A8 /* PlainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainItem.swift; sourceTree = "<group>"; };
 		8B19D5312964EBE900F2DD0B /* BookScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookScreen.swift; sourceTree = "<group>"; };
 		8B19D5332969599F00F2DD0B /* BookPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookPageView.swift; sourceTree = "<group>"; };
 		8B19D535296959C300F2DD0B /* SectionPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionPageView.swift; sourceTree = "<group>"; };
@@ -391,6 +399,10 @@
 		8BA0DFD22A61C84800A23C44 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				8B0966762B43A5D4007301A8 /* ExactMatchItem.swift */,
+				8B0966782B43A63F007301A8 /* PartialItem.swift */,
+				8B09667A2B43A677007301A8 /* PlainItem.swift */,
+				8B0966742B43A478007301A8 /* SearchResultItem.swift */,
 				8BA0DFD32A61C86400A23C44 /* SearchScreen.swift */,
 			);
 			path = Search;
@@ -613,6 +625,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B0966772B43A5D4007301A8 /* ExactMatchItem.swift in Sources */,
 				8B8DE4A32A319E4700335169 /* UserDefaultsObserver.swift in Sources */,
 				8B19D5322964EBE900F2DD0B /* BookScreen.swift in Sources */,
 				8B6899DA2963D7AA000525B4 /* Theme.swift in Sources */,
@@ -621,6 +634,7 @@
 				8B1D3B042A061F6700878D16 /* Synchronizer.swift in Sources */,
 				8B79231B29CBE28E002119D4 /* PlaybackModeButton.swift in Sources */,
 				8B79231929CBD0D0002119D4 /* ProgressBar.swift in Sources */,
+				8B09667B2B43A677007301A8 /* PlainItem.swift in Sources */,
 				8B19D536296959C300F2DD0B /* SectionPageView.swift in Sources */,
 				8B1BCF0A2999E4F40093817C /* StorageKey.swift in Sources */,
 				8B1D3B062A11CC9D00878D16 /* AudioSessionManager.swift in Sources */,
@@ -630,6 +644,7 @@
 				8B79231E29CBEB02002119D4 /* PlaybackMode.swift in Sources */,
 				8B79231529CBAEED002119D4 /* FontScreen.swift in Sources */,
 				8B1BCEF82995B7A00093817C /* VerticalRatioLayout.swift in Sources */,
+				8B0966752B43A478007301A8 /* SearchResultItem.swift in Sources */,
 				8B19D538296959E300F2DD0B /* SongPageView.swift in Sources */,
 				8B1D3AF829E4928900878D16 /* ComparableExtensions.swift in Sources */,
 				8B1BCEFB299980670093817C /* Appearance.swift in Sources */,
@@ -642,6 +657,7 @@
 				8B1D3B002A048AD200878D16 /* ServiceContainer.swift in Sources */,
 				8B7FE19925577DA500D64403 /* SongbookApp.swift in Sources */,
 				8B5954752A21A56300A91EF6 /* AudioPlayerDelegate.swift in Sources */,
+				8B0966792B43A63F007301A8 /* PartialItem.swift in Sources */,
 				8B19D53C296CA0E700F2DD0B /* RedGradientView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
