@@ -15,7 +15,8 @@ struct SearchScreen: View {
 
     /// `true` iff the search UI is visible.
     @Binding var searchPresented: Bool
-
+    
+    /// Controls the focus of the text field.
     @FocusState var isSearching: Bool
 
     var body: some View {
