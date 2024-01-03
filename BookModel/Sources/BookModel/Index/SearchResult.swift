@@ -15,11 +15,13 @@ public enum SearchResult {
     /// - Parameters:
     ///   - fullTextHighlight: The highlighted range in the item's full text.
     ///   - pageIndex: The index of the item's page.
-    ///   - partialText: Partial text of the item including the matching range.
+    ///   - partialText: Partial text of the item including the matching range and following text.
+    ///   - partialTextHighlight: The highlighted range in the item's partial text.
     case partialMatch(
         fullTextHighlight: ClosedRange<Int>,
         pageIndex: Int,
-        partialText: AttributedString
+        partialText: String,
+        partialTextHighlight: ClosedRange<Int>
     )
 
     /// An item matching the search string without a specific matching range. Used when the search
@@ -35,7 +37,7 @@ public enum SearchResult {
         switch self {
         case .exactMatch(_, _, let pageIndex, _):
             return pageIndex
-        case .partialMatch(_, let pageIndex, _):
+        case .partialMatch(_, let pageIndex, _, _):
             return pageIndex
         case .plain(_, let pageIndex, _):
             return pageIndex
@@ -48,7 +50,7 @@ extension SearchResult: Identifiable {
         switch self {
         case let .exactMatch(_, _, pageIndex, _):
             "ExactMatch-\(pageIndex)"
-        case let .partialMatch(fullTextHighlight, pageIndex, _):
+        case let .partialMatch(fullTextHighlight, pageIndex, _, _):
             "PartialMatch-\(pageIndex)-[\(fullTextHighlight.lowerBound),\(fullTextHighlight.upperBound)]"
         case let .plain(_, pageIndex, _):
             "Plain-\(pageIndex)"

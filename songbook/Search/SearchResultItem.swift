@@ -21,7 +21,6 @@ struct SearchResultItem: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Color.primary.frame(width: 0, height: 0)
             switch searchResult {
             case let .exactMatch(number, originalSectionTitle, pageIndex, title):
                 ExactMatchItem(
@@ -31,8 +30,8 @@ struct SearchResultItem: View {
                 ) {
                     action(pageIndex)
                 }
-            case let .partialMatch(fullTextHighlight, pageIndex, partialText):
-                PartialItem(partialText: partialText) {
+            case let .partialMatch(fullTextHighlight, pageIndex, partialText, partialTextHighlight):
+                PartialItem(partialText: partialText, partialTextHighlight: partialTextHighlight) {
                     action(pageIndex)
                 }
             case let .plain(number, pageIndex, title):

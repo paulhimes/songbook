@@ -35,12 +35,14 @@ struct ExactMatchItem: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("\(originalSectionTitle)")
-                .foregroundColor(.secondary)
-            Text("\(number): \(title)")
+        Button(action: action) {
+            VStack(alignment: .leading) {
+                Text("\(originalSectionTitle)")
+                    .foregroundColor(.secondary)
+                Text("\(number): \(title)")
+            }
+            .multilineTextAlignment(.leading)
         }
-        .multilineTextAlignment(.leading)
     }
 }
 

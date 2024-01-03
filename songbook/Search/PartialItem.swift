@@ -6,27 +6,52 @@ struct PartialItem: View {
     /// The action to perform when the item is tapped.
     let action: () -> Void
 
-    /// The highlighted partially matching text in context.
-    let partialText: AttributedString
+    /// The partially matching text followed by the remainder of the song text.
+    let partialText: String
+
+    /// The range of the highlighted portion of the text.
+    let partialTextHighlight: ClosedRange<Int>
     
+    /// A styled version of the partial text with the matching range highlighted in the accent
+    /// color.
+    private var attributedString: AttributedString {
+        var attributed = AttributedString(partialText)
+        attributed.foregroundColor = .secondary
+        let highlightRangeStart = attributed.index(
+            attributed.startIndex,
+            offsetByCharacters: partialTextHighlight.lowerBound
+        )
+        let highlightRangeEnd = attributed.index(
+            attributed.startIndex,
+            offsetByCharacters: partialTextHighlight.upperBound
+        )
+        attributed[highlightRangeStart...highlightRangeEnd].foregroundColor = .accentColor
+        return attributed
+    }
+
     /// Initializes a ``PartialItem``.
     /// - Parameters:
     ///   - partialText: The highlighted partially matching text in context.
+    ///   - partialTextHighlight: The range of the highlighted portion of the text.
     ///   - action: The action to perform when the item is tapped.
-    init(partialText: AttributedString, action: @escaping () -> Void) {
+    init(
+        partialText: String,
+        partialTextHighlight: ClosedRange<Int>,
+        action: @escaping () -> Void
+    ) {
         self.partialText = partialText
+        self.partialTextHighlight = partialTextHighlight
         self.action = action
     }
 
     var body: some View {
         Button(action: action) {
-            Text(partialText)
+            Text(attributedString)
                 .lineLimit(1)
-                .foregroundColor(.secondary)
         }
     }
 }
 
 #Preview {
-    PartialItem(partialText: "Text", action: {})
+    PartialItem(partialText: "Text", partialTextHighlight: 0...1, action: {})
 }

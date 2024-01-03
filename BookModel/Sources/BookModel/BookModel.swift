@@ -130,15 +130,18 @@ public class BookModel {
                     let makePartialMatchesStart = Date.now
                     // For each range, generate a partialMatch SearchResult.
                     indexRanges.forEach {
-                        var partialText = AttributedString("…\(searchItem.fullText.suffix(from: searchItem.fullText.index(searchItem.fullText.startIndex, offsetBy: $0.lowerBound)))")
-                        let partialTextHighlightRange = partialText.index(partialText.startIndex, offsetByCharacters: 1)..<partialText.index(partialText.index(partialText.startIndex, offsetByCharacters: 1), offsetByCharacters: $0.upperBound + 1 - $0.lowerBound)
-                        partialText[partialTextHighlightRange].foregroundColor = .accentColor
-
+                        let text = searchItem.fullText.suffix(
+                            from: searchItem.fullText.index(
+                                searchItem.fullText.startIndex,
+                                offsetBy: $0.lowerBound
+                            )
+                        )
                         results.append(
                             SearchResult.partialMatch(
                                 fullTextHighlight: $0,
                                 pageIndex: searchItem.pageIndex,
-                                partialText: partialText
+                                partialText: "…\(text)",
+                                partialTextHighlight: 1...$0.upperBound + 1 - $0.lowerBound
                             )
                         )
                     }
