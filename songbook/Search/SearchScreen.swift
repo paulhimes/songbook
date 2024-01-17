@@ -22,22 +22,12 @@ struct SearchScreen: View {
     var body: some View {
         GeometryReader { proxy in
             NavigationStack {
-                List {
-                    ForEach(
-                        bookModel.searchResults(for: searchText)
-                    ) { section in
-                        Section(section.title) {
-                            ForEach(section.results) { searchResult in
-                                SearchResultItem(searchResult: searchResult) { pageIndex in
-                                    currentPageIndex = pageIndex
-                                    searchPresented = false
-                                }
-                            }
-                        }
-                    }
-                }
-                .listStyle(.plain)
-                .navigationBarTitleDisplayMode(.inline)
+                SearchResults(
+                    bookModel: bookModel,
+                    currentPageIndex: $currentPageIndex,
+                    searchPresented: $searchPresented,
+                    searchText: searchText
+                )
                 .toolbar {
                     ToolbarItem(placement: .principal) {
                         HStack(spacing: 0) {
