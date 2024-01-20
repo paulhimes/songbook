@@ -74,7 +74,7 @@ public class BookModel {
     }
 
     /// An array of ``SearchResultSection``s.
-    public func searchResults(for searchString: String) -> [SearchResultSection] {
+    public func searchResults(for searchString: String) async -> [SearchResultSection] {
         let searchStart = Date.now
 
         // Determine search mode.

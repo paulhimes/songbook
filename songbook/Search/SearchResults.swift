@@ -22,7 +22,6 @@ struct SearchResults: View {
     var searchText: String
 
     var body: some View {
-        let _ = Self._printChanges()
         List {
             ForEach(
                 searchResults
@@ -39,8 +38,9 @@ struct SearchResults: View {
         }
         .listStyle(.plain)
         .navigationBarTitleDisplayMode(.inline)
+        .scrollDismissesKeyboard(.immediately)
         .task(id: searchText) {
-            searchResults = bookModel.searchResults(for: searchText)
+            searchResults = await bookModel.searchResults(for: searchText)
         }
     }
 }

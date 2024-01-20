@@ -16,7 +16,8 @@ struct SearchScreen: View {
     /// `true` iff the search UI is visible.
     @Binding var searchPresented: Bool
     
-    /// Controls the focus of the text field.
+    /// Controls the focus of the text field. This mechanism doesn't currently work if you create 
+    /// this in the SearchBar, so we create it here and pass it in.
     @FocusState var isSearching: Bool
 
     var body: some View {
@@ -30,56 +31,17 @@ struct SearchScreen: View {
                 )
                 .toolbar {
                     ToolbarItem(placement: .principal) {
-                        HStack(spacing: 0) {
-                            Spacer().frame(width: 16)
-                            VStack(spacing: 0) {
-                                Color.clear
-                                    .contentShape(Rectangle())
-                                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 8, maxHeight: 8)
-                                    .onTapGesture {
-                                        isSearching = true
-                                    }
-                                HStack(spacing: 4) {
-                                    Image(systemName: "magnifyingglass")
-                                        .imageScale(.medium)
-                                    ZStack(alignment: .leading) {
-                                        Text("Search")
-                                            .opacity(searchText.isEmpty ? 1 : 0)
-                                        TextField("Search", text: $searchText, prompt: Text(""))
-                                            .foregroundStyle(Color.primary)
-                                            .focused($isSearching)
-                                            .keyboardType(.numbersAndPunctuation)
-                                            .autocorrectionDisabled()
-                                    }
-                                }
-                                Color.clear
-                                    .contentShape(Rectangle())
-                                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 8, maxHeight: 8)
-                                    .onTapGesture {
-                                        isSearching = true
-                                    }
-                            }
-                            .foregroundStyle(Color(UIColor.secondaryLabel))
-                            .padding([.leading, .trailing], 6)
-                            .background(Color(UIColor.tertiarySystemFill))
-                            .cornerRadius(12)
-                            Spacer().frame(width: 4)
-                            Button(role: .cancel) {
-                                searchPresented = false
-                            } label: {
-                                Text("Cancel")
-                            }
-                            Spacer().frame(width: 8)
-                        }
-                        .frame(width: proxy.size.width)
+                        SearchBar(
+                            isSearching: _isSearching,
+                            searchPresented: $searchPresented,
+                            searchText: $searchText,
+                            width: proxy.size.width
+                        )
                     }
                 }
             }
-            .scrollDismissesKeyboard(.immediately)
-            .onAppear {
-                isSearching = true
-            }
         }
+        .statusBarHidden(true)
     }
 }
 

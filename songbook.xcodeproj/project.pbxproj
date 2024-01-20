@@ -41,6 +41,7 @@
 		8B1D3B022A05A7CF00878D16 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1D3B012A05A7CF00878D16 /* Playlist.swift */; };
 		8B1D3B042A061F6700878D16 /* Synchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1D3B032A061F6700878D16 /* Synchronizer.swift */; };
 		8B1D3B062A11CC9D00878D16 /* AudioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1D3B052A11CC9D00878D16 /* AudioSessionManager.swift */; };
+		8B249DF72B58A34A006E816F /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B249DF62B58A34A006E816F /* SearchBar.swift */; };
 		8B53A4BA29BD10050082CC29 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B53A4B929BD10050082CC29 /* AudioPlayer.swift */; };
 		8B5954752A21A56300A91EF6 /* AudioPlayerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5954742A21A56300A91EF6 /* AudioPlayerDelegate.swift */; };
 		8B6899CD295B9E97000525B4 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B6899CC295B9E97000525B4 /* Icon.png */; };
@@ -145,6 +146,7 @@
 		8B1D3B012A05A7CF00878D16 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		8B1D3B032A061F6700878D16 /* Synchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Synchronizer.swift; sourceTree = "<group>"; };
 		8B1D3B052A11CC9D00878D16 /* AudioSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSessionManager.swift; sourceTree = "<group>"; };
+		8B249DF62B58A34A006E816F /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		8B53A4B929BD10050082CC29 /* AudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		8B5954742A21A56300A91EF6 /* AudioPlayerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerDelegate.swift; sourceTree = "<group>"; };
 		8B6899CB295B8A1C000525B4 /* BookModel */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = BookModel; sourceTree = "<group>"; };
@@ -404,9 +406,10 @@
 				8B0966762B43A5D4007301A8 /* ExactMatchItem.swift */,
 				8B0966782B43A63F007301A8 /* PartialItem.swift */,
 				8B09667A2B43A677007301A8 /* PlainItem.swift */,
+				8B249DF62B58A34A006E816F /* SearchBar.swift */,
 				8B0966742B43A478007301A8 /* SearchResultItem.swift */,
-				8BA0DFD32A61C86400A23C44 /* SearchScreen.swift */,
 				8B7A52822B4A4A36005F0B41 /* SearchResults.swift */,
+				8BA0DFD32A61C86400A23C44 /* SearchScreen.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -633,6 +636,7 @@
 				8B19D5322964EBE900F2DD0B /* BookScreen.swift in Sources */,
 				8B6899DA2963D7AA000525B4 /* Theme.swift in Sources */,
 				8B53A4BA29BD10050082CC29 /* AudioPlayer.swift in Sources */,
+				8B249DF72B58A34A006E816F /* SearchBar.swift in Sources */,
 				8B79231329CBAC2A002119D4 /* MainMenu.swift in Sources */,
 				8B1D3B042A061F6700878D16 /* Synchronizer.swift in Sources */,
 				8B79231B29CBE28E002119D4 /* PlaybackModeButton.swift in Sources */,
