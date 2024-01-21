@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// The view for a partially matching search item.
-struct PartialItem: View {
+struct PartialItemView: View {
 
     /// The action to perform when the item is tapped.
     let action: () -> Void
@@ -29,7 +29,7 @@ struct PartialItem: View {
         return attributed
     }
 
-    /// Initializes a ``PartialItem``.
+    /// Initializes a ``PartialItemView``.
     /// - Parameters:
     ///   - partialText: The highlighted partially matching text in context.
     ///   - partialTextHighlight: The range of the highlighted portion of the text.
@@ -53,5 +53,5 @@ struct PartialItem: View {
 }
 
 #Preview {
-    PartialItem(partialText: "Text", partialTextHighlight: 0...1, action: {})
+    PartialItemView(partialText: "Text", partialTextHighlight: 0...1, action: {})
 }

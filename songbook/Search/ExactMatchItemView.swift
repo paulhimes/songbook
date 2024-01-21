@@ -2,7 +2,7 @@ import SwiftUI
 
 /// The view for an exactly matching search item by number with a song title, number, and section
 /// title.
-struct ExactMatchItem: View {
+struct ExactMatchItemView: View {
     
     /// The action to perform when the item is tapped.
     let action: () -> Void
@@ -16,7 +16,7 @@ struct ExactMatchItem: View {
     /// The title of the song.
     let title: String
     
-    /// Initializes an ``ExactMatchItem``.
+    /// Initializes an ``ExactMatchItemView``.
     /// - Parameters:
     ///   - originalSectionTitle: The title of the song's section in the book.
     ///   - number: The number of the song.
@@ -47,5 +47,5 @@ struct ExactMatchItem: View {
 }
 
 #Preview {
-    ExactMatchItem(originalSectionTitle: "Section", number: "1", title: "Title", action: {})
+    ExactMatchItemView(originalSectionTitle: "Section", number: "1", title: "Title", action: {})
 }

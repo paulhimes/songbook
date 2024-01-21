@@ -3,7 +3,7 @@ import SwiftUI
 
 /// The toolbar menu for the main app screen.
 @MainActor
-struct MainMenu: View {
+struct MainMenuView: View {
     /// The currently selected appearance.
     @AppStorage(.StorageKey.colorTheme) var appearance: Appearance = .automatic
 
@@ -107,6 +107,6 @@ struct MainMenu: View {
 
 struct MainMenu_Previews: PreviewProvider {
     static var previews: some View {
-        MainMenu(bookModel: BookModel())
+        MainMenuView(bookModel: BookModel())
     }
 }

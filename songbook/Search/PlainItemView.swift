@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// The view for a search item with a song title and optional number.
-struct PlainItem: View {
+struct PlainItemView: View {
     
     /// The action to perform when the item is tapped.
     let action: () -> Void
@@ -12,7 +12,7 @@ struct PlainItem: View {
     /// The title of the song.
     let title: String
     
-    /// Initializes a ``PlainItem``.
+    /// Initializes a ``PlainItemView``.
     /// - Parameters:
     ///   - number: Optionally, the number of the song.
     ///   - title: The title of the song.
@@ -29,5 +29,5 @@ struct PlainItem: View {
 }
 
 #Preview {
-    PlainItem(number: "1", title: "Title", action: {})
+    PlainItemView(number: "1", title: "Title", action: {})
 }

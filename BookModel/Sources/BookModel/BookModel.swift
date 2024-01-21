@@ -6,7 +6,6 @@ import SwiftUI
 import Zip
 
 /// The interface to access and managing .songbook file data.
-@MainActor
 @Observable
 public class BookModel {
 
@@ -18,7 +17,7 @@ public class BookModel {
     }
 
     /// The index of the book.
-    public var index: Index?
+    private(set) var index: Index?
 
     /// The page models for the book.
     public var pageModels: [PageModel] {

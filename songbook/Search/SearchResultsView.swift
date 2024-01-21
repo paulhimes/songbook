@@ -3,7 +3,7 @@ import SwiftUI
 
 /// A scrolling list of search results. This was refactored into a separate view to bypass an SDK
 /// bug which caused extra view reloads: FB13547604
-struct SearchResults: View {
+struct SearchResultsView: View {
 
     /// The book model.
     var bookModel: BookModel
@@ -28,7 +28,7 @@ struct SearchResults: View {
             ) { section in
                 Section(section.title) {
                     ForEach(section.results) { searchResult in
-                        SearchResultItem(searchResult: searchResult) { pageIndex in
+                        SearchResultItemView(searchResult: searchResult) { pageIndex in
                             currentPageIndex = pageIndex
                             searchPresented = false
                         }
@@ -46,7 +46,7 @@ struct SearchResults: View {
 }
 
 #Preview {
-    SearchResults(
+    SearchResultsView(
         bookModel: BookModel(),
         currentPageIndex: .constant(0),
         searchPresented: .constant(true),

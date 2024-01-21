@@ -23,7 +23,7 @@ struct SearchScreen: View {
     var body: some View {
         GeometryReader { proxy in
             NavigationStack {
-                SearchResults(
+                SearchResultsView(
                     bookModel: bookModel,
                     currentPageIndex: $currentPageIndex,
                     searchPresented: $searchPresented,
@@ -31,7 +31,7 @@ struct SearchScreen: View {
                 )
                 .toolbar {
                     ToolbarItem(placement: .principal) {
-                        SearchBar(
+                        SearchBarView(
                             isSearching: _isSearching,
                             searchPresented: $searchPresented,
                             searchText: $searchText,

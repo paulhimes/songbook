@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct SearchBar: View {
+struct SearchBarView: View {
 
     /// Controls the focus of the text field.
     @FocusState var isSearching: Bool
@@ -65,6 +65,6 @@ struct SearchBar: View {
 
 #Preview {
     Color.clear.toolbar {
-        SearchBar(searchPresented: .constant(true), searchText: .constant(""), width: 500)
+        SearchBarView(searchPresented: .constant(true), searchText: .constant(""), width: 500)
     }
 }

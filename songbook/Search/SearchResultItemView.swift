@@ -2,7 +2,7 @@ import BookModel
 import SwiftUI
 
 /// A container view for every possible type of search result view on the search screen.
-struct SearchResultItem: View {
+struct SearchResultItemView: View {
     
     /// The action to perform when the item is tapped.
     let action: (Int) -> Void
@@ -10,7 +10,7 @@ struct SearchResultItem: View {
     /// The search result data model for the view.
     let searchResult: SearchResult
     
-    /// Initialize a ``SearchResultItem`` with a search result and tap action.
+    /// Initialize a ``SearchResultItemView`` with a search result and tap action.
     /// - Parameters:
     ///   - searchResult: The search result data model for the view.
     ///   - action: The action to perform when the item is tapped.
@@ -23,7 +23,7 @@ struct SearchResultItem: View {
         VStack(alignment: .leading, spacing: 0) {
             switch searchResult {
             case let .exactMatch(number, originalSectionTitle, pageIndex, title):
-                ExactMatchItem(
+                ExactMatchItemView(
                     originalSectionTitle: originalSectionTitle,
                     number: number,
                     title: title
@@ -31,11 +31,11 @@ struct SearchResultItem: View {
                     action(pageIndex)
                 }
             case let .partialMatch(fullTextHighlight, pageIndex, partialText, partialTextHighlight):
-                PartialItem(partialText: partialText, partialTextHighlight: partialTextHighlight) {
+                PartialItemView(partialText: partialText, partialTextHighlight: partialTextHighlight) {
                     action(pageIndex)
                 }
             case let .plain(number, pageIndex, title):
-                PlainItem(number: number, title: title) {
+                PlainItemView(number: number, title: title) {
                     action(pageIndex)
                 }
             }
@@ -44,5 +44,5 @@ struct SearchResultItem: View {
 }
 
 #Preview {
-    SearchResultItem(searchResult: .plain(number: "1", pageIndex: 0, title: "Title")) { _ in }
+    SearchResultItemView(searchResult: .plain(number: "1", pageIndex: 0, title: "Title")) { _ in }
 }

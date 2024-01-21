@@ -56,7 +56,7 @@ struct MainScreen: View {
                                     Spacer()
                                     PlaybackModeButton()
                                 }
-                                MainMenu(bookModel: bookModel)
+                                MainMenuView(bookModel: bookModel)
                             }
                         }
                         .safeAreaInset(edge: .bottom, alignment: .leading) {
