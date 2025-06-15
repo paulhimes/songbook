@@ -16,11 +16,6 @@ struct SongPageView: View {
                 .foregroundColor(.primary)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         }
-        .safeAreaInset(edge: .bottom, alignment: .center, spacing: 0) {
-            Color.clear
-                .frame(height: 0)
-                .background(Material.ultraThinMaterial)
-        }
     }
 }
 
