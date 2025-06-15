@@ -174,7 +174,7 @@ class AudioPlayer: NSObject {
     }
 }
 
-extension AudioPlayer: AVAudioPlayerDelegate {
+extension AudioPlayer: @MainActor AVAudioPlayerDelegate {
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         switch playbackMode {
         case .continuous, .shuffle:
