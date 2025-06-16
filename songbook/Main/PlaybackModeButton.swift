@@ -65,7 +65,7 @@ struct PlaybackModeButton: View {
                 print("Playback Mode: Single")
             }
         }
-        .tint(.accentColor.opacity(playbackMode == .single ? 0.5 : 1.0))
+        .tint(.accent.opacity(playbackMode == .single ? 0.5 : 1.0))
         .accessibilityHint(accessibilityHint)
     }
 }

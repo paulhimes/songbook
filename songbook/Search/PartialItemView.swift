@@ -25,7 +25,7 @@ struct PartialItemView: View {
             attributed.startIndex,
             offsetByCharacters: partialTextHighlight.upperBound
         )
-        attributed[highlightRangeStart...highlightRangeEnd].foregroundColor = .accentColor
+        attributed[highlightRangeStart...highlightRangeEnd].foregroundColor = .accent
         return attributed
     }
 

@@ -30,7 +30,7 @@ struct SearchResultItemView: View {
                 ) {
                     action(pageIndex)
                 }
-            case let .partialMatch(fullTextHighlight, pageIndex, partialText, partialTextHighlight):
+            case let .partialMatch(_, pageIndex, partialText, partialTextHighlight):
                 PartialItemView(partialText: partialText, partialTextHighlight: partialTextHighlight) {
                     action(pageIndex)
                 }

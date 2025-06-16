@@ -39,8 +39,8 @@ import SwiftUI
         GeometryReader { proxy in
             Group {
                 ZStack(alignment: .leading) {
-                    Color.accentColor.opacity(audioPlayer.isPlaying ? 0.2 : 0)
-                    Color.accentColor.frame(width: progress * proxy.size.width)
+                    Color.accent.opacity(audioPlayer.isPlaying ? 0.2 : 0)
+                    Color.accent.frame(width: progress * proxy.size.width)
                 }
                 .background(.background.secondary)
                 .frame(height: audioPlayer.isPlaying ? barHeight : 0)

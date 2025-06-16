@@ -100,7 +100,6 @@ struct MainMenuView: View {
         .menuOrder(.fixed)
         .sheet(isPresented: $showFontPicker) {
             FontScreen()
-                .tint(.accentColor)
         }
     }
 }

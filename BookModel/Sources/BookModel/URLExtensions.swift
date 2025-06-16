@@ -9,4 +9,16 @@ public extension URL {
         forResource: "default",
         withExtension: "songbook"
     )!
+
+    /// `true` iff the ``URL`` points to a directory rather than a file.
+    var isDirectory: Bool {
+        (try? resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory == true
+    }
+
+    /// `true` iff the `URL` points to a file in the app bundle.
+    var isInBundle: Bool {
+        path(percentEncoded: false).hasPrefix(
+            Bundle(for: BookModel.self).bundleURL.path(percentEncoded: false)
+        )
+    }
 }

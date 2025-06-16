@@ -29,7 +29,6 @@ struct SearchScreen: View {
                     searchPresented: $searchPresented,
                     searchText: searchText
                 )
-                .background(Color.white)
                 .toolbar {
                     ToolbarItem(placement: .principal) {
                         SearchBarView(

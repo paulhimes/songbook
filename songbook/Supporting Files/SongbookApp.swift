@@ -9,12 +9,6 @@ struct SongbookApp: App {
     @State var serviceContainer = ServiceContainer()
 
     init() {
-        let clearAppearance = UIToolbarAppearance()
-        clearAppearance.configureWithTransparentBackground()
-        UIToolbar.appearance().compactScrollEdgeAppearance = clearAppearance
-        UIToolbar.appearance().standardAppearance = clearAppearance
-        UIToolbar.appearance().compactAppearance = clearAppearance
-        UIToolbar.appearance().scrollEdgeAppearance = clearAppearance
         UITextField.appearance().clearButtonMode = .always
     }
 

@@ -26,7 +26,7 @@ struct MainScreen: View {
         if case .book = bookModel.pageModels[currentPageIndex] {
             return .white
         } else {
-            return .accentColor
+            return .accent
         }
     }
 
@@ -80,6 +80,8 @@ struct MainScreen: View {
         }
         .fullScreenCover(isPresented: $isSearching, content: {
             SearchScreen(bookModel: bookModel, searchPresented: $isSearching)
+                .background(Color(uiColor: .systemBackground))
+                .tint(.accent)
         })
         .statusBarHidden(true)
         .preferredColorScheme(appearance.colorScheme)
