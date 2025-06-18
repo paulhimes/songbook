@@ -16,11 +16,6 @@ struct SectionPageView: View {
                 .multilineTextAlignment(.leading)
                 .foregroundColor(.primary)
         }
-        .safeAreaInset(edge: .bottom, alignment: .center, spacing: 0) {
-            Color.clear
-                .frame(height: 0)
-                .background(Material.ultraThinMaterial)
-        }
     }
 }
 

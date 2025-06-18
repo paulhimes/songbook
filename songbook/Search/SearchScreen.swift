@@ -21,23 +21,19 @@ struct SearchScreen: View {
     @FocusState var isSearching: Bool
 
     var body: some View {
-        GeometryReader { proxy in
-            NavigationStack {
-                SearchResultsView(
-                    bookModel: bookModel,
-                    currentPageIndex: $currentPageIndex,
-                    searchPresented: $searchPresented,
-                    searchText: searchText
-                )
-                .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        SearchBarView(
-                            isSearching: _isSearching,
-                            searchPresented: $searchPresented,
-                            searchText: $searchText,
-                            width: proxy.size.width
-                        )
-                    }
+        NavigationStack {
+            SearchResultsView(
+                bookModel: bookModel,
+                currentPageIndex: $currentPageIndex,
+                searchPresented: $searchPresented,
+                searchText: searchText
+            )
+            .searchable(text: $searchText, isPresented: $searchPresented)
+            .searchFocused($isSearching)
+            .onAppear {
+                Task {
+                    try? await Task.sleep(for: .zero)
+                    isSearching = true
                 }
             }
         }
