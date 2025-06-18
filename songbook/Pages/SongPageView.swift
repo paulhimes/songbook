@@ -19,8 +19,6 @@ struct SongPageView: View {
     }
 }
 
-struct SongPageView_Previews: PreviewProvider {
-    static var previews: some View {
-        SongPageView(text: "Text")
-    }
+#Preview {
+    SongPageView(text: "Text")
 }

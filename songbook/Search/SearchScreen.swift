@@ -45,8 +45,7 @@ struct SearchScreen: View {
     }
 }
 
-struct SearchScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        SearchScreen(bookModel: BookModel(), searchPresented: .constant(true))
-    }
+#Preview {
+    @Previewable @State var searchPresented: Bool = true
+    SearchScreen(bookModel: BookModel(), searchPresented: $searchPresented)
 }

@@ -24,8 +24,6 @@ struct SectionPageView: View {
     }
 }
 
-struct SectionPageView_Previews: PreviewProvider {
-    static var previews: some View {
-        SectionPageView(title: "Title")
-    }
+#Preview {
+    SectionPageView(title: "Title")
 }

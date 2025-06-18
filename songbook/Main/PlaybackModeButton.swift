@@ -70,8 +70,6 @@ struct PlaybackModeButton: View {
     }
 }
 
-struct PlaybackModeButton_Previews: PreviewProvider {
-    static var previews: some View {
-        PlaybackModeButton()
-    }
+#Preview {
+    PlaybackModeButton()
 }

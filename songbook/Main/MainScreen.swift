@@ -87,8 +87,7 @@ struct MainScreen: View {
     }
 }
 
-struct MainView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainScreen(bookModel: BookModel())
-    }
+#Preview {
+    MainScreen(bookModel: BookModel())
+        .environment(AudioPlayer())
 }

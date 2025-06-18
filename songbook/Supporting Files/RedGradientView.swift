@@ -12,8 +12,6 @@ struct RedGradientView: View {
     }
 }
 
-struct RedGradientView_Previews: PreviewProvider {
-    static var previews: some View {
-        RedGradientView()
-    }
+#Preview {
+    RedGradientView()
 }

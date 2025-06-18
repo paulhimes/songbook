@@ -123,10 +123,8 @@ struct BookScreen: UIViewControllerRepresentable {
     }
 }
 
-struct BookView_Previews: PreviewProvider {
-    static var previews: some View {
-        BookScreen(pages: BookModel().pageModels)
-    }
+#Preview {
+    BookScreen(pages: BookModel().pageModels)
 }
 
 extension UIPageViewController {

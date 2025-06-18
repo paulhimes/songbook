@@ -77,8 +77,8 @@ struct ProgressBar: View {
     }
 }
 
-struct ProgressBar_Previews: PreviewProvider {
-    static var previews: some View {
-        ProgressBar().frame(height: 10)
-    }
+#Preview {
+    ProgressBar()
+        .frame(height: 10)
+        .environment(AudioPlayer())
 }

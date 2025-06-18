@@ -30,8 +30,6 @@ struct BookPageView: View {
     }
 }
 
-struct BookPageView_Previews: PreviewProvider {
-    static var previews: some View {
-        BookPageView(title: "Title and a long number of words that will have to wrap and wrap some more until it takes up a large number of lines that will exceed the bounds of the container view", version: 1)
-    }
+#Preview {
+    BookPageView(title: "Title and a long number of words that will have to wrap and wrap some more until it takes up a large number of lines that will exceed the bounds of the container view", version: 1)
 }

@@ -103,8 +103,7 @@ struct MainMenuView: View {
     }
 }
 
-struct MainMenu_Previews: PreviewProvider {
-    static var previews: some View {
-        MainMenuView(bookModel: BookModel())
-    }
+#Preview {
+    MainMenuView(bookModel: BookModel())
+        .environment(AudioPlayer())
 }

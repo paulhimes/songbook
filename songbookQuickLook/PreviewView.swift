@@ -44,8 +44,6 @@ struct PreviewView: View {
 }
 
 /// To enable previewing, temporarily add this file to the main app target.
-struct PreviewView_Previews: PreviewProvider {
-    static var previews: some View {
-        PreviewView(title: "The File Name with Tunes (v6)")
-    }
+#Preview {
+    PreviewView(title: "The File Name with Tunes (v6)")
 }
