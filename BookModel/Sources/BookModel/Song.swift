@@ -1,5 +1,5 @@
 /// A song in an ``Section``.
-public struct Song: Codable, Equatable {
+public struct Song: Codable, Equatable, Sendable {
 
     /// The names of the audio files to play for this song. If no names are provided, the old
     /// automatic naming scheme is used.

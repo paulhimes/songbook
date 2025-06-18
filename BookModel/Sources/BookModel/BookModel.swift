@@ -6,6 +6,7 @@ import SwiftUI
 import Zip
 
 /// The interface to access and managing .songbook file data.
+@MainActor
 @Observable
 public class BookModel {
 
@@ -312,7 +313,7 @@ public class BookModel {
     /// - Returns: The relevant ``SearchResult``s including a `partialMatch` for each matching token
     ///   range and a `plain` if there were any matching ranges.
     ///
-    private static func searchResults(
+    nonisolated private static func searchResults(
         for searchTokens: [SearchToken],
         in searchItem: SearchItem
     ) -> [SearchResult] {

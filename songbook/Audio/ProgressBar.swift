@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// An interactive media playback progress bar.
-@MainActor struct ProgressBar: View {
+struct ProgressBar: View {
     /// The manual progress percentage while dragging.
     @State private var adjustedProgress: Double = 0 {
         didSet {

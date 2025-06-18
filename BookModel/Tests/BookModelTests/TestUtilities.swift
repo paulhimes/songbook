@@ -1,6 +1,6 @@
 import Combine
 import Foundation
-import XCTest
+import Testing
 @testable import BookModel
 
 /// Load the book file which corresponds to the given `SampleBookJsonFile`.
@@ -49,14 +49,23 @@ func loadBook(
 func roundTrip(
     for file: SampleBookJsonFile,
     fileExtension: String = "json",
-    testFile: StaticString = #file,
-    testLine: UInt = #line
+    testFileID: String = #fileID,
+    testFilePath: String = #filePath,
+    testFileLine: Int = #line,
+    testFileColumn: Int = #column
 ) throws {
+    let sourceLocation = SourceLocation(
+        fileID: testFileID,
+        filePath: testFilePath,
+        line: testFileLine,
+        column: testFileColumn
+    )
+
     guard let url = Bundle.module.url(
         forResource: file.rawValue,
         withExtension: fileExtension
     ) else {
-        XCTFail("Missing test book file: \(file)", file: testFile, line: testLine)
+        Issue.record("Missing test book file: \(file)", sourceLocation: sourceLocation)
         return
     }
 
@@ -66,7 +75,7 @@ func roundTrip(
     let newData = try JSONEncoder().encode(originalBook)
     let newBook = try JSONDecoder().decode(Book.self, from: newData)
 
-    XCTAssertEqual(newBook, originalBook, file: testFile, line: testLine)
+    #expect(newBook == originalBook, sourceLocation: sourceLocation)
 }
 
 /// Gets the URL of a songbook file from the bundle.
@@ -77,14 +86,24 @@ func roundTrip(
 /// - Returns: The ``URL`` of a songbook file, or `nil` if the file could not be found.
 func url(
     for file: SampleBookSongbookFile,
-    testFile: StaticString = #file,
-    testLine: UInt = #line
+    testFileID: String = #fileID,
+    testFilePath: String = #filePath,
+    testFileLine: Int = #line,
+    testFileColumn: Int = #column
 ) -> URL? {
     guard let url = Bundle.module.url(
         forResource: file.rawValue,
         withExtension: "songbook"
     ) else {
-        XCTFail("Missing test songbook file: \(file)", file: testFile, line: testLine)
+        Issue.record(
+            "Missing test songbook file: \(file)",
+            sourceLocation: SourceLocation(
+                fileID: testFileID,
+                filePath: testFilePath,
+                line: testFileLine,
+                column: testFileColumn
+            )
+        )
         return nil
     }
 

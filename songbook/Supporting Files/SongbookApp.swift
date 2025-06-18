@@ -2,7 +2,7 @@ import BookModel
 import SwiftUI
 import Zip
 
-@main @MainActor
+@main
 struct SongbookApp: App {
 
     /// The container for services used throughout the app.

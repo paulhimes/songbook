@@ -1,5 +1,5 @@
 /// A verse in an ``Song``.
-public struct Verse: Codable, Equatable {
+public struct Verse: Codable, Equatable, Sendable {
 
     /// The index within this verse's ``Song`` of the verse which represents a chorus to sing after
     /// this verse.

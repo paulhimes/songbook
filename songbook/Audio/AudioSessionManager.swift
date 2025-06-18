@@ -1,7 +1,7 @@
 import AVFoundation
 
 /// Manages the shared audio session and responds to session changes.
-@MainActor final class AudioSessionManager {
+final class AudioSessionManager {
 
     // MARK: Private Properties
 

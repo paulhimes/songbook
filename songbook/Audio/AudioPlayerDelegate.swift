@@ -1,7 +1,7 @@
 import BookModel
 
 /// Receives delegate callbacks from ``AudioPlayer``.
-@MainActor protocol AudioPlayerDelegate: AnyObject {
+protocol AudioPlayerDelegate: AnyObject {
 
     /// The current `PlayableItem` has changed.
     /// - Parameter item: The current `PlayableItem`.

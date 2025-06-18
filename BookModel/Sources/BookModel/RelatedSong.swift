@@ -1,6 +1,6 @@
 /// The indices of a song which is related to another song.
-public struct RelatedSong: Codable, Equatable {
-    
+public struct RelatedSong: Codable, Equatable, Sendable {
+
     /// The index of the ``Section`` in the ``Book`` to which the related song belongs.
     public let sectionIndex: Int
     

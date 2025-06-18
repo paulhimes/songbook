@@ -1,36 +1,36 @@
-import XCTest
 @testable import BookModel
+import Testing
 
 /// Tests for book encoding.
-final class EncodingTests: XCTestCase {
+struct EncodingTests {
 
     /// Tests encoding for the default book.
-    func testEncodeDefault() throws {
+    @Test func encodeDefault() throws {
         try roundTrip(for: .default)
     }
 
     /// Tests encoding for the maximum book.
-    func testEncodeMaximum() throws {
+    @Test func encodeMaximum() throws {
         try roundTrip(for: .maximum)
     }
 
     /// Tests encoding for the minimal book.
-    func testEncodeMinimal() throws {
+    @Test func encodeMinimal() throws {
         try roundTrip(for: .minimal)
     }
 
     /// Tests encoding for the minimal book with a section.
-    func testEncodeMinimalWithSection() throws {
+    @Test func encodeMinimalWithSection() throws {
         try roundTrip(for: .minimalWithSection)
     }
 
     /// Tests encoding for the minimal book with a song.
-    func testEncodeMinimalWithSong() throws {
+    @Test func encodeMinimalWithSong() throws {
         try roundTrip(for: .minimalWithSong)
     }
 
     /// Tests encoding for the minimal book with a verse.
-    func testEncodeMinimalWithVerse() throws {
+    @Test func encodeMinimalWithVerse() throws {
         try roundTrip(for: .minimalWithVerse)
     }
 }

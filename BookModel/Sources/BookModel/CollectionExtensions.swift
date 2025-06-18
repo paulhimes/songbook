@@ -6,7 +6,7 @@ extension Collection {
     /// - Returns: The `Collection` flat mapped to a single `Array<T>`.
     ///
     func parallelFlatMap<T: Sendable>(
-        _ transform: @escaping (Element) async throws -> [T]
+        _ transform: @escaping @Sendable (Element) async throws -> [T]
     ) async rethrows -> [T] where Self: Sendable, Element: Sendable {
         let n = count
 

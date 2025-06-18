@@ -2,7 +2,6 @@ import BookModel
 import SwiftUI
 
 /// The toolbar menu for the main app screen.
-@MainActor
 struct MainMenuView: View {
     /// The currently selected appearance.
     @AppStorage(.StorageKey.colorTheme) var appearance: Appearance = .automatic

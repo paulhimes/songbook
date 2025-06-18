@@ -1,32 +1,32 @@
-import XCTest
 @testable import BookModel
+import Testing
 
-final class PlayableItemIdTests: XCTestCase {
+struct PlayableItemIdTests {
 
     /// The string description should contain the section index, song index, and playable item
     /// index.
-    func testDescription() {
-        XCTAssertEqual(
-            PlayableItemId(sectionIndex: 0, songIndex: 1, playableItemIndex: 2).description,
+    @Test func description() {
+        #expect(
+            PlayableItemId(sectionIndex: 0, songIndex: 1, playableItemIndex: 2).description ==
             "[0,1,2]"
         )
     }
 
     /// Initialization with a description string should assign the correct indices.
-    func testInitWithDescription() throws {
-        XCTAssertNil(PlayableItemId(""))
-        XCTAssertNil(PlayableItemId("0"))
-        XCTAssertNil(PlayableItemId("0,1"))
-        XCTAssertNil(PlayableItemId("0,1,2"))
-        XCTAssertNil(PlayableItemId("0,1,2,3"))
-        XCTAssertNil(PlayableItemId("[]"))
-        XCTAssertNil(PlayableItemId("[0]"))
-        XCTAssertNil(PlayableItemId("[0,1]"))
-        XCTAssertNil(PlayableItemId("[0,1,2,3]"))
-        XCTAssertNil(PlayableItemId("[apple,banana,orange]"))
-        let id = try XCTUnwrap(PlayableItemId("[0,1,2]"))
-        XCTAssertEqual(id.sectionIndex, 0)
-        XCTAssertEqual(id.songIndex, 1)
-        XCTAssertEqual(id.playableItemIndex, 2)
+    @Test func initWithDescription() throws {
+        #expect(PlayableItemId("") == nil)
+        #expect(PlayableItemId("0") == nil)
+        #expect(PlayableItemId("0,1") == nil)
+        #expect(PlayableItemId("0,1,2") == nil)
+        #expect(PlayableItemId("0,1,2,3") == nil)
+        #expect(PlayableItemId("[]") == nil)
+        #expect(PlayableItemId("[0]") == nil)
+        #expect(PlayableItemId("[0,1]") == nil)
+        #expect(PlayableItemId("[0,1,2,3]") == nil)
+        #expect(PlayableItemId("[apple,banana,orange]") == nil)
+        let id = try #require(PlayableItemId("[0,1,2]"))
+        #expect(id.sectionIndex == 0)
+        #expect(id.songIndex == 1)
+        #expect(id.playableItemIndex == 2)
     }
 }

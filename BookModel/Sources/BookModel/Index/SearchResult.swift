@@ -1,7 +1,7 @@
 import Foundation
 
 /// The data model for a single item in the results list of the search screen.
-public enum SearchResult {
+public enum SearchResult: Sendable {
     /// An item with a number exactly matching the search string. Used during a number-based search.
     /// - Parameters:
     ///   - number: The number of the search item.

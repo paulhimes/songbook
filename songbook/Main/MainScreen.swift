@@ -3,7 +3,6 @@ import SwiftUI
 import CoreData
 
 /// The main top-level screen of the app.
-@MainActor
 struct MainScreen: View {
     /// The currently selected appearance.
     @AppStorage(.StorageKey.colorTheme) var appearance: Appearance = .automatic

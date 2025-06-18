@@ -1,8 +1,8 @@
 import Foundation
 
 /// A book on its way to or from a .songbook file.
-public struct Book: Codable, Equatable {
-    
+public struct Book: Codable, Equatable, Sendable {
+
     /// An email to contact with feedback about the book.
     public let contactEmail: String?
     

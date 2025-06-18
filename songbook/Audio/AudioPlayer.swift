@@ -4,7 +4,6 @@ import MediaPlayer
 import Observation
 
 /// Plays song files.
-@MainActor
 @Observable
 class AudioPlayer: NSObject {
 
@@ -174,7 +173,7 @@ class AudioPlayer: NSObject {
     }
 }
 
-extension AudioPlayer: @MainActor AVAudioPlayerDelegate {
+extension AudioPlayer: AVAudioPlayerDelegate {
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         switch playbackMode {
         case .continuous, .shuffle:

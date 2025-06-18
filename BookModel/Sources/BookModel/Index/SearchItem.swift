@@ -1,7 +1,7 @@
 import Foundation
 
 /// An item that can be searched for.
-public struct SearchItem: Equatable {
+public struct SearchItem: Equatable, Sendable {
     /// The full text of the item.
     let fullText: String
 

@@ -1,6 +1,6 @@
 /// A section in an ``Book``.
-public struct Section: Codable, Equatable {
-    
+public struct Section: Codable, Equatable, Sendable {
+
     /// The songs in this section.
     public let songs: [Song]
     

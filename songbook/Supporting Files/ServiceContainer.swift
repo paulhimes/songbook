@@ -3,7 +3,6 @@ import Foundation
 import Observation
 
 /// A Container for services used throughout the app.
-@MainActor
 @Observable
 class ServiceContainer: AudioPlayerDelegate {
     

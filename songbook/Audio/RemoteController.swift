@@ -2,7 +2,7 @@ import Foundation
 import MediaPlayer
 
 /// Functions for interacting with the remote command system.
-@MainActor enum RemoteController {
+enum RemoteController {
 
     // MARK: Public Functions
 

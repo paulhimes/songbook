@@ -1,14 +1,15 @@
 @testable import BookModel
-import XCTest
+import Foundation
+import Testing
 
 @MainActor
-final class BookModelTests: XCTestCase {
+@Suite(.serialized) final class BookModelTests {
 
     let destination = URL.temporaryDirectory.appending(component: "testBook")
     var subject: BookModel!
     var defaultPageModels: [PageModel] = []
 
-    override func setUp() async throws {
+    init() async throws {
         subject = BookModel()
         defaultPageModels = [
             .book(title: "Red Songbook", version: 1),
@@ -46,9 +47,7 @@ final class BookModelTests: XCTestCase {
         }
     }
 
-    override func tearDown() {
-        subject = nil
-        defaultPageModels = []
+    deinit {
         do {
             try FileManager.default.removeItem(at: .bookDirectory)
         } catch {
@@ -57,170 +56,176 @@ final class BookModelTests: XCTestCase {
     }
 
     /// The badContent file should fail to load and revert to the default book.
-    func testImportBadContent() async throws {
+    @Test func importBadContent() async throws {
         guard let url = url(for: .badContent) else { return }
 
         await subject.importBook(from: url)
 
         guard case let .book(title, version) = subject.pageModels.first else {
-            return XCTFail("First page was not a book page.")
+            Issue.record("First page was not a book page.")
+            return
         }
-        XCTAssertEqual(title, "Red Songbook")
-        XCTAssertEqual(version, 1)
-        XCTAssertTrue(FileManager.default.fileExists(atPath: URL.book.path(percentEncoded: false)))
+        #expect(title == "Red Songbook")
+        #expect(version == 1)
+        #expect(FileManager.default.fileExists(atPath: URL.book.path(percentEncoded: false)))
 
         let path = URL.bookWithoutTunesDirectory
             .appending(component: "Red Songbook (v1) without tunes.songbook")
             .path(percentEncoded: false)
-        XCTAssertTrue(FileManager.default.fileExists(atPath: path))
+        #expect(FileManager.default.fileExists(atPath: path))
 
-        XCTAssertEqual(
-            subject.index?.bookWithoutTunesURL,
+        #expect(
+            subject.index?.bookWithoutTunesURL ==
             URL.bookWithoutTunesDirectory.appending(
                 component: "Red Songbook (v1) without tunes.songbook"
             )
         )
-        XCTAssertNil(subject.index?.bookWithTunesURL)
-        XCTAssertEqual(subject.index?.pageModels, defaultPageModels)
-        XCTAssertEqual(subject.index?.playableItems, [])
-        XCTAssertEqual(subject.index?.playableItemsForPageIndex, [:])
-        XCTAssertEqual(subject.index?.pageIndexForPlayableItemId, [:])
+        #expect(subject.index?.bookWithTunesURL == nil)
+        #expect(subject.index?.pageModels == defaultPageModels)
+        #expect(subject.index?.playableItems == [])
+        #expect(subject.index?.playableItemsForPageIndex == [:])
+        #expect(subject.index?.pageIndexForPlayableItemId == [:])
     }
 
     /// The badJSON file should fail to load and revert to the default book.
-    func testImportBadJSON() async {
+    @Test func importBadJSON() async {
         guard let url = url(for: .badJSON) else { return }
 
         await subject.importBook(from: url)
 
         guard case let .book(title, version) = subject.pageModels.first else {
-            return XCTFail("First page was not a book page.")
+            Issue.record("First page was not a book page.")
+            return
         }
-        XCTAssertEqual(title, "Red Songbook")
-        XCTAssertEqual(version, 1)
-        XCTAssertTrue(FileManager.default.fileExists(atPath: URL.book.path(percentEncoded: false)))
+        #expect(title == "Red Songbook")
+        #expect(version == 1)
+        #expect(FileManager.default.fileExists(atPath: URL.book.path(percentEncoded: false)))
         let path = URL.bookWithoutTunesDirectory
             .appending(component: "Red Songbook (v1) without tunes.songbook")
             .path(percentEncoded: false)
-        XCTAssertTrue(FileManager.default.fileExists(atPath: path))
+        #expect(FileManager.default.fileExists(atPath: path))
 
-        XCTAssertEqual(
-            subject.index?.bookWithoutTunesURL,
+        #expect(
+            subject.index?.bookWithoutTunesURL ==
             URL.bookWithoutTunesDirectory.appending(
                 component: "Red Songbook (v1) without tunes.songbook"
             )
         )
-        XCTAssertNil(subject.index?.bookWithTunesURL)
-        XCTAssertEqual(subject.index?.pageModels, defaultPageModels)
-        XCTAssertEqual(subject.index?.playableItems, [])
-        XCTAssertEqual(subject.index?.playableItemsForPageIndex, [:])
-        XCTAssertEqual(subject.index?.pageIndexForPlayableItemId, [:])
+        #expect(subject.index?.bookWithTunesURL == nil)
+        #expect(subject.index?.pageModels == defaultPageModels)
+        #expect(subject.index?.playableItems == [])
+        #expect(subject.index?.playableItemsForPageIndex == [:])
+        #expect(subject.index?.pageIndexForPlayableItemId == [:])
     }
 
     /// The default file should successfully load.
-    func testImportDefault() async {
+    @Test func importDefault() async {
         guard let url = url(for: .default) else { return }
 
         await subject.importBook(from: url)
 
         guard case let .book(title, version) = subject.pageModels.first else {
-            return XCTFail("First page was not a book page.")
+            Issue.record("First page was not a book page.")
+            return
         }
-        XCTAssertEqual(title, "Red Songbook")
-        XCTAssertEqual(version, 1)
-        XCTAssertTrue(FileManager.default.fileExists(atPath: URL.book.path(percentEncoded: false)))
+        #expect(title == "Red Songbook")
+        #expect(version == 1)
+        #expect(FileManager.default.fileExists(atPath: URL.book.path(percentEncoded: false)))
         let path = URL.bookWithoutTunesDirectory
             .appending(component: "Red Songbook (v1) without tunes.songbook")
             .path(percentEncoded: false)
-        XCTAssertTrue(FileManager.default.fileExists(atPath: path))
+        #expect(FileManager.default.fileExists(atPath: path))
 
-        XCTAssertEqual(
-            subject.index?.bookWithoutTunesURL,
+        #expect(
+            subject.index?.bookWithoutTunesURL ==
             URL.bookWithoutTunesDirectory.appending(
                 component: "Red Songbook (v1) without tunes.songbook"
             )
         )
-        XCTAssertNil(subject.index?.bookWithTunesURL)
-        XCTAssertEqual(subject.index?.pageModels, defaultPageModels)
-        XCTAssertEqual(subject.index?.playableItems, [])
-        XCTAssertEqual(subject.index?.playableItemsForPageIndex, [:])
-        XCTAssertEqual(subject.index?.pageIndexForPlayableItemId, [:])
+        #expect(subject.index?.bookWithTunesURL == nil)
+        #expect(subject.index?.pageModels == defaultPageModels)
+        #expect(subject.index?.playableItems == [])
+        #expect(subject.index?.playableItemsForPageIndex == [:])
+        #expect(subject.index?.pageIndexForPlayableItemId == [:])
     }
 
     /// The emptyJSON file should fail to load.
-    func testImportEmptyJSON() async {
+    @Test func importEmptyJSON() async {
         guard let url = url(for: .emptyJSON) else { return }
 
         await subject.importBook(from: url)
 
         guard case let .book(title, version) = subject.pageModels.first else {
-            return XCTFail("First page was not a book page.")
+            Issue.record("First page was not a book page.")
+            return
         }
-        XCTAssertEqual(title, "Red Songbook")
-        XCTAssertEqual(version, 1)
-        XCTAssertTrue(FileManager.default.fileExists(atPath: URL.book.path(percentEncoded: false)))
+        #expect(title == "Red Songbook")
+        #expect(version == 1)
+        #expect(FileManager.default.fileExists(atPath: URL.book.path(percentEncoded: false)))
         let path = URL.bookWithoutTunesDirectory
             .appending(component: "Red Songbook (v1) without tunes.songbook")
             .path(percentEncoded: false)
-        XCTAssertTrue(FileManager.default.fileExists(atPath: path))
+        #expect(FileManager.default.fileExists(atPath: path))
 
-        XCTAssertEqual(
-            subject.index?.bookWithoutTunesURL,
+        #expect(
+            subject.index?.bookWithoutTunesURL ==
             URL.bookWithoutTunesDirectory.appending(
                 component: "Red Songbook (v1) without tunes.songbook"
             )
         )
-        XCTAssertNil(subject.index?.bookWithTunesURL)
-        XCTAssertEqual(subject.index?.pageModels, defaultPageModels)
-        XCTAssertEqual(subject.index?.playableItems, [])
-        XCTAssertEqual(subject.index?.playableItemsForPageIndex, [:])
-        XCTAssertEqual(subject.index?.pageIndexForPlayableItemId, [:])
+        #expect(subject.index?.bookWithTunesURL == nil)
+        #expect(subject.index?.pageModels == defaultPageModels)
+        #expect(subject.index?.playableItems == [])
+        #expect(subject.index?.playableItemsForPageIndex == [:])
+        #expect(subject.index?.pageIndexForPlayableItemId == [:])
     }
 
     /// The notZip file should fail to load.
-    func testImportNotZip() async {
+    @Test func importNotZip() async {
         guard let url = url(for: .notZip) else { return }
 
         await subject.importBook(from: url)
 
         guard case let .book(title, version) = subject.pageModels.first else {
-            return XCTFail("First page was not a book page.")
+            Issue.record("First page was not a book page.")
+            return
         }
-        XCTAssertEqual(title, "Red Songbook")
-        XCTAssertEqual(version, 1)
-        XCTAssertTrue(FileManager.default.fileExists(atPath: URL.book.path(percentEncoded: false)))
+        #expect(title == "Red Songbook")
+        #expect(version == 1)
+        #expect(FileManager.default.fileExists(atPath: URL.book.path(percentEncoded: false)))
         let path = URL.bookWithoutTunesDirectory
             .appending(component: "Red Songbook (v1) without tunes.songbook")
             .path(percentEncoded: false)
-        XCTAssertTrue(FileManager.default.fileExists(atPath: path))
+        #expect(FileManager.default.fileExists(atPath: path))
 
-        XCTAssertEqual(
-            subject.index?.bookWithoutTunesURL,
+        #expect(
+            subject.index?.bookWithoutTunesURL ==
             URL.bookWithoutTunesDirectory.appending(
                 component: "Red Songbook (v1) without tunes.songbook"
             )
         )
-        XCTAssertNil(subject.index?.bookWithTunesURL)
-        XCTAssertEqual(subject.index?.pageModels, defaultPageModels)
-        XCTAssertEqual(subject.index?.playableItems, [])
-        XCTAssertEqual(subject.index?.playableItemsForPageIndex, [:])
-        XCTAssertEqual(subject.index?.pageIndexForPlayableItemId, [:])
+        #expect(subject.index?.bookWithTunesURL == nil)
+        #expect(subject.index?.pageModels == defaultPageModels)
+        #expect(subject.index?.playableItems == [])
+        #expect(subject.index?.playableItemsForPageIndex == [:])
+        #expect(subject.index?.pageIndexForPlayableItemId == [:])
     }
 
     /// When a book with tunes is imported, it's book and audio files should be placed in the
     /// correct locations.
-    func testImportWithTunes() async {
+    @Test func importWithTunes() async {
         guard let url = url(for: .withTunes) else { return }
 
         await subject.importBook(from: url)
 
         guard case let .book(title, version) = subject.pageModels.first else {
-            return XCTFail("First page was not a book page.")
+            Issue.record("First page was not a book page.")
+            return
         }
-        XCTAssertEqual(title, "App Review Sample Book With Audio")
-        XCTAssertEqual(version, 1)
-        XCTAssertTrue(FileManager.default.fileExists(atPath: URL.book.path(percentEncoded: false)))
-        XCTAssertTrue(
+        #expect(title == "App Review Sample Book With Audio")
+        #expect(version == 1)
+        #expect(FileManager.default.fileExists(atPath: URL.book.path(percentEncoded: false)))
+        #expect(
             FileManager.default.fileExists(
                 atPath: URL.bookWithoutTunesDirectory
                     .appending(
@@ -229,7 +234,7 @@ final class BookModelTests: XCTestCase {
                     .path(percentEncoded: false)
             )
         )
-        XCTAssertTrue(
+        #expect(
             FileManager.default.fileExists(
                 atPath: URL.bookWithTunesDirectory
                     .appending(
@@ -238,14 +243,14 @@ final class BookModelTests: XCTestCase {
                     .path(percentEncoded: false)
             )
         )
-        XCTAssertTrue(
+        #expect(
             FileManager.default.fileExists(
                 atPath: URL.bookDirectory
                     .appending(component: "0-0.m4a")
                     .path(percentEncoded: false)
             )
         )
-        XCTAssertTrue(
+        #expect(
             FileManager.default.fileExists(
                 atPath: URL.bookDirectory
                     .appending(component: "0-1.m4a")
@@ -253,20 +258,20 @@ final class BookModelTests: XCTestCase {
             )
         )
 
-        XCTAssertEqual(
-            subject.index?.bookWithoutTunesURL,
+        #expect(
+            subject.index?.bookWithoutTunesURL ==
             URL.bookWithoutTunesDirectory.appending(
                 component: "App Review Sample Book With Audio (v1) without tunes.songbook"
             )
         )
-        XCTAssertEqual(
-            subject.index?.bookWithTunesURL,
+        #expect(
+            subject.index?.bookWithTunesURL ==
             URL.bookWithTunesDirectory.appending(
                 component: "App Review Sample Book With Audio (v1) with tunes.songbook"
             )
         )
-        XCTAssertEqual(
-            subject.index?.pageModels,
+        #expect(
+            subject.index?.pageModels ==
             [
                 .book(title: "App Review Sample Book With Audio", version: 1),
                 .section(title: "Sample “Songs” With Audio"),
@@ -275,8 +280,8 @@ final class BookModelTests: XCTestCase {
                 .section(title: "Untitled Section"),
             ]
         )
-        XCTAssertEqual(
-            subject.index?.playableItems,
+        #expect(
+            subject.index?.playableItems ==
             [
                 PlayableItem(
                     albumTitle: "Sample “Songs” With Audio",
@@ -300,8 +305,8 @@ final class BookModelTests: XCTestCase {
                 ),
             ]
         )
-        XCTAssertEqual(
-            subject.index?.playableItemsForPageIndex,
+        #expect(
+            subject.index?.playableItemsForPageIndex ==
             [
                 3: [
                     PlayableItem(
@@ -329,8 +334,8 @@ final class BookModelTests: XCTestCase {
                 ],
             ]
         )
-        XCTAssertEqual(
-            subject.index?.pageIndexForPlayableItemId,
+        #expect(
+            subject.index?.pageIndexForPlayableItemId ==
             [
                 PlayableItemId(sectionIndex: 0, songIndex: 0, playableItemIndex: 0): 2,
                 PlayableItemId(sectionIndex: 0, songIndex: 1, playableItemIndex: 0): 3,

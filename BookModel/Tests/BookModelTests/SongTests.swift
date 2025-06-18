@@ -1,12 +1,12 @@
-import XCTest
 @testable import BookModel
+import Testing
 
-final class SongTests: XCTestCase {
+struct SongTests {
 
     /// Combined title should include song number and title and gracefully fallback or remove
     /// components if either value is missing.
-    func testCombinedTitle() {
-        XCTAssertEqual(
+    @Test func combinedTitle() {
+        #expect(
             Song(
             audioFileNames: nil,
             author: nil,
@@ -16,11 +16,11 @@ final class SongTests: XCTestCase {
             title: nil,
             verses: [],
             year: nil
-            ).combinedTitle,
+            ).combinedTitle ==
             "Untitled Song"
         )
 
-        XCTAssertEqual(
+        #expect(
             Song(
                 audioFileNames: nil,
                 author: nil,
@@ -30,11 +30,11 @@ final class SongTests: XCTestCase {
                 title: nil,
                 verses: [],
                 year: nil
-            ).combinedTitle,
+            ).combinedTitle ==
             "1: Untitled Song"
         )
 
-        XCTAssertEqual(
+        #expect(
             Song(
                 audioFileNames: nil,
                 author: nil,
@@ -44,11 +44,11 @@ final class SongTests: XCTestCase {
                 title: "Title",
                 verses: [],
                 year: nil
-            ).combinedTitle,
+            ).combinedTitle ==
             "Title"
         )
 
-        XCTAssertEqual(
+        #expect(
             Song(
                 audioFileNames: nil,
                 author: nil,
@@ -58,7 +58,7 @@ final class SongTests: XCTestCase {
                 title: "Title",
                 verses: [],
                 year: nil
-            ).combinedTitle,
+            ).combinedTitle ==
             "1: Title"
         )
 
