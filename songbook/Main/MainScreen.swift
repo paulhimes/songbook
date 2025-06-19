@@ -53,7 +53,6 @@ struct MainScreen: View {
                                         Label("Stop", systemImage: "stop.fill")
                                     }
                                     Spacer()
-                                    PlaybackModeButton()
                                 }
                                 MainMenuView(bookModel: bookModel)
                             }

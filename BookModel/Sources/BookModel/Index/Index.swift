@@ -106,6 +106,7 @@ public struct Index {
             section.songs.enumerated().forEach { songIndex, song in
                 pageModels.append(
                     .song(
+                        combinedTitle: song.combinedTitle,
                         text: song.fullText,
                         songId: SongId(sectionIndex: sectionIndex, songIndex: songIndex)
                     )
@@ -145,7 +146,7 @@ public struct Index {
         var pageIndexForPlayableItemId: [PlayableItemId: Int] = [:]
         for playableItem in playableItems {
             let index = pageModels.firstIndex { pageModel in
-                if case let .song(_, id) = pageModel, id == playableItem.songId {
+                if case let .song(_, _, id) = pageModel, id == playableItem.songId {
                     return true
                 } else {
                     return false

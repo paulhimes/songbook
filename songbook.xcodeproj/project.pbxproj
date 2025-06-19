@@ -51,7 +51,6 @@
 		8B79231329CBAC2A002119D4 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B79231229CBAC2A002119D4 /* MainMenuView.swift */; };
 		8B79231529CBAEED002119D4 /* FontScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B79231429CBAEED002119D4 /* FontScreen.swift */; };
 		8B79231929CBD0D0002119D4 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B79231829CBD0D0002119D4 /* ProgressBar.swift */; };
-		8B79231B29CBE28E002119D4 /* PlaybackModeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B79231A29CBE28E002119D4 /* PlaybackModeButton.swift */; };
 		8B79231E29CBEB02002119D4 /* PlaybackMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B79231D29CBEB02002119D4 /* PlaybackMode.swift */; };
 		8B7A52832B4A4A36005F0B41 /* SearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7A52822B4A4A36005F0B41 /* SearchResultsView.swift */; };
 		8B7FE19925577DA500D64403 /* SongbookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7FE19825577DA500D64403 /* SongbookApp.swift */; };
@@ -155,7 +154,6 @@
 		8B79231229CBAC2A002119D4 /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		8B79231429CBAEED002119D4 /* FontScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontScreen.swift; sourceTree = "<group>"; };
 		8B79231829CBD0D0002119D4 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
-		8B79231A29CBE28E002119D4 /* PlaybackModeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackModeButton.swift; sourceTree = "<group>"; };
 		8B79231D29CBEB02002119D4 /* PlaybackMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackMode.swift; sourceTree = "<group>"; };
 		8B7A52822B4A4A36005F0B41 /* SearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsView.swift; sourceTree = "<group>"; };
 		8B7FE19525577DA500D64403 /* songbook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = songbook.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -289,7 +287,6 @@
 			children = (
 				8B79231229CBAC2A002119D4 /* MainMenuView.swift */,
 				8B7FE19A25577DA500D64403 /* MainScreen.swift */,
-				8B79231A29CBE28E002119D4 /* PlaybackModeButton.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -635,7 +632,6 @@
 				8B53A4BA29BD10050082CC29 /* AudioPlayer.swift in Sources */,
 				8B79231329CBAC2A002119D4 /* MainMenuView.swift in Sources */,
 				8B1D3B042A061F6700878D16 /* Synchronizer.swift in Sources */,
-				8B79231B29CBE28E002119D4 /* PlaybackModeButton.swift in Sources */,
 				8B79231929CBD0D0002119D4 /* ProgressBar.swift in Sources */,
 				8B09667B2B43A677007301A8 /* PlainItemView.swift in Sources */,
 				8B19D536296959C300F2DD0B /* SectionPageView.swift in Sources */,

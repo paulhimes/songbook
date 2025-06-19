@@ -23,11 +23,14 @@ struct MainMenuView: View {
         bookModel.playableItemsForPageIndex[currentPageIndex] ?? []
     }
 
+    /// The playback mode setting.
+    @AppStorage(.StorageKey.playbackMode) var playbackMode: PlaybackMode = .single
+
     /// `true` if the custom font picker is shown.
     @State var showFontPicker = false
 
-    //let testSongs = ["0-0", "0-1"] // ["0-0", "0-376", "0-589"] // shortest:376 longest:589
-    //@State var testSongIndex = 0
+    // let testSongs = ["0-0", "0-1"] // ["0-0", "0-376", "0-589"] // shortest:376 longest:589
+    // @State var testSongIndex = 0
 
     var body: some View {
         Menu {
@@ -42,6 +45,16 @@ struct MainMenuView: View {
                         Label("Play Tune", systemImage: "play")
                     }
                 }
+            }
+            Menu {
+                Picker("Play Mode", selection: $playbackMode) {
+                    playbackModeLabel(.single)
+                    playbackModeLabel(.continuous)
+                    playbackModeLabel(.shuffle)
+                    playbackModeLabel(.repeatOne)
+                }
+            } label: {
+                playbackModeLabel(playbackMode)
             }
             Divider()
             if let bookURL = bookModel.shareBookURL {
@@ -94,12 +107,22 @@ struct MainMenuView: View {
                 Label("Appearance", systemImage: "textformat.size") // textformat.size eye paintpalette sun.max
             }
         } label: {
-            Label("Menu", systemImage: "ellipsis.circle")
+            Label("Menu", systemImage: "ellipsis")
         }
         .menuOrder(.fixed)
         .sheet(isPresented: $showFontPicker) {
             FontScreen()
         }
+    }
+    
+    /// Builds a menu item label for a playback mode.
+    ///
+    /// - Parameter mode: The playback mode.
+    /// - Returns: The menu item label.
+    ///
+    @ViewBuilder func playbackModeLabel(_ mode: PlaybackMode) -> some View {
+        Label(mode.displayName, systemImage: mode.imageName)
+            .tag(mode)
     }
 }
 

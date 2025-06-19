@@ -71,9 +71,9 @@ struct BookScreen: UIViewControllerRepresentable {
                     viewController = UIHostingController(
                         rootView: SectionPageView(title: title)
                     )
-                case let .song(text, _):
+                case let .song(combinedTitle, text, _):
                     viewController = UIHostingController(
-                        rootView: SongPageView(text: text)
+                        rootView: SongPageView(combinedTitle: combinedTitle, text: text)
                     )
                 }
                 viewController.view.backgroundColor = .clear

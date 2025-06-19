@@ -12,6 +12,34 @@ enum PlaybackMode: Int, CaseIterable {
     /// Shuffles all song files and repeats.
     case shuffle = 3
 
+    /// The UI display name for the mode.
+    var displayName: String {
+        switch self {
+        case .single:
+            return "Single"
+        case .continuous:
+            return "All"
+        case .repeatOne:
+            return "Repeat"
+        case .shuffle:
+            return "Shuffle"
+        }
+    }
+
+    /// The SF Symbol name for the mode icon.
+    var imageName: String {
+        switch self {
+        case .single:
+            return "1.circle"
+        case .continuous:
+            return "repeat"
+        case .repeatOne:
+            return "repeat.1"
+        case .shuffle:
+            return "shuffle"
+        }
+    }
+
     /// The `MPRepeatType` associated with this mode.
     var repeatType: MPRepeatType {
         switch self {

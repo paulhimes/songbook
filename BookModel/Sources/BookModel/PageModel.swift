@@ -6,5 +6,5 @@ public enum PageModel: Equatable {
     /// A section title page.
     case section(title: String)
     /// A song page.
-    case song(text: String, songId: SongId)
+    case song(combinedTitle: String, text: String, songId: SongId)
 }

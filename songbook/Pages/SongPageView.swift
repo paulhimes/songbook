@@ -2,6 +2,10 @@ import SwiftUI
 
 /// Shows a song page.
 struct SongPageView: View {
+
+    // Combines the song's `number` and `title`.
+    let combinedTitle: String
+
     /// The currently selected font.
     @AppStorage(.StorageKey.fontMode) var fontMode: FontMode = .default
 
@@ -20,5 +24,5 @@ struct SongPageView: View {
 }
 
 #Preview {
-    SongPageView(text: "Text")
+    SongPageView(combinedTitle: "Title", text: "Text")
 }
